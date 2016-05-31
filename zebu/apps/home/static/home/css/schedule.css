@@ -1,0 +1,83 @@
+/*----schedule table div----*/
+.scheduleForm{
+	width:768px;
+	height: auto;//720px;
+	margin:0;
+	padding: 0;
+	border:0;
+	font-size: 16px;
+}
+
+.scheduleTable {
+	width:768px;
+	table-layout:fixed;
+	height:1150px;
+   border:0;
+	line-height:30px; 
+	border-collapse:collapse; 
+	border-spacing:0;
+}
+
+.scheduleTable tr{
+	height:30px;
+	text-align:center;
+	transition:all .1s linear 0s; 
+	-moz-transition:all .1s linear 0s; 
+	-webkit-transition:all .1s linear 0s; 
+	-o-transition:all .1s linear 0s;	
+}
+
+.scheduleTable td{
+   height:48px;
+   font-size:14px;
+   border: 1px solid #cbcbcb;
+   width:100%;  
+   word-break:keep-all;/* 不换行 */   
+   white-space:nowrap;/* 不换行 */    
+   overflow:hidden;/* 内容超出宽度时隐藏超出部分的内容 */
+   text-overflow:ellipsis;/* 当对象内文本溢出时显示省略标记(...) ；需与overflow:hidden;一起使用。*/
+}
+
+.scheduleTable th{
+    font-size:14px;
+    height:48px;
+    font-weight:normal;
+    text-align:center;
+    background-color: #E5E5E5;
+    border:1px solid;
+    white-space: nowrap;
+　 overflow: hidden;
+　 text-overflow: ellipsis;	
+}
+
+.scheduleInput{
+	border:0;
+	width: 80px;
+	padding-bottom: 6px; 
+}
+
+.scheduleText{
+	border:0;
+	width:348px;
+	height:40px;
+	line-height:20px;
+	wrap:physical;
+}
+
+.scheduleDiv{
+	text-align: center;
+	margin:0;
+	margin-top: 48px;
+	margin-bottom: 80px;
+}
+
+.scheduleBtn{
+	color:white; 
+	width: 106px; 
+	height: 40px;
+   line-height:34px;/*针对IE*/
+   vertical-align:middle;
+	border-radius: 8px;
+	margin-left: 20px;
+	margin-right: 20px;
+}

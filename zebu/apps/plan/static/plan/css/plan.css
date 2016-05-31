@@ -1,0 +1,313 @@
+/*----search keywords----*/
+.md_search {
+	height: 45px;
+	top: 16px;
+	position: relative;
+	margin-bottom:16px;
+}
+
+.keyword {
+	color: #4AADCE;
+	margin: 0;
+	padding: 0;
+	font-size: 16px;
+}
+
+.form1 {
+	width: 230px;
+	height: 32px;
+	border: 1px solid #cbcbcb;
+	border-radius: 20px;
+	display: inline-block;
+}
+
+.search_btn1 {
+	width: 30px;
+	height: 30px;
+	border: 0;
+	border-radius: 20px;
+	background: white url(../images/search_btn.png) no-repeat;
+}
+
+.textinput1 {
+	width: 160px;
+	height: 20px;
+	border: 0px;
+	border-radius: 18px;
+	background: white;
+	outline: none;
+	position: absolute;
+	top: 6px;
+	left: 190px;
+}
+
+/*----content-----*/
+.CText p a {
+	color: #000000;
+	font-size: 14px;
+	margin-top: 24px;
+	line-height:32px;
+}
+
+.content {
+	color: #4AADCE;
+	margin-top: 24px;
+}
+
+/*-----classify------*/
+.classify{
+	margin-top: 24px;
+	
+}
+
+.classify a {
+	text-decoration: none;
+	color:#000;
+}
+
+.classification {
+	width: 200px;
+	height: 36px;
+	border: 1px solid #cbcbcb;
+	border-top-left-radius: 8px;
+	border-bottom-left-radius: 8px;
+}
+
+.classification_down {
+	width: 200px;
+	height: 36px;
+	border: 1px solid #cbcbcb;
+	border-top-left-radius: 8px;
+	border-bottom-left-radius: 8px;
+	background-image: url(../images/down.png);
+	background-position: 92%;
+	background-repeat: no-repeat;
+}
+
+.classification_up {
+	width: 200px;
+	height: 36px;
+	border: 1px solid #cbcbcb;
+	border-top-left-radius: 8px;
+	border-bottom-left-radius: 8px;
+	outline: none;
+	background-image: url(../images/up.png);
+	background-position: 92%;
+	background-repeat: no-repeat;
+}
+
+.classification1 {
+	margin-left: -10px;
+	width: 200px;
+	height: 36px;
+	border: 1px solid #cbcbcb;
+}
+
+.classification1_down {
+	margin-left: -10px;
+	width: 200px;
+	height: 36px;
+	border: 1px solid #cbcbcb;
+	background-image: url(../images/down.png);
+	background-position: 92%;
+	background-repeat: no-repeat;
+}
+
+.classification1_up {
+	margin-left: -10px;
+	width: 200px;
+	height: 36px;
+	border: 1px solid #cbcbcb;
+	background-image: url(../images/up.png);
+	background-position: 92%;
+	background-repeat: no-repeat;
+}
+
+.classification2 {
+	margin-left: -10px;
+	width: 200px;
+	height: 36px;
+	border: 1px solid #cbcbcb;
+	border-top-right-radius: 8px;
+	border-bottom-right-radius: 8px;
+}
+
+.classification2_down {
+	margin-left: -10px;
+	width: 200px;
+	height: 36px;
+	border: 1px solid #cbcbcb;
+	border-top-right-radius: 8px;
+	border-bottom-right-radius: 8px;
+	background-image: url(../images/down.png);
+	background-position: 92%;
+	background-repeat: no-repeat;
+}
+
+.classification2_up {
+	margin-left: -10px;
+	width: 200px;
+	height: 36px;
+	border: 1px solid #cbcbcb;
+	border-top-right-radius: 8px;
+	border-bottom-right-radius: 8px;
+	background-image: url(../images/up.png);
+	background-position: 92%;
+	background-repeat: no-repeat;
+}
+
+/*----plan table div----*/
+.planForm {
+	width:768px;
+	height: 720px;
+	margin-top: 32px;
+	margin-right: 16px;
+	border-radius: 8px;
+	margin-bottom: 24px;
+	border-top: 1px solid #cbcbcb;
+	border-bottom: 1px solid #cbcbcb;
+	border-left: 1px solid #cbcbcb;
+	border-right: 1px solid #cbcbcb;
+	font-size: 16px;
+	padding: 32px 4px 80px 4px;
+}
+
+.planTableDiv{
+	margin:0;
+	padding:0;
+	height:720px;
+	
+}
+
+.planTable {
+	width:758px;
+	table-layout:fixed;
+	height:auto;
+	border:0;
+	line-height:48px; 
+	border-bottom:0; 
+	border-collapse:collapse; 
+	border-spacing:0;
+}
+
+.planTable tr{
+	height:48px;
+	text-align:center;
+	transition:all .1s linear 0s; 
+	-moz-transition:all .1s linear 0s; 
+	-webkit-transition:all .1s linear 0s; 
+	-o-transition:all .1s linear 0s;	
+}
+
+.planTable tr:nth-of-type(odd){  /*常用nth-child，但ie9不识别*/
+	background-color:#F1F1F1;
+}
+
+.planTable tr:nth-of-type(even){
+	background-color:#FFF;
+}
+
+.planTable td{
+   height:48px;
+   font-size:12px;
+   width:100%;  
+   word-break:keep-all;/* 不换行 */   
+   white-space:nowrap;/* 不换行 */    
+   overflow:hidden;/* 内容超出宽度时隐藏超出部分的内容 */
+   text-overflow:ellipsis;/* 当对象内文本溢出时显示省略标记(...) ；需与overflow:hidden;一起使用。*/
+}
+
+.planTable th{
+	background-color: #E5E5E5;
+   font-size:14px;
+   height:48px;
+   font-weight:normal; 
+   border:1px solid; 
+   text-align:center;
+   white-space: nowrap;
+　 overflow: hidden;
+　 text-overflow: ellipsis;	
+}
+
+/*弹出框*/
+.planDelForm{
+    width:400px;
+    margin-top:580px;
+    margin-top:500px\9\0;
+}
+
+/*----new plan table----*/
+.newPlanForm{
+	width:768px;
+	height: auto;//720px;
+	margin:0;
+	padding: 0;
+	border:0;
+	font-size: 16px;
+}
+
+.newPlanTable {
+	width:768px;
+	table-layout:fixed;
+	height:auto;
+   border:0;
+	line-height:30px; 
+	border-collapse:collapse; 
+	border-spacing:0;
+}
+
+.newPlanTable tr{
+	height:30px;
+	text-align:center;
+	transition:all .1s linear 0s; 
+	-moz-transition:all .1s linear 0s; 
+	-webkit-transition:all .1s linear 0s; 
+	-o-transition:all .1s linear 0s;	
+}
+
+.newPlanTable td{
+   height:30px;
+   font-size:14px;
+   border: 1px solid #cbcbcb;
+   width:100%;  
+   word-break:keep-all;/* 不换行 */   
+   white-space:nowrap;/* 不换行 */    
+   overflow:hidden;/* 内容超出宽度时隐藏超出部分的内容 */
+   text-overflow:ellipsis;/* 当对象内文本溢出时显示省略标记(...) ；需与overflow:hidden;一起使用。*/
+}
+
+.newPlanTable th{
+    font-size:14px;
+    height:30px;
+    font-weight:normal;
+    text-align:center;
+    background-color: #E5E5E5;
+    border:1px solid;
+    white-space: nowrap;
+　  overflow: hidden;
+　  text-overflow: ellipsis;	
+}
+
+.newPlanInput{
+	border:0;
+	width: 80px;
+	padding-bottom: 6px; 
+}
+
+.newPlanDiv{
+	text-align: center;
+	margin:0;
+	margin-top: 48px;
+	margin-bottom: 80px;
+}
+
+.newPlanBtn{
+	color:white; 
+	width: 106px; 
+	height: 40px;
+   line-height:34px;/*针对IE*/
+   vertical-align:middle;
+	border-radius: 8px;
+	margin-left: 20px;
+	margin-right: 20px;
+}
