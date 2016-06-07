@@ -1,0 +1,4 @@
+#ignore *.pyc files
+*.pyc
+#ignore pycharm project file
+.idea/
