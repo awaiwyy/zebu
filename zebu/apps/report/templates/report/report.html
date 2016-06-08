@@ -4,10 +4,11 @@
 		<div class="divcenter">
 			<div class="requestForm">
 			 <div>
-			   <div class="new_request_title">Daily Report</div>
+			   <div class="new_request_title">Daily Report
 			     {% if perms.request.add_requesttable %}
-			   <div class="middleleft_bottom_new" data-toggle="modal" data-target="#NewModal"  style="cursor:pointer">
-				   <a >New</a>
+			   <div class="middleleft_bottom_new_report" data-toggle="modal" data-target="#NewModal" style="float:right">
+				   <a style="cursor:pointer">New</a>
+			   </div>
 			   </div>
 			 </div>
 				<!--弹出模态框（Modal） -->
@@ -25,43 +26,35 @@
                           <ul>
 									   <li class="new_rqleft">Product:</li>
 									   <li>
-                                  <span>
-                                  <select class="borderWidth" id="projectInfo"  name="projectInfo">
-                                      <option selected="selected">iwhale2</option>
-                                      <option>isharkl2</option>
-                                      <option>Other</option>
-                                  </select>
-                                  </span>
+                                  <textarea class="borderWidth modalReportText" id="actionDiscriptionEdit18" name="actionDiscriptionEdit"></textarea>
                               </li>
 								  </ul>
 								  <ul>
 									   <li class="new_rqleft">SPM:</li>
 									   <li>
-									     <span>
-                                  <select id="tfcase" class="borderWidth" name="tfcaseInfo">
-                                      <option selected="selected">one</option>
-                                      <option>two</option>
-                                  </select>
-                                </span>
+									     <textarea class="borderWidth modalReportText" id="actionDiscriptionEdit18" name="actionDiscriptionEdit"></textarea>
                               </li>
 								  </ul>
 								  <ul>
 									   <li class="new_rqleft" >Daily Reporter:</li>
 									   <li>
-                                 <span>
-                                 <select class="borderWidth" id="classificationInfo"  name="classificationInfo">
-                                     <option selected="">Performance</option>
-                                     <option>Power</option>
-                                     <option>Other</option>
-                                 </select>
-                                 </span>
+                                 <textarea class="borderWidth modalReportText" id="actionDiscriptionEdit18" name="actionDiscriptionEdit"></textarea>
                               </li>
+								  </ul>
+								  <ul>
+								      <li class="new_rqleft">Attachment:</li>
+								      <li>
+											<form action="servlet/UploadFile" method="post" enctype="multipart/form-data">
+											<input type="file" name="file" id="file" />
+											<input type="submit" value="上传" />
+											</form>
+										</li>
 								  </ul>
 								  <input type="hidden" name="ownerInfo" value={{user.username}} />
 								  <!-- <input type="hidden" name="submitUserInfo" value={{user.username}} /> -->
 								  </div>
 								  <div align="center" style="margin-bottom: 100px; ">
-                            <button class= "requestBtn" type="text" name="cancle" style="background-color: #FB8C8C" data-dismiss="modal">cancle</button>
+                            <button class= "requestBtn" type="text" name="cancle" style="background-color: #FB8C8C" data-dismiss="modal">cancel</button>
                             <button class= "requestBtn" name="ok" type="submit" style="background-color:#67D00B ">confirm</button>
                           </div>
                           </form>
@@ -84,14 +77,56 @@
                      <td>{{tab.product}}</td>
                      <td>{{tab.spm}}</td>
                      <td>{{tab.daily_reporter}}</td>
-                      <td>{{tab.daily_reporter}}</td>
+                      <td>{{tab.file_link}}</td>
                      <td><a data-toggle="modal" data-target="#myModal18"  style="cursor:pointer"><button class= "requestBtn" id="editBtn21" type="text" style="background-color: #FB8C8C">Edit</button></a></td>
                   </tr>
 						
 
 
 					  <!-- 添加模态框（Modal）结束 -->
-					  {% endfor %}	  <!-- show request tab finish -->
+					  <div class="modal fade" id="myModal18" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" style = "width:800px">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                           <h4 class="modal-title" id="myModalLabel">Daily Report Details</h4>
+                        </div>
+ 
+								    <form  class = "modalForm" method="POST">
+                              <input type='hidden' name='csrfmiddlewaretoken' value='TdtW9mTRm5xWdQiJIPxIrWkcnG0AN1W7' />
+                              <div class="modalFormContent">
+                              <ul>
+									     <li class="rqleft">Product:</li>
+									<textarea class="borderWidth modalReportText" id="actionDiscriptionEdit18" name="actionDiscriptionEdit"></textarea>
+                                </li>
+								      </ul>
+                              <ul>
+									     <li class="rqleft">SPM:</li>
+									     <li>
+                                  <textarea class="borderWidth modalReportText" id="actionDiscriptionEdit18" name="actionDiscriptionEdit"></textarea>
+                                </li>
+								      </ul>
+								<ul>
+									     <li class="rqleft">Daily Reporter:</li>
+									     <li>
+                                  <textarea class="borderWidth modalReportText" id="actionDiscriptionEdit18" name="actionDiscriptionEdit"></textarea>
+                                </li>
+								      </ul>
+								<ul>
+										<li class="rqleft" >Attachment:</li>
+									     <li>
+                                </li>
+								      </ul>
+									     
+								      </div>
+								      <div align="center" style="margin-bottom: 100px; vertical-align:middle;">
+                                  <button class= "requestBtn" type="text" id="cancleEditBtn18" style="background-color: #FB8C8C" data-dismiss="modal">cancel</button>
+                                  <button class= "requestBtn" type="submit" id="saveRqEdit18"  style="background-color:#67D00B ">confirm</button>
+                              </div>
+                            </form>
+					  
+					  {% endfor %}	  
+					  <!-- show request tab finish -->
 					</table>
 				</div>
  {% endblock %}

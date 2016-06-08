@@ -1,4 +1,4 @@
-/*---request/plan table or form----*/
+﻿/*---request/plan table or form----*/
 .new_request_title {
 	font-size: 18px;
 	margin-left: 20px;
@@ -86,6 +86,12 @@
 
 .modalText{
 	height:200px;
+	line-height:30px;
+	wrap:physical;
+}
+
+.modalReportText{
+	height:25px;
 	line-height:30px;
 	wrap:physical;
 }
