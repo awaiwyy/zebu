@@ -74,16 +74,16 @@
 						</tr>-->
 						{% for tab in daily_report_tab %}
                   <tr>
-                     <td>{{tab.product}}</td>
-                     <td>{{tab.spm}}</td>
-                     <td>{{tab.daily_reporter}}</td>
-                      <td>{{tab.file_link}}</td>
+                     <td><b>Product:</b>{{tab.product}}</td>
+                     <td><b>SPM:</b>{{tab.spm}}</td>
+                     <td><b>Daily Reporter:</b>{{tab.daily_reporter}}</td>
                      <td><a data-toggle="modal" data-target="#myModal18"  style="cursor:pointer"><button class= "requestBtn" id="editBtn21" type="text" style="background-color: #FB8C8C">Edit</button></a></td>
                   </tr>
-						
+				  <tr>
+				  <td><a>{{tab.file_link}}</a></td>
+				  </tr>
 
-
-					  <!-- 添加模态框（Modal）结束 -->
+					  <!-- 弹出模态框（Modal） -->
 					  <div class="modal fade" id="myModal18" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                     <div class="modal-dialog" style = "width:800px">
                       <div class="modal-content">
@@ -92,24 +92,23 @@
                            <h4 class="modal-title" id="myModalLabel">Daily Report Details</h4>
                         </div>
  
-								    <form  class = "modalForm" method="POST">
-                              <input type='hidden' name='csrfmiddlewaretoken' value='TdtW9mTRm5xWdQiJIPxIrWkcnG0AN1W7' />
-                              <div class="modalFormContent">
+							<form  class = "modalForm" method="POST">
+                              <div class="modalFormContent" id="readRpTab{{tab.id}}">
                               <ul>
 									     <li class="rqleft">Product:</li>
-									<textarea class="borderWidth modalReportText" id="actionDiscriptionEdit18" name="actionDiscriptionEdit"></textarea>
+									<textarea class="borderWidth modalReportText" id="actionDiscriptionEdit18" name="actionDiscriptionEdit">{{tab.product}}</textarea>
                                 </li>
 								      </ul>
                               <ul>
 									     <li class="rqleft">SPM:</li>
 									     <li>
-                                  <textarea class="borderWidth modalReportText" id="actionDiscriptionEdit18" name="actionDiscriptionEdit"></textarea>
+                                  <textarea class="borderWidth modalReportText" id="actionDiscriptionEdit18" name="actionDiscriptionEdit">{{tab.spm}}</textarea>
                                 </li>
 								      </ul>
 								<ul>
 									     <li class="rqleft">Daily Reporter:</li>
 									     <li>
-                                  <textarea class="borderWidth modalReportText" id="actionDiscriptionEdit18" name="actionDiscriptionEdit"></textarea>
+                                  <textarea class="borderWidth modalReportText" id="actionDiscriptionEdit18" name="actionDiscriptionEdit">{{tab.daily_reporter}}</textarea>
                                 </li>
 								      </ul>
 								<ul>
@@ -126,7 +125,7 @@
                             </form>
 					  
 					  {% endfor %}	  
-					  <!-- show request tab finish -->
+					  <!-- 添加模态框（Modal）结束 -->
 					</table>
 				</div>
  {% endblock %}

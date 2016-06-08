@@ -158,7 +158,7 @@ form {
 .middleleft_bottom_new:HOVER{border:1px solid #4E9E00;background-color:#95ED16;}
 .middleleft_bottom_new:ACTIVE{border:1px solid #479700;background-color:#53AC03;}
 
-.middleleft_bottom_new_report{margin-right:25px;top: 0px; position:relative; border:1px solid #479700;background-repeat:no-repeat;border-radius:5px;vertical-align: middle;width:14%;height:34px;text-align: center;line-height:34px;cursor:pointer;font-size: 16px;font-family:"微软雅黑";background-color:#58B405;background-image: url(../images/new.png); background-position: 90%;overflow:hidden; white-space:nowrap; text-overflow:ellipsis;}
+.middleleft_bottom_new_report{margin-right:42px;top: 0px; position:relative; border:1px solid #479700;background-repeat:no-repeat;border-radius:5px;vertical-align: middle;width:14%;height:34px;text-align: center;line-height:34px;cursor:pointer;font-size: 16px;font-family:"微软雅黑";background-color:#58B405;background-image: url(../images/new.png); background-position: 90%;overflow:hidden; white-space:nowrap; text-overflow:ellipsis;}
 .middleleft_bottom_new_report a{color:white; text-decoration: none;}
 .middleleft_bottom_new_report:HOVER{border:1px solid #4E9E00;background-color:#95ED16;}
 .middleleft_bottom_new_report:ACTIVE{border:1px solid #479700;background-color:#53AC03;}
