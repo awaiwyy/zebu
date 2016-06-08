@@ -74,129 +74,22 @@
 			   
 				<div id="requestTable" class="requestTableDiv">
 					<table  class="requestTable" id="Box"  >
-						<tr>
+						<!--<tr>
 							<th scope="col" width="84px"><span>Product</span></th>
 							<th scope="col" width="84px"><span>SPM</span></th>
 							<th scope="col" width="222px"><span>Daily Reporter</span></th>
-						</tr>
-						{% for tab in request_tab %}
+						</tr>-->
+						{% for tab in daily_report_tab %}
                   <tr>
                      <td>{{tab.product}}</td>
-                     <td>{{tab.spmname}}</td>
-                     <td>{{tab.reporter}}</td>
-                     <td><a data-toggle="modal" data-target="#myModal{{tab.id}}"  style="cursor:pointer"><img style="vertical-align:middle" src="/static/images/down.png" /></a></td>
+                     <td>{{tab.spm}}</td>
+                     <td>{{tab.daily_reporter}}</td>
+                      <td>{{tab.daily_reporter}}</td>
+                     <td><a data-toggle="modal" data-target="#myModal18"  style="cursor:pointer"><button class= "requestBtn" id="editBtn21" type="text" style="background-color: #FB8C8C">Edit</button></a></td>
                   </tr>
 						
-								 {% if perms.request.change_requesttable%}
-								  <div id="editRqTab{{tab.id}}">
-								    <form  class = "modalForm" method="POST">
-                              {% csrf_token %}
-                              <div class="modalFormContent">
-                              <ul>
-									     <li class="rqleft">ID:</li>
-									     <li class="borderBottom">
-                                  <input id="idEdit" type="text" name="idEdit" value={{tab.id}} readonly>
-                                </li>
-								      </ul>
-                              <ul>
-									     <li class="rqleft">Product:</li>
-									     <li>
-                                  <span>
-                                  <select class="borderWidth" id="projectEdit"  name="projectEdit">
-                                      <option selected>{{tab.project}}</option>
-                                      <option>iwhale2</option>
-                                      <option>isharkl2</option>
-                                      <option>Other</option>
-                                  </select>
-                                  </span>
-                                </li>
-								      </ul>
-								      <ul>
-									     <li class="rqleft" >SPM:</li>
-									     <li>
-                                 <span>
-                                 <select class="borderWidth" id="classificationEdit"  name="classificationEdit">
-                                     <option selected>{{tab.classification}}</option>
-                                     <option>one</option>
-                                     <option>two</option>
-                                 </select>
-                                 </span>
-                                </li>
-								      </ul>
-								      <ul>
-									     <li class="rqleft" >Reporter:</li>
-									     <li>
-                                  <span>
-                                  <select class="borderWidth" id="moduleEdit"  name="moduleEdit">
-                                      <option selected>{{tab.module}}</option>
-                                      <option>Performance</option>
-                                      <option>Power</option>
-                                  </select>
-                                  </span>
-                                </li>
-								      </ul>
-								      </div>
-								      <div align="center" style="margin-bottom: 100px; vertical-align:middle;">
-                                  <button class= "requestBtn" type="text" id="cancleEditBtn{{tab.id}}" style="background-color: #FB8C8C" data-dismiss="modal">cancle</button>
-                                  <button class= "requestBtn" type="submit" id="saveRqEdit{{tab.id}}"  style="background-color:#67D00B ">confirm</button>
-                              </div>
-                            </form>
-                          </div>
-                          <div align="center" style="margin-bottom: 100px; ">
-                              <button class= "requestBtn" id="editBtn{{tab.id}}" type="text" style="background-color: #FB8C8C">Edit</button>
-                              {% if perms.request.delete_requesttable%}
-                              <button class= "requestBtn" id ="delBtn{{tab.id}}" type="submit" style="background-color:#67D00B " 
-                               data-toggle="modal" data-target="#delRqModal{{tab.id}}"  style="cursor:pointer">Delete</button>
-                              <!-- delete request模态框（Modal） -->
-                              <div class="modal fade" id="delRqModal{{tab.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                                <div class="modal-dialog requestDelForm">
-                                  <div class="modal-content">
-                                     <div class="modal-header">
-                                         <!-- <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> -->
-                                         <h4 class="modal-title" id="myModalLabel">Delete the request item ?</h4>
-                                     </div>
-                                     <div class="modal-body">
-                                       <form class="delForm" method="POST">
-                                           {% csrf_token %}
-                                           <input type="text" name = "delRqId" value = {{tab.id}} hidden />
-                                           <div align="center" style="margin-bottom: 50px; ">
-                                               <button class= "requestBtn" type="text" id="cancleDelBtn{{tab.id}}"name="cancleDel" style="background-color: #FB8C8C" data-dismiss="modal">Cancle</button>
-                                               <button class= "requestBtn" name="okDel" type="submit" style="background-color:#67D00B ">Delete</button>
-                                           </div>
-                                       </form>
-                                     </div>
-                                  </div>
-                                </div>
-                              </div>
-                              <!-- delete request模态框（Modal） finish-->
-                              {% endif %}
-                              <!-- delete request tab finish -->
-                              <script type="text/javascript" >
-                                $(document).ready(function(){
-	                                $("#editRqTab{{tab.id}}").hide();
-	                                
-                                   $("#editBtn{{tab.id}}").click(function(){
-                                       $("#readRqTab{{tab.id}}").hide();
-                                       $("#editRqTab{{tab.id}}").show();
-                                       $(this).hide();
-                                       $("#delBtn{{tab.id}}").hide();
-                                       $('#actionDiscriptionEdit{{tab.id}}').val($('#actionDiscriptionEdit{{tab.id}}').val().replace(/<br>/g,''));
-                                    });
-                                    
-                                    $("#cancleEditBtn{{tab.id}}").click(function(){
-                                        $("#readRqTab{{tab.id}}").show();
-                                        $("#editRqTab{{tab.id}}").hide();
-                                        $("#editBtn{{tab.id}}").show();
-                                        $("#delBtn{{tab.id}}").show();
-                                    }); 
-                                });
-                            </script>
-								  {% endif %}
-								  <!-- change request tab finish -->
-								  </div>
-								  </div>
-                        </div>
-                      </div>
+
+
 					  <!-- 添加模态框（Modal）结束 -->
 					  {% endfor %}	  <!-- show request tab finish -->
 					</table>
