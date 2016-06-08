@@ -19,4 +19,8 @@ import views as report_views
 
 urlpatterns = [
     url(r'^$', report_views.reportPage, name='report'),
+    url(r'^daily_report$', report_views.reportPage, name='daily_report'),
+    url(r'^resource_usage$',report_views.report_Resource,name='resource_usage'), 
+    url(r'^main_tf_status$',report_views.report_MainTF,name='main_tf_status'), 
+    url(r'^schedule$',report_views.report_Schedule,name='schedule'), 
 ]

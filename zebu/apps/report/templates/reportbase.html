@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns="http:/www.w3.org/1999/xhtml">
+<head>
+<title>Zebu Request</title>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=9,chrome=1">
+<!-- Mobile Specific Metas -->
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+<!-- 导入文件 -->
+<!-- css -->
+<!--  <link href="http://apps.bdimg.com/libs/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">-->
+<link rel="stylesheet" href="/static/css/bootstrap.min.css" />
+<link href="/static/css/com.css" type="text/css" rel="stylesheet" />
+<link href="/static/request/css/request.css" type="text/css" rel="stylesheet" />
+<link href="/static/css/application.css" type="text/css" rel="stylesheet" />
+<!-- js -->
+<script src="/static/js/jquery-1.11.1.min.js"></script>
+<!-- <script src="http://apps.bdimg.com/libs/bootstrap/3.2.0/js/bootstrap.min.js"></script> -->
+<script src="/static/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+	/mobi/i.test(navigator.userAgent) && !location.hash
+			&& setTimeout(function() {
+				if (!pageYOffset)
+					window.scrollTo(0, 1);
+			}, 1000);
+
+	var flag_browser = "other";
+	$(document).ready(function() {
+		//判断浏览器类型
+		if (window.ActiveXObject) {
+			flag_browser = "ie";
+		}
+	})
+</script>
+</head>
+<body>
+	<!-- 头文件 -->
+	<div class="head">
+		<img class="imgleftright" src="/static/images/background-left.png" /> 
+		<img class="imgcenter" src="/static/images/background-middle.png" /> 
+		<img class="imgleftright" src="/static/images/background-right.png" />
+		<div class="clearfix"></div>
+		<table class="headtable">
+			<tr>
+				<td><a href="#"><img src="/static/images/zebu.png" /></a></td>
+			</tr>
+			<tr>
+				<td>
+					<ul class="select">
+						<li class="select-list">
+							<dl id="select1">
+								<dd>
+									<a href="/">Login</a>
+								</dd>
+								<dd>
+									<a href="/home/">Home</a>
+								</dd>
+								<dd>
+									<a href="/request">Request</a>
+								</dd>
+								<dd>
+									<a href="/plan">Plan</a>
+								</dd>
+								<dd class="select-all selected">
+									<a href="/report">Report</a>
+								</dd>
+							</dl>
+						</li>
+					</ul>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<!-- 中间部分 -->
+	<div class="middle" >
+		<div class="middletitle" >
+			<p>
+				<span class="middletite1"> 
+				<a href="/" class="title">Login</a>&nbsp;&nbsp;-&nbsp;&nbsp;
+				<a href="/home/" class="title">Home</a>&nbsp;&nbsp;-&nbsp;&nbsp;
+				</span>
+				<span class="middletite2">Report</span>
+			</p>
+		</div>
+		<!-- 左侧模块 -->
+		<div class="middleleft">
+			<div class="middleleft2" style="position: relative; top: -16px;">
+				<div class="middleleft_center">
+					<ul>
+						<!--<li id="middleleft_center_topli"><a href="#" >Schedule</a></li>-->
+						<li><button type="button" onClick="location='schedule'">Schedule</button></li>
+						<li><button type="button" onClick="location='resource_usage'">Resource Usage</button></li>
+						<li><button type="button" onClick="location='main_tf_status'">Main TF Status</button></li>
+						<li><button type="button" onClick="location='daily_report'">Daily Report</button></li>
+						<!--<li><a href="#">Main TF Status</a></li>
+						<li id="middleleft_center_bottomli"><a href="#">Daily Report</a></li>-->
+					</ul>
+				</div>
+			</div>
+			
+		</div>
+        {% block content %}{% endblock %}
+</body>
+</html>
