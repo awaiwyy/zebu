@@ -2,3 +2,4 @@
 *.pyc
 #ignore pycharm project file
 .idea/
+*~
