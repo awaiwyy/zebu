@@ -52,7 +52,7 @@ def saveRequestTab(request_tab):
     wb.save(request_file)
 
 def file_iterator(file_name, chunk_size=512):
-    with open(file_name) as f:
+    with open(file_name,"rb") as f:
         while True:
             c = f.read(chunk_size)
             if c:
