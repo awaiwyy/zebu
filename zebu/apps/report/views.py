@@ -11,7 +11,7 @@ def reportPage(request):
     daily_report_tab = ReportTable.objects.filter(is_daily_report="true").order_by("id")
     #daily_report_tab = ReportTable.objects.all()
     if request.method == 'POST':
-        print"POST!!!!"
+        print "POST!!!!"
         #print request.body
         # 获得表单数据
         if 'productInfo' in request.POST.keys():
