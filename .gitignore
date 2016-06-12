@@ -3,3 +3,5 @@
 #ignore pycharm project file
 .idea/
 *~
+#ignore database migration file
+000*
