@@ -8,3 +8,4 @@ class ReportTable(models.Model):
     spm = models.CharField(max_length=50)
     daily_reporter = models.CharField(max_length=50)
     file_link = models.TextField()
+    is_daily_report = models.CharField(max_length= 20, default="true")

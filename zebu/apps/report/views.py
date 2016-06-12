@@ -8,14 +8,15 @@ sys.setdefaultencoding('utf-8')
 
 # Create your views here.
 def reportPage(request):
-    daily_report_tab = ReportTable.objects.all()
+    daily_report_tab = ReportTable.objects.filter(is_daily_report="true").order_by("id")
+    #daily_report_tab = ReportTable.objects.all()
     if request.method == 'POST':
         print"POST!!!!"
-        handle_uploaded_file(request.FILES['file'], str(request.FILES['file']))
         #print request.body
         # 获得表单数据
         if 'productInfo' in request.POST.keys():
             print"into new daily report "
+            handle_uploaded_file(request.FILES['file'], str(request.FILES['file']))
             product = request.POST['productInfo']
             spm = request.POST['spmInfo']
             reporter = request.POST['reporterInfo']
@@ -25,6 +26,12 @@ def reportPage(request):
                                        spm=spm,
                                        daily_reporter=reporter,
                                        file_link =file_link)
+        elif 'delReportId' in request.POST.keys():
+            print "into delete plan"
+            del_id = request.POST['delReportId']
+            del_report = ReportTable.objects.get(id=del_id)
+            del_report.is_daily_report = 'false'
+            del_report.save()
         else:
             print "there is something wrong"
         return HttpResponseRedirect('/report/', {"daily_report_tab": daily_report_tab})

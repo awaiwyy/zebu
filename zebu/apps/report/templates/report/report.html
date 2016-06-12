@@ -75,7 +75,8 @@
                      <td><b>SPM:</b>{{tab.spm}}</td>
                      <td><b>Daily Reporter:</b>{{tab.daily_reporter}}</td>
                      <td><a data-toggle="modal" data-target="#myModal18"  style="cursor:pointer"><button class= "requestBtn" id="editBtn21" type="text" style="background-color: #FB8C8C">Edit</button></a></td>
-                  </tr>
+					 <td><a data-toggle="modal" data-target="#delPlanModal{{tab.id}}"  style="cursor:pointer"><button class= "requestBtn" id="editBtn21" type="text" style="background-color: #FB8C8C">Delete</button></a></td>
+				 </tr>
 				  <tr>
 				  <td><a href="downloadfile/{{tab.file_link}}">{{tab.file_link}}</a></td>
 				  </tr>
@@ -120,9 +121,41 @@
                                   <button class= "requestBtn" type="submit" id="saveRqEdit18"  style="background-color:#67D00B ">confirm</button>
                               </div>
                             </form>
+                            </div>
+                            </div>
+                            </div>
 					  
-					  {% endfor %}	  
+
 					  <!-- 添加模态框（Modal）结束 -->
+					  
+					  <!-- 模态框（Modal） -->
+								<div class="modal fade" id="delPlanModal{{tab.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+									aria-hidden="true">
+									<div class="modal-dialog planDelForm">
+										<div class="modal-content">
+											<div class="modal-header">
+												<!-- <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> -->
+												<h4 class="modal-title" id="myModalLabel">Delete the Report item ?</h4>
+											</div>
+											<div class="modal-body">
+												<form class="delForm" method="POST">
+                                                {% csrf_token %}
+                                                 <input type="text" name = "delReportId" value = {{tab.id}} hidden />
+													<div align="center" style="margin-bottom: 50px;">
+														<button class="requestBtn" type="text"
+															id="cancleDelBtn" name="cancle"
+															style="background-color: #FB8C8C"
+															data-dismiss="modal">Cancle</button>
+														<button class="requestBtn" name="ok" type="submit"
+															style="background-color: #67D00B">confirm</button>
+													</div>
+												</form>
+											</div> 
+										</div>
+									</div>
+								</div>
+								<!-- delete plan table modal finish-->
+						{% endfor %}
 					</table>
 				</div>
  {% endblock %}
