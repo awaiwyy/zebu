@@ -8,6 +8,7 @@ def reportPage(request):
     daily_report_tab = ReportTable.objects.all()
     if request.method == 'POST':
         print"POST!!!!"
+        handle_uploaded_file(request.FILES['file'], str(request.FILES['file']))
         #print request.body
         # 获得表单数据
         if 'productInfo' in request.POST.keys():
@@ -15,11 +16,12 @@ def reportPage(request):
             product = request.POST['productInfo']
             spm = request.POST['spmInfo']
             reporter = request.POST['reporterInfo']
+            file_link=str(request.FILES['file'])
             # 添加到数据库
             ReportTable.objects.create(product=product,
                                        spm=spm,
                                        daily_reporter=reporter,
-                                       file_link ="http://test.com/file")
+                                       file_link =file_link)
         else:
             print "there is something wrong"
         return HttpResponseRedirect('/report/', {"daily_report_tab": daily_report_tab})
@@ -27,6 +29,11 @@ def reportPage(request):
         print "GET!!!!"
         return render(request, 'report/report.html', {"daily_report_tab": daily_report_tab})
         #   return render(request, 'report/report.html')
+
+def handle_uploaded_file(file, filename):
+    with open(r'd:/' + filename, 'wb+') as destination:
+        for chunk in file.chunks():
+            destination.write(chunk)
 
 def report_Resource(request):
     return render(request, 'report/resource_usage.html')
