@@ -2,11 +2,13 @@
 from django.http import HttpResponseRedirect,StreamingHttpResponse
 from django.shortcuts import render
 from models import ReportTable
+import os
 import sys
 reload(sys)
 sys.setdefaultencoding('utf-8')
 
 # Create your views here.
+upload_dir = "resources/upload/"
 def reportPage(request):
     daily_report_tab = ReportTable.objects.filter(is_daily_report="true").order_by("id")
     #daily_report_tab = ReportTable.objects.all()
@@ -41,7 +43,9 @@ def reportPage(request):
         #   return render(request, 'report/report.html')
 
 def handle_uploaded_file(file, filename):
-    with open(r'd:/' + filename.decode('utf-8'), 'wb+') as destination:
+    if not os.path.exists(upload_dir):
+        os.mkdir(upload_dir)
+    with open(upload_dir + filename.decode('utf-8'), 'wb+') as destination:
         for chunk in file.chunks():
             destination.write(chunk)
 
@@ -55,7 +59,7 @@ def file_iterator(filename, chunk_size=512):
                 break
 
 def file_Download(request,filename):
-        file_name = "d:/"+ filename
+        file_name = upload_dir+ filename
         response = StreamingHttpResponse(file_iterator(file_name))
         response['Content-Type'] = 'application/octet-stream'
         response['Content-Disposition'] = 'attachment;filename="{0}"'.format(file_name)

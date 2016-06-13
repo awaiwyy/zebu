@@ -5,3 +5,6 @@
 *~
 #ignore database migration file
 000*
+
+#ignor upload directory
+upload/
