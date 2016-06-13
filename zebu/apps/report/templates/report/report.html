@@ -26,19 +26,19 @@
                           <ul>
 									   <li class="new_rqleft">Product:</li>
 									   <li>
-                                  <textarea class="borderWidth modalReportText" id="productInfo" name="productInfo"></textarea>
+										   <input type="text" id="productInfo" name="productInfo" />
                               </li>
 								  </ul>
 								  <ul>
 									   <li class="new_rqleft">SPM:</li>
 									   <li>
-									     <textarea class="borderWidth modalReportText" id="spmInfo" name="spmInfo"></textarea>
+										   <input type="text" id="spmInfo" name="spmInfo" />
                               </li>
 								  </ul>
 								  <ul>
 									   <li class="new_rqleft" >Daily Reporter:</li>
 									   <li>
-                                 <textarea class="borderWidth modalReportText" id="reporterInfo" name="reporterInfo"></textarea>
+										   <input type="text" id="reporterInfo" name="reporterInfo" />
                               </li>
 								  </ul>
 								<ul>
@@ -74,7 +74,7 @@
                      <td><b>Product:</b>{{tab.product}}</td>
                      <td><b>SPM:</b>{{tab.spm}}</td>
                      <td><b>Daily Reporter:</b>{{tab.daily_reporter}}</td>
-                     <td><a data-toggle="modal" data-target="#myModal18"  style="cursor:pointer"><button class= "requestBtn" id="editBtn21" type="text" style="background-color: #FB8C8C">Edit</button></a></td>
+                     <td><a data-toggle="modal" data-target="#myModal18{{tab.id}}"  style="cursor:pointer"><button class= "requestBtn" id="editBtn21" type="text" style="background-color: #FB8C8C">Edit</button></a></td>
 					 <td><a data-toggle="modal" data-target="#delPlanModal{{tab.id}}"  style="cursor:pointer"><button class= "requestBtn" id="editBtn21" type="text" style="background-color: #FB8C8C">Delete</button></a></td>
 				 </tr>
 				  <tr>
@@ -82,7 +82,7 @@
 				  </tr>
 
 					  <!-- 弹出模态框（Modal） -->
-					  <div class="modal fade" id="myModal18" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+					  <div class="modal fade" id="myModal18{{tab.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                     <div class="modal-dialog" style = "width:800px">
                       <div class="modal-content">
                         <div class="modal-header">
@@ -91,27 +91,30 @@
                         </div>
  
 							<form  class = "modalForm" method="POST">
+								{% csrf_token %}
                               <div class="modalFormContent" id="readRpTab{{tab.id}}">
+								  <input type="text" id="idEdit" name="idEdit" value = {{tab.id}} hidden/>
                               <ul>
 									     <li class="rqleft">Product:</li>
-									<textarea class="borderWidth modalReportText" id="actionDiscriptionEdit18" name="actionDiscriptionEdit">{{tab.product}}</textarea>
+									<input type="text" id="productEdit" name="productEdit" value = {{tab.product}} />
                                 </li>
 								      </ul>
                               <ul>
 									     <li class="rqleft">SPM:</li>
 									     <li>
-                                  <textarea class="borderWidth modalReportText" id="actionDiscriptionEdit18" name="actionDiscriptionEdit">{{tab.spm}}</textarea>
+                                  <input type="text" id="spmEdit" name="spmEdit" value = {{tab.spm}} />
                                 </li>
 								      </ul>
 								<ul>
 									     <li class="rqleft">Daily Reporter:</li>
 									     <li>
-                                  <textarea class="borderWidth modalReportText" id="actionDiscriptionEdit18" name="actionDiscriptionEdit">{{tab.daily_reporter}}</textarea>
+                                  <input type="text" id="reporterEdit" name="reporterEdit" value = {{tab.daily_reporter}} />
                                 </li>
 								      </ul>
 								<ul>
 										<li class="rqleft" >Attachment:</li>
-									     <li>
+									     <li >
+											 <input class="borderBottom" type="text" id="file_linkEdit" name="file_linkEdit" value = {{tab.file_link}} readonly>
                                 </li>
 								      </ul>
 									     
@@ -158,4 +161,6 @@
 						{% endfor %}
 					</table>
 				</div>
+			 </div>
+			</div>
  {% endblock %}
