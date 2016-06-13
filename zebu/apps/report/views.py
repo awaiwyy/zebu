@@ -29,14 +29,14 @@ def reportPage(request):
                                        daily_reporter=reporter,
                                        file_link =file_link)
         elif "idEdit" in request.POST.keys():
-            #handle_uploaded_file(request.FILES['file_linkEdit'], str(request.FILES['file_linkEdit']))
+            handle_uploaded_file(request.FILES['file_linkEdit'], str(request.FILES['file_linkEdit']))
             print "into new report table"
             edit_id = request.POST['idEdit']
             edit_report = ReportTable.objects.get(id=edit_id)
             edit_report.product = request.POST['productEdit']
             edit_report.spm = request.POST['spmEdit']
             edit_report.daily_reporter = request.POST['reporterEdit']
-            edit_report.file_link = request.POST['file_linkEdit']
+            edit_report.file_link = str(request.FILES['file_linkEdit'])
             edit_report.save()
         elif 'delReportId' in request.POST.keys():
             print "into delete plan"

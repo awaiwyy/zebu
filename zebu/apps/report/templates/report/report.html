@@ -10,7 +10,7 @@
 				   <a style="cursor:pointer">New</a>
 			   </div>
 			   </div>
-			 </div>
+			</div>
 				<!--弹出模态框（Modal） -->
 						<div class="modal fade" id="NewModal" tabindex="-1" role="dialog" aria-labelledby="NewModalLabel" aria-hidden="true">
                     <div class="modal-dialog" style = "width:800px">
@@ -23,42 +23,40 @@
                         <form class = "modalForm" method="POST" enctype="multipart/form-data">
                         {% csrf_token %}
                           <div class="modalFormContent">
-                          <ul>
-									   <li class="new_rqleft">Product:</li>
-									   <li>
-										   <input type="text" id="productInfo" name="productInfo" />
-                              </li>
-								  </ul>
-								  <ul>
-									   <li class="new_rqleft">SPM:</li>
-									   <li>
-										   <input type="text" id="spmInfo" name="spmInfo" />
-                              </li>
-								  </ul>
-								  <ul>
-									   <li class="new_rqleft" >Daily Reporter:</li>
-									   <li>
-										   <input type="text" id="reporterInfo" name="reporterInfo" />
-                              </li>
-								  </ul>
-								<ul>
-								      <li class="new_rqleft">Attachment:</li>
-								      <li>
-											<input type="file" name="file" id="file" />
-										</li>
-								  </ul>
-								  <input type="hidden" name="ownerInfo" value={{user.username}} />
-								  <!-- <input type="hidden" name="submitUserInfo" value={{user.username}} /> -->
-								  </div>
-								  <div align="center" style="margin-bottom: 100px; ">
+                          	<ul>
+								<li class="new_rqleft">Product:</li>
+								<li>
+									<input type="text" id="productInfo" name="productInfo" />
+								</li>
+							</ul>
+							<ul>
+								<li class="new_rqleft">SPM:</li>
+								<li>
+									<input type="text" id="spmInfo" name="spmInfo" />
+								</li>
+							</ul>
+							<ul>
+								<li class="new_rqleft" >Daily Reporter:</li>
+								<li>
+									<input type="text" id="reporterInfo" name="reporterInfo" />
+								</li>
+							</ul>
+						    <ul>
+								<li class="new_rqleft">Attachment:</li>
+								<li>
+									<input type="file" name="file" id="file" />
+								</li>
+							</ul>
+						  </div>
+							<div align="center" style="margin-bottom: 100px; ">
                             <button class= "requestBtn" type="text" name="cancle" style="background-color: #FB8C8C" data-dismiss="modal">cancel</button>
                             <button class= "requestBtn" name="ok" type="submit" style="background-color:#67D00B ">confirm</button>
-                          </div>
-                          </form>
-                          </div>
+                          	</div>
+						</form>
+						</div>
                       </div>
                    </div>
-                 </div>
+                 		</div>
 					  <!-- 添加模态框（Modal）结束 -->
 					  {% endif %}
 			   
@@ -82,7 +80,7 @@
 				  </tr>
 
 					  <!-- 弹出模态框（Modal） -->
-					  <div class="modal fade" id="myModal18{{tab.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+						<div class="modal fade" id="myModal18{{tab.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                     <div class="modal-dialog" style = "width:800px">
                       <div class="modal-content">
                         <div class="modal-header">
@@ -90,44 +88,43 @@
                            <h4 class="modal-title" id="myModalLabel">Daily Report Details</h4>
                         </div>
  
-							<form  class = "modalForm" method="POST">
+							<form  class = "modalForm" method="POST" enctype="multipart/form-data">
 								{% csrf_token %}
                               <div class="modalFormContent" id="readRpTab{{tab.id}}">
 								  <input type="text" id="idEdit" name="idEdit" value = {{tab.id}} hidden/>
-                              <ul>
-									     <li class="rqleft">Product:</li>
-									<input type="text" id="productEdit" name="productEdit" value = {{tab.product}} />
-                                </li>
-								      </ul>
-                              <ul>
-									     <li class="rqleft">SPM:</li>
-									     <li>
-                                  <input type="text" id="spmEdit" name="spmEdit" value = {{tab.spm}} />
-                                </li>
-								      </ul>
+                              	<ul>
+									<li class="rqleft">Product:</li>
+									<li>
+										<input type="text" id="productEdit" name="productEdit" value = {{tab.product}} />
+                                	</li>
+								</ul>
+                              	<ul>
+									<li class="rqleft">SPM:</li>
+									<li>
+										<input type="text" id="spmEdit" name="spmEdit" value = {{tab.spm}} />
+									</li>
+								</ul>
 								<ul>
-									     <li class="rqleft">Daily Reporter:</li>
-									     <li>
-                                  <input type="text" id="reporterEdit" name="reporterEdit" value = {{tab.daily_reporter}} />
-                                </li>
-								      </ul>
+									<li class="rqleft">Daily Reporter:</li>
+									<li>
+										<input type="text" id="reporterEdit" name="reporterEdit" value = {{tab.daily_reporter}} />
+                                	</li>
+							  	</ul>
 								<ul>
-										<li class="rqleft" >Attachment:</li>
-									     <li >
-											 <input class="borderBottom" type="text" id="file_linkEdit" name="file_linkEdit" value = {{tab.file_link}} readonly>
-                                </li>
-								      </ul>
-									     
-								      </div>
-								      <div align="center" style="margin-bottom: 100px; vertical-align:middle;">
+									<li class="rqleft" >Attachment:</li>
+									<li>
+										<input type="file" id="file_linkEdit" name="file_linkEdit" value = {{tab.file_link}} />
+                                	</li>
+							  	</ul>
+							  </div>
+								<div align="center" style="margin-bottom: 100px; vertical-align:middle;">
                                   <button class= "requestBtn" type="text" id="cancleEditBtn18" style="background-color: #FB8C8C" data-dismiss="modal">cancel</button>
                                   <button class= "requestBtn" type="submit" id="saveRqEdit18"  style="background-color:#67D00B ">confirm</button>
-                              </div>
+                              	</div>
                             </form>
-                            </div>
-                            </div>
-                            </div>
-					  
+					  </div>
+					</div>
+					  </div>
 
 					  <!-- 添加模态框（Modal）结束 -->
 					  
