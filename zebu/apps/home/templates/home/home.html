@@ -154,6 +154,7 @@
 							<th scope="col" width="84px"><span>SPM</span></th>
 							<th scope="col" width="222px"><span>Daily Reporter</span></th>
 						</tr>-->
+						{% for tab in project_tab%}
                   <tr>
                      <td><b>Product:</b>{{tab.project}}</td>
                      <td><b>SPM:</b>{{tab.spm}}</td>
@@ -177,7 +178,7 @@
                               	<ul>
 									<li class="rqleft">Product:</li>
 									<li>
-										<input type="text" id="productEdit" name="productEdit" value = {{tab.prject}} />
+										<input type="text" id="productEdit" name="productEdit" value = {{tab.project}} />
                                 	</li>
 								</ul>
                               	<ul>
@@ -228,6 +229,7 @@
 									</div>
 								</div>
 								<!-- delete plan table modal finish-->
+						{% endfor %}
 					</table>
 				</div>
 					  <!-- 添加模态框（Modal）结束 -->

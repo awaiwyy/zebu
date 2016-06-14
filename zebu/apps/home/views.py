@@ -123,13 +123,13 @@ def homePageData(request):
                     "next_week": next_week,
                     'cur_date': cur_date,
                     'next_date': next_date,
-                    
         }
     return schedule_dict
 
 def homeUser(request):
     print request.method
     print request.POST.keys()
+    project_tab = projectInfo.objects.filter(display="true")
     if request.method == 'POST' and 'userName' in request.POST.keys():
         print "into home post"
         #if 'userName' in request.POST.keys():
@@ -152,8 +152,8 @@ def homeUser(request):
     else:
         #other page(eg:request or plan page) to home 
         print "to home"
-        schedule_dict = homePageData(request)   
-        return render(request, 'home/home.html', schedule_dict)
+        schedule_dict = homePageData(request)
+        return render(request, 'home/home.html',{'project_tab': project_tab}, schedule_dict)
 
 def saveScheduleTab(schedule_tab):
     #set style
