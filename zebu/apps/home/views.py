@@ -4,6 +4,7 @@ from django.http import HttpResponseRedirect
 from django.http import HttpResponse
 from django.contrib import auth
 from models import scheduleInfo
+from models import projectInfo
 import datetime
 import os
 from common import xlwt
@@ -28,6 +29,7 @@ def homePageData(request):
     end_date = today + datetime.timedelta(days=14-day)
        
     display_tab = scheduleInfo.objects.filter(sdate__gte = start_date, sdate__lte = end_date)
+    project_tab = projectInfo.objects.filter(display="true")
     #if not os.path.exists(schedule_file):
         #saveScheduleTab(display_tab)
 

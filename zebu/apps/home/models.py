@@ -15,10 +15,17 @@ class users(models.Model):
     def __str__(self):
         return self.username
 '''
+class projectInfo(models.Model):
+    project = models.CharField(max_length = 200, null=True)
+    spm = models.CharField(max_length = 200, null=True)
+    zebu = models.CharField(max_length =200, null=True)
+    display = models.CharField(max_length= 20, default="true")
+
 class scheduleInfo(models.Model):
     sdate = models.DateField()
     total = models.IntegerField()
     used = models.IntegerField()
     arrangement = models.CharField(max_length = 200)
     time = models.CharField(max_length = 50)
+    project = models.ForeignKey(projectInfo, on_delete=models.CASCADE, related_name='projectInfo', null=True)
 

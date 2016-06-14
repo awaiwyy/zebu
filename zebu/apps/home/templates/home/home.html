@@ -125,7 +125,7 @@
 								</li>
 							</ul>
 							<ul>
-								<li class="new_rqleft" >Daily Reporter:</li>
+								<li class="new_rqleft" >Zebu:</li>
 								<li>
 									<input type="text" id="reporterInfo" name="reporterInfo" />
 								</li>
@@ -155,9 +155,9 @@
 							<th scope="col" width="222px"><span>Daily Reporter</span></th>
 						</tr>-->
                   <tr>
-                     <td><b>Product:</b>111</td>
-                     <td><b>SPM:</b>222</td>
-                     <td><b>Daily Reporter:</b>333</td>
+                     <td><b>Product:</b>{{tab.project}}</td>
+                     <td><b>SPM:</b>{{tab.spm}}</td>
+                     <td><b>Zebu:</b>{{tab.zebu}}</td>
                      <td><a data-toggle="modal" data-target="#myModal18{{tab.id}}"  style="cursor:pointer"><button class= "requestBtn" id="editBtn21" type="text" style="background-color: #FB8C8C">Edit</button></a></td>
 					 <td><a data-toggle="modal" data-target="#delPlanModal{{tab.id}}"  style="cursor:pointer"><button class= "requestBtn" id="editBtn21" type="text" style="background-color: #FB8C8C">Delete</button></a></td>
 				 </tr>
@@ -177,7 +177,7 @@
                               	<ul>
 									<li class="rqleft">Product:</li>
 									<li>
-										<input type="text" id="productEdit" name="productEdit" value = {{tab.product}} />
+										<input type="text" id="productEdit" name="productEdit" value = {{tab.prject}} />
                                 	</li>
 								</ul>
                               	<ul>
@@ -187,9 +187,9 @@
 									</li>
 								</ul>
 								<ul>
-									<li class="rqleft">Daily Reporter:</li>
+									<li class="rqleft">Zebu:</li>
 									<li>
-										<input type="text" id="reporterEdit" name="reporterEdit" value = {{tab.daily_reporter}} />
+										<input type="text" id="reporterEdit" name="reporterEdit" value = {{tab.zebu}} />
                                 	</li>
 							  	</ul>
 							  </div>
