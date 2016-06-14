@@ -79,10 +79,10 @@ def file_Download(request,filename):
         return response
 
 def report_Resource(request):
-    resource_usage_title_tab = ResourceUsageTitleTable.objects.all()
+    #resource_usage_title_tab = ResourceUsageTitleTable.objects.all()
     resource_usage_tab = ResourceUsageTable.objects.filter(is_show="true").order_by("id")
-    
-    return render(request, 'report/resource_usage.html')
+    #resource_usage_tab = ResourceUsageTable.objects.all()
+    return render(request, 'report/resource_usage.html',{"resource_usage_tab": resource_usage_tab})
 
 def report_MainTF(request):
     return render(request, 'report/main_tf_status.html')
