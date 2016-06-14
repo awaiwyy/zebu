@@ -25,19 +25,19 @@
                           <ul>
 									   <li class="new_rqleft">Product:</li>
 									   <li>
-                                  <textarea class="borderWidth modalReportText" id="actionDiscription" name="actionDiscriptionInfo">Product</textarea>
+                                  <input type="text" id="productInfo1" name="productInfo1" />
                               </li>
 								  </ul>
 								  <ul>
 									   <li class="new_rqleft">SPM:</li>
 									   <li>
-									<textarea class="borderWidth modalReportText" id="actionDiscription" name="actionDiscriptionInfo">SPM</textarea>
+									<input type="text" id="spmInfo" name="spmInfo" />
                               </li>
 								  </ul>
 								  <ul>
 									   <li class="new_rqleft" >Daily Reporter:</li>
 									   <li>
-                                 <textarea class="borderWidth modalReportText" id="actionDiscription" name="actionDiscriptionInfo">Daily Reporter</textarea>
+                                 <input type="text" id="reporterInfo" name="reporterInfo" />
                               </li>
 								  </ul>
 								  <input type="hidden" name="ownerInfo" value={{user.username}} />
@@ -55,15 +55,47 @@
 					  <!-- 添加模态框（Modal）结束 -->
 			 <div class="">
 			 <b>Total：0 H(10×24)</b><br>
-             <b>Usage：0 H</b><br>
+             <b>Usage：0 H</b>
+             <a data-toggle="modal" data-target="#TitleModal"  style="cursor:pointer">
+             <button class= "requestBtn" id="editBtn21" type="text" style="background-color: #FB8C8C">Edit</button></a>
 			 </div>
+             <!-- 弹出模态框（Modal） -->
+					  <div class="modal fade" id="TitleModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" style = "width:800px">
+                      <div class="modal-content">
+                      {}
+							<form  class = "modalForm" method="POST">
+								{% csrf_token %}
+                              <div class="modalFormContent" id="readRpTab{{tab.id}}">
+								  <input type="text" id="idEdit" name="idEdit1" value = {{tab.id}} hidden/>
+                              <ul>
+									     <li class="rqleft">Total:</li>
+									<input type="text" id="totalEdit" name="totalEdit" value = {{tab.total}} />
+                                </li>
+								      </ul>
+                              <ul>
+									     <li class="rqleft">Usage:</li>
+									     <li>
+                                  <input type="text" id="usageEdit" name="uasgeEdit" value = {{tab.usage}} />
+                                </li>
+								      </ul>
+								      </div>
+								      <div align="center" style="margin-bottom: 100px; vertical-align:middle;">
+                                  <button class= "requestBtn" type="text" id="cancleEditBtn18" style="background-color: #FB8C8C" data-dismiss="modal">cancel</button>
+                                  <button class= "requestBtn" type="submit" id="saveRqEdit18"  style="background-color:#67D00B ">confirm</button>
+                              </div>
+                            </form>
+                            </div>
+                            </div>
+                            </div>    
+                    <!-- 弹出模态框结束-->
 			 
 			 <div id="requestTable" class="requestTableDiv">
 					<table  class="requestTable" id="Box"  >
 				<tr>
-                     <td><b>Product:</b>iwhale2</td>
-                     <td><b>SPM:</b>Xiangpeng Meng</td>
-                     <td><b>Daily Reporter:</b>Chunsi He</td>
+                     <td><b>Product:</b>{{tab.product}}</td>
+                     <td><b>SPM:</b>{{tab.spm}}</td>
+                     <td><b>Daily Reporter:</b>{{tab.daily_reporter}}</td>
                      <td><a data-toggle="modal" data-target="#myModal18"  style="cursor:pointer"><button class= "requestBtn" id="editBtn21" type="text" style="background-color: #FB8C8C">Edit</button></a></td>
                   </tr>
 				  <table  class="requestTable" id="Box"  >
@@ -75,11 +107,11 @@
 							<th scope="col" width="120px"><span>zebu platform</span></th>
 						</tr>
                   <tr>
-                     <td>1H</td>
-                     <td>2H</td>
-                     <td>3H</td>
-                     <td>4H</td>
-                     <td>5H</td>
+                     <td>{{tab.product}}H</td>
+                     <td>{{tab.product}}H</td>
+                     <td>{{tab.product}}H</td>
+                     <td>{{tab.product}}H</td>
+                     <td>{{tab.product}}H</td>
                   </tr>
 				  </table>
 				</div>

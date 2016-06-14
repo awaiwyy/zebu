@@ -2,6 +2,8 @@
 from django.http import HttpResponseRedirect,StreamingHttpResponse
 from django.shortcuts import render
 from models import ReportTable
+from models import ResourceUsageTable
+from models import ResourceUsageTitleTable
 import os
 import sys
 reload(sys)
@@ -77,6 +79,9 @@ def file_Download(request,filename):
         return response
 
 def report_Resource(request):
+    resource_usage_title_tab = ResourceUsageTitleTable.objects.all()
+    resource_usage_tab = ResourceUsageTable.objects.filter(is_show="true").order_by("id")
+    
     return render(request, 'report/resource_usage.html')
 
 def report_MainTF(request):
