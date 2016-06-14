@@ -79,13 +79,18 @@ def planPage(request, **kwargs):
     valid_requestduration_day = []
     valid_requestduration_hour = []
     for day in range(1, 32):
-        day = str(day)
+        if day < 10:
+            day = "0" + str(day)
         valid_requestduration_day.append(day)
     for hour in range(1, 25):
-        hour=str(hour)
+        if hour < 10:
+            hour="0" + str(hour)
         valid_requestduration_hour.append(hour)
     for i in range(1, 11):
-        piece = i
+        if i < 10:
+            piece = "0" +str(i)
+        else:
+            piece=i
         valid_requestduration_piece.append(piece)
     valid_duration.append(valid_requestduration_hour)
     valid_duration.append(valid_requestduration_day)
@@ -96,10 +101,14 @@ def planPage(request, **kwargs):
     valid_dailyduration_piece = []
     valid_dailyduration_hour = []
     for hour in range(1, 25):
-        hour=str(hour)
+        if hour < 10:
+            hour="0"+str(hour)
         valid_dailyduration_hour.append(hour)
     for i in range(1, 11):
-        piece = i
+        if i < 10:
+            piece = "0" +str(i)
+        else:
+            piece = i
         valid_dailyduration_piece.append(piece)
     valid_dailyDura.append(valid_dailyduration_hour)
     valid_dailyDura.append(valid_dailyduration_piece)

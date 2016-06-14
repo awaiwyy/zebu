@@ -547,15 +547,16 @@
 																</select>
 															</span></li> -->
 															<li><select name="durationHourEdit">
-																	<option selected>{{valid_requestduration_hour}}</option>
+
+																	<option selected>{{tab.request_duration | cut:"Hour"|cut:"Day"|cut:"Piece"| get_digit:"6" }}{{tab.request_duration | cut:"Hour"|cut:"Day"|cut:"Piece"| get_digit:"5" }}</option>
 																	{% for hour in valid_duration.0 %}
 																	<option>{{hour}}</option> {% endfor %}
 															</select>Hour<select name="durationDayEdit">
-																	<option selected>{{valid_requestduration_day}}</option>
+																	<option selected>{{tab.request_duration | cut:"Hour"|cut:"Day"|cut:"Piece"| get_digit:"4" }}{{tab.request_duration | cut:"Hour"|cut:"Day"|cut:"Piece"| get_digit:"3" }}</option>
 																	{% for day in valid_duration.1 %}
 																	<option>{{day}}</option> {% endfor %}
 															</select>Day<select name="durationPieceEdit">
-																	<option selected>{{valid_requestduration_piece}}</option>
+																	<option selected>{{tab.request_duration | cut:"Hour"|cut:"Day"|cut:"Piece"| get_digit:"2" }}{{tab.request_duration | cut:"Hour"|cut:"Day"|cut:"Piece"| get_digit:"1" }}</option>
 																	{% for piece in valid_duration.2 %}
 																	<option>{{piece}}</option> {% endfor %}
 															</select>Piece</li>
@@ -566,11 +567,11 @@
 																name="dailyDurationEdit" type="text" value="{{tab.daily_duration}}"
 																readonly></input></li> -->
 															<li><select name="dailyduraHourEdit">
-																	<option selected>{{valid_dailyduration}}</option>
+																	<option selected>{{tab.daily_duration | cut:"Hour"|cut:"Piece"| get_digit:"4" }}{{tab.daily_duration | cut:"Hour"|cut:"Piece"| get_digit:"3" }}</option>
 																	{% for hour in valid_dailyDura.0 %}
 																	<option>{{hour}}</option> {% endfor %}
 															</select>Hour<select name="dailyduraPieceEdit">
-																	<option selected>{{valid_dailyduration}}</option>
+																	<option selected>{{tab.daily_duration | cut:"Hour"|cut:"Piece"| get_digit:"2" }}{{tab.daily_duration | cut:"Hour"|cut:"Piece"| get_digit:"1" }}</option>
 																	{% for piece in valid_dailyDura.1 %}
 																	<option>{{piece}}</option> {% endfor %}
 															</select>Piece</li>
