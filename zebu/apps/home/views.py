@@ -34,7 +34,7 @@ def homePageData(request):
     #add or edit schedule table
     if request.method == 'POST' and "dateEdit0" in request.POST.keys():
         print "into edit schedule"
-        for cnt in range(28):
+        for cnt in range(14):
             sdate = request.POST["dateEdit%d" % cnt]
             stime = request.POST["timeEdit%d" % cnt]
             total = request.POST["totalEdit%d" % cnt]
@@ -75,7 +75,7 @@ def homePageData(request):
         #if not os.path.exists(schedule_file):
             #saveScheduleTab(display_tab)
         
-    for i in range(28): #two week and twice one day
+    for i in range(14): #two week and twice one day
         date_item = start_date + datetime.timedelta(days=i/2)
         if i % 2 == 0:
             time_item = time1
@@ -107,7 +107,7 @@ def homePageData(request):
     next_date = []
     for k in  range(7):
         cur_date.append(cur_daylight[k][4].day)
-        next_date.append(next_daylight[k][4].day)
+        #next_date.append(next_daylight[k][4].day)
         
     cur_date.append(cur_month)
     next_date.append(next_month)
@@ -150,7 +150,7 @@ def homeUser(request):
     else:
         #other page(eg:request or plan page) to home 
         print "to home"
-        schedule_dict = homePageData(request)
+        schedule_dict = homePageData(request)   
         return render(request, 'home/home.html', schedule_dict)
 
 def saveScheduleTab(schedule_tab):
