@@ -14,19 +14,20 @@ schedule_file = "resources/tab/schedule_tab.xls"
 
 def homePageData(request):
     schedule_item = []
-    time1 = "10:00-22:00"
-    time2 = "22:00-10:00"
+    #time1 = "10:00-22:00"
+    #time2 = "22:00-10:00"
+    time = "0:00-24:00"
     today = datetime.date.today()
     print today
     cur_month = today.month
     cur_week= today.isocalendar()
     print cur_week
     day = cur_week[2]
-    next_monday = today + datetime.timedelta(days=8-day)
-    next_month = next_monday.month
-    next_week = next_monday.isocalendar()
+    #next_monday = today + datetime.timedelta(days=8-day)
+    #next_month = next_monday.month
+    #next_week = next_monday.isocalendar()
     start_date = today - datetime.timedelta(days=day-1)
-    end_date = today + datetime.timedelta(days=14-day)
+    end_date = today + datetime.timedelta(days=7-day)
        
     display_tab = scheduleInfo.objects.filter(sdate__gte = start_date, sdate__lte = end_date)
     #project_tab = projectInfo.objects.filter(display="true")
@@ -36,7 +37,7 @@ def homePageData(request):
     #add or edit schedule table
     if request.method == 'POST' and "dateEdit0" in request.POST.keys():
         print "into edit schedule"
-        for cnt in range(14):
+        for cnt in range(7):
             sdate = request.POST["dateEdit%d" % cnt]
             stime = request.POST["timeEdit%d" % cnt]
             total = request.POST["totalEdit%d" % cnt]
@@ -51,10 +52,12 @@ def homePageData(request):
                 print "total or used is wrong"
                 continue
             '''
-            if time1 == stime:
-                stime = "daylight"
-            else:
-                stime = "night"
+            if time == stime:
+                stime = "oneday"
+                #stime = "daylight"
+            #else:
+                #stime = "night"
+
             try:
                 try:
                     schedule_tab = scheduleInfo.objects.get(sdate=sdate, time=stime)
@@ -77,52 +80,55 @@ def homePageData(request):
         #if not os.path.exists(schedule_file):
             #saveScheduleTab(display_tab)
         
-    for i in range(14): #two week and twice one day
-        date_item = start_date + datetime.timedelta(days=i/2)
-        if i % 2 == 0:
-            time_item = time1
-        else:
-            time_item = time2
+    for i in range(7): #two week and twice one day
+        #date_item = start_date + datetime.timedelta(days=i/2)
+        date_item = start_date + datetime.timedelta(days=i)
+        #if i % 2 == 0:
+            #time_item = time1
+        #else:
+            #time_item = time2
+        time_item = time
         schedule_item.append([i, ' ', '', '', date_item, time_item])
     for tab in  display_tab:
         delta = (tab.sdate - start_date).days
-        if delta > 6:
-            if tab.time == 'daylight':
-                delta_time =2 *delta + 14
-            else:
-                delta_time = 2 * delta + 15    
-        else:
-            if tab.time == "daylight":
-                delta_time = 2 * delta
-            else:
-                delta_time = 2 * delta + 1
+        #if delta > 6:
+            #if tab.time == 'daylight':
+                #delta_time =2 *delta + 14
+            #else:
+                #delta_time = 2 * delta + 15
+        #else:
+            #if tab.time == "daylight":
+                #delta_time = 2 * delta
+            #else:
+                #delta_time = 2 * delta + 1
         #schedule_item[delta_time] = [delta_time, tab.total, tab.used, tab.arrangement, tab.sdate, tab.time]
-        schedule_item[delta_time][1] = tab.total
-        schedule_item[delta_time][2] = tab.used
-        schedule_item[delta_time][3] = tab.arrangement
+        schedule_item[delta][1] = tab.total
+        schedule_item[delta][2] = tab.used
+        schedule_item[delta][3] = tab.arrangement
 
-    cur_daylight = schedule_item[:14:2]
-    cur_night = schedule_item[1:15:2]
-    next_daylight = schedule_item[14::2]
-    next_night = schedule_item[15::2]
+    #cur_daylight = schedule_item[:14:2]
+    #cur_night = schedule_item[1:15:2]
+    cur_day = schedule_item[:7:1]
+    #next_daylight = schedule_item[14::2]
+    #next_night = schedule_item[15::2]
     cur_date = []
-    next_date = []
+    #next_date = []
     for k in  range(7):
-        cur_date.append(cur_daylight[k][4].day)
+        cur_date.append(cur_day[k][4].day)
         #next_date.append(next_daylight[k][4].day)
         
     cur_date.append(cur_month)
-    next_date.append(next_month)
+    #next_date.append(next_month)
         
     schedule_dict = {"schedule_tab": schedule_item, 
-                     "curday_schedule": cur_daylight,
-                    'curnight_schedule': cur_night,
-                    "nextday_schedule": next_daylight,
-                    'nextnight_schedule': next_night,
+                     "curday_schedule": cur_day,
+                    #'curnight_schedule': cur_night,
+                    #"nextday_schedule": next_daylight,
+                    #'nextnight_schedule': next_night,
                     "cur_week": cur_week,
-                    "next_week": next_week,
+                    #"next_week": next_week,
                     'cur_date': cur_date,
-                    'next_date': next_date,
+                    #'next_date': next_date,
         }
     return schedule_dict
 
