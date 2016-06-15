@@ -171,12 +171,18 @@ def homeUser(request):
         schedule_dict = homePageData(request)
         schedule_dict.update(project_tab=project_tab)
         return HttpResponseRedirect('/home/', schedule_dict)
+    elif request.method == 'POST' and "delhomeId" in request.POST.keys():
+        print"delete home project "
+        del_id = request.POST['delhomeId']
+        del_home = projectInfo.objects.get(id=del_id)
+        del_home.display = 'false'
+        del_home.save()
     else:
         #other page(eg:request or plan page) to home 
         print "to home"
-        schedule_dict = homePageData(request)
-        schedule_dict.update(project_tab = project_tab)
-        return render(request, 'home/home.html', schedule_dict)
+    schedule_dict = homePageData(request)
+    schedule_dict.update(project_tab = project_tab)
+    return render(request, 'home/home.html', schedule_dict)
         #return render(request, 'home/home.html', {'project_tab': project_tab})
 
 def saveScheduleTab(schedule_tab):
