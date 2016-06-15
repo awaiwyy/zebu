@@ -459,16 +459,20 @@
 								      </ul>
 								      <ul>
 									     <li class="rqleft">Request Duration:</li>
-									     <li>
-                                  <span>
-                                  <select class="borderWidth" id="requestDuration"  name="requestDurationEdit">
-                                      <option selected>{{tab.request_duration}}</option>
-                                      {% for i in valid_duration %}
-												  <option>{{i}}</option>
-											     {% endfor %}
-                                  </select>
-                                  </span>
-                                </li>
+									     <li><select name="durationHourEdit">
+
+																	<option selected>{{tab.request_duration | cut:"Hour"|cut:"Day"|cut:"Piece"| get_digit:"6" }}{{tab.request_duration | cut:"Hour"|cut:"Day"|cut:"Piece"| get_digit:"5" }}</option>
+																	{% for hour in valid_duration.0 %}
+																	<option>{{hour}}</option> {% endfor %}
+															</select>Hour<select name="durationDayEdit">
+																	<option selected>{{tab.request_duration | cut:"Hour"|cut:"Day"|cut:"Piece"| get_digit:"4" }}{{tab.request_duration | cut:"Hour"|cut:"Day"|cut:"Piece"| get_digit:"3" }}</option>
+																	{% for day in valid_duration.1 %}
+																	<option>{{day}}</option> {% endfor %}
+															</select>Day<select name="durationPieceEdit">
+																	<option selected>{{tab.request_duration | cut:"Hour"|cut:"Day"|cut:"Piece"| get_digit:"2" }}{{tab.request_duration | cut:"Hour"|cut:"Day"|cut:"Piece"| get_digit:"1" }}</option>
+																	{% for piece in valid_duration.2 %}
+																	<option>{{piece}}</option> {% endfor %}
+															</select>Piece</li>
 								      </ul>
 								      <ul>
 									     <li class="rqleft">Owner:</li>

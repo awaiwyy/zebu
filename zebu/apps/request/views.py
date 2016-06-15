@@ -75,13 +75,26 @@ def requestUser(request, **kwargs):
     request_tab = RequestTable.objects.all().order_by("-submit_date")
     #for request duration
     valid_duration = []
-    for i in range(1, 13):
-        delta = 4*i
-        valid_duration.append("%dH" % delta)
-    for j in range(1, 11):
-        delta = 48 + j * 12
-        valid_duration.append("%dH" % delta)
-    print valid_duration
+    valid_requestduration_piece = []
+    valid_requestduration_day = []
+    valid_requestduration_hour = []
+    for day in range(1, 32):
+        if day < 10:
+            day = "0" + str(day)
+        valid_requestduration_day.append(day)
+    for hour in range(1, 25):
+        if hour < 10:
+            hour = "0" + str(hour)
+        valid_requestduration_hour.append(hour)
+    for i in range(1, 11):
+        if i < 10:
+            piece = "0" + str(i)
+        else:
+            piece = i
+        valid_requestduration_piece.append(piece)
+    valid_duration.append(valid_requestduration_hour)
+    valid_duration.append(valid_requestduration_day)
+    valid_duration.append(valid_requestduration_piece)
     #deal with application
     if request.method == 'POST':
         #获得表单数据
