@@ -149,6 +149,28 @@ def homeUser(request):
         else:
             #return render(request, 'login/login.html', {'password_is_wrong': True}) 
             return HttpResponse('Failed: username or password is error!')
+    elif request.method == 'POST' and "projectInfo" in request.POST.keys():
+        print"into new home project "
+        project = request.POST["projectInfo"]
+        spm = request.POST["spmInfo"]
+        zebu = request.POST["zebuInfo"]
+        projectInfo.objects.create(project=project,
+                                   spm=spm,
+                                   zebu=zebu)
+        schedule_dict = homePageData(request)
+        schedule_dict.update(project_tab=project_tab)
+        return HttpResponseRedirect('/home/', schedule_dict)
+    elif request.method == 'POST' and "projectEdit" in request.POST.keys():
+        print"edit home project "
+        edit_id = request.POST['idEdit']
+        edit_home = projectInfo.objects.get(id=edit_id)
+        edit_home.project = request.POST["projectEdit"]
+        edit_home.spm = request.POST["spmEdit"]
+        edit_home.zebu = request.POST["zebuEdit"]
+        edit_home.save()
+        schedule_dict = homePageData(request)
+        schedule_dict.update(project_tab=project_tab)
+        return HttpResponseRedirect('/home/', schedule_dict)
     else:
         #other page(eg:request or plan page) to home 
         print "to home"

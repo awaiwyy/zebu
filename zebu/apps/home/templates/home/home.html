@@ -109,13 +109,13 @@
                            <h4 class="modal-title" id="NewModalLabel">Daily Report</h4>
                         </div>
                         <div class="modal-body">
-                        <form class = "modalForm" method="POST" enctype="multipart/form-data">
+                        <form class = "modalForm" method="POST" >
                         {% csrf_token %}
                           <div class="modalFormContent">
                           	<ul>
-								<li class="new_rqleft">Product:</li>
+								<li class="new_rqleft">Project:</li>
 								<li>
-									<input type="text" id="productInfo" name="productInfo" />
+									<input type="text" id="projectInfo" name="projectInfo" />
 								</li>
 							</ul>
 							<ul>
@@ -127,7 +127,7 @@
 							<ul>
 								<li class="new_rqleft" >Zebu:</li>
 								<li>
-									<input type="text" id="reporterInfo" name="reporterInfo" />
+									<input type="text" id="zebuInfo" name="zebuInfo" />
 								</li>
 							</ul>
 						  </div>
@@ -147,6 +147,7 @@
 		<!-- 中间模板 -->
 		<div class="divcenter">
         <div class="requestForm">
+			{% for tab in project_tab%}
         <div id="requestTable" class="requestTableDiv">
 					<table  class="requestTable" id="Box"  >
                     <!--<tr>
@@ -154,7 +155,7 @@
 							<th scope="col" width="84px"><span>SPM</span></th>
 							<th scope="col" width="222px"><span>Daily Reporter</span></th>
 						</tr>-->
-						{% for tab in project_tab%}
+
                   <tr>
                      <td><b>Product:</b>{{tab.project}}</td>
                      <td><b>SPM:</b>{{tab.spm}}</td>
@@ -171,14 +172,14 @@
                            <h4 class="modal-title" id="myModalLabel">Edit Product Information </h4>
                         </div>
  
-							<form  class = "modalForm" method="POST" enctype="multipart/form-data">
+							<form  class = "modalForm" method="POST" >
 								{% csrf_token %}
                               <div class="modalFormContent" id="readRpTab{{tab.id}}">
 								  <input type="text" id="idEdit" name="idEdit" value = {{tab.id}} hidden/>
                               	<ul>
 									<li class="rqleft">Product:</li>
 									<li>
-										<input type="text" id="productEdit" name="productEdit" value = {{tab.project}} />
+										<input type="text" id="projectEdit" name="projectEdit" value = {{tab.project}} />
                                 	</li>
 								</ul>
                               	<ul>
@@ -190,7 +191,7 @@
 								<ul>
 									<li class="rqleft">Zebu:</li>
 									<li>
-										<input type="text" id="reporterEdit" name="reporterEdit" value = {{tab.zebu}} />
+										<input type="text" id="zubuEdit" name="zebuEdit" value = {{tab.zebu}} />
                                 	</li>
 							  	</ul>
 							  </div>
@@ -229,7 +230,7 @@
 									</div>
 								</div>
 								<!-- delete plan table modal finish-->
-						{% endfor %}
+
 					</table>
 				</div>
 					  <!-- 添加模态框（Modal）结束 -->
@@ -345,6 +346,7 @@
              </div>
          </div>
 		   <!-- 添加模态框（Modal）结束 -->
+			{% endfor %}
 		</div>
         </div>
 	</div>
