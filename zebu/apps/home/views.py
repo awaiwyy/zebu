@@ -29,7 +29,7 @@ def homePageData(request):
     end_date = today + datetime.timedelta(days=14-day)
        
     display_tab = scheduleInfo.objects.filter(sdate__gte = start_date, sdate__lte = end_date)
-    project_tab = projectInfo.objects.filter(display="true")
+    #project_tab = projectInfo.objects.filter(display="true")
     #if not os.path.exists(schedule_file):
         #saveScheduleTab(display_tab)
 
@@ -153,7 +153,9 @@ def homeUser(request):
         #other page(eg:request or plan page) to home 
         print "to home"
         schedule_dict = homePageData(request)
-        return render(request, 'home/home.html',{'project_tab': project_tab}, schedule_dict)
+        schedule_dict.update(project_tab = project_tab)
+        return render(request, 'home/home.html', schedule_dict)
+        #return render(request, 'home/home.html', {'project_tab': project_tab})
 
 def saveScheduleTab(schedule_tab):
     #set style
