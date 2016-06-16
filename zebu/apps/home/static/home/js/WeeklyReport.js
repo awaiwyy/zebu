@@ -36,8 +36,8 @@ function weekClick(d) {
 	for (var j = 1; j <= 7; j++) {
 		document.getElementById("week" + j).style.backgroundColor = "#f4f4f4";
 	}
-	for (var j = 8; j <= 14; j++) {
-		document.getElementById("week" + j).style.backgroundColor = "";
-	}
+//	for (var j = 8; j <= 14; j++) {
+//		document.getElementById("week" + j).style.backgroundColor = "";
+//	}
 	document.getElementById("week" + d).style.backgroundColor = "#00bfff";
 }
