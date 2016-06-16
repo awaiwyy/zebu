@@ -210,15 +210,29 @@
 								  </ul>
 								  <ul>
 									   <li class="new_rqleft">Request Duration:</li>
-									   <li>
-										   <span> 
+									   <!--<li>
+										   <span>
 											<select class="borderWidth" name="requestDurationInfo" id="requestDuration">
 											   {% for i in valid_duration %}
 												 <option>{{i}}</option>
 												 {% endfor %}
 											</select>
 											</span>
-										</li>
+										</li>-->
+                                      <li><select name="durationHourEdit">
+
+																	<option ></option>
+																	{% for hour in valid_duration.0 %}
+																	<option>{{hour}}</option> {% endfor %}
+															</select>Hour<select name="durationDayEdit">
+																	<option ></option>
+																	{% for day in valid_duration.1 %}
+																	<option>{{day}}</option> {% endfor %}
+															</select>Day<select name="durationPieceEdit">
+																	<option ></option>
+																	{% for piece in valid_duration.2 %}
+																	<option>{{piece}}</option> {% endfor %}
+															</select>Piece</li>
 								  </ul>
 								  <ul>
 								      <li class="new_rqleft">Priority:</li>
