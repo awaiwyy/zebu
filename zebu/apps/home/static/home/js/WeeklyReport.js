@@ -31,13 +31,13 @@ function displayPrecent(str, percent, detail) {
 };
 
 /* 点击的日期变色 */
-function weekClick(d) {
-
+function weekClick(d,tab_id ) {
 	for (var j = 1; j <= 7; j++) {
-		document.getElementById("week" + j).style.backgroundColor = "#f4f4f4";
+	   // alert("week" + j );
+		document.getElementById("week" + j + tab_id).style.backgroundColor = "#f4f4f4";
 	}
 //	for (var j = 8; j <= 14; j++) {
 //		document.getElementById("week" + j).style.backgroundColor = "";
 //	}
-	document.getElementById("week" + d).style.backgroundColor = "#00bfff";
+	document.getElementById("week" + d + tab_id).style.backgroundColor = "#00bfff";
 }
