@@ -92,7 +92,7 @@ def homePageData(request):
         #else:
             #time_item = time2
         time_item = time
-        schedule_item.append([i, ' ', '', '', date_item, time_item])
+        schedule_item.append([i, ' ', '', '', date_item, time_item,''])
     for tab in  display_tab:
         delta = (tab.sdate - start_date).days
         #if delta > 6:
@@ -109,6 +109,7 @@ def homePageData(request):
         schedule_item[delta][1] = tab.total
         schedule_item[delta][2] = tab.used
         schedule_item[delta][3] = tab.arrangement
+        schedule_item[delta][6] = tab.project_id
 
     #cur_daylight = schedule_item[:14:2]
     #cur_night = schedule_item[1:15:2]
