@@ -178,29 +178,27 @@ def planPage(request, **kwargs):
             valid_requestduration_piece = request.POST['durationPieceEdit']
             valid_requestduration_day = request.POST['durationDayEdit']
             valid_requestduration_hour = request.POST['durationHourEdit']
-            request_dura = valid_requestduration_hour+"Hour "+valid_requestduration_day+"Day "+valid_requestduration_piece+"Piece"
-            if request_dura != 'Hour Day Piece':
+            request_dura = valid_requestduration_hour+"Hour"+valid_requestduration_day+"Day"+valid_requestduration_piece+"Piece"
+            if request_dura != 'HourDayPiece':
                 edit_plan.request_duration = request_dura
             print request_dura
             
             print "daily_duration"
             valid_dailyduration_piece = request.POST['dailyduraPieceEdit']
             valid_dailyduration_hour = request.POST['dailyduraHourEdit']
-            if valid_dailyduration_piece and valid_dailyduration_hour:
-                daily_dura = valid_dailyduration_hour+"Hour "+valid_dailyduration_piece+"Piece"
+            if valid_dailyduration_piece ==""and valid_dailyduration_hour=="":
+                daily_dura = ""
             else:
-                valid_dailyduration_hour=str(24)
-                valid_dailyduration_piece=request.POST['durationPieceEdit']
-                daily_dura = valid_dailyduration_hour+"Hour "+valid_dailyduration_piece+"Piece"
+                daily_dura = valid_dailyduration_hour + "Hour" + valid_dailyduration_piece + "Piece"
             edit_plan.daily_duration = daily_dura
             print daily_dura
             
             #total_duration
-            total_duration = RequestTable.objects.filter(is_plan="true").all()
-            for duration in total_duration:
+            #total_duration = RequestTable.objects.filter(is_plan="true").all()
+            #for duration in total_duration:
                 #print duration.request_duration.split('Hour ')[0]
-                print duration.request_duration.split('Hour ')[1].split('Day ')[0]
-                print duration.request_duration.split('Hour ')[1].split('Day ')[1].split('Piece')[0]
+                #print duration.request_duration.split('Hour')[1].split('Day')[0]
+                #print duration.request_duration.split('Hour')[1].split('Day')[1].split('Piece')[0]
                 
             print "test_starttime"
             year = request.POST['yearEdit']

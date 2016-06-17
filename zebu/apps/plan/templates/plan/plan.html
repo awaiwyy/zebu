@@ -567,11 +567,11 @@
 																name="dailyDurationEdit" type="text" value="{{tab.daily_duration}}"
 																readonly></input></li> -->
 															<li><select name="dailyduraHourEdit">
-																	<option selected>{{tab.daily_duration | cut:"Hour"|cut:"Piece"| get_digit:"4" }}{{tab.daily_duration | cut:"Hour"|cut:"Piece"| get_digit:"3" }}</option>
+																	<option selected>{{tab.daily_duration | cut:"None"|cut:"Hour"|cut:"Piece"| get_digit:"4" }}{{tab.daily_duration | cut:"None"|cut:"Hour"|cut:"Piece"| get_digit:"3" }}</option>
 																	{% for hour in valid_dailyDura.0 %}
 																	<option>{{hour}}</option> {% endfor %}
 															</select>Hour<select name="dailyduraPieceEdit">
-																	<option selected>{{tab.daily_duration | cut:"Hour"|cut:"Piece"| get_digit:"2" }}{{tab.daily_duration | cut:"Hour"|cut:"Piece"| get_digit:"1" }}</option>
+																	<option selected>{{tab.daily_duration | cut:"None"|cut:"Hour"|cut:"Piece"| get_digit:"2" }}{{tab.daily_duration | cut:"None"|cut:"Hour"|cut:"Piece"| get_digit:"1" }}</option>
 																	{% for piece in valid_dailyDura.1 %}
 																	<option>{{piece}}</option> {% endfor %}
 															</select>Piece</li>

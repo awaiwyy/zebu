@@ -106,7 +106,10 @@ def requestUser(request, **kwargs):
             module = request.POST['moduleInfo']
             action_discription = request.POST['actionDiscriptionInfo']
             environment = request.POST['environmentInfo']
-            request_duration = request.POST['durationHourEdit']+"Hour"+request.POST['durationDayEdit']+"Day"+request.POST['durationPieceEdit']+"Piece"
+            if request.POST['durationHourEdit'] =="" and request.POST['durationDayEdit']=="" and request.POST['durationPieceEdit']=="":
+                request_duration =""
+            else:
+                request_duration = request.POST['durationHourEdit']+"Hour"+request.POST['durationDayEdit']+"Day"+request.POST['durationPieceEdit']+"Piece"
             owner = request.POST['ownerInfo']
             priority = request.POST['priorityInfo']
             #添加到数据库
@@ -131,7 +134,7 @@ def requestUser(request, **kwargs):
             edit_request.module = request.POST['moduleEdit']
             edit_request.action_discription = request.POST['actionDiscriptionEdit']
             edit_request.environment = request.POST['environmentEdit']
-            edit_request.request_duration = request.POST['requestDurationEdit']
+            edit_request.request_duration = request.POST['durationHourEdit']+"Hour"+request.POST['durationDayEdit']+"Day"+request.POST['durationPieceEdit']+"Piece"
             edit_request.owner = request.POST['ownerEdit']
             edit_request.priority = request.POST['priorityEdit']
             edit_request.save()
