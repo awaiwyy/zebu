@@ -106,7 +106,7 @@ def requestUser(request, **kwargs):
             module = request.POST['moduleInfo']
             action_discription = request.POST['actionDiscriptionInfo']
             environment = request.POST['environmentInfo']
-            request_duration = request.POST['requestDurationInfo']
+            request_duration = request.POST['durationHourEdit']+"Hour"+request.POST['durationDayEdit']+"Day"+request.POST['durationPieceEdit']+"Piece"
             owner = request.POST['ownerInfo']
             priority = request.POST['priorityInfo']
             #添加到数据库
