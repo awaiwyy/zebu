@@ -38,6 +38,7 @@ def homePageData(request):
     if request.method == 'POST' and "dateEdit0" in request.POST.keys():
         print "into edit schedule"
         project_id = request.POST["project_idEdit"]
+        print "project_id= ", project_id
         for cnt in range(7):
             sdate = request.POST["dateEdit%d" % cnt]
             stime = request.POST["timeEdit%d" % cnt]
@@ -138,7 +139,7 @@ def homePageData(request):
 def homeUser(request):
     print request.method
     print request.POST.keys()
-    project_tab = projectInfo.objects.filter(display="true")
+    project_tab = projectInfo.objects.filter(display="true").order_by("id")
     if request.method == 'POST' and 'userName' in request.POST.keys():
         print "into home post"
         #if 'userName' in request.POST.keys():

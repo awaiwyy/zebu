@@ -146,9 +146,10 @@
 		</div>
 		<!-- 中间模板 -->
 		<div class="divcenter">
-        <div class="requestForm">
 			{% for tab in project_tab%}
-        <div id="requestTable{{tab.id}}" class="requestTableDiv">
+        <div class="requestForm{{tab.id}}">
+
+        <div id="requestTable" class="requestTableDiv">
 					<table  class="requestTable" id="Box"  >
                     <!--<tr>
 							<th scope="col" width="84px"><span>Product</span></th>
@@ -246,19 +247,19 @@
 				<ul class="weekly_bl" style="padding-left: 0">
 					<li id="time"
 						style="width: 96px; height: 50px; text-align: center; line-height: 48px; background-color: #e2e3e3;"></li>
-					<li id="week1{{tab.id}}" onClick="weekClick(1,{{tab.id}})"
+					<li id="week1" onClick="weekClick(1)"
 						style="width: 96px; height: 50px; line-height: 200%; background-color: #e2e3e3;">Monday<br>{{cur_date.0}}</li>
-					<li id="week2{{tab.id}}" onClick="weekClick(2,{{tab.id}})"
+					<li id="week2" onClick="weekClick(2)"
 						style="width: 96px; height: 50px; line-height: 200%; background-color: #e2e3e3;">Tuesday<br>{{cur_date.1}}</li>
-					<li id="week3{{tab.id}}" onClick="weekClick(3,{{tab.id}})"
+					<li id="week3" onClick="weekClick(3)"
 						style="width: 96px; height: 50px; line-height: 200%; background-color: #e2e3e3;">Wednesday<br>{{cur_date.2}}</li>
-					<li id="week4{{tab.id}}" onClick="weekClick(4,{{tab.id}})"
+					<li id="week4" onClick="weekClick(4)"
 						style="width: 96px; height: 50px; line-height: 200%; background-color: #e2e3e3;">Thursday<br>{{cur_date.3}}</li>
-					<li id="week5{{tab.id}}" onClick="weekClick(5,{{tab.id}})"
+					<li id="week5" onClick="weekClick(5)"
 						style="width: 96px; height: 50px; line-height: 200%; background-color: #e2e3e3;">Friday<br>{{cur_date.4}}</li>
-					<li id="week6{{tab.id}}" onClick="weekClick(6,{{tab.id}})"
+					<li id="week6" onClick="weekClick(6)"
 						style="width: 96px; height: 50px; line-height: 200%; background-color: #e2e3e3;">Saturday<br>{{cur_date.5}}</li>
-					<li id="week7{{tab.id}}" onClick="weekClick(7,{{tab.id}})"
+					<li id="week7" onClick="weekClick(7)"
 						style="width: 96px; height: 50px; line-height: 200%; background-color: #e2e3e3;"
 						class="rightli">Sunday<br>{{cur_date.6}}</li>
 				</ul>
@@ -306,11 +307,11 @@
 				</ul>
 				-->
 			</div>
-            <div class="middleleft_bottom_new_report" data-toggle="modal" data-target="#scheduleModal" style="float:right">
+            <div class="middleleft_bottom_new_report" data-toggle="modal" data-target="#scheduleModal{{tab.id}}" style="float:right">
 				   <a style="cursor:pointer">Edit</a>
 			   </div>
                <!--弹出模态框（Modal） -->
-			<div class="modal fade" id="scheduleModal" tabindex="-1" role="dialog" aria-labelledby="scheduleModalLabel" aria-hidden="true">
+			<div class="modal fade" id="scheduleModal{{tab.id}}" tabindex="-1" role="dialog" aria-labelledby="scheduleModalLabel" aria-hidden="true">
              <div class="modal-dialog" style = "width:800px">
                  <div class="modal-content">
                      <div class="modal-header">
@@ -337,7 +338,7 @@
                              <td><textarea class="scheduleText" name="arrangementEdit{{tab.0}}">{{tab.3}}</textarea></td>
                            </tr>
 						         {% endfor %}
-							 <p>project_id:<input type="text" name="project_idEdit" value={{tab.id}} /></p>
+							 <p>project_id:<input type="text" name="project_idEdit" value={{tab.id}} ></p>
                          </table>
                          <div class="scheduleDiv">
                             <button class= "scheduleBtn" type="text" style="background-color: #FB8C8C" data-dismiss="modal">cancle</button>
@@ -349,8 +350,9 @@
              </div>
          </div>
 		   <!-- 添加模态框（Modal）结束 -->
-			{% endfor %}
+
 		</div>
+			{% endfor %}
         </div>
 	</div>
 </body>
