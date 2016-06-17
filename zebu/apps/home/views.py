@@ -37,6 +37,7 @@ def homePageData(request):
     #add or edit schedule table
     if request.method == 'POST' and "dateEdit0" in request.POST.keys():
         print "into edit schedule"
+        project_id = request.POST["project_idEdit"]
         for cnt in range(7):
             sdate = request.POST["dateEdit%d" % cnt]
             stime = request.POST["timeEdit%d" % cnt]
@@ -64,6 +65,7 @@ def homePageData(request):
                     schedule_tab.total = total
                     schedule_tab.used = used
                     schedule_tab.arrangement = arrangement
+                    schedule_tab.project_id = project_id
                     schedule_tab.save()
                 except:
                     print "not exist"
@@ -71,7 +73,8 @@ def homePageData(request):
                                             time = stime,
                                             total = total,
                                             used = used,
-                                            arrangement = arrangement)
+                                            arrangement = arrangement,
+                                            project_id=project_id)
             except ValueError:
                 print "value type error"
                 continue
