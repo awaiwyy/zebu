@@ -112,6 +112,7 @@ def requestUser(request, **kwargs):
                 'durationPieceEdit']:
                 request_duration = request.POST['durationHourEdit'] + "Hour" + request.POST['durationDayEdit'] + "Day" + \
                                    request.POST['durationPieceEdit'] + "Piece"
+                daily_duration=str(24)+"Hour"+request.POST['durationPieceEdit'] + "Piece"
             #添加到数据库
                 print [project, tf_case, classification, module, action_discription,
                    environment, request_duration, owner, priority]
@@ -122,6 +123,7 @@ def requestUser(request, **kwargs):
                                 action_discription = action_discription,
                                 environment = environment,
                                 request_duration = request_duration,
+                                daily_duration=daily_duration,
                                 owner = owner,
                                 priority = priority)
         elif 'idEdit' in request.POST.keys():
