@@ -62,11 +62,11 @@ def homePageData(request):
 
             try:
                 try:
-                    schedule_tab = scheduleInfo.objects.get(sdate=sdate, time=stime)
+                    schedule_tab = scheduleInfo.objects.filter(project_id=project_id).get(sdate=sdate, time=stime)
                     schedule_tab.total = total
                     schedule_tab.used = used
                     schedule_tab.arrangement = arrangement
-                    schedule_tab.project_id = project_id
+                    #schedule_tab.project_id = project_id
                     schedule_tab.save()
                 except:
                     print "not exist"

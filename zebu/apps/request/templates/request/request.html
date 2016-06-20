@@ -31,6 +31,29 @@
 			flag_browser = "ie";
 		}
 	})
+
+	function validate()
+	{
+	    if ($("select[name='durationHourEdit']").val()=="")
+	    {
+	        alert("Request Duration不能为空");
+	        return False;
+	    }
+	    if ($("select[name='durationDayEdit']").val()=="")
+	    {
+	        alert("Request Duration不能为空");
+	        return False;
+	    }
+	    if ($("select[name='durationPieceEdit']").val()=="")
+	    {
+	        alert("Request Duration不能为空");
+	        return False;
+	    }
+	    else
+	    {
+	        return True;
+	    }
+	}
 </script>
 </head>
 <body>
@@ -107,7 +130,7 @@
                            <h4 class="modal-title" id="NewModalLabel">New Application</h4>
                         </div>
                         <div class="modal-body">
-                        <form class = "modalForm" method="POST">
+                        <form class = "modalForm" method="POST" onsubmit="validate()">
                         {% csrf_token %}
                           <div class="modalFormContent">
                           <ul>

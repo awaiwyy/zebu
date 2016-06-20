@@ -186,9 +186,11 @@ def planPage(request, **kwargs):
             print "daily_duration"
             valid_dailyduration_piece = request.POST['dailyduraPieceEdit']
             valid_dailyduration_hour = request.POST['dailyduraHourEdit']
-            if valid_dailyduration_piece ==""and valid_dailyduration_hour=="":
-                daily_dura = ""
+            if valid_dailyduration_piece and valid_dailyduration_hour:
+                daily_dura = valid_dailyduration_hour + "Hour" + valid_dailyduration_piece + "Piece"
             else:
+                valid_dailyduration_hour = str(24)
+                valid_dailyduration_piece = request.POST['durationPieceEdit']
                 daily_dura = valid_dailyduration_hour + "Hour" + valid_dailyduration_piece + "Piece"
             edit_plan.daily_duration = daily_dura
             print daily_dura
