@@ -18,7 +18,7 @@ class users(models.Model):
 class projectInfo(models.Model):
     project = models.CharField(max_length = 200, null=True)
     spm = models.CharField(max_length = 200, null=True)
-    zebu = models.IntegerField()
+    zebu = models.IntegerField(null=True)
     display = models.CharField(max_length= 20, default="true")
 
 class scheduleInfo(models.Model):
