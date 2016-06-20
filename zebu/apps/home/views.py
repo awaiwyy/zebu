@@ -66,7 +66,7 @@ def homePageData(request):
                     schedule_tab.total = total
                     schedule_tab.used = used
                     schedule_tab.arrangement = arrangement
-                    schedule_tab.project_id = project_id
+                    #schedule_tab.project_id = project_id
                     schedule_tab.save()
                 except:
                     print "not exist"
