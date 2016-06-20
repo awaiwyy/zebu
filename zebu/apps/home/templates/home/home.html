@@ -106,7 +106,7 @@
                       <div class="modal-content">
                         <div class="modal-header">
                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                           <h4 class="modal-title" id="NewModalLabel">Daily Report</h4>
+                           <h4 class="modal-title" id="NewModalLabel">Project Information</h4>
                         </div>
                         <div class="modal-body">
                         <form class = "modalForm" method="POST" >
@@ -160,50 +160,10 @@
                   <tr>
                      <td><b>Product:</b>{{tab.project}}</td>
                      <td><b>SPM:</b>{{tab.spm}}</td>
-                     <td><b>Zebu:</b>{{tab.zebu}}</td>
-                     <td><a data-toggle="modal" data-target="#myModal18{{tab.id}}"  style="cursor:pointer"><button class= "requestBtn" id="editBtn21" type="text" style="background-color: #FB8C8C">Edit</button></a></td>
+                     <td><b>Zebu:</b>{{tab.zebu}}<b>Piece</b></td>
+                     <td><a data-toggle="modal" data-target="#scheduleModal{{tab.id}}"  style="cursor:pointer"><button class= "requestBtn" id="editBtn21" type="text" style="background-color: #FB8C8C">Edit</button></a></td>
 					 <td><a data-toggle="modal" data-target="#delPlanModal{{tab.id}}"  style="cursor:pointer"><button class= "requestBtn" id="editBtn21" type="text" style="background-color: #FB8C8C">Delete</button></a></td>
 				 </tr>
-					  <!-- 弹出模态框（Modal） -->
-						<div class="modal fade" id="myModal18{{tab.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" style = "width:800px">
-                      <div class="modal-content">
-                        <div class="modal-header">
-                           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                           <h4 class="modal-title" id="myModalLabel">Edit Product Information </h4>
-                        </div>
- 
-							<form  class = "modalForm" method="POST" >
-								{% csrf_token %}
-                              <div class="modalFormContent" id="readRpTab{{tab.id}}">
-								  <input type="text" id="idEdit" name="idEdit" value = {{tab.id}} hidden/>
-                              	<ul>
-									<li class="rqleft">Product:</li>
-									<li>
-										<input type="text" id="projectEdit" name="projectEdit" value = {{tab.project}} />
-                                	</li>
-								</ul>
-                              	<ul>
-									<li class="rqleft">SPM:</li>
-									<li>
-										<input type="text" id="spmEdit" name="spmEdit" value = {{tab.spm}} />
-									</li>
-								</ul>
-								<ul>
-									<li class="rqleft">Zebu:</li>
-									<li>
-										<input type="text" id="zubuEdit" name="zebuEdit" value = {{tab.zebu}} />
-                                	</li>
-							  	</ul>
-							  </div>
-								<div align="center" style="margin-bottom: 100px; vertical-align:middle;">
-                                  <button class= "requestBtn" type="text" id="cancleEditBtn18" style="background-color: #FB8C8C" data-dismiss="modal">cancel</button>
-                                  <button class= "requestBtn" type="submit" id="saveRqEdit18"  style="background-color:#67D00B ">confirm</button>
-                              	</div>
-                            </form>
-					  </div>
-					</div>
-					  </div>
    <!-- 模态框（Modal） -->
 								<div class="modal fade" id="delPlanModal{{tab.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
 									aria-hidden="true">
@@ -307,9 +267,7 @@
 				</ul>
 				-->
 			</div>
-            <div class="middleleft_bottom_new_report" data-toggle="modal" data-target="#scheduleModal{{tab.id}}" style="float:right">
-				   <a style="cursor:pointer">Edit</a>
-			   </div>
+
                <!--弹出模态框（Modal） -->
 			<div class="modal fade" id="scheduleModal{{tab.id}}" tabindex="-1" role="dialog" aria-labelledby="scheduleModalLabel" aria-hidden="true">
              <div class="modal-dialog" style = "width:800px">
@@ -319,8 +277,31 @@
                            <h4 class="modal-title" id="scheduleModalLabel">Edit Schedule</h4>
                      </div>
                      <div class="modal-body">
-                       <form class="scheduleForm" method="POST">
-                         {% csrf_token %}
+
+						<form  class = "modalForm" method="POST" >
+								{% csrf_token %}
+							  <p>project_id:<input type="text" name="project_idEdit" value={{tab.id}} ></p>
+                              <div class="modalFormContent" id="readRpTab{{tab.id}}">
+								  <input type="text" id="idEdit" name="idEdit" value = {{tab.id}} hidden/>
+                              	<ul>
+									<li class="rqleft">Product:</li>
+									<li>
+										<input type="text" id="projectEdit" name="projectEdit" value = {{tab.project}} />
+                                	</li>
+								</ul>
+                              	<ul>
+									<li class="rqleft">SPM:</li>
+									<li>
+										<input type="text" id="spmEdit" name="spmEdit" value = {{tab.spm}} />
+									</li>
+								</ul>
+								<ul>
+									<li class="rqleft">Zebu:</li>
+									<li>
+										<input type="text" id="zubuEdit" name="zebuEdit" value = {{tab.zebu}} />
+                                	</li>
+							  	</ul>
+							  </div>
                          <table  class="scheduleTable">
 						         <tr>
 							        <th scope="col" width="120px"><span>Date</span></th>
@@ -338,7 +319,7 @@
                              <td><textarea class="scheduleText" name="arrangementEdit{{tab.0}}">{{tab.3}}</textarea></td>
                            </tr>
 						         {% endfor %}
-							 <p>project_id:<input type="text" name="project_idEdit" value={{tab.id}} ></p>
+
                          </table>
                          <div class="scheduleDiv">
                             <button class= "scheduleBtn" type="text" style="background-color: #FB8C8C" data-dismiss="modal">cancle</button>
