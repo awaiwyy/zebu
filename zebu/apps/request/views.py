@@ -106,17 +106,16 @@ def requestUser(request, **kwargs):
             module = request.POST['moduleInfo']
             action_discription = request.POST['actionDiscriptionInfo']
             environment = request.POST['environmentInfo']
-            if request.POST['durationHourEdit']  and request.POST['durationDayEdit'] and request.POST['durationPieceEdit']:
-                request_duration = request.POST['durationHourEdit'] + "Hour" + request.POST['durationDayEdit'] + "Day" + \
-                                   request.POST['durationPieceEdit'] + "Piece"
-            else:
-                request_duration = ""
             owner = request.POST['ownerInfo']
             priority = request.POST['priorityInfo']
+            if request.POST['durationHourEdit'] and request.POST['durationDayEdit'] and request.POST[
+                'durationPieceEdit']:
+                request_duration = request.POST['durationHourEdit'] + "Hour" + request.POST['durationDayEdit'] + "Day" + \
+                                   request.POST['durationPieceEdit'] + "Piece"
             #添加到数据库
-            print [project, tf_case, classification, module, action_discription,
+                print [project, tf_case, classification, module, action_discription,
                    environment, request_duration, owner, priority]
-            RequestTable.objects.create(project = project,
+                RequestTable.objects.create(project = project,
                                 tf_case = tf_case,
                                 classification = classification,
                                 module = module,
