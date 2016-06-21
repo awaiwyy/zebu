@@ -282,28 +282,30 @@
 
 						<form  class = "modalForm" method="POST" >
 								{% csrf_token %}
-							  <p>project_id:<input type="text" name="project_idEdit" value={{tab.id}} ></p>
+
+							  <p>project_id:<input type="text" name="project_idEdit" value={{pro_item.pro.id}} ></p>
                               <div class="modalFormContent" id="readRpTab{{tab.id}}">
-								  <input type="text" id="idEdit" name="idEdit" value = {{tab.id}} hidden/>
+								  <input type="text" id="idEdit" name="idEdit" value={{pro_item.pro.id}} hidden/>
                               	<ul>
 									<li class="rqleft">Product:</li>
 									<li>
-										<input type="text" id="projectEdit" name="projectEdit" value = {{tab.project}} />
+										<input type="text" id="projectEdit" name="projectEdit" value = {{pro_item.pro.project}} />
                                 	</li>
 								</ul>
                               	<ul>
 									<li class="rqleft">SPM:</li>
 									<li>
-										<input type="text" id="spmEdit" name="spmEdit" value = {{tab.spm}} />
+										<input type="text" id="spmEdit" name="spmEdit" value = {{pro_item.pro.spm}} />
 									</li>
 								</ul>
 								<ul>
 									<li class="rqleft">Zebu:</li>
 									<li>
-										<input type="text" id="zubuEdit" name="zebuEdit" value = {{tab.zebu}} />
+										<input type="text" id="zubuEdit" name="zebuEdit" value = {{pro_item.pro.zebu}} />
                                 	</li>
 							  	</ul>
 							  </div>
+
                          <table  class="scheduleTable">
 						         <tr>
 							        <th scope="col" width="120px"><span>Date</span></th>
@@ -312,16 +314,16 @@
 							        <th scope="col" width="84px"><span>Used</span></th>
 							        <th scope="col" width="340px"><span>Arrangement</span></th>
 						         </tr>
-						         {% for tab2 in schedule_tab %}
-							  {%  ifequal tab2.6 tab.id  %}
+						         {% for tab2 in pro_item.sch %}
+
 						         <tr>
                              <td><input class="scheduleInput" type="text" name="dateEdit{{tab2.0}}"value={{tab2.4 | date:"Y-m-d"}} readonly></td>
                              <td><input class="scheduleInput" type="text" name="timeEdit{{tab2.0}}"value={{tab2.6}} readonly></td>
                              <td><input class="scheduleInput" type="text" name="totalEdit{{tab2.0}}"value={{tab2.1}}></td>
                              <td><input class="scheduleInput" type="text" name="usedEdit{{tab2.0}}"value={{tab2.2}}></td>
-                             <td><textarea class="scheduleText" name="arrangementEdit{{tab2.0}}">{{tab.3}}</textarea></td>
+                             <td><textarea class="scheduleText" name="arrangementEdit{{tab2.0}}">{{tab2.3}}</textarea></td>
                            </tr>
-							 {% endifequal %}
+
 						         {% endfor %}
                          </table>
                          <div class="scheduleDiv">
