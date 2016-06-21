@@ -37,6 +37,7 @@
 </script>
 </head>
 <body>
+
 	<!-- 头文件 -->
 	<div class="head">
 		<img class="imgleftright" src="/static/images/background-left.png" />
@@ -144,11 +145,11 @@
 			{% endif %}
 			<!-- new schedule info finish -->
 		</div>
+
 		<!-- 中间模板 -->
 		<div class="divcenter">
-			{% for tab in project_tab%}
-
-        <div class="requestForm{{tab.id}}">
+			{% for pro_item in schedule_tab %}
+        <div class="requestForm">
 
         <div id="requestTable" class="requestTableDiv">
 					<table  class="requestTable" id="Box"  >
@@ -159,14 +160,14 @@
 						</tr>-->
 
                   <tr>
-                     <td><b>Product:</b>{{tab.project}}</td>
-                     <td><b>SPM:</b>{{tab.spm}}</td>
-                     <td><b>Zebu:</b>{{tab.zebu}}<b>Pieces</b></td>
-                     <td><a data-toggle="modal" data-target="#scheduleModal{{tab.id}}"  style="cursor:pointer"><button class= "requestBtn" id="editBtn21" type="text" style="background-color: #FB8C8C">Edit</button></a></td>
-					 <td><a data-toggle="modal" data-target="#delPlanModal{{tab.id}}"  style="cursor:pointer"><button class= "requestBtn" id="editBtn21" type="text" style="background-color: #FB8C8C">Delete</button></a></td>
+                     <td><b>Product:</b>{{pro_item.pro.project}}</td>
+                     <td><b>SPM:</b>{{pro_item.pro.spm}}</td>
+                     <td><b>Zebu:</b>{{pro_item.pro.zebu}}<b>Pieces</b></td>
+                     <td><a data-toggle="modal" data-target="#scheduleModal{{pro_item.pro.id}}"  style="cursor:pointer"><button class= "requestBtn" id="editBtn21" type="text" style="background-color: #FB8C8C">Edit</button></a></td>
+					 <td><a data-toggle="modal" data-target="#delPlanModal{{pro_item.pro.id}}"  style="cursor:pointer"><button class= "requestBtn" id="editBtn21" type="text" style="background-color: #FB8C8C">Delete</button></a></td>
 				 </tr>
    <!-- 模态框（Modal） -->
-								<div class="modal fade" id="delPlanModal{{tab.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+								<div class="modal fade" id="delPlanModal{{pro_item.pro.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
 									aria-hidden="true">
 									<div class="modal-dialog planDelForm">
 										<div class="modal-content">
@@ -227,7 +228,7 @@
 				<ul class="weekly_bl" style="padding-left: 0px">
 					<li id="time1"
 						style="width: 96px; height: 174px; text-align: center; line-height: 90px; background-color: #e2e3e3;">0:00~24:00</li>
-					{% for item in curday_schedule.0 %}
+					{% for item in pro_item.sch %}
 					<li id="total{{item.0}}" value="{{item.1}}"
 						style="width: 96px; height: 174px; background-color: #e2e3e3;" 
 						title="Details" data-container="body" data-toggle="popover" data-placement="auto" data-html="true" data-trigger = "hover"
@@ -270,7 +271,7 @@
 			</div>
 
                <!--弹出模态框（Modal） -->
-			<div class="modal fade" id="scheduleModal{{tab.id}}" tabindex="-1" role="dialog" aria-labelledby="scheduleModalLabel" aria-hidden="true">
+			<div class="modal fade" id="scheduleModal{{pro_item.pro.id}}" tabindex="-1" role="dialog" aria-labelledby="scheduleModalLabel" aria-hidden="true">
              <div class="modal-dialog" style = "width:800px">
                  <div class="modal-content">
                      <div class="modal-header">

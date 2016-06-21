@@ -115,14 +115,18 @@ def homePageData(request,project_tab):
             schedule_item[delta][1] = tab.total
             schedule_item[delta][2] = tab.used
             schedule_item[delta][3] = tab.arrangement
-            schedule_item[delta][6] = tab.project_id
+            schedule_item[delta][6] = project.id
+            # schedule_item[delta][7] = project.project
+            # schedule_item[delta][8] = project.spm
+            # schedule_item[delta][9] = project.zebu
             print "total, used, arranage, project_id:",tab.total,tab.used,tab.arrangement,tab.project_id
 
-        schedule_list.append(schedule_item)
+        schedule_list.append({'pro':project,'sch':schedule_item})
         print "len(schedule_list)" ,len(schedule_list)
         for pro_i in schedule_list:
+            print "pro_i['pro']",pro_i['pro'].id,pro_i['pro'].spm
             for i in range(7):
-                print i, pro_i[i][0],pro_i[i][1], pro_i[i][2],pro_i[i][3], pro_i[i][6]
+                print i, pro_i['sch'][i][0],pro_i['sch'][i][1], pro_i['sch'][i][2],pro_i['sch'][i][3], pro_i['sch'][i][6]
 
         #cur_daylight = schedule_item[:14:2]
         #cur_night = schedule_item[1:15:2]
@@ -137,11 +141,11 @@ def homePageData(request,project_tab):
 
         cur_date.append(cur_month)
         #next_date.append(next_month)
-    i=0
-    for pro_i in schedule_list:
-        i =i+1
-        for j in range(7):
-            print i,pro_i[j][3],pro_i[j][6]
+    # i=0
+    # for pro_i in schedule_list:
+    #     i =i+1
+    #     for j in range(7):
+    #         print i,pro_i['sch'][j][3],pro_i['sch'][j][6]
 
     #end for project in project_tab
     schedule_dict = {"schedule_tab": schedule_list,

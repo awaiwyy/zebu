@@ -11,7 +11,7 @@ window.onload = function() {
 			if(0 == total) {
 				percent = 0
 			}else{
-				percent = used/total	
+				percent = used/total
 			}
 			displayPrecent("W3Cfuns_canvas"+j,percent, x[i].innerHTML);
 		}
