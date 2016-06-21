@@ -12,7 +12,7 @@ from common import xlwt
 # Create your views here.
 schedule_file = "resources/tab/schedule_tab.xls"
 
-def homePageData(request):
+def homePageData(request,project_tab):
     schedule_item = []
     #time1 = "10:00-22:00"
     #time2 = "22:00-10:00"
@@ -29,7 +29,8 @@ def homePageData(request):
     start_date = today - datetime.timedelta(days=day-1)
     end_date = today + datetime.timedelta(days=7-day)
        
-    display_tab = scheduleInfo.objects.filter(sdate__gte = start_date, sdate__lte = end_date)
+    #display_tab = scheduleInfo.objects.filter(project_id=project_id ,sdate__gte = start_date, sdate__lte = end_date)
+
     #project_tab = projectInfo.objects.filter(display="true")
     #if not os.path.exists(schedule_file):
         #saveScheduleTab(display_tab)
@@ -80,53 +81,71 @@ def homePageData(request):
                 print "value type error"
                 continue
             
-        display_tab = scheduleInfo.objects.filter(sdate__gte = start_date, sdate__lte = end_date)
+        #display_tab = scheduleInfo.objects.filter(sdate__gte = start_date, sdate__lte = end_date)
         #if not os.path.exists(schedule_file):
             #saveScheduleTab(display_tab)
-        
-    for i in range(7): #two week and twice one day
-        #date_item = start_date + datetime.timedelta(days=i/2)
-        date_item = start_date + datetime.timedelta(days=i)
-        #if i % 2 == 0:
-            #time_item = time1
-        #else:
-            #time_item = time2
-        time_item = time
-        schedule_item.append([i, ' ', '', '', date_item, time_item,''])
-    for tab in  display_tab:
-        delta = (tab.sdate - start_date).days
-        #if delta > 6:
-            #if tab.time == 'daylight':
-                #delta_time =2 *delta + 14
-            #else:
-                #delta_time = 2 * delta + 15
-        #else:
-            #if tab.time == "daylight":
-                #delta_time = 2 * delta
-            #else:
-                #delta_time = 2 * delta + 1
-        #schedule_item[delta_time] = [delta_time, tab.total, tab.used, tab.arrangement, tab.sdate, tab.time]
-        schedule_item[delta][1] = tab.total
-        schedule_item[delta][2] = tab.used
-        schedule_item[delta][3] = tab.arrangement
-        schedule_item[delta][6] = tab.project_id
 
-    #cur_daylight = schedule_item[:14:2]
-    #cur_night = schedule_item[1:15:2]
-    cur_day = schedule_item[:7:1]
-    #next_daylight = schedule_item[14::2]
-    #next_night = schedule_item[15::2]
-    cur_date = []
-    #next_date = []
-    for k in  range(7):
-        cur_date.append(cur_day[k][4].day)
-        #next_date.append(next_daylight[k][4].day)
-        
-    cur_date.append(cur_month)
-    #next_date.append(next_month)
-        
-    schedule_dict = {"schedule_tab": schedule_item, 
-                     "curday_schedule": cur_day,
+    schedule_list = []
+    for project in project_tab:
+        print "project.id: ",project.id
+        display_tab = scheduleInfo.objects.filter(project_id = project.id, sdate__gte=start_date, sdate__lte=end_date)
+        schedule_item =[]
+        for i in range(7): #two week and twice one day
+            #date_item = start_date + datetime.timedelta(days=i/2)
+            date_item = start_date + datetime.timedelta(days=i)
+            #if i % 2 == 0:
+                #time_item = time1
+            #else:
+                #time_item = time2
+            time_item = time
+            schedule_item.append([i, ' ', '', '', date_item, time_item,''])
+        for tab in  display_tab:
+            delta = (tab.sdate - start_date).days
+            #if delta > 6:
+                #if tab.time == 'daylight':
+                    #delta_time =2 *delta + 14
+                #else:
+                    #delta_time = 2 * delta + 15
+            #else:
+                #if tab.time == "daylight":
+                    #delta_time = 2 * delta
+                #else:
+                    #delta_time = 2 * delta + 1
+            #schedule_item[delta_time] = [delta_time, tab.total, tab.used, tab.arrangement, tab.sdate, tab.time]
+            schedule_item[delta][1] = tab.total
+            schedule_item[delta][2] = tab.used
+            schedule_item[delta][3] = tab.arrangement
+            schedule_item[delta][6] = tab.project_id
+            print "total, used, arranage, project_id:",tab.total,tab.used,tab.arrangement,tab.project_id
+
+        schedule_list.append(schedule_item)
+        print "len(schedule_list)" ,len(schedule_list)
+        for pro_i in schedule_list:
+            for i in range(7):
+                print i, pro_i[i][0],pro_i[i][1], pro_i[i][2],pro_i[i][3], pro_i[i][6]
+
+        #cur_daylight = schedule_item[:14:2]
+        #cur_night = schedule_item[1:15:2]
+        cur_day = schedule_item[:7:1]
+        #next_daylight = schedule_item[14::2]
+        #next_night = schedule_item[15::2]
+        cur_date = []
+        #next_date = []
+        for k in  range(7):
+            cur_date.append(cur_day[k][4].day)
+            #next_date.append(next_daylight[k][4].day)
+
+        cur_date.append(cur_month)
+        #next_date.append(next_month)
+    i=0
+    for pro_i in schedule_list:
+        i =i+1
+        for j in range(7):
+            print i,pro_i[j][3],pro_i[j][6]
+
+    #end for project in project_tab
+    schedule_dict = {"schedule_tab": schedule_list,
+                     "curday_schedule": schedule_list,
                     #'curnight_schedule': cur_night,
                     #"nextday_schedule": next_daylight,
                     #'nextnight_schedule': next_night,
@@ -155,7 +174,7 @@ def homeUser(request):
         print user
         if user is not None and user.is_active:
             auth.login(request, user)
-            schedule_dict = homePageData(request)
+            schedule_dict = homePageData(request,project_tab)
             return HttpResponseRedirect('/home/', schedule_dict)
         else:
             #return render(request, 'login/login.html', {'password_is_wrong': True}) 
@@ -191,7 +210,7 @@ def homeUser(request):
     else:
         #other page(eg:request or plan page) to home 
         print "to home"
-    schedule_dict = homePageData(request)
+    schedule_dict = homePageData(request,project_tab)
     schedule_dict.update(project_tab = project_tab)
     return render(request, 'home/home.html', schedule_dict)
         #return render(request, 'home/home.html', {'project_tab': project_tab})

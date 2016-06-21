@@ -227,7 +227,7 @@
 				<ul class="weekly_bl" style="padding-left: 0px">
 					<li id="time1"
 						style="width: 96px; height: 174px; text-align: center; line-height: 90px; background-color: #e2e3e3;">0:00~24:00</li>
-					{% for item in curday_schedule %}
+					{% for item in curday_schedule.0 %}
 					<li id="total{{item.0}}" value="{{item.1}}"
 						style="width: 96px; height: 174px; background-color: #e2e3e3;" 
 						title="Details" data-container="body" data-toggle="popover" data-placement="auto" data-html="true" data-trigger = "hover"
@@ -239,9 +239,7 @@
 							<strong>Used:</strong>{{item.2}}<br>
 							<strong>Information:</strong>{{item.3}}
 						</div>
-						{% ifequal item.6 tab.id %}
 						<canvas id="W3Cfuns_canvas{{item.0}}" width="96px" height="174px"></canvas>
-						{% endifequal %}
 					</li>
 					<li id="used{{item.0}}" style="display: none"
 						value="{{item.2}}"></li>
