@@ -85,4 +85,9 @@ class RequestTable(models.Model):
     daily_duration = models.CharField(max_length=100, null=True)
     close_time = models.DateTimeField(null=True, blank=True)
     acceptance = models.CharField(max_length= 20, default="No", choices = acceptance_choice)
-    
+
+class TotalTable(models.Model):
+    change_date = models.DateField()
+    daily_duration = models.CharField(max_length=100, null=True)
+    request = models.ForeignKey(RequestTable, on_delete=models.CASCADE, related_name='RequestTable', null=True)
+

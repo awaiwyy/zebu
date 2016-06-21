@@ -3,6 +3,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from ..request.models import RequestTable
+from ..request.models import TotalTable
 import datetime
 from dateutil import tz
 from common import xlwt
@@ -74,6 +75,7 @@ def planPage(request, **kwargs):
     #show plan table
     request_tab = RequestTable.objects.filter(is_plan="false")
     plan_tab = RequestTable.objects.filter(is_plan="true").order_by("id")
+    total_tab = TotalTable.objects.all()
     valid_duration = []
     valid_requestduration_piece = []
     valid_requestduration_day = []
@@ -194,6 +196,20 @@ def planPage(request, **kwargs):
                 daily_dura = valid_dailyduration_hour + "Hour" + valid_dailyduration_piece + "Piece"
             edit_plan.daily_duration = daily_dura
             print daily_dura
+
+            change_date = datetime.date.today()
+            daily_duration = daily_dura
+            request_id = edit_id
+            try:
+                total_tab = TotalTable.objects.filter(request_id=request_id).get(change_date=change_date)
+                total_tab.daily_duration = daily_dura
+                total_tab.save()
+            except:
+                print "not exist"
+                TotalTable.objects.create(change_date=change_date,
+                                          daily_duration=daily_duration,
+                                          request_id=request_id)
+
             
             #total_duration
             #total_duration = RequestTable.objects.filter(is_plan="true").all()
