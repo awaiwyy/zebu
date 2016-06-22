@@ -286,7 +286,7 @@
 						<form  class = "modalForm" method="POST" >
 								{% csrf_token %}
 
-							  <p>project_id:<input type="text" name="project_idEdit" value={{pro_item.pro.id}} ></p>
+							  <input type="text" name="project_idEdit" value={{pro_item.pro.id}} hidden/>
                               <div class="modalFormContent" id="readRpTab{{tab.id}}">
 								  <input type="text" id="idEdit" name="idEdit" value={{pro_item.pro.id}} hidden/>
                               	<ul>
