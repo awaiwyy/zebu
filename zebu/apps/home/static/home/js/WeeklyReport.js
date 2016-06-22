@@ -33,7 +33,8 @@ function displayPrecent(str, percent, detail) {
 /* 点击的日期变色 */
 //function weekClick(d,tab_id ) {
 function weekClick(d) {
-	for (var j = 1; j <= 7; j++) {
+	var x = $(".listyle");
+	for (var j = 1; j <= x.length; j++) {
 	   // alert("week" + j );
 		document.getElementById("week" + j ).style.backgroundColor = "#f4f4f4";
 	}
