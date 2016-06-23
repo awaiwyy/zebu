@@ -1,29 +1,30 @@
 <!DOCTYPE html>
 <html xmlns="http:/www.w3.org/1999/xhtml">
-<head>
-<meta charset="UTF-8">
-<link rel="shortcut icon" type="image/x-icon" href="/static/images/favicon.ico" media="screen" />
-<link rel="Bookmark" href="/static/images/favicon.ico">
-<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
-<meta http-equiv="X-UA-Compatible" content="IE=9,chrome=1">
-<!-- Mobile Specific Metas -->
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-<title>Zebu Schedule</title>
-<!-- CSS -->
-<!-- <link href="http://libs.baidu.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet"> -->
-<!--  <link href="http://apps.bdimg.com/libs/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">-->
-<link rel="stylesheet" href="/static/css/bootstrap.min.css" />
-<link rel="stylesheet" href="/static/css/com.css" />
-<link rel="stylesheet" href="/static/home/css/Weekly.css" />
-<link rel="stylesheet" href="/static/home/css/schedule.css" />
-<link href="/static/css/application.css" type="text/css" rel="stylesheet" />
-<!--  <link rel="stylesheet" href="/static/home/css/jquery.webui-popover.min.css">-->
-<!-- js -->
-<script src="/static/js/jquery-1.11.1.min.js"></script>
-<script src="/static/home/js/WeeklyReport.js"></script>
-<script src="/static/js/bootstrap.min.js"></script>
 
-<script type="text/javascript">
+<head>
+	<meta charset="UTF-8">
+	<link rel="shortcut icon" type="image/x-icon" href="/static/images/favicon.ico" media="screen" />
+	<link rel="Bookmark" href="/static/images/favicon.ico">
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=9,chrome=1">
+	<!-- Mobile Specific Metas -->
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+	<title>Zebu Schedule</title>
+	<!-- CSS -->
+	<!-- <link href="http://libs.baidu.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet"> -->
+	<!--  <link href="http://apps.bdimg.com/libs/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">-->
+	<link rel="stylesheet" href="/static/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="/static/css/com.css" />
+	<link rel="stylesheet" href="/static/home/css/Weekly.css" />
+	<link rel="stylesheet" href="/static/home/css/schedule.css" />
+	<link href="/static/css/application.css" type="text/css" rel="stylesheet" />
+	<!--  <link rel="stylesheet" href="/static/home/css/jquery.webui-popover.min.css">-->
+	<!-- js -->
+	<script src="/static/js/jquery-1.11.1.min.js"></script>
+	<script src="/static/home/js/WeeklyReport.js"></script>
+	<script src="/static/js/bootstrap.min.js"></script>
+
+	<script type="text/javascript">
 	/mobi/i.test(navigator.userAgent) && !location.hash
 			&& setTimeout(function() {
 				if (!pageYOffset)
@@ -36,6 +37,7 @@
 
 </script>
 </head>
+
 <body>
 
 	<!-- 头文件 -->
@@ -46,7 +48,9 @@
 		<div class="clearfix"></div>
 		<table class="headtable">
 			<tr>
-				<td><a href="#"><img src="/static/images/zebu.png" /></a></td>
+				<td>
+					<a href="#"><img src="/static/images/zebu.png" /></a>
+				</td>
 			</tr>
 			<tr>
 				<td>
@@ -98,57 +102,57 @@
 				</div>
 			</div>
 			{% if perms.home.add_scheduleinfo %}
-			<div class="middleleft_bottom_new" data-toggle="modal" data-target="#newscheduleModal"  style="cursor:pointer">
-				<a >New</a>
+			<div class="middleleft_bottom_new" data-toggle="modal" data-target="#newscheduleModal" style="cursor:pointer">
+				<a>New</a>
 			</div>
-            <!--弹出模态框（Modal） -->
-						<div class="modal fade" id="newscheduleModal" tabindex="-1" role="dialog" aria-labelledby="NewModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" style = "width:800px">
-                      <div class="modal-content">
-                        <div class="modal-header">
-                           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                           <h4 class="modal-title" id="NewModalLabel">Project Information</h4>
-                        </div>
-                        <div class="modal-body">
-                        <form class = "modalForm" method="POST" >
-                        {% csrf_token %}
-                          <div class="modalFormContent">
-                          	<ul>
-								<li class="new_rqleft">Project:</li>
-								<li>
-									<input type="text" id="projectInfo" name="projectInfo" />
-								</li>
-							</ul>
-							<ul>
-								<li class="new_rqleft">SPM:</li>
-								<li>
-									<input type="text" id="spmInfo" name="spmInfo" />
-								</li>
-							</ul>
-							<ul>
-								<li class="new_rqleft" >Zebu:</li>
-								<li>
-									<input type="text" id="zebuInfo" name="zebuInfo" />
-								</li>
-							</ul>
-						  </div>
-							<div align="center" style="margin-bottom: 100px; ">
-                            <button class= "requestBtn" type="text" name="cancle" style="background-color: #FB8C8C" data-dismiss="modal">cancel</button>
-                            <button class= "requestBtn" name="ok" type="submit" style="background-color:#67D00B ">confirm</button>
-                          	</div>
-						</form>
+			<!--弹出模态框（Modal） -->
+			<div class="modal fade" id="newscheduleModal" tabindex="-1" role="dialog" aria-labelledby="NewModalLabel" aria-hidden="true">
+				<div class="modal-dialog" style="width:800px">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+							<h4 class="modal-title" id="NewModalLabel">Project Information</h4>
 						</div>
-                      </div>
-                   </div>
-                 		</div>
-					  <!-- 添加模态框（Modal）结束 -->
+						<div class="modal-body">
+							<form class="modalForm" method="POST">
+								{% csrf_token %}
+								<div class="modalFormContent">
+									<ul>
+										<li class="new_rqleft">Project:</li>
+										<li>
+											<input type="text" id="projectInfo" name="projectInfo" />
+										</li>
+									</ul>
+									<ul>
+										<li class="new_rqleft">SPM:</li>
+										<li>
+											<input type="text" id="spmInfo" name="spmInfo" />
+										</li>
+									</ul>
+									<ul>
+										<li class="new_rqleft">Zebu:</li>
+										<li>
+											<input type="text" id="zebuInfo" name="zebuInfo" />
+										</li>
+									</ul>
+								</div>
+								<div align="center" style="margin-bottom: 100px; ">
+									<button class="requestBtn" type="text" name="cancle" style="background-color: #FB8C8C" data-dismiss="modal">cancel</button>
+									<button class="requestBtn" name="ok" type="submit" style="background-color:#67D00B ">confirm</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- 添加模态框（Modal）结束 -->
 			{% endif %}
 			<!-- new schedule info finish -->
 		</div>
 
 		<!-- 中间模板 -->
 
-<div class="pagination">
+		<!--<div class="pagination">
     <span class="step-links">
         {% if schedule_tab.has_previous %}
             <a href="?page={{ schedule_tab.previous_page_number }}">previous</a>
@@ -162,110 +166,92 @@
             <a href="?page={{ schedule_tab.next_page_number }}">next</a>
         {% endif %}
     </span>
-</div>
+</div>-->
 		<div class="divcenter">
 			{% for pro_item in schedule_tab %}
-        <div class="requestForm">
+			<div class="requestForm">
 
-        <div id="requestTable" class="requestTableDiv">
-					<table  class="requestTable" id="Box"  >
-                    <!--<tr>
+				<div id="requestTable" class="requestTableDiv">
+					<table class="requestTable" id="Box">
+						<!--<tr>
 							<th scope="col" width="84px"><span>Product</span></th>
 							<th scope="col" width="84px"><span>SPM</span></th>
 							<th scope="col" width="222px"><span>Daily Reporter</span></th>
 						</tr>-->
 
-                  <tr>
-                     <td><b>Product:</b>{{pro_item.pro.project}}</td>
-                     <td><b>SPM:</b>{{pro_item.pro.spm}}</td>
-                     <td><b>Zebu:</b>{{pro_item.pro.zebu}}<b>Pieces</b></td>
-                     <td><a data-toggle="modal" data-target="#scheduleModal{{pro_item.pro.id}}"  style="cursor:pointer"><button class= "requestBtn" id="editBtn21" type="text" style="background-color: #FB8C8C">Edit</button></a></td>
-					 <td><a data-toggle="modal" data-target="#delPlanModal{{pro_item.pro.id}}"  style="cursor:pointer"><button class= "requestBtn" id="editBtn21" type="text" style="background-color: #FB8C8C">Delete</button></a></td>
-				 </tr>
-   <!-- 模态框（Modal） -->
-								<div class="modal fade" id="delPlanModal{{pro_item.pro.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-									aria-hidden="true">
-									<div class="modal-dialog planDelForm">
-										<div class="modal-content">
-											<div class="modal-header">
-												<!-- <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> -->
-												<h4 class="modal-title" id="myModalLabel">Delete the Product item ?</h4>
+						<tr>
+							<td><b>Product:</b>{{pro_item.pro.project}}</td>
+							<td><b>SPM:</b>{{pro_item.pro.spm}}</td>
+							<td><b>Zebu:</b>{{pro_item.pro.zebu}}<b>Pieces</b></td>
+							<td><a data-toggle="modal" data-target="#scheduleModal{{pro_item.pro.id}}" style="cursor:pointer"><button class= "requestBtn" id="editBtn21" type="text" style="background-color: #FB8C8C">Edit</button></a></td>
+							<td><a data-toggle="modal" data-target="#delPlanModal{{pro_item.pro.id}}" style="cursor:pointer"><button class= "requestBtn" id="editBtn21" type="text" style="background-color: #FB8C8C">Delete</button></a></td>
+						</tr>
+						<!-- 模态框（Modal） -->
+						<div class="modal fade" id="delPlanModal{{pro_item.pro.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+							<div class="modal-dialog planDelForm">
+								<div class="modal-content">
+									<div class="modal-header">
+										<!-- <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> -->
+										<h4 class="modal-title" id="myModalLabel">Delete the Product item ?</h4>
+									</div>
+									<div class="modal-body">
+										<form class="delForm" method="POST">
+											{% csrf_token %}
+											<input type="text" name="delhomeId" value={ {tab.id}} hidden />
+											<div align="center" style="margin-bottom: 50px;">
+												<button class="requestBtn" type="text" id="cancleDelBtn" name="cancle" style="background-color: #FB8C8C" data-dismiss="modal">Cancle</button>
+												<button class="requestBtn" name="ok" type="submit" style="background-color: #67D00B">confirm</button>
 											</div>
-											<div class="modal-body">
-												<form class="delForm" method="POST">
-                                                {% csrf_token %}
-                                                 <input type="text" name = "delhomeId" value = {{tab.id}} hidden />
-													<div align="center" style="margin-bottom: 50px;">
-														<button class="requestBtn" type="text"
-															id="cancleDelBtn" name="cancle"
-															style="background-color: #FB8C8C"
-															data-dismiss="modal">Cancle</button>
-														<button class="requestBtn" name="ok" type="submit"
-															style="background-color: #67D00B">confirm</button>
-													</div>
-												</form>
-											</div> 
-										</div>
+										</form>
 									</div>
 								</div>
-								<!-- delete plan table modal finish-->
+							</div>
+						</div>
+						<!-- delete plan table modal finish-->
 
 					</table>
 				</div>
-					  <!-- 添加模态框（Modal）结束 -->
-			<div>
-				<div class="divst">
-					<div class="weekAll" style="background: #F8F8F8">
-						<input id="buttonWeeklyReport" class="buttonWeeklyReport"
-							type="button" value="{{cur_week.1}}&nbsp;week,&nbsp;&nbsp;{{cur_week.0}},&nbsp;{{cur_date.7}}"
-							style="font-size: 14px; background: #e2e3e3" />
-						<input id="cur_day" style="display:none" value="{{cur_week.2}}"/>
+				<!-- 添加模态框（Modal）结束 -->
+				<div>
+					<div class="divst">
+						<div class="weekAll" style="background: #F8F8F8">
+							<input id="buttonWeeklyReport" class="buttonWeeklyReport" type="button" value="{{cur_week.1}}&nbsp;week,&nbsp;&nbsp;{{cur_week.0}},&nbsp;{{cur_date.7}}"
+								style="font-size: 14px; background: #e2e3e3" />
+							<input id="cur_day" style="display:none" value="{{cur_week.2}}" />
+						</div>
 					</div>
-				</div>
-				{% widthratio forloop.counter 1 7 as tloop %}
-				<ul class="weekly_bl" style="padding-left: 0">
-					<li id="time"
-						style="width: 96px; height: 50px; text-align: center; line-height: 48px; background-color: #e2e3e3;"></li>
-					<li id="week{{tloop|add:-6}}" onClick="weekClick({{tloop|add:-6}})"
-						style="width: 96px; height: 50px; line-height: 200%; background-color: #e2e3e3;">Monday<br>{{cur_date.0}}</li>
-					<li id="week{{tloop|add:-5}}" onClick="weekClick({{tloop|add:-5}})"
-						style="width: 96px; height: 50px; line-height: 200%; background-color: #e2e3e3;">Tuesday<br>{{cur_date.1}}</li>
-					<li id="week{{tloop|add:-4}}" onClick="weekClick({{tloop|add:-4}})"
-						style="width: 96px; height: 50px; line-height: 200%; background-color: #e2e3e3;">Wednesday<br>{{cur_date.2}}</li>
-					<li id="week{{tloop|add:-3}}" onClick="weekClick({{tloop|add:-3}})"
-						style="width: 96px; height: 50px; line-height: 200%; background-color: #e2e3e3;">Thursday<br>{{cur_date.3}}</li>
-					<li id="week{{tloop|add:-2}}" onClick="weekClick({{tloop|add:-2}})"
-						style="width: 96px; height: 50px; line-height: 200%; background-color: #e2e3e3;">Friday<br>{{cur_date.4}}</li>
-					<li id="week{{tloop|add:-1}}" onClick="weekClick({{tloop|add:-1}})"
-						style="width: 96px; height: 50px; line-height: 200%; background-color: #e2e3e3;">Saturday<br>{{cur_date.5}}</li>
-					<li id="week{{tloop}}" onClick="weekClick({{tloop}})"
-						style="width: 96px; height: 50px; line-height: 200%; background-color: #e2e3e3;"
-						class="rightli">Sunday<br>{{cur_date.6}}</li>
-				</ul>
-				<ul class="weekly_bl" style="padding-left: 0px">
-					<li id="time1"
-						style="width: 96px; height: 174px; text-align: center; line-height: 90px; background-color: #e2e3e3;">0:00~24:00</li>
-					{% for item in pro_item.sch %}
-					{% widthratio forloop.parentloop.counter 1 7 as ploop %}
-					<li id="total{{item.0|add:-7|add:ploop}}" value="{{item.1}}"
-						style="width: 96px; height: 174px; background-color: #e2e3e3;" 
-						title="Details" data-container="body" data-toggle="popover" data-placement="auto" data-html="true" data-trigger = "hover"
-                  data-content="<strong>Total:</strong>{{item.1}}<br>
+					{% widthratio forloop.counter 1 7 as tloop %}
+					<ul class="weekly_bl" style="padding-left: 0">
+						<li id="time" style="width: 96px; height: 50px; text-align: center; line-height: 48px; background-color: #e2e3e3;"></li>
+						<li id="week{{tloop|add:-6}}" onClick="weekClick({{tloop|add:-6}})" style="width: 96px; height: 50px; line-height: 200%; background-color: #e2e3e3;">Monday<br>{{cur_date.0}}</li>
+						<li id="week{{tloop|add:-5}}" onClick="weekClick({{tloop|add:-5}})" style="width: 96px; height: 50px; line-height: 200%; background-color: #e2e3e3;">Tuesday<br>{{cur_date.1}}</li>
+						<li id="week{{tloop|add:-4}}" onClick="weekClick({{tloop|add:-4}})" style="width: 96px; height: 50px; line-height: 200%; background-color: #e2e3e3;">Wednesday<br>{{cur_date.2}}</li>
+						<li id="week{{tloop|add:-3}}" onClick="weekClick({{tloop|add:-3}})" style="width: 96px; height: 50px; line-height: 200%; background-color: #e2e3e3;">Thursday<br>{{cur_date.3}}</li>
+						<li id="week{{tloop|add:-2}}" onClick="weekClick({{tloop|add:-2}})" style="width: 96px; height: 50px; line-height: 200%; background-color: #e2e3e3;">Friday<br>{{cur_date.4}}</li>
+						<li id="week{{tloop|add:-1}}" onClick="weekClick({{tloop|add:-1}})" style="width: 96px; height: 50px; line-height: 200%; background-color: #e2e3e3;">Saturday<br>{{cur_date.5}}</li>
+						<li id="week{{tloop}}" onClick="weekClick({{tloop}})" style="width: 96px; height: 50px; line-height: 200%; background-color: #e2e3e3;"
+							class="rightli">Sunday<br>{{cur_date.6}}</li>
+					</ul>
+					<ul class="weekly_bl" style="padding-left: 0px">
+						<li id="time1" style="width: 96px; height: 174px; text-align: center; line-height: 90px; background-color: #e2e3e3;">0:00~24:00</li>
+						{% for item in pro_item.sch %} {% widthratio forloop.parentloop.counter 1 7 as ploop %}
+						<li id="total{{item.0|add:-7|add:ploop}}" value="{{item.1}}" style="width: 96px; height: 174px; background-color: #e2e3e3;"
+							title="Details" data-container="body" data-toggle="popover" data-placement="auto" data-html="true" data-trigger="hover"
+							data-content="<strong>Total:</strong>{{item.1}}<br>
 							<strong>Used:</strong>{{item.2}}<br>
 							<strong>Information:</strong>{{item.3}}">
-						<div class="listyle" style="display: none">
-							<strong>Total:</strong>{{item.1}}<br>
-							<strong>Used:</strong>{{item.2}}<br>
-							<strong>Information:</strong>{{item.3}}
-						</div>
-						
-						<canvas id="W3Cfuns_canvas{{item.0|add:-7|add:ploop}}" width="96px" height="174px"></canvas>
-					</li>
-					<li id="used{{item.0|add:-7|add:ploop}}" style="display: none"
-						value="{{item.2}}"></li>
-					{% endfor %}
-				</ul>
-				<!--
+							<div class="listyle" style="display: none">
+								<strong>Total:</strong>{{item.1}}<br>
+								<strong>Used:</strong>{{item.2}}<br>
+								<strong>Information:</strong>{{item.3}}
+							</div>
+
+							<canvas id="W3Cfuns_canvas{{item.0|add:-7|add:ploop}}" width="96px" height="174px"></canvas>
+						</li>
+						<li id="used{{item.0|add:-7|add:ploop}}" style="display: none" value="{{item.2}}"></li>
+						{% endfor %}
+					</ul>
+					<!--
                 <ul class="weekly_bl" style="padding-left: 0px">
 					<li id="time2"
 						style="width: 96px; height: 174px; text-align: center; line-height: 90px;; background-color: #e2e3e3;">22:00~10:00</li>
@@ -287,79 +273,81 @@
 					{% endfor %}
 				</ul>
 				-->
+				</div>
+
+				<!--弹出模态框（Modal） -->
+				<div class="modal fade" id="scheduleModal{{pro_item.pro.id}}" tabindex="-1" role="dialog" aria-labelledby="scheduleModalLabel"
+					aria-hidden="true">
+					<div class="modal-dialog" style="width:800px">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+								<h4 class="modal-title" id="scheduleModalLabel">Edit Schedule</h4>
+							</div>
+							<div class="modal-body">
+
+								<form class="modalForm" method="POST">
+									{% csrf_token %}
+
+									<input type="text" name="project_idEdit" value={{pro_item.pro.id}} hidden/>
+									<div class="modalFormContent" id="readRpTab{{tab.id}}">
+										<input type="text" id="idEdit" name="idEdit" value={{pro_item.pro.id}} hidden/>
+										<ul>
+											<li class="rqleft">Product:</li>
+											<li>
+												<input type="text" id="projectEdit" name="projectEdit" value={ {pro_item.pro.project}} />
+											</li>
+										</ul>
+
+										<ul>
+											<li class="rqleft">SPM:</li>
+											<li>
+												<input type="text" id="spmEdit" name="spmEdit" value={ {pro_item.pro.spm}} />
+											</li>
+										</ul>
+										<ul>
+											<li class="rqleft">Zebu:</li>
+											<li>
+												<input type="text" id="zubuEdit" name="zebuEdit" value={ {pro_item.pro.zebu}} />
+											</li>
+										</ul>
+									</div>
+
+									<table class="scheduleTable">
+										<tr>
+											<th scope="col" width="120px"><span>Date</span></th>
+											<th scope="col" width="120px"><span>Time</span></th>
+											<th scope="col" width="84px"><span>Total</span></th>
+											<th scope="col" width="84px"><span>Used</span></th>
+											<th scope="col" width="340px"><span>Arrangement</span></th>
+										</tr>
+										{% for tab2 in pro_item.sch %}
+
+										<tr>
+											<td><input class="scheduleInput" type="text" name="dateEdit{{tab2.0}}" value={{tab2.4 | date: "Y-m-d"}} readonly></td>
+											<td><input class="scheduleInput" type="text" name="timeEdit{{tab2.0}}" value={{tab2.5}} readonly></td>
+											<td><input class="scheduleInput" type="text" name="totalEdit{{tab2.0}}" value={{tab2.1}}></td>
+											<td><input class="scheduleInput" type="text" name="usedEdit{{tab2.0}}" value={{tab2.2}}></td>
+											<td><textarea class="scheduleText" name="arrangementEdit{{tab2.0}}">{{tab2.3}}</textarea></td>
+										</tr>
+
+										{% endfor %}
+									</table>
+									<div class="scheduleDiv">
+										<button class="scheduleBtn" type="text" style="background-color: #FB8C8C" data-dismiss="modal">cancle</button>
+										<button class="scheduleBtn" type="submit" style="background-color:#67D00B ">confirm</button>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- 添加模态框（Modal）结束 -->
+
 			</div>
-
-               <!--弹出模态框（Modal） -->
-			<div class="modal fade" id="scheduleModal{{pro_item.pro.id}}" tabindex="-1" role="dialog" aria-labelledby="scheduleModalLabel" aria-hidden="true">
-             <div class="modal-dialog" style = "width:800px">
-                 <div class="modal-content">
-                     <div class="modal-header">
-                           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                           <h4 class="modal-title" id="scheduleModalLabel">Edit Schedule</h4>
-                     </div>
-                     <div class="modal-body">
-
-						<form  class = "modalForm" method="POST" >
-								{% csrf_token %}
-
-							  <input type="text" name="project_idEdit" value={{pro_item.pro.id}} hidden/>
-                              <div class="modalFormContent" id="readRpTab{{tab.id}}">
-								  <input type="text" id="idEdit" name="idEdit" value={{pro_item.pro.id}} hidden/>
-                              	<ul>
-									<li class="rqleft">Product:</li>
-									<li>
-										<input type="text" id="projectEdit" name="projectEdit" value = {{pro_item.pro.project}} />
-                                	</li>
-								</ul>
-
-                              	<ul>
-									<li class="rqleft">SPM:</li>
-									<li>
-										<input type="text" id="spmEdit" name="spmEdit" value = {{pro_item.pro.spm}} />
-									</li>
-								</ul>
-								<ul>
-									<li class="rqleft">Zebu:</li>
-									<li>
-										<input type="text" id="zubuEdit" name="zebuEdit" value = {{pro_item.pro.zebu}} />
-                                	</li>
-							  	</ul>
-							  </div>
-
-                         <table  class="scheduleTable">
-						         <tr>
-							        <th scope="col" width="120px"><span>Date</span></th>
-							        <th scope="col" width="120px"><span>Time</span></th>
-							        <th scope="col" width="84px"><span>Total</span></th>
-							        <th scope="col" width="84px"><span>Used</span></th>
-							        <th scope="col" width="340px"><span>Arrangement</span></th>
-						         </tr>
-						         {% for tab2 in pro_item.sch %}
-
-						         <tr>
-                             <td><input class="scheduleInput" type="text" name="dateEdit{{tab2.0}}"value={{tab2.4 | date:"Y-m-d"}} readonly></td>
-                             <td><input class="scheduleInput" type="text" name="timeEdit{{tab2.0}}"value={{tab2.5}} readonly></td>
-                             <td><input class="scheduleInput" type="text" name="totalEdit{{tab2.0}}"value={{tab2.1}}></td>
-                             <td><input class="scheduleInput" type="text" name="usedEdit{{tab2.0}}"value={{tab2.2}}></td>
-                             <td><textarea class="scheduleText" name="arrangementEdit{{tab2.0}}">{{tab2.3}}</textarea></td>
-                           </tr>
-
-						         {% endfor %}
-                         </table>
-                         <div class="scheduleDiv">
-                            <button class= "scheduleBtn" type="text" style="background-color: #FB8C8C" data-dismiss="modal">cancle</button>
-                            <button class= "scheduleBtn" type="submit" style="background-color:#67D00B ">confirm</button>
-                         </div>
-                       </form>
-                     </div>
-                 </div>
-             </div>
-         </div>
-		   <!-- 添加模态框（Modal）结束 -->
-
-		</div>
 			{% endfor %}
-        </div>
+		</div>
 	</div>
 </body>
+
 </html>
