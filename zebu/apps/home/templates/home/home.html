@@ -147,6 +147,22 @@
 		</div>
 
 		<!-- 中间模板 -->
+
+<div class="pagination">
+    <span class="step-links">
+        {% if schedule_tab.has_previous %}
+            <a href="?page={{ schedule_tab.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ schedule_tab.number }} of {{ schedule_tab.paginator.num_pages }}.
+        </span>
+
+        {% if schedule_tab.has_next %}
+            <a href="?page={{ schedule_tab.next_page_number }}">next</a>
+        {% endif %}
+    </span>
+</div>
 		<div class="divcenter">
 			{% for pro_item in schedule_tab %}
         <div class="requestForm">
