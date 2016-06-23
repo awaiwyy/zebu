@@ -75,7 +75,6 @@ def planPage(request, **kwargs):
     #show plan table
     request_tab = RequestTable.objects.filter(is_plan="false")
     plan_tab = RequestTable.objects.filter(is_plan="true").order_by("id")
-    total_tab = TotalTable.objects.all()
     valid_duration = []
     valid_requestduration_piece = []
     valid_requestduration_day = []
@@ -229,25 +228,48 @@ def planPage(request, **kwargs):
             if edit_stime != '-- ::' and 'close' != edit_plan.status:
                 stime = edit_stime.encode("utf-8")
                 dtime = datetime.datetime.strptime(stime,'%Y-%m-%d %H:%M:%S')
+                ftime1 = (year+"-"+month+"-"+day).encode("utf-8")
+                ftime = datetime.datetime.strptime(ftime1,'%Y-%m-%d').date()
                 utc_time = dtime.replace(tzinfo=tz.gettz('CST'))
                 edit_plan.start_time = utc_time
                 print dtime
+                print ftime
                 print utc_time
-                cur_time = datetime.datetime.now()
+                #cur_time = datetime.datetime.now()
+                cur_time = datetime.date.today()
                 print cur_time
-                if cur_time > dtime:
-                    request_hours= int(edit_plan.request_duration.split('H')[0])
-                    real_duration = cur_time - dtime
-                    edit_plan.duration = real_duration
-                    real_days = real_duration.days
-                    real_seconds = real_duration.seconds
-                    real_hours =real_days * 24 + real_seconds / 3600
-                    print "request hours: %d" % request_hours
-                    print "real hours: %d" % real_hours
-                    if real_hours >= request_hours:
-                        edit_plan.status = 'delay'
-                    elif 'delay' == edit_plan.status:
-                        edit_plan.status = 'ongoing'
+                if cur_time >= ftime:
+                    delta=(cur_time-ftime).days
+                    total_tab1 = TotalTable.objects.filter(request_id=request_id)
+                    total =0
+                    for i in range(delta+1):
+                        print "i=" + str(i)
+                        itime = ftime + datetime.timedelta(days=i)
+                        try:
+                            curday = total_tab1.get(change_date=itime)
+                            idaily = int(curday.daily_duration.split('H')[0])
+                            total = total + idaily
+                        except:
+                            total = total + 24
+                        print total
+                else:
+                    total = 0
+                edit_plan.duration = total
+
+                    #request_hour= int(edit_plan.request_duration.split('H')[0])
+                    #request_day= int (edit_plan.request_duration.split)
+                    #request_hours=request_hour+request_day*24
+                    #real_duration = cur_time - dtime
+                    #edit_plan.duration = real_duration
+                    #real_days = real_duration.days
+                    #real_seconds = real_duration.seconds
+                    #real_hours =real_days * 24 + real_seconds / 3600
+                    #print "request hours: %d" % request_hours
+                    #print "real hours: %d" % real_hours
+                    #if real_hours >= request_hours:
+                        #edit_plan.status = 'delay'
+                    #elif 'delay' == edit_plan.status:
+                        #edit_plan.status = 'ongoing'
             
             print "test_closetime"
             year = request.POST['closeYearEdit']
@@ -291,22 +313,53 @@ def planPage(request, **kwargs):
         for tab in plan_tab:
             stime = tab.start_time
             if stime and "close" != tab.status:
-                ctime = datetime.datetime.utcnow()
-                stime = datetime.datetime.strptime(stime.strftime('%Y-%m-%d %H:%M:%S'),'%Y-%m-%d %H:%M:%S')
-                if ctime > stime:
-                    request_hours= int(tab.request_duration.split('H')[0])
-                    real_duration = ctime - stime
-                    tab.duration = real_duration
-                    real_days = real_duration.days
-                    real_seconds = real_duration.seconds
-                    real_hours =real_days * 24 + real_seconds / 3600
-                    print "request hours: %d" % request_hours
-                    print "real hours: %d" % real_hours
-                    if real_hours >= request_hours:
-                        tab.status = 'delay'
-                    elif 'delay' == tab.status:
-                        tab.status = 'ongoing'
-                    tab.save()
+                print "stime=", stime
+                ftimestr=stime.strftime('%Y-%m-%d %H:%M:%S')
+                print "ftimestr=",ftimestr
+                ftime1 = ftimestr.split(' ')[0]
+                print "ftime1=" ,ftime1
+                ftime = datetime.datetime.strptime(ftime1,'%Y-%m-%d').date()
+                #ftime = datetime.datetime.strptime(stime.strftime('%Y-%m-%d %H:%M:%S'),'%Y-%m-%d %H:%M:%S').date()
+                print "ftime=",ftime
+                cur_time = datetime.date.today()
+                #ctime = datetime.datetime.utcnow()
+                #stime = datetime.datetime.strptime(stime.strftime('%Y-%m-%d %H:%M:%S'),'%Y-%m-%d %H:%M:%S')
+                if cur_time >= ftime:
+                    delta = (cur_time - ftime).days
+                    print "delta=",delta
+                    total_tab1 = TotalTable.objects.filter(request_id=tab.id)
+                    print "len(total_tab1)",len(total_tab1)
+                    print
+                    total = 0
+                    for i in range(delta+1):
+                        print "i="+str(i)
+                        itime = ftime + datetime.timedelta(days=i)
+                        print itime
+                        try:
+                            curday=total_tab1.get(change_date=itime)
+                            idaily = int(curday.daily_duration.split('H')[0])
+                            total = total + idaily
+                        except:
+                            total = total + 24
+                        print total
+                else:
+                    total = 0
+                tab.duration = total
+
+
+                    #request_hours= int(tab.request_duration.split('H')[0])
+                    #real_duration = ctime - stime
+                    #tab.duration = real_duration
+                    #real_days = real_duration.days
+                    #real_seconds = real_duration.seconds
+                    #real_hours =real_days * 24 + real_seconds / 3600
+                    #print "request hours: %d" % request_hours
+                    #print "real hours: %d" % real_hours
+                    #if real_hours >= request_hours:
+                        #tab.status = 'delay'
+                    #elif 'delay' == tab.status:
+                        #tab.status = 'ongoing'
+                tab.save()
             tab.action_discription = tab.action_discription.replace("\n", "<br>")
             tab.progress = tab.progress.replace("\n", "<br>")
         return render(request, 'plan/plan.html', {"request_tab": request_tab, "plan_tab": plan_tab, 'valid_duration': valid_duration, 'valid_time':valid_time, 'valid_dailyDura':valid_dailyDura})
