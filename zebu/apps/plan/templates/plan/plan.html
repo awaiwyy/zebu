@@ -359,7 +359,7 @@
 												</ul>
 												<ul>
 													<li class="rqleft">Total Duration:</li>
-													<li class="borderBottom">{{tab.duration}} Hours</li>
+													<li class="borderBottom">{{tab.duration}} Hour{{tab.daily_duration | cut:"None"|cut:"Hour"|cut:"Piece"| get_digit:"2" }}{{tab.daily_duration | cut:"None"|cut:"Hour"|cut:"Piece"| get_digit:"1" }}Piece</li>
 												</ul>
 												<ul id="viewCtime{{tab.id}}">
 													<li class="rqleft">Close Time:</li>

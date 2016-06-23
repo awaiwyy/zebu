@@ -312,8 +312,8 @@ def planPage(request, **kwargs):
     else:
         for tab in plan_tab:
             stime = tab.start_time
-            stime = stime + datetime.timedelta(hours=8)
             if stime and "close" != tab.status:
+                stime = stime + datetime.timedelta(hours=8)
                 ftimestr=stime.strftime('%Y-%m-%d %H:%M:%S')
                 print "ftimestr=",ftimestr
                 ftime1 = ftimestr.split(' ')[0]
