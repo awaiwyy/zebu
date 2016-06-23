@@ -312,12 +312,11 @@ def planPage(request, **kwargs):
     else:
         for tab in plan_tab:
             stime = tab.start_time
+            stime = stime + datetime.timedelta(hours=8)
             if stime and "close" != tab.status:
-                print "stime=", stime
                 ftimestr=stime.strftime('%Y-%m-%d %H:%M:%S')
                 print "ftimestr=",ftimestr
                 ftime1 = ftimestr.split(' ')[0]
-                print "ftime1=" ,ftime1
                 ftime = datetime.datetime.strptime(ftime1,'%Y-%m-%d').date()
                 #ftime = datetime.datetime.strptime(stime.strftime('%Y-%m-%d %H:%M:%S'),'%Y-%m-%d %H:%M:%S').date()
                 print "ftime=",ftime
@@ -332,7 +331,7 @@ def planPage(request, **kwargs):
                     print
                     total = 0
                     for i in range(delta+1):
-                        print "i="+str(i)
+                        print "i=",i
                         itime = ftime + datetime.timedelta(days=i)
                         print itime
                         try:
