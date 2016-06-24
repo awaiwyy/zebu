@@ -29,7 +29,7 @@
 				if (!pageYOffset)
 					window.scrollTo(0, 1);
 			}, 1000);
-    
+
       $(function ()
       { $("[data-toggle='popover']").popover();
       });
@@ -163,11 +163,11 @@
         {% endif %}
     </span>
 </div>-->
-		<div class="divcenter">
+		<div class="divcenter" style="height:800px; overflow:auto">
 			{% for pro_item in schedule_tab %}
-        <div class="requestForm">
+        <div class="requestForm" >
 
-        <div id="requestTable" class="requestTableDiv">
+        <div id="requestTable" class="requestTableDiv" >
 					<table  class="requestTable" id="Box"  >
                     <!--<tr>
 							<th scope="col" width="84px"><span>Product</span></th>
@@ -194,7 +194,7 @@
 											<div class="modal-body">
 												<form class="delForm" method="POST">
                                                 {% csrf_token %}
-                                                 <input type="text" name = "delhomeId" value = {{tab.id}} hidden />
+                                                 <input type="text" name = "delhomeId" value = {{pro_item.pro.id}} hidden />
 													<div align="center" style="margin-bottom: 50px;">
 														<button class="requestBtn" type="text"
 															id="cancleDelBtn" name="cancle"
