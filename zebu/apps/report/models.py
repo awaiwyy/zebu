@@ -24,3 +24,9 @@ class ResourceUsageTable(models.Model):
 class ResourceUsageTitleTable(models.Model):
     total=models.IntegerField(default=0)
     usage=models.IntegerField(default=0)
+
+class MaintfstatusTable(models.Model):
+    product = models.CharField(max_length=50)
+    spm = models.CharField(max_length=50)
+    daily_reporter = models.CharField(max_length=50)
+    is_maintf = models.CharField(max_length= 20, default="true")

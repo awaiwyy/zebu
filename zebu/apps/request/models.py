@@ -86,6 +86,10 @@ class RequestTable(models.Model):
     daily_duration = models.CharField(max_length=100, null=True)
     close_time = models.DateTimeField(null=True, blank=True)
     acceptance = models.CharField(max_length= 20, default="No", choices = acceptance_choice)
+    is_maintf = models.CharField(max_length=20, default="false")
+    is_high = models.CharField(max_length=20, default="false")
+    is_low = models.CharField(max_length=20, default="false")
+    next_target=models.TextField(blank=True)
 
 class TotalTable(models.Model):
     change_date = models.DateField()
