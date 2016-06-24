@@ -54,6 +54,40 @@
 		}
 	}
 
+	function validatetime()
+	{
+	    var myDate = new Date();
+	    var myyear=myDate.getFullYear();
+	    var mymonth=myDate.getMonth()+1;
+	    var myday=myDate.getDate();
+	    var myhour=myDate.getHours();
+	    var myminute=myDate.getMinutes();
+	    var mysecond=myDate.getSeconds();
+	    var edityear = $("select[name='closeYearEdit']").val();
+	    var editmonth = $("select[name='closeMonthEdit']").val();
+	    var editday = $("select[name='closeDayEdit']").val();
+	    var edithour = $("select[name='closeHourEdit']").val();
+	    var editminute = $("select[name='closeMinuteEdit']").val();
+	    if (edityear>myyear){
+	        alert("Close time只能是当前时间之前");
+	        return false;}
+	    else if (editmonth>mymonth){
+	        alert("Close time只能是当前时间之前");
+	        return false;}
+	    else if (editday>myday){
+	        alert("Close time只能是当前时间之前");
+	        return false;}
+	    else if (edithour>myhour){
+	        alert("Close time只能是当前时间之前");
+	        return false;}
+	    else if (editminute>myminute){
+	        alert("Close time只能是当前时间之前");
+	        return false;}
+	    else if (editsecond>mysecond){
+	        alert("Close time只能是当前时间之前");
+	        return false;}
+	}
+
 	var flag_browser = "other";
 	$(document).ready(function() {
 		//判断浏览器类型
@@ -255,6 +289,7 @@
 							<td><a data-toggle="modal"
 								data-target="#planModal{{tab.id}}" style="cursor: pointer"><img
 									style="vertical-align: middle" src="/static/images/down.png" /></a></td>
+							<td style="display:none">{{tab.isdelay}}</td>
 						</tr>
 						<script type="text/javascript">
 							$(function() {
@@ -280,7 +315,7 @@
 								var statustd = document.getElementById(
 										"planItem{{tab.id}}")
 										.getElementsByTagName("td");
-								if ("delay" == statustd[4].innerHTML) {
+								if ("delay" == statustd[7].innerHTML) {
 									$('#planItem{{tab.id}}').css(
 											'background-color', 'red');
 								}
@@ -359,7 +394,7 @@
 												</ul>
 												<ul>
 													<li class="rqleft">Total Duration:</li>
-													<li class="borderBottom">{{tab.duration}} Hour{{tab.daily_duration | cut:"None"|cut:"Hour"|cut:"Piece"| get_digit:"2" }}{{tab.daily_duration | cut:"None"|cut:"Hour"|cut:"Piece"| get_digit:"1" }}Piece</li>
+													<li class="borderBottom">{{tab.duration}}Hour</li>
 												</ul>
 												<ul id="viewCtime{{tab.id}}">
 													<li class="rqleft">Close Time:</li>
@@ -368,7 +403,7 @@
 											</div>
 											{% if perms.request.change_requesttable%}
 											<div id="editPlanForm{{tab.id}}">
-												<form class="modalForm" method="POST">
+												<form class="modalForm" method="POST" onsubmit="validatetime()">
 													{% csrf_token %}
 													<div class="modalFormContent">
 														<ul>
@@ -458,7 +493,7 @@
 															<li class="rqleft">Action Discription:</li>
 															<li><textarea class="borderWidth modalText"
 																	id="actionDiscriptionEdit{{tab.id}}"
-																	name="actionDiscriptionEdit">{{tab.action_discription}}</textarea>
+																	name="actionDiscriptionEdit" style=vertical-align:top>{{tab.action_discription}}</textarea>
 															</li>
 														</ul>
 														<ul>
@@ -499,14 +534,13 @@
 																		<option>ongoing</option>
 																		<option>suspend</option>
 																		<option>close</option>
-																		<option>delay</option>
 																</select>
 															</span></li>
 														</ul>
 														<ul>
 															<li class="rqleft">Progress:</li>
 															<li><textarea class="borderWidth modalText"
-																	id="progressEdit{{tab.id}}" name="progressEdit">{{tab.progress}}</textarea>
+																	id="progressEdit{{tab.id}}" name="progressEdit" style=vertical-align:top>{{tab.progress}}</textarea>
 															</li>
 														</ul>
 														<ul>
@@ -777,7 +811,7 @@
 														<ul>
 															<li class="rqleft">Progress:</li>
 															<li><textarea class="borderWidth modalText"
-																	id="progressEditCom{{tab.id}}" name="progressEditCom">{{tab.progress|safe}}</textarea>
+																	id="progressEditCom{{tab.id}}" name="progressEditCom" >{{tab.progress|safe}}</textarea>
 															</li>
 														</ul>
 														<ul id="viewStimeCom{{tab.id}}">

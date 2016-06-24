@@ -79,6 +79,7 @@ class RequestTable(models.Model):
     submit_date = models.DateField(auto_now_add=True)
     duration = models.CharField(max_length=50, null=True)
     status = models.CharField(max_length=50, default="wait for zebu")
+    isdelay = models.CharField(max_length=50, default="no")
     progress = models.TextField(blank=True)
     start_time = models.DateTimeField(null=True, blank=True)
     is_plan = models.CharField(max_length= 20, default="false")
@@ -89,5 +90,6 @@ class RequestTable(models.Model):
 class TotalTable(models.Model):
     change_date = models.DateField()
     daily_duration = models.CharField(max_length=100, null=True)
+    status = models.CharField(max_length=50,null=True )
     request = models.ForeignKey(RequestTable, on_delete=models.CASCADE, related_name='RequestTable', null=True)
 
