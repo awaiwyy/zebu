@@ -15,7 +15,7 @@ from common import xlwt
 schedule_file = "resources/tab/schedule_tab.xls"
 
 def homePageData(request,project_tab):
-    # gopage = request.GET.get('page')
+    gopage = request.GET.get('page')
     schedule_item = []
     #time1 = "10:00-22:00"
     #time2 = "22:00-10:00"
@@ -153,21 +153,21 @@ def homePageData(request,project_tab):
     #end for project in project_tab
 
     #Pagination -CC
-    # perpage = 2 #show how many items per page
+    perpage = 2 #show how many items per page
     
-    # objects = schedule_list
-    # pager = Paginator(objects,perpage)
+    objects = schedule_list
+    pager = Paginator(objects,perpage)
     
-    # try:
-    #     projects = pager.page(gopage)
+    try:
+        projects = pager.page(gopage)
 
-    # except PageNotAnInteger:
-    #     projects = pager.page(1)
-    # except EmptyPage:
-    #     projects = pager.page(pager.num_pages)
+    except PageNotAnInteger:
+        projects = pager.page(1)
+    except EmptyPage:
+        projects = pager.page(pager.num_pages)
 
-    schedule_dict = {"schedule_tab": schedule_list,
-                     "curday_schedule": schedule_list,
+    schedule_dict = {"schedule_tab": projects,
+                     "curday_schedule": projects,
                     "cur_week": cur_week,
                     'cur_date': cur_date,
         }
