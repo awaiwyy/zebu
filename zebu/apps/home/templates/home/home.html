@@ -80,8 +80,8 @@
 		<div class="middletitle">
 			<p>
 				<span class="middletite1"> <a href="/" class="title">Login</a>&nbsp;&nbsp;-&nbsp;&nbsp;
-					<a href="/home" class="title">Home</a>
 				</span>
+				<span class="middletite2">Home</span>
 			</p>
 		</div>
 		<!-- 左侧模块 -->
@@ -97,12 +97,38 @@
 					</ul>
 				</div>
 			</div>
+
+		</div>
+
+		<!-- 中间模板 -->
+
+<!--<div class="pagination">
+    <span class="step-links">
+        {% if schedule_tab.has_previous %}
+            <a href="?page={{ schedule_tab.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ schedule_tab.number }} of {{ schedule_tab.paginator.num_pages }}.
+        </span>
+
+        {% if schedule_tab.has_next %}
+            <a href="?page={{ schedule_tab.next_page_number }}">next</a>
+        {% endif %}
+    </span>
+</div>-->
+
+		<div class="divcenter" style="height:800px; overflow:auto">
 			{% if perms.home.add_scheduleinfo %}
-			<div class="middleleft_bottom_new" data-toggle="modal" data-target="#newscheduleModal"  style="cursor:pointer">
-				<a >New</a>
+			<div class="" data-toggle="modal" data-target="#newscheduleModal"  style="cursor:pointer">
+				<tr>
+					<td><img src="/static/images/tianjia.png" /></td>
+					<span class="middletite2">Add the litter</span>
+				</tr>
+
 			</div>
             <!--弹出模态框（Modal） -->
-						<div class="modal fade" id="newscheduleModal" tabindex="-1" role="dialog" aria-labelledby="NewModalLabel" aria-hidden="true">
+					<div class="modal fade" id="newscheduleModal" tabindex="-1" role="dialog" aria-labelledby="NewModalLabel" aria-hidden="true">
                     <div class="modal-dialog" style = "width:800px">
                       <div class="modal-content">
                         <div class="modal-header">
@@ -144,29 +170,8 @@
 					  <!-- 添加模态框（Modal）结束 -->
 			{% endif %}
 			<!-- new schedule info finish -->
-		</div>
-
-		<!-- 中间模板 -->
-
-<!--<div class="pagination">
-    <span class="step-links">
-        {% if schedule_tab.has_previous %}
-            <a href="?page={{ schedule_tab.previous_page_number }}">previous</a>
-        {% endif %}
-
-        <span class="current">
-            Page {{ schedule_tab.number }} of {{ schedule_tab.paginator.num_pages }}.
-        </span>
-
-        {% if schedule_tab.has_next %}
-            <a href="?page={{ schedule_tab.next_page_number }}">next</a>
-        {% endif %}
-    </span>
-</div>-->
-		<div class="divcenter" style="height:800px; overflow:auto">
 			{% for pro_item in schedule_tab %}
         <div class="requestForm" >
-
         <div id="requestTable" class="requestTableDiv" >
 					<table  class="requestTable" id="Box"  >
                     <!--<tr>
@@ -176,11 +181,11 @@
 						</tr>-->
 
                   <tr>
-                     <td><b>Product:</b>{{pro_item.pro.project}}</td>
-                     <td><b>SPM:</b>{{pro_item.pro.spm}}</td>
-                     <td><b>Zebu:</b>{{pro_item.pro.zebu}}<b>Pieces</b></td>
-                     <td><a data-toggle="modal" data-target="#scheduleModal{{pro_item.pro.id}}"  style="cursor:pointer"><button class= "requestBtn" id="editBtn21" type="text" style="background-color: #FB8C8C">Edit</button></a></td>
-					 <td><a data-toggle="modal" data-target="#delPlanModal{{pro_item.pro.id}}"  style="cursor:pointer"><button class= "requestBtn" id="editBtn21" type="text" style="background-color: #FB8C8C">Delete</button></a></td>
+					 <td><b>Product: </b><input type="text" width="50px"  height="10px" readonly id="product" class="input-text" value="{{pro_item.pro.project}}"/></td>
+				  	 <td><b>SPM: </b><input type="text" readonly id="spm" class="input-text" value="{{pro_item.pro.spm}}"/></td>
+				  	 <td><b>SPM: </b><input type="text" readonly id="zebu" class="input-text" value="{{pro_item.pro.zebu}}"/></td>
+                     <td><a data-toggle="modal" data-target="#scheduleModal{{pro_item.pro.id}}"  style="cursor:pointer"><img src="/static/images/bianji.png" /></a></td>
+					 <td><a data-toggle="modal" data-target="#delPlanModal{{pro_item.pro.id}}"  style="cursor:pointer"><img src="/static/images/shanchu.png" /></a></td>
 				 </tr>
    <!-- 模态框（Modal） -->
 								<div class="modal fade" id="delPlanModal{{pro_item.pro.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
