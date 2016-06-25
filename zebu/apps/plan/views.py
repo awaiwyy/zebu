@@ -233,13 +233,15 @@ def planPage(request, **kwargs):
                 ftime1 = (year+"-"+month+"-"+day).encode("utf-8")
                 ftime = datetime.datetime.strptime(ftime1,'%Y-%m-%d').date()
                 utc_time = dtime.replace(tzinfo=tz.gettz('CST'))
-                edit_plan.start_time = utc_time
+
                 print dtime
-                print ftime
+                print "ftime:",ftime
                 print utc_time
                 #cur_time = datetime.datetime.now()
                 cur_time = datetime.date.today()
-                print cur_time
+                print "cur_time",cur_time
+                if cur_time <= ftime:
+                    edit_plan.start_time = utc_time
                 if cur_time >= ftime:
                     delta = (cur_time - ftime).days
                     print "delta=", delta
@@ -305,9 +307,9 @@ def planPage(request, **kwargs):
             close_time = request.POST['closeYearEdit']+"-"+request.POST['closeMonthEdit']+"-"+request.POST['closeDayEdit']+" "+request.POST['closeHourEdit']+":"+request.POST['closeMinuteEdit']+":"+request.POST['closeSecondEdit']
             if close_time != '-- ::':
                 cltime = close_time.encode("utf-8")
-                clotime = datetime.datetime.strptime(cltime, '%Y-%m-%d %H:%M:%S')
-                cur_datetime = datetime.datetime.now()
-                if clotime <= cur_datetime:
+                clotime = datetime.datetime.strptime(cltime, '%Y-%m-%d %H:%M:%S').date()
+                cur_date = datetime.date.today()
+                if clotime <= cur_date:
                     year = request.POST['closeYearEdit']
                     month = request.POST['closeMonthEdit']
                     day = request.POST['closeDayEdit']

@@ -53,41 +53,21 @@
 			document.getElementById("mybtn2").className = "classification2_up";
 		}
 	}
-
-	function validatetime()
+function validatetime()
 	{
 	    var myDate = new Date();
-	    var myyear=myDate.getFullYear();
-	    var mymonth=myDate.getMonth()+1;
-	    var myday=myDate.getDate();
-	    var myhour=myDate.getHours();
-	    var myminute=myDate.getMinutes();
-	    var mysecond=myDate.getSeconds();
 	    var edityear = $("select[name='closeYearEdit']").val();
 	    var editmonth = $("select[name='closeMonthEdit']").val();
 	    var editday = $("select[name='closeDayEdit']").val();
-	    var edithour = $("select[name='closeHourEdit']").val();
-	    var editminute = $("select[name='closeMinuteEdit']").val();
-	    if (edityear>myyear){
+	    myDate.setFullYear(edityear,editmonth-1,editday);
+	    var today = new Date();
+	    alert(today);
+	    alert(myDate);
+	    if (myDate>today) {
 	        alert("Close time只能是当前时间之前");
-	        return false;}
-	    else if (editmonth>mymonth){
-	        alert("Close time只能是当前时间之前");
-	        return false;}
-	    else if (editday>myday){
-	        alert("Close time只能是当前时间之前");
-	        return false;}
-	    else if (edithour>myhour){
-	        alert("Close time只能是当前时间之前");
-	        return false;}
-	    else if (editminute>myminute){
-	        alert("Close time只能是当前时间之前");
-	        return false;}
-	    else if (editsecond>mysecond){
-	        alert("Close time只能是当前时间之前");
-	        return false;}
+	        return false;
+	    }
 	}
-
 	var flag_browser = "other";
 	$(document).ready(function() {
 		//判断浏览器类型
