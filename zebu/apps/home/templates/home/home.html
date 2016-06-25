@@ -174,6 +174,7 @@
 			{% for pro_item in schedule_tab %}
         <div class="requestForm" >
         <div id="requestTable" class="requestTableDiv" >
+			<div class="productForm">
 					<table  class="requestTable" id="Box"  >
                     <!--<tr>
 							<th scope="col" width="84px"><span>Product</span></th>
@@ -182,10 +183,10 @@
 						</tr>-->
 
                   <tr>
-					 <td><b>Product: </b><input type="text" width="50px"  height="10px" readonly id="product" class="input-text" value="{{pro_item.pro.project}}"/></td>
-				  	 <td><b>SPM: </b><input type="text" readonly id="spm" class="input-text" value="{{pro_item.pro.spm}}"/></td>
-				  	 <td><b>SPM: </b><input type="text" readonly id="zebu" class="input-text" value="{{pro_item.pro.zebu}}"/></td>
-                     <td><a data-toggle="modal" data-target="#scheduleModal{{pro_item.pro.id}}"  style="cursor:pointer"><img src="/static/images/bianji.png" /></a></td>
+					 <td><b>Product: </b><input type="text" width="50px"  height="10px" readonly id="product" class="miniForm" value="{{pro_item.pro.project}}"/></td>
+				  	 <td><b>SPM: </b><input type="text" readonly id="spm" class="miniForm" value="{{pro_item.pro.spm}}"/></td>
+				  	 <td><b>Zube: </b><input type="text" readonly id="zebu" class="miniForm" value="{{pro_item.pro.zebu}}"/></td>
+                     <td><a data-toggle="modal" data-target="#scheduleModal{{pro_item.pro.id}}"  style="cursor:pointer" ><img src="/static/images/bianji.png"  /></a></td>
 					 <td><a data-toggle="modal" data-target="#delPlanModal{{pro_item.pro.id}}"  style="cursor:pointer"><img src="/static/images/shanchu.png" /></a></td>
 				 </tr>
    <!-- 模态框（Modal） -->
@@ -217,7 +218,7 @@
 								<!-- delete plan table modal finish-->
 
 					</table>
-				</div>
+
 					  <!-- 添加模态框（Modal）结束 -->
 			<div>
 				<div class="divst">
@@ -362,11 +363,12 @@
              </div>
          </div>
 		   <!-- 添加模态框（Modal）结束 -->
-
+			</div>
 		</div>
 			{% endfor %}
         </div>
 			</div>
 	</div>
+		</div>
 </body>
 </html>
