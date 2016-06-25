@@ -117,8 +117,8 @@
         {% endif %}
     </span>
 </div>-->
-
-		<div class="divcenter" style="height:800px; overflow:auto">
+		<div class="divcenter">
+			<div class="homeForm">
 			{% if perms.home.add_scheduleinfo %}
 			<div class="" data-toggle="modal" data-target="#newscheduleModal"  style="cursor:pointer">
 				<tr>
@@ -139,6 +139,7 @@
                         <form class = "modalForm" method="POST" >
                         {% csrf_token %}
                           <div class="modalFormContent">
+
                           	<ul>
 								<li class="new_rqleft">Project:</li>
 								<li>
@@ -230,30 +231,30 @@
 				{% widthratio forloop.counter 1 7 as tloop %}
 				<ul class="weekly_bl" style="padding-left: 0">
 					<li id="time"
-						style="width: 96px; height: 50px; text-align: center; line-height: 48px; background-color: #e2e3e3;"></li>
+						style="width: 90px; height: 50px; text-align: center; line-height: 48px; background-color: #e2e3e3;"></li>
 					<li id="week{{tloop|add:-6}}" onClick="weekClick({{tloop|add:-6}})"
-						style="width: 96px; height: 50px; line-height: 200%; background-color: #e2e3e3;">Monday<br>{{cur_date.0}}</li>
+						style="width: 90px; height: 50px; line-height: 200%; background-color: #e2e3e3;">Monday<br>{{cur_date.0}}</li>
 					<li id="week{{tloop|add:-5}}" onClick="weekClick({{tloop|add:-5}})"
-						style="width: 96px; height: 50px; line-height: 200%; background-color: #e2e3e3;">Tuesday<br>{{cur_date.1}}</li>
+						style="width: 90px; height: 50px; line-height: 200%; background-color: #e2e3e3;">Tuesday<br>{{cur_date.1}}</li>
 					<li id="week{{tloop|add:-4}}" onClick="weekClick({{tloop|add:-4}})"
-						style="width: 96px; height: 50px; line-height: 200%; background-color: #e2e3e3;">Wednesday<br>{{cur_date.2}}</li>
+						style="width: 90px; height: 50px; line-height: 200%; background-color: #e2e3e3;">Wednesday<br>{{cur_date.2}}</li>
 					<li id="week{{tloop|add:-3}}" onClick="weekClick({{tloop|add:-3}})"
-						style="width: 96px; height: 50px; line-height: 200%; background-color: #e2e3e3;">Thursday<br>{{cur_date.3}}</li>
+						style="width: 90px; height: 50px; line-height: 200%; background-color: #e2e3e3;">Thursday<br>{{cur_date.3}}</li>
 					<li id="week{{tloop|add:-2}}" onClick="weekClick({{tloop|add:-2}})"
-						style="width: 96px; height: 50px; line-height: 200%; background-color: #e2e3e3;">Friday<br>{{cur_date.4}}</li>
+						style="width: 90px; height: 50px; line-height: 200%; background-color: #e2e3e3;">Friday<br>{{cur_date.4}}</li>
 					<li id="week{{tloop|add:-1}}" onClick="weekClick({{tloop|add:-1}})"
-						style="width: 96px; height: 50px; line-height: 200%; background-color: #e2e3e3;">Saturday<br>{{cur_date.5}}</li>
+						style="width: 90px; height: 50px; line-height: 200%; background-color: #e2e3e3;">Saturday<br>{{cur_date.5}}</li>
 					<li id="week{{tloop}}" onClick="weekClick({{tloop}})"
-						style="width: 96px; height: 50px; line-height: 200%; background-color: #e2e3e3;"
+						style="width: 90px; height: 50px; line-height: 200%; background-color: #e2e3e3;"
 						class="rightli">Sunday<br>{{cur_date.6}}</li>
 				</ul>
 				<ul class="weekly_bl" style="padding-left: 0px">
 					<li id="time1"
-						style="width: 96px; height: 174px; text-align: center; line-height: 90px; background-color: #e2e3e3;">0:00~24:00</li>
+						style="width: 90px; height: 174px; text-align: center; line-height: 90px; background-color: #e2e3e3;">0:00~24:00</li>
 					{% for item in pro_item.sch %}
 					{% widthratio forloop.parentloop.counter 1 7 as ploop %}
 					<li id="total{{item.0|add:-7|add:ploop}}" value="{{item.1}}"
-						style="width: 96px; height: 174px; background-color: #e2e3e3;" 
+						style="width: 90px; height: 174px; background-color: #e2e3e3;"
 						title="Details" data-container="body" data-toggle="popover" data-placement="auto" data-html="true" data-trigger = "hover"
                   data-content="<strong>Total:</strong>{{item.1}}<br>
 							<strong>Used:</strong>{{item.2}}<br>
@@ -264,7 +265,7 @@
 							<strong>Information:</strong>{{item.3}}
 						</div>
 						
-						<canvas id="W3Cfuns_canvas{{item.0|add:-7|add:ploop}}" width="96px" height="174px"></canvas>
+						<canvas id="W3Cfuns_canvas{{item.0|add:-7|add:ploop}}" width="90px" height="174px"></canvas>
 					</li>
 					<li id="used{{item.0|add:-7|add:ploop}}" style="display: none"
 						value="{{item.2}}"></li>
@@ -365,6 +366,7 @@
 		</div>
 			{% endfor %}
         </div>
+			</div>
 	</div>
 </body>
 </html>
