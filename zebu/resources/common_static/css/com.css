@@ -85,12 +85,13 @@ form {
 	top:-8px;
 	width:960px;
 	min-height:1050px;
+	height:auto !important;
 	margin-bottom: 110px;
-   border-radius: 10px;
+	border-radius: 10px;
 	margin:0 auto;
 	background-color: white;
 	box-shadow:0 10px 10px 10px rgba(0, 65, 103, 0.3);
-	/* overflow:hidden; */
+	overflow:hidden;
 }
 
 .middletitle{
@@ -168,8 +169,7 @@ form {
 	position:relative;
 	top:-8px;
 	width:786px;
-	height:1532px;
-	height:auto;
+	height:auto !important;
 	min-height:800px;
 	_height:800px; 
 	float:left;

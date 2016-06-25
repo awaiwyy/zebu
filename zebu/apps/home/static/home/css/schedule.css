@@ -84,7 +84,8 @@
 
 .homeForm {
 	width:768px;
-	height: 864px;
+	min-height: 864px;
+	height:auto;
 	margin-top: 16px;
 	margin-right:16px;
 	border-radius: 8px;
