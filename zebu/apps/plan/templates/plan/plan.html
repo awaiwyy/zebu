@@ -53,20 +53,38 @@
 			document.getElementById("mybtn2").className = "classification2_up";
 		}
 	}
-function validatetime()
+function validatetime(tab_id,starttime)
 	{
-	    var myDate = new Date();
-	    var edityear = $("select[name='closeYearEdit']").val();
-	    var editmonth = $("select[name='closeMonthEdit']").val();
-	    var editday = $("select[name='closeDayEdit']").val();
-	    myDate.setFullYear(edityear,editmonth-1,editday);
+	    var closeDate = new Date();
+	    var closeyear = document.getElementById("closeyearid"+tab_id).value;
+	    var closemonth = document.getElementById("closemonthid"+tab_id).value;
+	    var closeday = document.getElementById("closedayid"+tab_id).value;
+	    closeDate.setFullYear(closeyear,closemonth-1,closeday);
+	    var startDate = new Date();
+	    var startyear = document.getElementById("startyearid"+tab_id).value;
+	    var startmonth = document.getElementById("startmonthid"+tab_id).value;
+	    var startday = document.getElementById("startdayid"+tab_id).value;
+	    startDate.setFullYear(startyear,startmonth-1,startday);
 	    var today = new Date();
-	    alert(today);
-	    alert(myDate);
-	    if (myDate>today) {
-	        alert("Close time只能是当前时间之前");
+	    var newyear = startDate.getFullYear();
+	    var newday = startDate.getDate();
+	    var datestring = startDate.toString();
+	    var aa = datestring.split(' ');
+	    var newmonth = aa[1].split(' ')[0];
+	    var a = starttime.split(',');
+	    var oldday = a[0].split(' ')[1];
+	    var oldyear = a[1].split(',')[0];
+	    var oldmonth = starttime.split(' ')[0];
+	    alert(oldmonth);
+	    if (startDate < today){
+	        alert("Start time 不能早于今天");
 	        return false;
 	    }
+	    if (closeDate>today) {
+	        alert("Close time不能晚于今天");
+	        return false;
+	    }
+
 	}
 	var flag_browser = "other";
 	$(document).ready(function() {
@@ -386,7 +404,7 @@ function validatetime()
 											</div>
 											{% if perms.request.change_requesttable%}
 											<div id="editPlanForm{{tab.id}}">
-												<form class="modalForm" method="POST" onsubmit="validatetime()">
+												<form class="modalForm" method="POST" onsubmit="validatetime({{tab.id}},'{{tab.start_time}}')">
 													{% csrf_token %}
 													<div class="modalFormContent">
 														<ul>
@@ -528,15 +546,15 @@ function validatetime()
 														</ul>
 														<ul>
 															<li class="rqleft">Start Time:</li>
-															<li><select name="yearEdit">
+															<li><select name="yearEdit" id ="startyearid{{tab.id}}">
 																	<option selected>{{tab.start_time | date:"Y"}}</option>
 																	{% for year in valid_time.0 %}
 																	<option>{{year}}</option> {% endfor %}
-															</select> <select name="monthEdit">
+															</select> <select name="monthEdit" id ="startmonthid{{tab.id}}">
 																	<option selected>{{tab.start_time | date:"m"}}</option>
 																	{% for month in valid_time.1 %}
 																	<option>{{month}}</option> {% endfor %}
-															</select> <select name="dayEdit">
+															</select> <select name="dayEdit" id ="startdayid{{tab.id}}">
 																	<option selected>{{tab.start_time | date:"d"}}</option>
 																	{% for day in valid_time.2 %}
 																	<option>{{day}}</option> {% endfor %}
@@ -601,15 +619,15 @@ function validatetime()
 														</ul> -->
 														<ul>
 															<li class="rqleft">Close Time:</li>
-															<li><select name="closeYearEdit">
+															<li><select name="closeYearEdit" id="closeyearid{{tab.id}}">
 																	<option selected>{{tab.close_time | date:"Y"}}</option>
 																	{% for year in valid_time.0 %}
 																	<option>{{year}}</option> {% endfor %}
-															</select> <select name="closeMonthEdit">
+															</select> <select name="closeMonthEdit" id="closemonthid{{tab.id}}">
 																	<option selected>{{tab.close_time | date:"m"}}</option>
 																	{% for month in valid_time.1 %}
 																	<option>{{month}}</option> {% endfor %}
-															</select> <select name="closeDayEdit">
+															</select> <select name="closeDayEdit" id="closedayid{{tab.id}}">
 																	<option selected>{{tab.close_time | date:"d"}}</option>
 																	{% for day in valid_time.2 %}
 																	<option>{{day}}</option> {% endfor %}
