@@ -322,6 +322,11 @@ def planPage(request, **kwargs):
                     utc_time = dtime.replace(tzinfo=tz.gettz('CST'))
                     edit_plan.close_time = utc_time
                     edit_plan.status = 'close'
+
+            print "next_target"
+            next_target = request.POST['next_targetEdit']
+            edit_plan.next_target = next_target
+
             edit_plan.save()
         elif 'delPlanId' in request.POST.keys():
             print "into delete plan"

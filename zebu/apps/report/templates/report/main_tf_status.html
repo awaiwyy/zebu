@@ -191,7 +191,7 @@
 					<form class="modalForm" method="POST">
 						{% csrf_token %}
 						<div class="modalFormContent" id="readRpTab{{tab.id}}">
-							<input type="text" id="idEdit" name="idEdit" value={ {tab.id}} hidden/>
+							<input type="text" id="idEdit" name="idEdit" value={{tab.id}} hidden/>
 							<ul>
 								<li class="new_rqleft">Product:</li>
 								<li>
