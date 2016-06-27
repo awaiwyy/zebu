@@ -4,8 +4,8 @@
 	<div class="requestForm">
 		<div>
 			<div class="new_request_title">Main TF Status
-				<div class="middleleft_bottom_new_report" data-toggle="modal" data-target="#NewModal" style="float:right">
-					<a style="cursor:pointer">New</a>
+				<div data-toggle="modal" data-target="#NewModal" style="float:right"><img src="/static/images/tianjia.png">
+					<a class="middletite2" style="cursor:pointer">Add New Product</a>
 				</div>
 			</div>
 		</div>
@@ -64,16 +64,16 @@
 					<td><b>Product:</b>{{tab.product}}</td>
 					<td><b>SPM:</b>{{tab.spm}}</td>
 					<td><b>Daily Reporter:</b>{{tab.daily_reporter}}</td>
-					<td><a data-toggle="modal" data-target="#myModal18{{tab.id}}" style="cursor:pointer"><button class= "requestBtn" id="editBtn21" type="text" style="background-color: #FB8C8C">Edit</button></a></td>
-					<td><a data-toggle="modal" data-target="#delPlanModal{{tab.id}}" style="cursor:pointer"><button class= "requestBtn" id="editBtn21" type="text" style="background-color: #FB8C8C">Delete</button></a></td>
+					<td><a data-toggle="modal" data-target="#myModal18{{tab.id}}" style="cursor:pointer"><img src="/static/images/bianji.png"></a></td>
+					<td><a data-toggle="modal" data-target="#delPlanModal{{tab.id}}" style="cursor:pointer"><img src="/static/images/shanchu.png"></a></td>
 				</tr>
 
 			</table>
 			<div>
 				<br>
 				<font size=3>Highlight:</font>
-				<div class="middleleft_bottom_new_report" data-toggle="modal" data-target="#NewHighModal{{tab.id}}" style="float:right">
-					<a style="cursor:pointer">New</a>
+				<div data-toggle="modal" data-target="#NewHighModal{{tab.id}}" style="float:right">
+					<a style="cursor:pointer"><img src="/static/images/tianjia.png"></a>
 				</div>
 				<br>
 				<br>
@@ -95,8 +95,8 @@
 						<td>{{tabs.owner}}</td>
 						<td>{{tabs.next_target}}</td>
 						<td>{{tabs.progress}}</td>
-						<td><button class="requestBtn" id="delhighplanBtn{{tabs.id}}" type="submit" name="delete" style="background-color: #67D00B"
-								data-toggle="modal" data-target="#delhighPlanModal{{tabs.id}}" style="cursor:pointer">Delete</button></td>
+						<td><a  id="delhighplanBtn{{tabs.id}}" type="submit" name="delete"
+								data-toggle="modal" data-target="#delhighPlanModal{{tabs.id}}" style="cursor:pointer"><img src="/static/images/shanchu.png"></a></td>
 					</tr>
 					{%endifequal%}
 					<!-- delete plan table模态框（Modal） -->
@@ -124,8 +124,8 @@
 
 				</table>
 				<font size=3>Lowlight:</font>
-				<div class="middleleft_bottom_new_report" data-toggle="modal" data-target="#NewLowModal{{tab.id}}" style="float:right">
-					<a style="cursor:pointer">New</a>
+				<div  data-toggle="modal" data-target="#NewLowModal{{tab.id}}" style="float:right">
+					<a style="cursor:pointer"><img src="/static/images/tianjia.png"></a>
 				</div>
 				<br>
 				<br>
@@ -147,8 +147,8 @@
 						<td>{{tabs.owner}}</td>
 						<td>{{tabs.next_target}}</td>
 						<td>{{tabs.progress}}</td>
-						<td><button class="requestBtn" id="dellowplanBtn{{tabs.id}}" type="submit" name="delete" style="background-color: #67D00B"
-								data-toggle="modal" data-target="#dellowPlanModal{{tabs.id}}" style="cursor:pointer">Delete</button></td>
+						<td><a id="dellowplanBtn{{tabs.id}}" type="submit" name="delete"
+								data-toggle="modal" data-target="#dellowPlanModal{{tabs.id}}" style="cursor:pointer"><img src="/static/images/shanchu.png"></a></td>
 					</tr>
 					{%endifequal%}
 					<!-- delete plan table模态框（Modal） -->
