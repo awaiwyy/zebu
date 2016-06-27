@@ -79,28 +79,120 @@
 				<br>
 				<table class="requestTable" id="Box">
 					<tr>
-						<th>TF</th>
-						<th>Action description</th>
-						<th>Module</th>
-						<th>Owner</th>
-						<th>Next Target</th>
-						<th>Progress</th>
+						<th scope="col" width="84px"><span>Module</span></th>
+						<th scope="col" width="222px"><span>Action
+									Discription</span></th>
+						<th scope="col" width="80px"><span>Owner</span></th>
+						<th scope="col" width="120px"><span>Status</span></th>
+						<th scope="col" width="88px"><span>Start Time</span></th>
+						<th scope="col" width="84px"><span>Next Target</span></th>
+						<th scope="col" width="74px"><span>Detail</span></th>
 					</tr>
 					{% for tabs in is_high_tab %}
 					{% ifequal tabs.project tab.product %}
 					<tr>
-						<td>{{tabs.tf_case}}</td>
-						<td>{{tabs.action_description}}</td>
 						<td>{{tabs.module}}</td>
+						<td>{{tabs.action_description|safe}}</td>
 						<td>{{tabs.owner}}</td>
+						<td>{{tabs.status}}</td>
+						<td>{{tabs.start_time | date:"Y-m-d H:i:s"}}</td>
 						<td>{{tabs.next_target}}</td>
-						<td>{{tabs.progress}}</td>
-						<td><a  id="delhighplanBtn{{tabs.id}}" type="submit" name="delete"
-								data-toggle="modal" data-target="#delhighPlanModal{{tabs.id}}" style="cursor:pointer"><img src="/static/images/shanchu.png"></a></td>
+						<td><a data-toggle="modal"
+								data-target="#planModal{{tabs.id}}" style="cursor: pointer"><img
+									style="vertical-align: middle" src="/static/images/down.png" /></a></td>
 					</tr>
 					{%endifequal%}
+
+					<!--弹出detail模态框（Modal） -->
+						<div class="modal fade" id="planModal{{tabs.id}}" tabindex="-1"
+							role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+							<div class="modal-dialog" style="width: 800px">
+								<div class="modal-content">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal"
+											aria-hidden="true">&times;</button>
+										<h4 class="modal-title" id="planModalLabel">Application
+											List</h4>
+									</div>
+									<div class="modal-body">
+										<div class="modalForm">
+											<div class="modalFormContent" id="readPlanDiv{{tab.id}}">
+												<!--  <div class="new_request_title">Application List</div> -->
+												<ul>
+													<li class="rqleft">ID:</li>
+													<li class="borderBottom">{{tabs.id}}</li>
+												</ul>
+												<ul>
+													<li class="rqleft">Project:</li>
+													<li class="borderBottom">{{tabs.project}}</li>
+												</ul>
+												<ul>
+													<li class="rqleft">Classification:</li>
+													<li id="readClassification" class="borderBottom">{{tabs.classification}}</li>
+												</ul>
+												<ul>
+													<li class="rqleft">Module:</li>
+													<li class="borderBottom">{{tabs.module}}</li>
+												</ul>
+												<ul>
+													<li class="rqleft">TF Case:</li>
+													<li class="borderBottom">{{tabs.tf_case}}</li>
+												</ul>
+												<ul>
+													<li class="rqleft">Action Discription:</li>
+													<li class="borderBottom">{{tabs.action_discription|safe}}</li>
+												</ul>
+												<ul>
+													<li class="rqleft">Environment:</li>
+													<li class="borderBottom">{{tabs.environment}}</li>
+												</ul>
+												<ul>
+													<li class="rqleft">Owner:</li>
+													<li class="borderBottom">{{tabs.owner}}</li>
+												</ul>
+												<ul>
+													<li class="rqleft">Priority:</li>
+													<li class="borderBottom">{{tabs.priority}}</li>
+												</ul>
+												<ul id="viewStatus{tab.id}">
+													<li class="rqleft">Status:</li>
+													<li class="borderBottom">{{tabs.status}}</li>
+												</ul>
+												<ul id="viewProgress{{tab.id}}">
+													<li class="rqleft">Progress:</li>
+													<li class="borderBottom">{{tabs.progress |safe}}</li>
+												</ul>
+												<ul id="viewStime{{tab.id}}">
+													<li class="rqleft">Start Time:</li>
+													<li class="borderBottom">{{tabs.start_time | date:"Y-m-d H:i:s"}}</li>
+												</ul>
+												<ul>
+													<li class="rqleft">Request Duration:</li>
+													<li class="borderBottom">{{tabs.request_duration}}</li>
+												</ul>
+												<ul>
+													<li class="rqleft">Daily Duration:</li>
+													<li class="borderBottom">{{tabs.daily_duration}}</li>
+												</ul>
+												<ul>
+													<li class="rqleft">Total Duration:</li>
+													<li class="borderBottom">{{tabs.duration}}Hour</li>
+												</ul>
+												<ul id="viewCtime{{tab.id}}">
+													<li class="rqleft">Close Time:</li>
+													<li class="borderBottom">{{tabs.close_time | date:"Y-m-d H:i:s"}}</li>
+												</ul>
+												<ul >
+													<li class="rqleft">Next Target:</li>
+													<li class="borderBottom">{{tabs.next_target}}</li>
+												</ul>
+											</div>
+												{% if perms.request.change_requesttable%}
+											<div align="center" style="margin-bottom: 100px;">
+											<button class="requestBtn" id="delhighplanBtn{{tabs.id}}" type="submit" name="delete"
+								data-toggle="modal" data-target="#delPlanModal{{tabs.id}}" style="background-color: #67D00B;cursor:pointer">Delete</button>
 					<!-- delete plan table模态框（Modal） -->
-					<div class="modal fade" id="delhighPlanModal{{tabs.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+					<div class="modal fade" id="delPlanModal{{tabs.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 						<div class="modal-dialog planDelForm">
 							<div class="modal-content">
 								<div class="modal-header">
@@ -120,6 +212,14 @@
 						</div>
 					</div>
 					<!-- delete plan table modal finish-->
+												{% endif %}
+											</div>
+											</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					<!-- 添加detail模态框（Modal）结束 -->
 					{%endfor%}
 
 				</table>
@@ -131,28 +231,120 @@
 				<br>
 				<table class="requestTable" id="Box">
 					<tr>
-						<th>TF</th>
-						<th>Action description</th>
-						<th>Module</th>
-						<th>Owner</th>
-						<th>Next Target</th>
-						<th>Progress</th>
+						<th scope="col" width="84px"><span>Module</span></th>
+						<th scope="col" width="222px"><span>Action
+									Discription</span></th>
+						<th scope="col" width="80px"><span>Owner</span></th>
+						<th scope="col" width="120px"><span>Status</span></th>
+						<th scope="col" width="88px"><span>Start Time</span></th>
+						<th scope="col" width="84px"><span>Next Target</span></th>
+						<th scope="col" width="74px"><span>Detail</span></th>
 					</tr>
 					{% for tabs in is_low_tab %}
 					{% ifequal tabs.project tab.product %}
 					<tr>
-						<td>{{tabs.tf_case}}</td>
-						<td>{{tabs.action_description}}</td>
 						<td>{{tabs.module}}</td>
+						<td>{{tabs.action_description|safe}}</td>
 						<td>{{tabs.owner}}</td>
+						<td>{{tabs.status}}</td>
+						<td>{{tabs.start_time | date:"Y-m-d H:i:s"}}</td>
 						<td>{{tabs.next_target}}</td>
-						<td>{{tabs.progress}}</td>
-						<td><a id="dellowplanBtn{{tabs.id}}" type="submit" name="delete"
-								data-toggle="modal" data-target="#dellowPlanModal{{tabs.id}}" style="cursor:pointer"><img src="/static/images/shanchu.png"></a></td>
+						<td><a data-toggle="modal"
+								data-target="#planlowModal{{tabs.id}}" style="cursor: pointer"><img
+									style="vertical-align: middle" src="/static/images/down.png" /></a></td>
 					</tr>
 					{%endifequal%}
+
+					<!--弹出detail模态框（Modal） -->
+						<div class="modal fade" id="planlowModal{{tabs.id}}" tabindex="-1"
+							role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+							<div class="modal-dialog" style="width: 800px">
+								<div class="modal-content">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal"
+											aria-hidden="true">&times;</button>
+										<h4 class="modal-title" id="planModalLabel">Application
+											List</h4>
+									</div>
+									<div class="modal-body">
+										<div class="modalForm">
+											<div class="modalFormContent" id="readPlanDiv{{tab.id}}">
+												<!--  <div class="new_request_title">Application List</div> -->
+												<ul>
+													<li class="rqleft">ID:</li>
+													<li class="borderBottom">{{tabs.id}}</li>
+												</ul>
+												<ul>
+													<li class="rqleft">Project:</li>
+													<li class="borderBottom">{{tabs.project}}</li>
+												</ul>
+												<ul>
+													<li class="rqleft">Classification:</li>
+													<li id="readClassification" class="borderBottom">{{tabs.classification}}</li>
+												</ul>
+												<ul>
+													<li class="rqleft">Module:</li>
+													<li class="borderBottom">{{tabs.module}}</li>
+												</ul>
+												<ul>
+													<li class="rqleft">TF Case:</li>
+													<li class="borderBottom">{{tabs.tf_case}}</li>
+												</ul>
+												<ul>
+													<li class="rqleft">Action Discription:</li>
+													<li class="borderBottom">{{tabs.action_discription|safe}}</li>
+												</ul>
+												<ul>
+													<li class="rqleft">Environment:</li>
+													<li class="borderBottom">{{tabs.environment}}</li>
+												</ul>
+												<ul>
+													<li class="rqleft">Owner:</li>
+													<li class="borderBottom">{{tabs.owner}}</li>
+												</ul>
+												<ul>
+													<li class="rqleft">Priority:</li>
+													<li class="borderBottom">{{tabs.priority}}</li>
+												</ul>
+												<ul id="viewStatus{tab.id}">
+													<li class="rqleft">Status:</li>
+													<li class="borderBottom">{{tabs.status}}</li>
+												</ul>
+												<ul id="viewProgress{{tab.id}}">
+													<li class="rqleft">Progress:</li>
+													<li class="borderBottom">{{tabs.progress |safe}}</li>
+												</ul>
+												<ul id="viewStime{{tab.id}}">
+													<li class="rqleft">Start Time:</li>
+													<li class="borderBottom">{{tabs.start_time | date:"Y-m-d H:i:s"}}</li>
+												</ul>
+												<ul>
+													<li class="rqleft">Request Duration:</li>
+													<li class="borderBottom">{{tabs.request_duration}}</li>
+												</ul>
+												<ul>
+													<li class="rqleft">Daily Duration:</li>
+													<li class="borderBottom">{{tabs.daily_duration}}</li>
+												</ul>
+												<ul>
+													<li class="rqleft">Total Duration:</li>
+													<li class="borderBottom">{{tabs.duration}}Hour</li>
+												</ul>
+												<ul id="viewCtime{{tab.id}}">
+													<li class="rqleft">Close Time:</li>
+													<li class="borderBottom">{{tabs.close_time | date:"Y-m-d H:i:s"}}</li>
+												</ul>
+												<ul >
+													<li class="rqleft">Next Target:</li>
+													<li class="borderBottom">{{tabs.next_target}}</li>
+												</ul>
+											</div>
+												{% if perms.request.change_requesttable%}
+											<div align="center" style="margin-bottom: 100px;">
+											<button class="requestBtn" id="dellowplanBtn{{tabs.id}}" type="submit" name="delete"
+								data-toggle="modal" data-target="#delPlanModal{{tabs.id}}" style="background-color: #67D00B;cursor:pointer">Delete</button>
 					<!-- delete plan table模态框（Modal） -->
-					<div class="modal fade" id="dellowPlanModal{{tabs.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+					<div class="modal fade" id="delPlanModal{{tabs.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 						<div class="modal-dialog planDelForm">
 							<div class="modal-content">
 								<div class="modal-header">
@@ -172,6 +364,14 @@
 						</div>
 					</div>
 					<!-- delete plan table modal finish-->
+												{% endif %}
+											</div>
+											</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					<!-- 添加detail模态框（Modal）结束 -->
 
 					{%endfor%}
 				</table>
