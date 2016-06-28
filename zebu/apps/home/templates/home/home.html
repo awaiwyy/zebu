@@ -39,7 +39,7 @@
 		var num=document.getElementById("zebuInfo").value;
 	    if(num)
 	    {
-	    if(isNaN(num)){
+	    if(!isNum(num)){
 	    alert("请输入整数");
 	    return false;
 	    }
@@ -52,13 +52,18 @@
 		var num1=document.getElementById("totalEdit"+pro+j).value;
 		var num2=document.getElementById("usedEdit"+pro+j).value;
 		if(num1 || num2){
-		if(isNaN(num1) || isNaN(num2)){
-	    alert("请输入整数");
+		if(!isNum(num1) || !isNum(num2)){
+	    alert("Total和Used请均输入整数");
 	    return false;
 	    }
 	    }
 	}
 	}
+
+	function isNum(num){
+       var reNum =/^[0-9]+$/;
+       return (reNum.test(num));
+    }
 
 </script>
 </head>
