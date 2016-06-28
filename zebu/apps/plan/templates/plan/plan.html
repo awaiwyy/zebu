@@ -76,8 +76,6 @@ function validatetime(tab_id,starttime)
 	    var oldyear = a[1].split(',')[0];
 	    var oldmonth1 = starttime.split(' ')[0];
 	    oldmonth = oldmonth1.substring(0,3);
-	    alert(oldmonth);
-	    alert(newmonth);
 	    if (!(newyear==oldyear&&newmonth==oldmonth&&newday==oldday)){
 	        if (startDate < today){
 	        alert("Start time 不能早于今天");
