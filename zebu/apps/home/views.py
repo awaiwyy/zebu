@@ -207,7 +207,8 @@ def homeUser(request):
         project = request.POST["projectInfo"]
         spm = request.POST["spmInfo"]
         zebu = request.POST["zebuInfo"]
-        projectInfo.objects.create(project=project,
+        if zebu.isdigit():
+            projectInfo.objects.create(project=project,
                                    spm=spm,
                                    zebu=zebu)
         schedule_dict = homePageData(request,project_tab)

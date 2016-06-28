@@ -34,6 +34,18 @@
       { $("[data-toggle='popover']").popover();
       });
 
+	function checknum()
+	{
+		var num=document.getElementById("zebuInfo").value;
+	    if(num)
+	    {
+	    if(isNaN(num)){
+	    alert("请输入整数");
+	    return false;
+	    }
+	    }
+	}
+
 </script>
 </head>
 <body>
@@ -136,7 +148,7 @@
                            <h4 class="modal-title" id="NewModalLabel">Product Information</h4>
                         </div>
                         <div class="modal-body">
-                        <form class = "modalForm" method="POST" >
+                        <form class = "modalForm" method="POST" onsubmit="checknum()">
                         {% csrf_token %}
                           <div class="modalFormContent">
 
