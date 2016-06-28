@@ -6,8 +6,12 @@
 			<div>
 			   <div class="new_request_title">Daily Report
 			     {% if perms.request.add_requesttable %}
-			   <div class="middleleft_bottom_new_report" data-toggle="modal" data-target="#NewModal" style="float:right">
-				   <a style="cursor:pointer">New</a>
+			   <div  data-toggle="modal" data-target="#NewModal" style="float:right"><tr>
+					<td><img src="/static/images/tianjia.png" /></td>
+					<span Style="color:#6bd5f8">Add New Report</span>
+				</tr>
+
+				   <a style="cursor:pointer"></a>
 			   </div>
 			   </div>
 			</div>
@@ -78,8 +82,8 @@
                      <td><b>Product:</b>{{tab.product}}</td>
                      <td><b>SPM:</b>{{tab.spm}}</td>
                      <td><b>Daily Reporter:</b>{{tab.daily_reporter}}</td>
-                     <td><a data-toggle="modal" data-target="#myModal18{{tab.id}}"  style="cursor:pointer"><button class= "requestBtn" id="editBtn21" type="text" style="background-color: #FB8C8C">Edit</button></a></td>
-					 <td><a data-toggle="modal" data-target="#delPlanModal{{tab.id}}"  style="cursor:pointer"><button class= "requestBtn" id="editBtn21" type="text" style="background-color: #FB8C8C">Delete</button></a></td>
+                     <td><a data-toggle="modal" data-target="#myModal18{{tab.id}}"  style="cursor:pointer"><img src="/static/images/bianji.png"></a></td>
+					 <td><a data-toggle="modal" data-target="#delPlanModal{{tab.id}}"  style="cursor:pointer"><img src="/static/images/shanchu.png"></a></td>
 				 </tr>
 				  <tr>
 				  <td><a href="downloadfile/{{tab.file_link}}">{{tab.file_link}}</a></td>
