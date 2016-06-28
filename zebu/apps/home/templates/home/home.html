@@ -46,6 +46,20 @@
 	    }
 	}
 
+	function checkint(pro){
+	for(var i=0;i<7;i++){
+		var j=i;
+		var num1=document.getElementById("totalEdit"+pro+j).value;
+		var num2=document.getElementById("usedEdit"+pro+j).value;
+		if(num1 || num2){
+		if(isNaN(num1) || isNaN(num2)){
+	    alert("请输入整数");
+	    return false;
+	    }
+	    }
+	}
+	}
+
 </script>
 </head>
 <body>
@@ -325,7 +339,7 @@
                      </div>
                      <div class="modal-body">
 
-						<form  class = "modalForm" method="POST" >
+						<form  class = "modalForm" method="POST" onsubmit="checkint({{pro_item.pro.id}})">
 								{% csrf_token %}
 
 							  <input type="text" name="project_idEdit" value={{pro_item.pro.id}} hidden/>
@@ -371,10 +385,10 @@
 						         {% for tab2 in pro_item.sch %}
 
 						         <tr>
-                             <td><input class="scheduleInput" type="text" name="dateEdit{{tab2.0}}"value={{tab2.4 | date:"Y-m-d"}} readonly></td>
-                             <td><input class="scheduleInput" type="text" name="timeEdit{{tab2.0}}"value={{tab2.5}} readonly></td>
-                             <td><input class="scheduleInput" type="text" name="totalEdit{{tab2.0}}"value={{tab2.1}}></td>
-                             <td><input class="scheduleInput" type="text" name="usedEdit{{tab2.0}}"value={{tab2.2}}></td>
+                             <td><input class="scheduleInput" type="text" name="dateEdit{{tab2.0}}" value={{tab2.4 | date:"Y-m-d"}} readonly></td>
+                             <td><input class="scheduleInput" type="text" name="timeEdit{{tab2.0}}" value={{tab2.5}} readonly></td>
+                             <td><input class="scheduleInput" type="text" name="totalEdit{{tab2.0}}" id="totalEdit{{pro_item.pro.id}}{{tab2.0}}" value={{tab2.1}}></td>
+                             <td><input class="scheduleInput" type="text" name="usedEdit{{tab2.0}}" id="usedEdit{{pro_item.pro.id}}{{tab2.0}}" value={{tab2.2}}></td>
                              <td><textarea class="scheduleText" name="arrangementEdit{{tab2.0}}">{{tab2.3}}</textarea></td>
                            </tr>
 
