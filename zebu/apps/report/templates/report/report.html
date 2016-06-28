@@ -101,19 +101,26 @@
                               	<ul>
 									<li class="rqleft">Product:</li>
 									<li>
-										<input type="text" id="productEdit" name="productEdit" value = {{tab.product}} />
+										<span>
+                                  <select class="borderWidth" id="productEdit" name="productEdit">
+                                      <option selected="selected">{{tab.product}}</option>
+									  <option>iwhale2</option>
+                                      <option>isharkl2</option>
+                                      <option>Other</option>
+                                  </select>
+                                  </span>
                                 	</li>
 								</ul>
                               	<ul>
 									<li class="rqleft">SPM:</li>
 									<li>
-										<input type="text" id="spmEdit" name="spmEdit" value = {{tab.spm}} />
+										<input type="text" id="spmEdit" name="spmEdit" value = {{tab.spm}} style="width:350px;height:24px"/>
 									</li>
 								</ul>
 								<ul>
 									<li class="rqleft">Daily Reporter:</li>
 									<li>
-										<input type="text" id="reporterEdit" name="reporterEdit" value = {{tab.daily_reporter}} />
+										<input type="text" id="reporterEdit" name="reporterEdit" value = {{tab.daily_reporter}} style="width:350px;height:24px"/>
                                 	</li>
 							  	</ul>
 								<ul>

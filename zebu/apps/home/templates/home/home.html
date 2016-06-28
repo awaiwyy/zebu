@@ -133,7 +133,7 @@
                       <div class="modal-content">
                         <div class="modal-header">
                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                           <h4 class="modal-title" id="NewModalLabel">Project Information</h4>
+                           <h4 class="modal-title" id="NewModalLabel">Product Information</h4>
                         </div>
                         <div class="modal-body">
                         <form class = "modalForm" method="POST" >
@@ -141,22 +141,29 @@
                           <div class="modalFormContent">
 
                           	<ul>
-								<li class="new_rqleft">Project:</li>
+								<li class="new_rqleft">Product:</li>
 								<li>
-									<input type="text" id="projectInfo" name="projectInfo" />
+									<span>
+                                  <select class="borderWidth" id="projectInfo" name="projectInfo">
+                                      <option selected="selected">iwhale2</option>
+                                      <option>isharkl2</option>
+                                      <option>Other</option>
+                                  </select>
+                                  </span>
 								</li>
 							</ul>
 							<ul>
 								<li class="new_rqleft">SPM:</li>
 								<li>
-									<input type="text" id="spmInfo" name="spmInfo" />
+									<input type="text" id="spmInfo" name="spmInfo" style="width:350px;height:24px"/>
 								</li>
 							</ul>
 							<ul>
 								<li class="new_rqleft" >Zebu:</li>
 								<li>
-									<input type="text" id="zebuInfo" name="zebuInfo" />
+									<input type="text" id="zebuInfo" name="zebuInfo" style="width:350px;height:24px"/>
 								</li>
+								<li> Pieces</li>
 							</ul>
 						  </div>
 							<div align="center" style="margin-bottom: 100px; ">
@@ -315,21 +322,29 @@
                               	<ul>
 									<li class="rqleft">Product:</li>
 									<li>
-										<input type="text" id="projectEdit" name="projectEdit" value = {{pro_item.pro.project}} />
+										<span>
+                                  <select class="borderWidth" id="projectEdit" name="projectEdit">
+                                      <option selected="selected">{{pro_item.pro.project}}</option>
+									  <option>iwhale2</option>
+                                      <option>isharkl2</option>
+                                      <option>Other</option>
+                                  </select>
+                                  </span>
                                 	</li>
 								</ul>
 
                               	<ul>
 									<li class="rqleft">SPM:</li>
 									<li>
-										<input type="text" id="spmEdit" name="spmEdit" value = {{pro_item.pro.spm}} />
+										<input type="text" id="spmEdit" name="spmEdit" value = {{pro_item.pro.spm}} style="width:350px;height:24px"/>
 									</li>
 								</ul>
 								<ul>
 									<li class="rqleft">Zebu:</li>
 									<li>
-										<input type="text" id="zubuEdit" name="zebuEdit" value = {{pro_item.pro.zebu}} />
+										<input type="text" id="zubuEdit" name="zebuEdit" value = {{pro_item.pro.zebu}} style="width:350px;height:24px"/>
                                 	</li>
+									<li> Pieces</li>
 							  	</ul>
 							  </div>
 
