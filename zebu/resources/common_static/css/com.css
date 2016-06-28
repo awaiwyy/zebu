@@ -82,7 +82,7 @@ form {
 /*----中间部分-----*/
 .middle{
 	position:relative;
-	top:-8px;
+	top:-57px;
 	width:960px;
 	min-height:1050px;
 	height:auto !important;
@@ -95,7 +95,7 @@ form {
 }
 
 .middletitle{
-	position: absolute;
+	position: relative;
 	top:0;
 	left:0;
 	margin:24px 0 0 16px;
