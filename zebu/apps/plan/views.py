@@ -322,10 +322,25 @@ def planPage(request, **kwargs):
                     utc_time = dtime.replace(tzinfo=tz.gettz('CST'))
                     edit_plan.close_time = utc_time
                     edit_plan.status = 'close'
+                    try:
+                        total_tab = TotalTable.objects.filter(request_id=request_id).get(change_date=change_date)
+                        total_tab.daily_duration = daily_dura
+                        total_tab.status = 'close'
+                        total_tab.save()
+                    except:
+                        print "not exist"
+                        TotalTable.objects.create(change_date=change_date,
+                                          daily_duration=daily_duration,
+                                          status=edit_plan.status,
+                                          request_id=request_id)
+
 
             print "next_target"
             next_target = request.POST['next_targetEdit']
             edit_plan.next_target = next_target
+
+
+
 
             edit_plan.save()
         elif 'delPlanId' in request.POST.keys():

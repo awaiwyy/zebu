@@ -89,7 +89,7 @@
 			<div class="middleleft2" style="position: relative; top: -16px;">
 				<div class="middleleft_center">
 					<ul>
-						<li id="middleleft_center_topli"><a href="exportTab">Export
+						<li id="middleleft_center_topli"><a href="exportTab" style="color:#8e8e8e">Export
 								Excel</a></li>
 						<li><a href="#">&nbsp;</a></li>
 						<li><a href="#">&nbsp;</a></li>
@@ -123,7 +123,7 @@
 			<div class="" data-toggle="modal" data-target="#newscheduleModal"  style="cursor:pointer">
 				<tr>
 					<td><img src="/static/images/tianjia.png" /></td>
-					<span class="middletite2">Add the litter</span>
+					<span Style="color:#6bd5f8">Add New Product</span>
 				</tr>
 
 			</div>
@@ -255,12 +255,12 @@
 					{% for item in pro_item.sch %}
 					{% widthratio forloop.parentloop.counter 1 7 as ploop %}
 					<li id="total{{item.0|add:-7|add:ploop}}" value="{{item.1}}"
-						style="width: 90px; height: 174px; background-color: #e2e3e3;"
+						style="width: 90px; height: 174px; background-color: #e2e3e3"
 						title="Details" data-container="body" data-toggle="popover" data-placement="auto" data-html="true" data-trigger = "hover"
                   data-content="<strong>Total:</strong>{{item.1}}<br>
 							<strong>Used:</strong>{{item.2}}<br>
 							<strong>Information:</strong>{{item.3}}">
-						<div class="listyle" style="display: none">
+						<div class="listyle" style="display: none" >
 							<strong>Total:</strong>{{item.1}}<br>
 							<strong>Used:</strong>{{item.2}}<br>
 							<strong>Information:</strong>{{item.3}}
