@@ -30,3 +30,10 @@ class MaintfstatusTable(models.Model):
     spm = models.CharField(max_length=50)
     daily_reporter = models.CharField(max_length=50)
     is_maintf = models.CharField(max_length= 20, default="true")
+
+class ScheduleTable(models.Model):
+    product = models.CharField(max_length=50)
+    spm = models.CharField(max_length=50)
+    daily_reporter = models.CharField(max_length=50)
+    file_link = models.TextField(null=True)
+    is_schedule = models.CharField(max_length=20, default="true")

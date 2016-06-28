@@ -6,6 +6,7 @@ from ..request.models import RequestTable
 from models import ResourceUsageTable
 from models import ResourceUsageTitleTable
 from models import MaintfstatusTable
+from models import ScheduleTable
 import os
 import sys
 reload(sys)
@@ -153,4 +154,37 @@ def report_MainTF(request):
         return render(request, 'report/main_tf_status.html',{"plan_tab": plan_tab,"maintf_tab":maintf_tab,"is_maintf_tab":is_maintf_tab,"is_high_tab":is_high_tab,"is_low_tab":is_low_tab})
 
 def report_Schedule(request):
-    return render(request, 'report/schedule.html')
+    schedule_tab = ScheduleTable.objects.filter(is_schedule="true").order_by("id")
+    if request.method == 'POST':
+        print "POST!!!!"
+        # print request.body
+        # 获得表单数据
+        if 'productInfo' in request.POST.keys():
+            print"into new schedule "
+            handle_uploaded_file(request.FILES['file'], str(request.FILES['file']))
+            product = request.POST['productInfo']
+            spm = request.POST['spmInfo']
+            reporter = request.POST['reporterInfo']
+            file_link = str(request.FILES['file'])
+            # 添加到数据库
+            ScheduleTable.objects.create(product=product,
+                                       spm=spm,
+                                       daily_reporter=reporter,
+                                       file_link=file_link)
+        elif 'productEdit' in request.POST.keys():
+            print "edit schedule"
+            edit_id = request.POST['idEdit']
+            edit_schedule = ScheduleTable.objects.get(id=edit_id)
+            edit_schedule.product = request.POST['productEdit']
+            edit_schedule.spm = request.POST['spmEdit']
+            edit_schedule.daily_reporter = request.POST['reporterEdit']
+            if 'file_linkEdit' in request.FILES:
+                handle_uploaded_file(request.FILES['file_linkEdit'], str(request.FILES['file_linkEdit']))
+                edit_schedule.file_link = str(request.FILES['file_linkEdit'])
+                edit_schedule.save()
+        else:
+            print "there is something wrong"
+        return HttpResponseRedirect('schedule', {"schedule_tab": schedule_tab})
+    else:
+        print "GET!!!!"
+        return render(request, 'report/schedule.html', {"schedule_tab": schedule_tab})
