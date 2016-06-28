@@ -89,6 +89,12 @@ def homePageData(request,project_tab):
             #saveScheduleTab(display_tab)
 
     schedule_list = []
+    cur_date = []
+    for i in range(7):
+        date_item = start_date + datetime.timedelta(days=i)
+        cur_date.append(date_item.day)
+    cur_date.append(cur_month)
+
     for project in project_tab:
         print "project.id: ",project.id
         display_tab = scheduleInfo.objects.filter(project_id = project.id, sdate__gte=start_date, sdate__lte=end_date)
@@ -133,16 +139,16 @@ def homePageData(request,project_tab):
 
         #cur_daylight = schedule_item[:14:2]
         #cur_night = schedule_item[1:15:2]
-    cur_day = schedule_list[0]["sch"][:7:1]
+    #cur_day = schedule_list[0]["sch"][:7:1]
         #next_daylight = schedule_item[14::2]
         #next_night = schedule_item[15::2]
-    cur_date = []
+    #cur_date = []
         #next_date = []
-    for k in  range(7):
-        cur_date.append(cur_day[k][4].day)
+    # for k in  range(7):
+    #     cur_date.append(cur_day[k][4].day)
             #next_date.append(next_daylight[k][4].day)
 
-    cur_date.append(cur_month)
+    #cur_date.append(cur_month)
         #next_date.append(next_month)
     # i=0
     # for pro_i in schedule_list:
