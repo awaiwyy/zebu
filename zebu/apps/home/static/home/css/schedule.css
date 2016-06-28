@@ -111,7 +111,7 @@
 	border-left: 1px solid #cbcbcb;
 	border-right: 1px solid #cbcbcb;
 	font-size: 14px;
-	padding:0px 4px 80px 4px;
+	padding:16px 4px 80px 4px;
 }
 
 .reportForm {
@@ -134,7 +134,7 @@
 .miniForm {
 	width:120px;
 	height:28px;
-	margin-top: 16px;
+	margin-top: 0px;
 	margin-right: 16px;
 	border-radius: 8px;
 	margin-bottom: 0px;
