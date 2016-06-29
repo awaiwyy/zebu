@@ -2,12 +2,11 @@
 {% block content %}
 <!-- 中间模板 -->
 		<div class="divcenter">
-			<div class="requestForm">
+			<div class="homeForm">
 			 <div>
-			   <div class="new_request_title">Usage of Zebu Resource
-			   <div class="middleleft_bottom_new_report" data-toggle="modal" data-target="#NewModal" style="float:right">
-				   <a style="cursor:pointer">New</a>
-			   </div>
+			   <div data-toggle="modal" data-target="#NewModal"  style="cursor:pointer"><img src="/static/images/tianjia.png" />
+				   <span Style="color:#6bd5f8">Add New Product</span>
+
 			   </div>
 			 </div>
 			 <!--弹出模态框（Modal） -->
@@ -16,89 +15,96 @@
                       <div class="modal-content">
                         <div class="modal-header">
                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                           <h4 class="modal-title" id="NewModalLabel">Schedule of projects on Zebu</h4>
+                           <h4 class="modal-title" id="NewModalLabel">Daily Report</h4>
                         </div>
                         <div class="modal-body">
-                        <form class = "modalForm" method="POST">
+                        <form class = "modalForm" method="POST" enctype="multipart/form-data">
                         {% csrf_token %}
                           <div class="modalFormContent">
-                          <ul>
-									   <li class="new_rqleft">Product:</li>
-									   <li>
-                                  <input type="text" id="productInfo" name="productInfo" />
-                              </li>
-								  </ul>
-								  <ul>
-									   <li class="new_rqleft">SPM:</li>
-									   <li>
-									<input type="text" id="spmInfo" name="spmInfo" />
-                              </li>
-								  </ul>
-								  <ul>
-									   <li class="new_rqleft" >Daily Reporter:</li>
-									   <li>
-                                 <input type="text" id="reporterInfo" name="reporterInfo" />
-                              </li>
-								  </ul>
-								  <input type="hidden" name="ownerInfo" value={{user.username}} />
-								  <!-- <input type="hidden" name="submitUserInfo" value={{user.username}} /> -->
-								  </div>
-								  <div align="center" style="margin-bottom: 100px; ">
+                          	<ul>
+								<li class="new_rqleft">Product:</li>
+								<li>
+									<span>
+                                  <select class="borderWidth" id="productInfo" name="productInfo">
+                                      <option selected="selected">iwhale2</option>
+                                      <option>isharkl2</option>
+                                      <option>Other</option>
+                                  </select>
+                                  </span>
+								</li>
+							</ul>
+							<ul>
+								<li class="new_rqleft">SPM:</li>
+								<li>
+									<input type="text" id="spmInfo" name="spmInfo" style="width:350px;height:24px"/>
+								</li>
+							</ul>
+							<ul>
+								<li class="new_rqleft" >Daily Reporter:</li>
+								<li>
+									<input type="text" id="reporterInfo" name="reporterInfo" style="width:350px;height:24px"/>
+								</li>
+							</ul>
+						  </div>
+							<div align="center" style="margin-bottom: 100px; ">
                             <button class= "requestBtn" type="text" name="cancle" style="background-color: #FB8C8C" data-dismiss="modal">cancel</button>
                             <button class= "requestBtn" name="ok" type="submit" style="background-color:#67D00B ">confirm</button>
-                          </div>
-                          </form>
-                          </div>
+                          	</div>
+						</form>
+						</div>
                       </div>
                    </div>
-                 </div>
+                 		</div>
 					  <!-- 添加模态框（Modal）结束 -->
 			 <div class="">
-			 <b>Total：0 H(10×24)</b><br>
-             <b>Usage：0 H</b>
-             <a data-toggle="modal" data-target="#TitleModal"  style="cursor:pointer">
-             <button class= "requestBtn" id="editBtn21" type="text" style="background-color: #FB8C8C">Edit</button></a>
-			 </div>
+				 <table  class="" id="Box1"  >
+			 <tr><td><b>Total：{{tab.total}} H(10×24)</b></td></tr>
+             <tr><td><b>Usage：{{tab.usage}} H</b></td>
+             <td><a data-toggle="modal" data-target="#TitleModal"  style="cursor:pointer">
+             <img src="/static/images/bianji.png"></a></td></tr>
+					  </table>
              <!-- 弹出模态框（Modal） -->
-					  <div class="modal fade" id="TitleModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="modal fade" id="TitleModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                     <div class="modal-dialog" style = "width:800px">
                       <div class="modal-content">
-                      {}
-							<form  class = "modalForm" method="POST">
+
+							<form  class = "modalForm" method="POST" enctype="multipart/form-data">
 								{% csrf_token %}
-                              <div class="modalFormContent" id="readRpTab{{tab.id}}">
-								  <input type="text" id="idEdit" name="idEdit1" value = {{tab.id}} hidden/>
-                              <ul>
-									     <li class="rqleft">Total:</li>
-									<input type="text" id="totalEdit" name="totalEdit" value = {{tab.total}} />
-                                </li>
-								      </ul>
-                              <ul>
-									     <li class="rqleft">Usage:</li>
-									     <li>
-                                  <input type="text" id="usageEdit" name="uasgeEdit" value = {{tab.usage}} />
-                                </li>
-								      </ul>
-								      </div>
-								      <div align="center" style="margin-bottom: 100px; vertical-align:middle;">
-                                  <button class= "requestBtn" type="text" id="cancleEditBtn18" style="background-color: #FB8C8C" data-dismiss="modal">cancel</button>
-                                  <button class= "requestBtn" type="submit" id="saveRqEdit18"  style="background-color:#67D00B ">confirm</button>
-                              </div>
+                              <div class="modalFormContent" id="titleedit">
+								  <input type="text" id="Editid" name="idEdit" value = {{tab.id}} hidden/>
+                              	<ul>
+									<li class="rqleft">Total:</li>
+									<li>
+										<input type="text" id="edittotal" name="edittotal" value = {{tab.total}} style="width:350px;height:24px"/>
+									</li>
+								</ul>
+								<ul>
+									<li class="rqleft">Usage:</li>
+									<li>
+										<input type="text" id="editusage" name="editusage" value = {{tab.editusage}} style="width:350px;height:24px"/>
+                                	</li>
+							  	</ul>
+							  </div>
+								<div align="center" style="margin-bottom: 100px; vertical-align:middle;">
+                                  <button class= "requestBtn" type="text" id="cancleEditBtn1" style="background-color: #FB8C8C" data-dismiss="modal">cancel</button>
+                                  <button class= "requestBtn" type="submit" id="saveRqEdit1"  style="background-color:#67D00B ">confirm</button>
+                              	</div>
                             </form>
-                            </div>
-                            </div>
-                            </div>    
+					  </div>
+					</div>
+					  </div>
+
+				 </div>
                     <!-- 弹出模态框结束-->
-			 
 			 <div id="requestTable" class="requestTableDiv">
 					<table  class="requestTable" id="Box"  >
-                        {% for tab in resource_usage_tab %}
+						{% for tab in resource_usage_tab%}
 				<tr>
                      <td><b>Product:</b>{{tab.product}}</td>
                      <td><b>SPM:</b>{{tab.spm}}</td>
                      <td><b>Daily Reporter:</b>{{tab.daily_reporter}}</td>
-                     <td><a data-toggle="modal" data-target="#editModal18{{tab.id}}"  style="cursor:pointer"><button class= "requestBtn" id="editBtn21" type="text" style="background-color: #FB8C8C">Edit</button></a></td>
-                     <td><a data-toggle="modal" data-target="#delPlanModal{{tab.id}}"  style="cursor:pointer"><button class= "requestBtn" id="editBtn21" type="text" style="background-color: #FB8C8C">Delete</button></a></td>
+                     <td><a data-toggle="modal" data-target="#editModal18{{tab.id}}"  style="cursor:pointer"><img src="/static/images/bianji.png"></a></td>
+                     <td><a data-toggle="modal" data-target="#delresourceModal{{tab.id}}"  style="cursor:pointer"><img src="/static/images/shanchu.png"></a></td>
                   </tr>
 
 						<tr>
@@ -114,7 +120,6 @@
                      <td>{{tab.performance}}H</td>
                      <td>{{tab.zebu_platform}}H</td>
                      <td>{{tab.function}}H</td>
-                     <td><a data-toggle="modal" data-target="#editModal11{{tab.id}}"  style="cursor:pointer"><button class= "requestBtn" id="editBtn21" type="text" style="background-color: #FB8C8C">Edit</button></a></td>
                   </tr>
 
 
@@ -124,82 +129,67 @@
                       <div class="modal-content">
                         <div class="modal-header">
                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                           <h4 class="modal-title" id="myModalLabel">Edit</h4>
+                           <h4 class="modal-title" id="myModalLabel">Edit Usage</h4>
                         </div>
                         <form  class = "modalForm" method="POST" enctype="multipart/form-data">
 								{% csrf_token %}
                               <div class="modalFormContent" id="readRpTab{{tab.id}}">
 								  <input type="text" id="idEdit" name="idEdit" value = {{tab.id}} hidden/>
                               	<ul>
-									<li class="rqleft">Product:</li>
-									<li>
-										<input type="text" id="productEdit" name="productEdit" value = {{tab.product}} />
-                                	</li>
-								</ul>
+								<li class="new_rqleft">Product:</li>
+								<li>
+									<span>
+                                  <select class="borderWidth" id="productEdit" name="productEdit">
+                                      <option selected="selected">iwhale2</option>
+                                      <option>isharkl2</option>
+                                      <option>Other</option>
+                                  </select>
+                                  </span>
+								</li>
+							</ul>
                               	<ul>
 									<li class="rqleft">SPM:</li>
 									<li>
-										<input type="text" id="spmEdit" name="spmEdit" value = {{tab.spm}} />
+										<input type="text" id="spmEdit" name="spmEdit" style="width:350px;height:24px" value = {{tab.spm}} />
 									</li>
 								</ul>
 								<ul>
 									<li class="rqleft">Daily Reporter:</li>
 									<li>
-										<input type="text" id="reporterEdit" name="reporterEdit" value = {{tab.daily_reporter}} />
+										<input type="text" id="reporterEdit" name="reporterEdit" style="width:350px;height:24px" value = {{tab.daily_reporter}} />
                                 	</li>
 							  	</ul>
-							  </div>
-								<div align="center" style="margin-bottom: 100px; vertical-align:middle;">
-                                  <button class= "requestBtn" type="text" id="cancleEditBtn18" style="background-color: #FB8C8C" data-dismiss="modal">cancel</button>
-                                  <button class= "requestBtn" type="submit" id="saveRqEdit18"  style="background-color:#67D00B ">confirm</button>
-                              	</div>
-                            </form>
-                      </div>
-                   </div>
-                 </div>
-					  <!-- 添加模态框（Modal）结束 -->
-                      <!--弹出模态框（Modal） -->
-						<div class="modal fade" id="editModal11{{tab.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" style = "width:800px">
-                      <div class="modal-content">
-                        <div class="modal-header">
-                           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                           <h4 class="modal-title" id="myModalLabel">Edit</h4>
-                        </div>
-                        <form  class = "modalForm" method="POST" enctype="multipart/form-data">
-								{% csrf_token %}
-                              <div class="modalFormContent" id="readRpTab{{tab.id}}">
-								  <input type="text" id="idEdit" name="idEdit" value = {{tab.id}} hidden/>
-                              	<ul>
+								  <ul>
 									<li class="rqleft">Total:</li>
 									<li>
-										<input type="text" id="totalEdit" name="totalEdit" value = {{tab.total}} />
+										<input type="text" id="totalEdit" name="totalEdit" style="width:350px;height:24px" value = {{tab.total}} />
                                 	</li>
-								</ul>
-                              	<ul>
+							  	</ul>
+								  <ul>
 									<li class="rqleft">Power Management:</li>
 									<li>
-										<input type="text" id="managementEdit" name="managementEdit" value = {{tab.power_management}} />
-									</li>
-								</ul>
-								<ul>
+										<input type="text" id="managementEdit" name="managementEdit" style="width:350px;height:24px" value = {{tab.power_management}} />
+                                	</li>
+							  	</ul>
+								  <ul>
 									<li class="rqleft">Performance:</li>
 									<li>
-										<input type="text" id="performanceEdit" name="performanceEdit" value = {{tab.performance}} />
+										<input type="text" id="performanceEdit" name="performanceEdit" style="width:350px;height:24px" value = {{tab.performance}} />
                                 	</li>
 							  	</ul>
-                                <ul>
+								  <ul>
 									<li class="rqleft">Function:</li>
 									<li>
-										<input type="text" id="platformEdit" name="platformEdit" value = {{tab.function}} />
+										<input type="text" id="functionEdit" name="functionEdit" style="width:350px;height:24px" value = {{tab.function}} />
                                 	</li>
 							  	</ul>
-                                <ul>
-									<li class="rqleft">zebu platform:</li>
+								  <ul>
+									<li class="rqleft"> zebu platform:</li>
 									<li>
-										<input type="text" id="platformEdit" name="platformEdit" value = {{tab.zebu_platform}} />
+										<input type="text" id="zubeEdit" name="zubeEdit" style="width:350px;height:24px" value =  {{tab.zebu_platform}} />
                                 	</li>
 							  	</ul>
+
 							  </div>
 								<div align="center" style="margin-bottom: 100px; vertical-align:middle;">
                                   <button class= "requestBtn" type="text" id="cancleEditBtn18" style="background-color: #FB8C8C" data-dismiss="modal">cancel</button>
@@ -210,7 +200,33 @@
                    </div>
                  </div>
 					  <!-- 添加模态框（Modal）结束 -->
-			 {% endfor %}
+						<!-- 模态框（Modal） -->
+								<div class="modal fade" id="delresourceModal{{tab.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+									aria-hidden="true">
+									<div class="modal-dialog planDelForm">
+										<div class="modal-content">
+											<div class="modal-header">
+												<!-- <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> -->
+												<h4 class="modal-title" id="myModalLabel">Delete The Product ?</h4>
+											</div>
+											<div class="modal-body">
+												<form class="delForm" method="POST">
+                                                {% csrf_token %}
+                                                 <input type="text" name = "delresourceId" value = {{tab.id}} hidden />
+													<div align="center" style="margin-bottom: 50px;">
+														<button class="requestBtn" type="text"
+															id="cancleDelBtn" name="cancle"
+															style="background-color: #FB8C8C"
+															data-dismiss="modal">Cancle</button>
+														<button class="requestBtn" name="ok" type="submit"
+															style="background-color: #67D00B">confirm</button>
+													</div>
+												</form>
+											</div>
+										</div>
+									</div>
+								</div>
+						{%endfor%}
                   </table>
                         </div>
 			 </div>
