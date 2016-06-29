@@ -37,3 +37,4 @@ class ScheduleTable(models.Model):
     daily_reporter = models.CharField(max_length=50)
     file_link = models.TextField(null=True)
     is_schedule = models.CharField(max_length=20, default="true")
+    is_picture = models.CharField(max_length=20, default="false")

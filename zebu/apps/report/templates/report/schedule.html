@@ -67,16 +67,26 @@
 					  <!-- 添加模态框（Modal）结束 -->
 				<div id="requestTable" class="requestTableDiv">
 					<table  class="requestTable" id="Box"  >
+
                         {% for tab in schedule_tab %}
-				<tr>
+
+						<tbody>
+<tr>
                      <td><b>Product:</b>{{tab.product}}</td>
                      <td><b>SPM:</b>{{tab.spm}}</td>
                      <td><b>Daily Reporter:</b>{{tab.daily_reporter}}</td>
                      <td><a data-toggle="modal" data-target="#editmodal{{tab.id}}"  style="cursor:pointer"><img src="/static/images/bianji.png"></a></td>
                   </tr>
                   <tr>
-				  <td><a href="downloadfile/{{tab.file_link}}">{{tab.file_link}}</a></td>
+					  {%ifequal tab.is_picture "True" %}
+					  <td >
+						  <a href="downloadfile/{{tab.file_link}}">{{tab.file_link}}</a><img src="/static/mini{{tab.file_link}}" ></td>
+					  {%else%}
+					 <td ><a href="downloadfile/{{tab.file_link}}">{{tab.file_link}}</a></td>
+					  {%endifequal%}
 				  </tr>
+						</tbody>
+
 				 <!-- 弹出模态框（Modal） -->
 						<div class="modal fade" id="editmodal{{tab.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                     <div class="modal-dialog" style = "width:800px">

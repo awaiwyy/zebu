@@ -8,9 +8,8 @@ from models import ResourceUsageTitleTable
 from models import MaintfstatusTable
 from models import ScheduleTable
 import os
+from PIL import Image
 import sys
-reload(sys)
-sys.setdefaultencoding('utf-8')
 
 # Create your views here.
 upload_dir = "resources/upload/"
@@ -32,7 +31,8 @@ def reportPage(request):
             ReportTable.objects.create(product=product,
                                        spm=spm,
                                        daily_reporter=reporter,
-                                       file_link =file_link)
+                                       file_link =file_link,
+                                       )
         elif "idEdit" in request.POST.keys():
             print "into new report table"
             edit_id = request.POST['idEdit']
@@ -64,6 +64,10 @@ def handle_uploaded_file(file, filename):
     with open(upload_dir + filename.decode('utf-8'), 'wb+') as destination:
         for chunk in file.chunks():
             destination.write(chunk)
+    if ".jpg" or ".png" or ".gif" or ".bmp" or ".jpeg" in filename:
+        img = Image.open(upload_dir + filename.decode('utf-8'))
+        img.thumbnail((100, 100), Image.ANTIALIAS)
+        img.save(upload_dir + "mini" +filename.decode('utf-8'))
 
 def file_iterator(filename, chunk_size=512):
     with open(filename,"rb") as f:
@@ -207,11 +211,15 @@ def report_Schedule(request):
             spm = request.POST['spmInfo']
             reporter = request.POST['reporterInfo']
             file_link = str(request.FILES['file'])
+            is_picture = False
+            if ".jpg" or ".png" or ".gif" or ".bmp" or ".jpeg" in str(request.FILES['file']):
+                is_picture = True
             # 添加到数据库
             ScheduleTable.objects.create(product=product,
                                        spm=spm,
                                        daily_reporter=reporter,
-                                       file_link=file_link)
+                                       file_link=file_link,
+                                        is_picture=is_picture)
         elif 'productEdit' in request.POST.keys():
             print "edit schedule"
             edit_id = request.POST['idEdit']
