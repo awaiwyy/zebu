@@ -14,11 +14,11 @@ class ResourceUsageTable(models.Model):
     product = models.CharField(max_length=50)
     spm = models.CharField(max_length=50)
     daily_reporter = models.CharField(max_length=50)
-    total = models.IntegerField()
-    power_management = models.IntegerField()
-    performance = models.IntegerField()
-    function = models.IntegerField()
-    zebu_platform = models.IntegerField()
+    total = models.IntegerField(null = True)
+    power_management = models.IntegerField(null = True)
+    performance = models.IntegerField(null = True)
+    function = models.IntegerField(null = True)
+    zebu_platform = models.IntegerField(null = True)
     is_show=models.CharField(max_length= 20, default="true")
 
 class ResourceUsageTitleTable(models.Model):

@@ -82,10 +82,51 @@ def file_Download(request,filename):
         return response
 
 def report_Resource(request):
-    #resource_usage_title_tab = ResourceUsageTitleTable.objects.all()
+    title_tab = ResourceUsageTitleTable.objects.all()
     resource_usage_tab = ResourceUsageTable.objects.filter(is_show="true").order_by("id")
-    #resource_usage_tab = ResourceUsageTable.objects.all()
-    return render(request, 'report/resource_usage.html',{"resource_usage_tab": resource_usage_tab})
+    if request.method == 'POST':
+        print "POST!!!!"
+        # 获得表单数据
+        if 'productInfo' in request.POST.keys():
+            print"into new resource uasge"
+            product = request.POST['productInfo']
+            spm = request.POST['spmInfo']
+            reporter = request.POST['reporterInfo']
+            # 添加到数据库
+            ResourceUsageTable.objects.create(product=product,
+                                             spm=spm,
+                                             daily_reporter=reporter,
+                                             total=0,
+                                              power_management=0,
+                                              performance=0,
+                                              function=0,
+                                              zebu_platform=0)
+        elif 'productEdit' in request.POST.keys():
+            print"edit resource uasge"
+            edit_id = request.POST['idEdit']
+            edit_resource = ResourceUsageTable.objects.get(id=edit_id)
+            edit_resource.product = request.POST['productEdit']
+            edit_resource.spm = request.POST['spmEdit']
+            edit_resource.daily_reporter = request.POST['reporterEdit']
+            edit_resource.total = request.POST['totalEdit']
+            edit_resource.power_management = request.POST['managementEdit']
+            edit_resource.performance = request.POST['performanceEdit']
+            edit_resource.function = request.POST['functionEdit']
+            edit_resource.zebu_platform = request.POST['zubeEdit']
+            print edit_resource.total
+            edit_resource.save()
+        elif 'delresourceId' in request.POST.keys():
+            print "into delete resource"
+            del_id = request.POST['delresourceId']
+            del_resource = ResourceUsageTable.objects.get(id=del_id)
+            del_resource.is_show = 'false'
+            del_resource.save()
+        else:
+            print "there is something wrong"
+        return HttpResponseRedirect('resource_usage', {"resource_usage_tab": resource_usage_tab})
+    else:
+        print "GET!!!!"
+        return render(request, 'report/resource_usage.html',{"resource_usage_tab": resource_usage_tab})
 
 def report_MainTF(request):
     plan_tab = RequestTable.objects.filter(is_plan="true",is_maintf="false")
@@ -181,7 +222,7 @@ def report_Schedule(request):
             if 'file_linkEdit' in request.FILES:
                 handle_uploaded_file(request.FILES['file_linkEdit'], str(request.FILES['file_linkEdit']))
                 edit_schedule.file_link = str(request.FILES['file_linkEdit'])
-                edit_schedule.save()
+            edit_schedule.save()
         else:
             print "there is something wrong"
         return HttpResponseRedirect('schedule', {"schedule_tab": schedule_tab})
