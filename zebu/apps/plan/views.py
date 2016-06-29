@@ -64,7 +64,7 @@ def exportPlanTab(request):
     plan_tab = RequestTable.objects.filter(is_plan="true")
     savePlanTab(plan_tab)
     file_name = plan_file
-    f = open(file_name)
+    f = open(file_name,"rb")
     data = f.read()
     f.close()
  

@@ -240,7 +240,7 @@ def homeUser(request):
     return render(request, 'home/home.html', schedule_dict)
         #return render(request, 'home/home.html', {'project_tab': project_tab})
 
-def saveScheduleTab(schedule_tab):
+def saveScheduleTab():
     #set style
     font0 = xlwt.Font()
     font0.bold = True
@@ -251,35 +251,35 @@ def saveScheduleTab(schedule_tab):
     style.num_format_str = 'YYYY-MM-DD'
     #creat sheet
     wb = xlwt.Workbook(encoding = 'utf-8')
-    sheet = wb.add_sheet(u'schedule_tab', cell_overwrite_ok=True)
 
-    row = 0  
-    sheet.write(row, 0, 'Date', style0)
-    sheet.write(row, 1, 'Time', style0)
-    sheet.write(row, 2, 'Total', style0)
-    sheet.write(row, 3, 'Used', style0)
-    sheet.write(row, 4, 'Arrangement', style0)
-    row += 1
-    
-    for tab in schedule_tab:
-        sheet.write(row, 0, tab.sdate, style)
-        if "daylight" == tab.time:
-            show_time = "10:00-22:00"
-        else:
-            show_time = "22:00-10:00"
-        sheet.write(row, 1, show_time)
-        sheet.write(row, 2, tab.total)
-        sheet.write(row, 3, tab.used)
-        sheet.write(row, 4, tab.arrangement)
+    project_list = projectInfo.objects.filter(display="true").order_by("id")
+    for project in project_list:
+        print "project.project: ", project.project
+        sheet = wb.add_sheet(project.project, cell_overwrite_ok=True)
+        row = 0
+        sheet.write(row, 0, 'Date', style0)
+        sheet.write(row, 1, 'Time', style0)
+        sheet.write(row, 2, 'Total', style0)
+        sheet.write(row, 3, 'Used', style0)
+        sheet.write(row, 4, 'Arrangement', style0)
         row += 1
+
+        schedule_tab = scheduleInfo.objects.filter(project_id=project.id)
+        for tab in schedule_tab:
+            sheet.write(row, 0, tab.sdate, style)
+            sheet.write(row, 1, tab.time)
+            sheet.write(row, 2, tab.total)
+            sheet.write(row, 3, tab.used)
+            sheet.write(row, 4, tab.arrangement)
+            row += 1
     wb.save(schedule_file)
 
 def exportScheduleTab(request):
-    schedule_tab = scheduleInfo.objects.all()
-    saveScheduleTab(schedule_tab)
+    #schedule_tab = scheduleInfo.objects.all()
+    saveScheduleTab()
     
     file_name = schedule_file
-    f = open(file_name)
+    f = open(file_name,"rb")
     data = f.read()
     f.close()
  

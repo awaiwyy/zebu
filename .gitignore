@@ -8,3 +8,6 @@
 
 #ignor upload directory
 upload/
+
+#ignore export files
+*.xls
