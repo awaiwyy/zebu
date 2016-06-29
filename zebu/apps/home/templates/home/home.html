@@ -47,6 +47,14 @@
 	}
 
 	function checkint(pro){
+	var num=document.getElementById("zubuEdit").value
+		if(num)
+	    {
+	    if(!isNum(num)){
+	    alert("zebu请输入整数");
+	    return false;
+	    }
+	    }
 	for(var i=0;i<7;i++){
 		var j=i;
 		var num1=document.getElementById("totalEdit"+pro+j).value;

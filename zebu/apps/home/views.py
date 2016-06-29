@@ -221,7 +221,8 @@ def homeUser(request):
         edit_home.project = request.POST["projectEdit"]
         edit_home.spm = request.POST["spmEdit"]
         edit_home.zebu = request.POST["zebuEdit"]
-        edit_home.save()
+        if edit_home.zebu.isdigit():
+            edit_home.save()
         schedule_dict = homePageData(request,project_tab)
         schedule_dict.update(project_tab=project_tab)
         return HttpResponseRedirect('/home/', schedule_dict)
