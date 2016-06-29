@@ -914,6 +914,18 @@ function validatetime(tab_id,starttime)
 					</table>
 				</div>
 			</div>
+			<div class="pagination">
+	<span class="step-links">
+        {% if plan_tab.has_previous %}
+            <a href="?page={{ plan_tab.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ plan_tab.number }} of {{ plan_tab.paginator.num_pages }}.
+        </span> {% if plan_tab.has_next %}
+	<a href="?page={{ plan_tab.next_page_number }}">next</a> {% endif %}
+	</span>
+</div>
 		</div>
 	</div>
 </body>

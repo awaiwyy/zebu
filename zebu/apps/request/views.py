@@ -1,6 +1,7 @@
 #coding:utf-8
 from django.shortcuts import render
 from django.http import StreamingHttpResponse
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import HttpResponseRedirect
 from models import RequestTable
 import os
@@ -71,6 +72,7 @@ def exportRequestTab(request):
     return response
 
 def requestUser(request, **kwargs):
+    gopage = request.GET.get('page')
     #show request table
     request_tab = RequestTable.objects.all().order_by("-submit_date")
     #for request duration
@@ -95,6 +97,21 @@ def requestUser(request, **kwargs):
     valid_duration.append(valid_requestduration_hour)
     valid_duration.append(valid_requestduration_day)
     valid_duration.append(valid_requestduration_piece)
+
+    #Pagination -CC
+    perpage = 10 #show how many items per page
+    
+    objects = request_tab
+    pager = Paginator(objects,perpage)
+    
+    try:
+        projects = pager.page(gopage)
+
+    except PageNotAnInteger:
+        projects = pager.page(1)
+    except EmptyPage:
+        projects = pager.page(pager.num_pages)
+
     #deal with application
     if request.method == 'POST':
         #获得表单数据
@@ -156,4 +173,4 @@ def requestUser(request, **kwargs):
     else:
         for tab in request_tab:
             tab.action_discription = tab.action_discription.replace("\n", "<br>")
-        return render(request, 'request/request.html', {"request_tab": request_tab, 'valid_duration': valid_duration})
+        return render(request, 'request/request.html', {"request_tab": projects, 'valid_duration': valid_duration})

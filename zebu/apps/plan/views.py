@@ -1,5 +1,6 @@
 #coding:utf-8
 from django.shortcuts import render
+from django.core.paginator import Page,PageNotAnInteger,Paginator
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from ..request.models import RequestTable
@@ -72,6 +73,7 @@ def exportPlanTab(request):
     return response
 
 def planPage(request, **kwargs):
+    gopage = request.GET.get('page')
     #show plan table
     request_tab = RequestTable.objects.filter(is_plan="false")
     plan_tab = RequestTable.objects.filter(is_plan="true").order_by("id")
@@ -147,6 +149,21 @@ def planPage(request, **kwargs):
     valid_time.append(valid_min)
     #print valid_time
     #add plan application
+
+    #Pagination -CC
+    perpage = 10 #show how many items per page
+    
+    objects = plan_tab
+    pager = Paginator(objects,perpage)
+    
+    try:
+        projects = pager.page(gopage)
+
+    except PageNotAnInteger:
+        projects = pager.page(1)
+    except EmptyPage:
+        projects = pager.page(pager.num_pages)
+
     if request.method == 'POST':
         #获得表单数据
         print request.POST.keys()
@@ -440,4 +457,4 @@ def planPage(request, **kwargs):
                 tab.save()
             tab.action_discription = tab.action_discription.replace("\n", "<br>")
             tab.progress = tab.progress.replace("\n", "<br>")
-        return render(request, 'plan/plan.html', {"request_tab": request_tab, "plan_tab": plan_tab, 'valid_duration': valid_duration, 'valid_time':valid_time, 'valid_dailyDura':valid_dailyDura})
+        return render(request, 'plan/plan.html', {"request_tab": request_tab, "plan_tab": projects, 'valid_duration': valid_duration, 'valid_time':valid_time, 'valid_dailyDura':valid_dailyDura})

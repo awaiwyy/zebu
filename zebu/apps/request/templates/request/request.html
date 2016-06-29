@@ -319,6 +319,7 @@
                      <td>{{tab.submit_date}}</td>
                      <td><a data-toggle="modal" data-target="#myModal{{tab.id}}"  style="cursor:pointer"><img style="vertical-align:middle" src="/static/images/down.png" /></a></td>
                   </tr>
+				  
                   <!--弹出模态框（Modal） -->
 						<div class="modal fade" id="myModal{{tab.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                     <div class="modal-dialog" style = "width:800px">
@@ -609,6 +610,21 @@
 					  {% endfor %}	  <!-- show request tab finish -->
 					</table>
 				</div>
+				<div class="pagination">
+    <span class="step-links">
+        {% if request_tab.has_previous %}
+            <a href="?page={{ request_tab.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ request_tab.number }} of {{ request_tab.paginator.num_pages }}.
+        </span>
+
+        {% if request_tab.has_next %}
+            <a href="?page={{ request_tab.next_page_number }}">next</a>
+        {% endif %}
+    </span>
+</div>
 			</div>
 		</div>
 	</div>
