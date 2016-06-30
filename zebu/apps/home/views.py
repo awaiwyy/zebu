@@ -12,7 +12,9 @@ import os
 from common import xlwt
 
 # Create your views here.
-schedule_file = "resources/tab/schedule_tab.xls"
+temp_dir = "resources/tab/"
+schedule_file = "schedule_tab.xls"
+
 
 def homePageData(request,project_tab):
     #gopage = request.GET.get('page')
@@ -240,7 +242,7 @@ def homeUser(request):
     return render(request, 'home/home.html', schedule_dict)
         #return render(request, 'home/home.html', {'project_tab': project_tab})
 
-def saveScheduleTab():
+def saveScheduleTab(file_name):
     #set style
     font0 = xlwt.Font()
     font0.bold = True
@@ -254,7 +256,7 @@ def saveScheduleTab():
 
     project_list = projectInfo.objects.filter(display="true").order_by("id")
     for project in project_list:
-        print "project.project: ", project.project
+        #print "project.project: ", project.project
         sheet = wb.add_sheet(project.project, cell_overwrite_ok=True)
         row = 0
         sheet.write(row, 0, 'Date', style0)
@@ -264,21 +266,34 @@ def saveScheduleTab():
         sheet.write(row, 4, 'Arrangement', style0)
         row += 1
 
-        schedule_tab = scheduleInfo.objects.filter(project_id=project.id)
+        #schedule_tab = scheduleInfo.objects.filter(project_id=project.id)
+        today = datetime.date.today()
+        cur_week = today.isocalendar()
+        day = cur_week[2]
+        start_date = today - datetime.timedelta(days=day - 1)
+        end_date = today + datetime.timedelta(days=7 - day)
+        #print "start_date",start_date
+        #print "end_date",end_date
+
+        schedule_tab = scheduleInfo.objects.filter(project_id=project.id, sdate__gte=start_date, sdate__lte=end_date)
         for tab in schedule_tab:
+            #print "tab.sdate", tab.sdate
             sheet.write(row, 0, tab.sdate, style)
             sheet.write(row, 1, tab.time)
             sheet.write(row, 2, tab.total)
             sheet.write(row, 3, tab.used)
             sheet.write(row, 4, tab.arrangement)
             row += 1
-    wb.save(schedule_file)
+    wb.save(file_name)
 
 def exportScheduleTab(request):
     #schedule_tab = scheduleInfo.objects.all()
-    saveScheduleTab()
+    if not os.path.exists(temp_dir):
+        os.mkdir(temp_dir)
+
+    file_name = temp_dir + schedule_file
+    saveScheduleTab(file_name)
     
-    file_name = schedule_file
     f = open(file_name,"rb")
     data = f.read()
     f.close()

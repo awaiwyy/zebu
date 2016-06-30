@@ -8,9 +8,10 @@ import os
 from common import xlwt
 
 # Create your views here.
-request_file = "resources/tab/request_tab.xls"
+temp_dir = "resources/tab/"
+request_file = "request_tab.xls"
 
-def saveRequestTab(request_tab):
+def saveRequestTab(request_tab,file_name):
     #set style
     font0 = xlwt.Font()
     font0.bold = True
@@ -50,7 +51,7 @@ def saveRequestTab(request_tab):
         sheet.write(row, 9, tab.priority)
         sheet.write(row, 10, tab.submit_date, style)
         row += 1
-    wb.save(request_file)
+    wb.save(file_name)
 
 def file_iterator(file_name, chunk_size=512):
     with open(file_name,"rb") as f:
@@ -63,8 +64,11 @@ def file_iterator(file_name, chunk_size=512):
 
 def exportRequestTab(request):
     request_tab = RequestTable.objects.all().order_by("-submit_date")
-    saveRequestTab(request_tab)
-    file_name = request_file
+    if not os.path.exists(temp_dir):
+        os.mkdir(temp_dir)
+    file_name = temp_dir + request_file
+    saveRequestTab(request_tab,file_name)
+
     response = StreamingHttpResponse(file_iterator(file_name))
     response['Content-Type'] = 'application/octet-stream'
     response['Content-Disposition'] = 'attachment;filename="{0}"'.format(file_name)

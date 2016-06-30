@@ -8,10 +8,12 @@ from ..request.models import TotalTable
 import datetime
 from dateutil import tz
 from common import xlwt
+import os
 
 # Create your views here.
-plan_file = "resources/tab/plan_tab.xls"
-def savePlanTab(plan_tab):
+temp_dir = "resources/tab/"
+plan_file = "plan_tab.xls"
+def savePlanTab(plan_tab,file_name):
     #set style
     font0 = xlwt.Font()
     font0.bold = True
@@ -58,12 +60,15 @@ def savePlanTab(plan_tab):
             sheet.write(row, 12, (tab.start_time))
         sheet.write(row, 13, tab.request_duration)
         row += 1
-    wb.save(plan_file)
+    wb.save(file_name)
 
 def exportPlanTab(request):
     plan_tab = RequestTable.objects.filter(is_plan="true")
-    savePlanTab(plan_tab)
-    file_name = plan_file
+    if not os.path.exists(temp_dir):
+        os.mkdir(temp_dir)
+    file_name = temp_dir + plan_file
+    savePlanTab(plan_tab,file_name)
+
     f = open(file_name,"rb")
     data = f.read()
     f.close()
