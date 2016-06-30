@@ -1,8 +1,8 @@
 {% extends "reportbase.html" %} {% block content %}
 <!-- 中间模板 -->
 <div class="divcenter">
-	<div class="requestForm">
-		<div data-toggle="modal" data-target="#NewModal"  style="cursor:pointer"><img src="/static/images/tianjia.png" />
+	<div class="reportForm">
+		<div data-toggle="modal" data-target="#NewModal"  style="cursor:pointer;margin-top:20px"><img src="/static/images/tianjia.png" />
 				   <span Style="color:#6bd5f8">Add New Product</span>
 
 			   </div>
@@ -55,8 +55,8 @@
 		<!-- 添加模态框（Modal）结束 -->
 		{%for tab in maintf_tab%}
 		<div class="reportForm">
-		<div id="requestTable" class="reportTableDiv">
-			<table class="requestTable" id="Box">
+		<div id="requestTable" class="maintfTableDiv">
+			<table class="reportTable" id="Box">
 
 				<tr>
 					<td><b>Product:</b>{{tab.product}}</td>
@@ -75,7 +75,7 @@
 				</div>
 				<br>
 				<br>
-				<table class="requestTable" id="Box">
+				<table class="reportTable" id="Box">
 					<tr>
 						<th scope="col" width="84px"><span>Module</span></th>
 						<th scope="col" width="222px"><span>Action
@@ -227,7 +227,7 @@
 				</div>
 				<br>
 				<br>
-				<table class="requestTable" id="Box">
+				<table class="reportTable" id="Box">
 					<tr>
 						<th scope="col" width="84px"><span>Module</span></th>
 						<th scope="col" width="222px"><span>Action
@@ -431,7 +431,7 @@
 				<div class="modal-content">
 					<div class="modal-header">
 						<!-- <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> -->
-						<h4 class="modal-title" id="myModalLabel">Delete the Report item ?</h4>
+						<h4 class="modal-title" id="myModalLabel">Delete The Product ?</h4>
 					</div>
 					<div class="modal-body">
 						<form class="delForm" method="POST">

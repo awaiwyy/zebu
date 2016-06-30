@@ -2,10 +2,10 @@
  {% block content %}
  <!-- 中间模板 -->
 		<div class="divcenter">
-			<div class="requestForm">
+			<div class="reportForm">
 			<div>
 				{% if perms.request.add_requesttable %}
-			   <div data-toggle="modal" data-target="#NewModal"  style="cursor:pointer"><img src="/static/images/tianjia.png" />
+			   <div data-toggle="modal" data-target="#NewModal"  style="cursor:pointer;margin-top:20px"><img src="/static/images/tianjia.png" />
 				   <span Style="color:#6bd5f8">Add New Product</span>
 			   </div>
 			</div>
@@ -64,8 +64,8 @@
 					  <!-- 添加模态框（Modal）结束 -->
 					  {% endif %}
 			   
-				<div id="requestTable" class="requestTableDiv">
-					<table  class="requestTable" id="Box"  >
+				<div id="requestTable" class="reportTableDiv">
+					<table  class="reportTable" id="Box"  >
 						<!--<tr>
 							<th scope="col" width="84px"><span>Product</span></th>
 							<th scope="col" width="84px"><span>SPM</span></th>

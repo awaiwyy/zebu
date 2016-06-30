@@ -2,9 +2,9 @@
 {% block content %}
 <!-- 中间模板 -->
 		<div class="divcenter">
-			<div class="requestForm">
+			<div class="reportForm">
 			 <div>
-			   <div data-toggle="modal" data-target="#NewModal"  style="cursor:pointer"><img src="/static/images/tianjia.png" />
+			   <div data-toggle="modal" data-target="#NewModal"  style="cursor:pointer;margin-top:20px"><img src="/static/images/tianjia.png" />
 				   <span Style="color:#6bd5f8">Add New Product</span>
 
 			   </div>
@@ -96,8 +96,8 @@
 
 				 </div>
                     <!-- 弹出模态框结束-->
-			 <div id="requestTable" class="requestTableDiv">
-					<table  class="requestTable" id="Box"  >
+			 <div id="requestTable" class="reportTableDiv">
+					<table  class="reportTable" id="Box"  >
 						{% for tab in resource_usage_tab%}
 				<tr>
                      <td><b>Product:</b>{{tab.product}}</td>
@@ -107,7 +107,7 @@
                      <a data-toggle="modal" data-target="#delresourceModal{{tab.id}}"  style="cursor:pointer"><img src="/static/images/shanchu.png"></a></td>
                   </tr>
 						</table>
-					<table class="requestTable" >
+					<table class="reportTable" >
 						<tr>
 							<th scope="col" width="84px"><span>Total</span></th>
 							<th scope="col" width="160px"><span>Power Management</span></th>
