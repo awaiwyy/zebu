@@ -13,6 +13,7 @@
 <link href="/static/css/com.css" type="text/css" rel="stylesheet" />
 <link href="/static/request/css/request.css" type="text/css" rel="stylesheet" />
 <link href="/static/css/application.css" type="text/css" rel="stylesheet" />
+<link href="/static/plan/css/plan.css" type="text/css" rel="stylesheet" />
 <!-- js -->
 <script src="/static/js/jquery-1.11.1.min.js"></script>
 <!-- <script src="http://apps.bdimg.com/libs/bootstrap/3.2.0/js/bootstrap.min.js"></script> -->
@@ -291,15 +292,53 @@
 		</div>
 		<!-- 中间模板 -->
 		<div class="divcenter">
-			<div class="requestForm">
-            <div class="" data-toggle="modal" data-target="#NewModal"  style="cursor:pointer;margin-top:-15px">
+             <div class="" data-toggle="modal" data-target="#NewModal"  style="cursor:pointer">
 				<tr>
 					<td><img src="/static/images/tianjia.png" /></td>
-					<span Style="color:#6bd5f8">Add New Product</span>
+					<span Style="color:#6bd5f8">Add New TF case</span>
 				</tr>
 
 			</div>
-			   <div class="new_request_title" style="margin-left:5px;margin-top:10px">Application List</div>
+            <div class="md_search">
+				<span class="keyword">Search Keywords：</span>
+				<form class="form1">
+					<input name="submit" type="submit" class="search_btn1" value="" />
+					<input name="text" type="text" class="textinput1" value="">
+				</form>
+			</div>
+			<div class="CText">
+				<p>
+					<span class="content">Content：</span> <a href="#">Product</a>&nbsp;&nbsp;&nbsp;
+					<a href="#">Classification</a>&nbsp;&nbsp;&nbsp;<a href="#">Module</a>&nbsp;&nbsp;&nbsp;
+					<a href="#">Environment</a>&nbsp;&nbsp;&nbsp; <a href="#">Priority</a>&nbsp;&nbsp;&nbsp;
+					<a href="#">Status</a>&nbsp;&nbsp;&nbsp;<a href="#">Request
+						time</a>&nbsp;&nbsp;&nbsp;
+				</p>
+				<p>
+					<span class="content">Department：</span> <a href="#">APPS</a>&nbsp;&nbsp;
+					<a href="#">BSP</a>&nbsp;&nbsp; <a href="#">MM</a>&nbsp;&nbsp; <a
+						href="#">Modem</a>&nbsp;&nbsp; <a href="#">Power</a>&nbsp;&nbsp; <a
+						href="#">Stability</a>&nbsp;&nbsp; <a href="#">Kernel</a>&nbsp;&nbsp;
+					<a href="#">Graphics</a>&nbsp;&nbsp; <a href="#">DDR</a>&nbsp;&nbsp;
+					<a href="#">WCN</a>
+				</p>
+			</div>
+
+			<div class="classify ">
+				<a href="#">
+					<button type="button" class="classification_down" id="mybtn"
+						onclick="changeImage()" style="background-color: #F8F8F8">Request
+						time</button>
+				</a> <a href="#">
+					<button type="button" class="classification1" id="mybtn1"
+						onclick="changeImage1()" style="background-color: #F8F8F8">Product</button>
+				</a> <a href="#">
+					<button type="button" class="classification2" id="mybtn2"
+						onclick="changeImage2()" style="background-color: #F8F8F8">Status</button>
+				</a>
+			</div>
+			<div class="requestForm">
+			   <div class="new_request_title" style="margin-left:5px">Application List</div>
 				<div id="requestTable" class="requestTableDiv">
 					<table  class="requestTable" id="Box"  >
 						<tr>
