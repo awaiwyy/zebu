@@ -1,6 +1,15 @@
 {% extends "reportbase.html" %}
 {% block content %}
  <!-- 中间模板 -->
+<div id="blueimp-gallery" class="blueimp-gallery">
+    <div class="slides"></div>
+    <h3 class="title"></h3>
+    <a class="prev">‹</a>
+    <a class="next">›</a>
+    <a class="close">×</a>
+    <a class="play-pause"></a>
+    <ol class="indicator"></ol>
+</div>
 		<div class="divcenter">
 			<div class="reportForm">
 			   <div>
@@ -77,7 +86,9 @@
                   <tr>
 					  {%ifequal tab.is_picture "True" %}
 					  <td >
-						  <a href="downloadfile/{{tab.file_link}}">{{tab.file_link}}</a><img src="/static/mini{{tab.file_link}}" ></td>
+						  <div aria-valuetext="sslinks" ><a href="/static/{{tab.file_link}}"><img src="/static/mini{{tab.file_link}}" ></a></div>
+						  <a href="downloadfile/{{tab.file_link}}">{{tab.file_link}}</a>
+					  </td>
 					  {%else%}
 					 <td ><a href="downloadfile/{{tab.file_link}}">{{tab.file_link}}</a></td>
 					  {%endifequal%}

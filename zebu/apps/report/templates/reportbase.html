@@ -13,8 +13,10 @@
 <link href="/static/css/com.css" type="text/css" rel="stylesheet" />
 <link href="/static/report/css/report.css" type="text/css" rel="stylesheet" />
 <link href="/static/css/application.css" type="text/css" rel="stylesheet" />
+<link rel="stylesheet" href="/static/report/css/blueimp-gallery.min.css">
 <!-- js -->
 <script src="/static/js/jquery-1.11.1.min.js"></script>
+<script src="/static/report/js/blueimp-gallery.min.js"></script>
 <!-- <script src="http://apps.bdimg.com/libs/bootstrap/3.2.0/js/bootstrap.min.js"></script> -->
 <script src="/static/js/bootstrap.min.js"></script>
 <script type="text/javascript">
@@ -114,11 +116,23 @@
 					}
 					});
 					if (!urlstatus) {$("#menu a").eq(3).addClass('cur'); }
+
 					</script>
 				</div>
+
 			</div>
-			
 		</div>
         {% block content %}{% endblock %}
+	<script>
+$("div[aria-valuetext='sslinks']").click(function (event) {
+	event = event || window.event;
+	var target = event.target || event.srcElement,
+	link = target.src ? target.parentNode : target,
+	options = {index: link, event: event},
+	links = this.getElementsByTagName('a');
+	blueimp.Gallery(links, options);
+	});
+</script>
+		</div>
 </body>
 </html>
