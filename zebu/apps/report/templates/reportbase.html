@@ -32,6 +32,11 @@
 		}
 	})
 </script>
+<style>
+	#nav li {float: left; width: 80px; text-align: center; list-style-type: none;}
+	.nav-active {background: #369;}
+	.nav-active a {color: #fff;}
+</style>
 </head>
 <body>
 	<!-- 头文件 -->
@@ -85,12 +90,32 @@
 		<div class="middleleft">
 			<div class="middleleft2" style="position: relative; top: -16px;">
 				<div class="middleleft_center">
-					<ul>
+					<script type="text/javascript" src="http://www.daixiaorui.com/Public/js/jquery.min.js"></script>
+<style>
+	.menu { padding:0; margin:0; list-style-type:none;}
+	.menu li { background:#6bd5f8; margin-right:0px; float:left; color:#fff; }
+	.menu li a { display:block; width:140px; text-align:center; height:34px; line-height:32px; color:#00000; font-size:13px; text-decoration:none;}
+	.cur{ background:#87CEFF; font-weight:bold;}
+</style>
+					<ul class="menu" id="menu">
 						<li id="middleleft_center_topli"><a href="schedule" >Schedule</a></li>
 						<li><a href="resource_usage">Resource Usage</a></li>
 						<li><a href="main_tf_status">Main TF Status</a></li>
 						<li id="middleleft_center_bottomli"><a href="daily_report">Daily Report</a></li>
 					</ul>
+					<script type="text/javascript">
+					var urlstr = location.href;
+					//alert((urlstr + '/').indexOf($(this).attr('href')));
+					var urlstatus=false;
+					$("#menu a").each(function () {
+					if ((urlstr + '/').indexOf($(this).attr('href')) > -1&&$(this).attr('href')!='') {
+					$(this).addClass('cur'); urlstatus = true;
+					} else {
+					$(this).removeClass('cur');
+					}
+					});
+					if (!urlstatus) {$("#menu a").eq(0).addClass('cur'); }
+					</script>
 				</div>
 			</div>
 			
