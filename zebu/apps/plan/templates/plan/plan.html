@@ -14,6 +14,22 @@
 <link href="/static/plan/css/plan.css" type="text/css" rel="stylesheet" />
 <link href="/static/css/application.css" type="text/css"
 	rel="stylesheet" />
+<style>
+	a.pagination {
+  margin: 8px;
+  padding: 8px;
+  border: solid 2px rgba(193, 216, 230, .2);
+  text-decoration: none;
+  text-align: center;
+  color: #428bca;
+  background-color: rgba(255, 255, 255, .2);
+  transition: all .1s;
+}
+
+a:hover {
+  background-color: #ebf6ff;
+}
+</style>
 <!-- js -->
 <script src="/static/js/jquery-1.11.1.min.js"></script>
 <script src="/static/js/bootstrap.min.js"></script>
@@ -917,17 +933,20 @@ function validatetime(tab_id,starttime)
 				</div>
 			</div>
 			<div class="pagination">
-	<span class="step-links">
-        {% if plan_tab.has_previous %}
-            <a href="?page={{ plan_tab.previous_page_number }}">previous</a>
-        {% endif %}
+						<span class="step-links">
+						{% if plan_tab.has_previous %}
+							<a class="pagination" href="?page=1"> << </a>
+						{% endif %}
 
-        <span class="current">
-            Page {{ plan_tab.number }} of {{ plan_tab.paginator.num_pages }}.
-        </span> {% if plan_tab.has_next %}
-	<a href="?page={{ plan_tab.next_page_number }}">next</a> {% endif %}
-	</span>
-</div>
+						{% for i in page_range %}
+							<a class="pagination" href="?page={{ i }}">{{ i }}</a>
+						{% endfor%}
+
+						{% if plan_tab.has_next %}
+							<a class="pagination" href="?page={{ plan_tab.paginator.num_pages }}"> >> </a>
+						{% endif %}
+						</span>
+					</div>	
 		</div>
 	</div>
 </body>

@@ -462,4 +462,4 @@ def planPage(request, **kwargs):
                 tab.save()
             tab.action_discription = tab.action_discription.replace("\n", "<br>")
             tab.progress = tab.progress.replace("\n", "<br>")
-        return render(request, 'plan/plan.html', {"request_tab": request_tab, "plan_tab": projects, 'valid_duration': valid_duration, 'valid_time':valid_time, 'valid_dailyDura':valid_dailyDura})
+        return render(request, 'plan/plan.html', {"request_tab": request_tab, "plan_tab": projects, 'valid_duration': valid_duration, 'valid_time':valid_time, 'valid_dailyDura':valid_dailyDura, 'page_range': range(1,pager.num_pages + 1)})

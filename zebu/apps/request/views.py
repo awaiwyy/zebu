@@ -177,4 +177,4 @@ def requestUser(request, **kwargs):
     else:
         for tab in request_tab:
             tab.action_discription = tab.action_discription.replace("\n", "<br>")
-        return render(request, 'request/request.html', {"request_tab": projects, 'valid_duration': valid_duration})
+        return render(request, 'request/request.html', {"request_tab": projects, 'valid_duration': valid_duration, 'page_range': range(1,pager.num_pages + 1)})

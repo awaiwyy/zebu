@@ -652,20 +652,21 @@
 					</table>
 				</div>
 				<div class="pagination">
-    <span class="step-links">
-        {% if request_tab.has_previous %}
-            <a href="?page={{ request_tab.previous_page_number }}">previous</a>
-        {% endif %}
+						<span class="step-links">
+						{% if request_tab.has_previous %}
+							<a class="pagination" href="?page=1"> << </a>
+						{% endif %}
 
-        <span class="current">
-            Page {{ request_tab.number }} of {{ request_tab.paginator.num_pages }}.
-        </span>
+						{% for i in page_range %}
+							<a class="pagination" href="?page={{ i }}">{{ plan }}</a>
+						{% endfor%}
 
-        {% if request_tab.has_next %}
-            <a href="?page={{ request_tab.next_page_number }}">next</a>
-        {% endif %}
-    </span>
-</div>
+						{% if request_tab.has_next %}
+							<a class="pagination" href="?page={{ request_tab.paginator.num_pages }}"> >> </a>
+						{% endif %}
+						</span>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
