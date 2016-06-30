@@ -17,6 +17,7 @@
 <!-- js -->
 <script src="/static/js/jquery-1.11.1.min.js"></script>
 <script src="/static/report/js/blueimp-gallery.min.js"></script>
+<script src="/static/js/highcharts.js"></script>
 <!-- <script src="http://apps.bdimg.com/libs/bootstrap/3.2.0/js/bootstrap.min.js"></script> -->
 <script src="/static/js/bootstrap.min.js"></script>
 <script type="text/javascript">
@@ -35,9 +36,9 @@
 	})
 </script>
 <style>
-	#nav li {float: left; width: 80px; text-align: center; list-style-type: none;}
-	.nav-active {background: #369;}
-	.nav-active a {color: #fff;}
+	.menu { padding:0; margin:0; list-style-type:none;}
+	.menu li a { display:block; width:140px; text-align:center; height:34px; line-height:32px; color:#00000; font-size:13px; text-decoration:none;}
+	.cur{ background:#87CEFF; font-weight:bold;}
 </style>
 </head>
 <body>
@@ -92,12 +93,6 @@
 		<div class="middleleft">
 			<div class="middleleft2" style="position: relative; top: -16px;">
 				<div class="middleleft_center">
-					<script type="text/javascript" src="http://www.daixiaorui.com/Public/js/jquery.min.js"></script>
-<style>
-	.menu { padding:0; margin:0; list-style-type:none;}
-	.menu li a { display:block; width:140px; text-align:center; height:34px; line-height:32px; color:#00000; font-size:13px; text-decoration:none;}
-	.cur{ background:#87CEFF; font-weight:bold;}
-</style>
 					<ul class="menu" id="menu">
 						<li id="middleleft_center_topli"><a href="schedule" >Schedule</a></li>
 						<li><a href="resource_usage">Resource Usage</a></li>
