@@ -116,10 +116,6 @@
 					</ul>
 				</div>
 			</div>
-			{% if perms.request.add_requesttable %}
-			<div class="middleleft_bottom_new" data-toggle="modal" data-target="#NewModal"  style="cursor:pointer">
-				<a >New</a>
-			</div>
 				<!--弹出模态框（Modal） -->
 						<div class="modal fade" id="NewModal" tabindex="-1" role="dialog" aria-labelledby="NewModalLabel" aria-hidden="true">
                     <div class="modal-dialog" style = "width:800px">
@@ -292,12 +288,18 @@
                    </div>
                  </div>
 					  <!-- 添加模态框（Modal）结束 -->
-					  {% endif %}
 		</div>
 		<!-- 中间模板 -->
 		<div class="divcenter">
 			<div class="requestForm">
-			   <div class="new_request_title">Application List</div>
+            <div class="" data-toggle="modal" data-target="#NewModal"  style="cursor:pointer;margin-top:-15px">
+				<tr>
+					<td><img src="/static/images/tianjia.png" /></td>
+					<span Style="color:#6bd5f8">Add New Product</span>
+				</tr>
+
+			</div>
+			   <div class="new_request_title" style="margin-left:5px;margin-top:10px">Application List</div>
 				<div id="requestTable" class="requestTableDiv">
 					<table  class="requestTable" id="Box"  >
 						<tr>
