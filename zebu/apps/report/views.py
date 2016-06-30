@@ -231,6 +231,12 @@ def report_Schedule(request):
                 handle_uploaded_file(request.FILES['file_linkEdit'], str(request.FILES['file_linkEdit']))
                 edit_schedule.file_link = str(request.FILES['file_linkEdit'])
             edit_schedule.save()
+        elif 'delReportId' in request.POST.keys():
+            print "into delete plan"
+            del_id = request.POST['delReportId']
+            del_schedule = ScheduleTable.objects.get(id=del_id)
+            del_schedule.is_schedule = 'false'
+            del_schedule.save()
         else:
             print "there is something wrong"
         return HttpResponseRedirect('schedule', {"schedule_tab": schedule_tab})
