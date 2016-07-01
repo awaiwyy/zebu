@@ -105,6 +105,24 @@ def report_Resource(request):
                                               performance=0,
                                               function=0,
                                               zebu_platform=0)
+        elif 'edittotal0' in request.POST.keys():
+            print "edit total and usage"
+            edit_id = request.POST["idEdit110"]
+            print edit_id
+            total = request.POST["edittotal0"]
+            usage = request.POST["editusage0"]
+            ResourceUsageTitleTable.objects.create(usage=usage,
+                                                   total=total)
+        elif 'edittotal' in request.POST.keys():
+            print "edit total and usage"
+            edit_id =request.POST["idEdit11" ]
+            print edit_id
+            total = request.POST["edittotal"]
+            usage = request.POST["editusage"]
+            edittitle_tab = ResourceUsageTitleTable.objects.get(id=edit_id)
+            edittitle_tab.total= total
+            edittitle_tab.usage = usage
+            edittitle_tab.save()
         elif 'productEdit' in request.POST.keys():
             print"edit resource uasge"
             edit_id = request.POST['idEdit']
@@ -127,10 +145,10 @@ def report_Resource(request):
             del_resource.save()
         else:
             print "there is something wrong"
-        return HttpResponseRedirect('resource_usage', {"resource_usage_tab": resource_usage_tab})
+        return HttpResponseRedirect('resource_usage', {"resource_usage_tab": resource_usage_tab,"title_tab": title_tab})
     else:
         print "GET!!!!"
-        return render(request, 'report/resource_usage.html',{"resource_usage_tab": resource_usage_tab})
+        return render(request, 'report/resource_usage.html',{"resource_usage_tab": resource_usage_tab,"title_tab": title_tab})
 
 def report_MainTF(request):
     plan_tab = RequestTable.objects.filter(is_plan="true",is_maintf="false")
