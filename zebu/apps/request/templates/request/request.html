@@ -14,6 +14,22 @@
 <link href="/static/request/css/request.css" type="text/css" rel="stylesheet" />
 <link href="/static/css/application.css" type="text/css" rel="stylesheet" />
 <link href="/static/plan/css/plan.css" type="text/css" rel="stylesheet" />
+<style>
+	a.pagination {
+  margin: 8px;
+  padding: 8px;
+  border: solid 2px rgba(193, 216, 230, .2);
+  text-decoration: none;
+  text-align: center;
+  color: #428bca;
+  background-color: rgba(255, 255, 255, .2);
+  transition: all .1s;
+}
+
+a:hover {
+  background-color: #ebf6ff;
+}
+</style>
 <!-- js -->
 <script src="/static/js/jquery-1.11.1.min.js"></script>
 <!-- <script src="http://apps.bdimg.com/libs/bootstrap/3.2.0/js/bootstrap.min.js"></script> -->
@@ -658,7 +674,7 @@
 						{% endif %}
 
 						{% for i in page_range %}
-							<a class="pagination" href="?page={{ i }}">{{ plan }}</a>
+							<a class="pagination" href="?page={{ i }}">{{ i }}</a>
 						{% endfor%}
 
 						{% if request_tab.has_next %}
