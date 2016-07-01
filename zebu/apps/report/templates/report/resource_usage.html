@@ -125,8 +125,9 @@ $(function () {
 				 </div>
                     <!-- 弹出模态框结束-->
 			 <div id="requestTable" class="reportTableDiv">
+				 {% for tab in resource_usage_tab%}
 					<table  class="reportTable" id="Box"  >
-						{% for tab in resource_usage_tab%}
+
 				<tr>
                      <td><b>Product:</b>{{tab.product}}</td>
                      <td><b>SPM:</b>{{tab.spm}}</td>
