@@ -10,7 +10,9 @@ from models import projectInfo
 import datetime
 import os
 from common import xlwt
-
+import sys
+reload(sys)
+sys.setdefaultencoding( "utf-8" )
 # Create your views here.
 temp_dir = "resources/tab/"
 schedule_file = "schedule_tab.xls"

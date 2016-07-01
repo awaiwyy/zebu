@@ -91,7 +91,8 @@ form {
 	margin:0 auto;
 	background-color: white;
 	box-shadow:0 10px 10px 10px rgba(0, 65, 103, 0.3);
-	overflow:hidden;
+/*	overflow:hidden;*/
+        float:left;
 }
 
 .middletitle{
@@ -178,4 +179,10 @@ form {
 
 .divcenter a {
 	text-decoration: none;
+}
+.divleft{
+    width:200px;
+    height:100px;
+    float:left;
+    
 }
