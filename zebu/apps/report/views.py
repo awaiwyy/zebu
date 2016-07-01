@@ -22,11 +22,15 @@ def reportPage(request):
         # 获得表单数据
         if 'productInfo' in request.POST.keys():
             print"into new daily report "
-            handle_uploaded_file(request.FILES['file'], str(request.FILES['file']))
+            
             product = request.POST['productInfo']
             spm = request.POST['spmInfo']
             reporter = request.POST['reporterInfo']
-            file_link=str(request.FILES['file'])
+            if "file" in request.FILES:
+                file_link=str(request.FILES['file'])
+                handle_uploaded_file(request.FILES['file'], str(request.FILES['file']))
+            else:
+                file_link=""
             # 添加到数据库
             ReportTable.objects.create(product=product,
                                        spm=spm,
@@ -225,14 +229,18 @@ def report_Schedule(request):
         # 获得表单数据
         if 'productInfo' in request.POST.keys():
             print"into new schedule "
-            handle_uploaded_file(request.FILES['file'], str(request.FILES['file']))
             product = request.POST['productInfo']
             spm = request.POST['spmInfo']
             reporter = request.POST['reporterInfo']
-            file_link = str(request.FILES['file'])
+            pic_list=["jpg","png","gif","bmp","jpeg"]
             is_picture = False
-            if ".jpg" or ".png" or ".gif" or ".bmp" or ".jpeg" in str(request.FILES['file']):
-                is_picture = True
+            if "file" in request.FILES:
+                file_link=str(request.FILES['file'])
+                handle_uploaded_file(request.FILES['file'], str(request.FILES['file']))
+                if file_link.split(".")[-1] in pic_list:
+                    is_picture = True
+            else:
+                file_link=""
             # 添加到数据库
             ScheduleTable.objects.create(product=product,
                                        spm=spm,
