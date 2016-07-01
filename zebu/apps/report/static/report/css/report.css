@@ -1,7 +1,7 @@
 .reportForm {
 	width:768px;
 	min-height: 864px;
-	height:auto!important
+	height:auto!important;
 	margin-top: 16px;
 	margin-right: 16px;
 	border-radius: 8px;
@@ -30,7 +30,7 @@
 
 .reportTable {
 	width:758px;
-	align:center;
+	text-align:center;
 	table-layout:fixed;
 	height:auto;
 	border:0;
@@ -60,10 +60,10 @@
 .reportTable td{
     height:48px;
     font-size:12px;
-    width:100%;  
+    width:25%;  
     word-break:keep-all;/* 不换行 */   
     white-space:nowrap;/* 不换行 */    
-    overflow:hidden;/* 内容超出宽度时隐藏超出部分的内容 */
+    overflow:auto;/* 内容超出宽度时隐藏超出部分的内容 */
     text-overflow:ellipsis;/* 当对象内文本溢出时显示省略标记(...) ；需与overflow:hidden;一起使用。*/
 }
 
