@@ -64,7 +64,8 @@ def handle_uploaded_file(file, filename):
     with open(upload_dir + filename.decode('utf-8'), 'wb+') as destination:
         for chunk in file.chunks():
             destination.write(chunk)
-    if ".jpg" or ".png" or ".gif" or ".bmp" or ".jpeg" in filename:
+    pic_list=["jpg","png","gif","bmp","jpeg"]
+    if filename.split(".")[-1] in pic_list:
         img = Image.open(upload_dir + filename.decode('utf-8'))
         img.thumbnail((100, 100), Image.ANTIALIAS)
         img.save(upload_dir + "mini" +filename.decode('utf-8'))
