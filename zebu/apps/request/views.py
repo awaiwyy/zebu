@@ -63,7 +63,7 @@ def file_iterator(file_name, chunk_size=512):
                 break
 
 def exportRequestTab(request):
-    request_tab = RequestTable.objects.all().order_by("-submit_date")
+    request_tab = RequestTable.objects.all().order_by("-id")
     if not os.path.exists(temp_dir):
         os.mkdir(temp_dir)
     file_name = temp_dir + request_file
@@ -78,7 +78,7 @@ def exportRequestTab(request):
 def requestUser(request, **kwargs):
     gopage = request.GET.get('page')
     #show request table
-    request_tab = RequestTable.objects.all().order_by("-submit_date")
+    request_tab = RequestTable.objects.all().order_by("-id")
     #for request duration
     valid_duration = []
     valid_requestduration_piece = []

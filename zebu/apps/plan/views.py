@@ -81,7 +81,7 @@ def planPage(request, **kwargs):
     gopage = request.GET.get('page')
     #show plan table
     request_tab = RequestTable.objects.filter(is_plan="false")
-    plan_tab = RequestTable.objects.filter(is_plan="true").order_by("id")
+    plan_tab = RequestTable.objects.filter(is_plan="true").order_by("-id")
     valid_duration = []
     valid_requestduration_piece = []
     valid_requestduration_day = []
