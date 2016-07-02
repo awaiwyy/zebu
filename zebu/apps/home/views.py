@@ -53,8 +53,8 @@ def homePageData(request,project_tab):
             total = request.POST["totalEdit%d" % cnt]
             used = request.POST["usedEdit%d" % cnt]
             arrangement = request.POST["arrangementEdit%d" % cnt]
-            print [total, used, arrangement]
-            if not total or not used or not arrangement:
+            # print [total, used, arrangement]
+            if not total or not used :
                 print "no compelete"
                 continue
             '''
