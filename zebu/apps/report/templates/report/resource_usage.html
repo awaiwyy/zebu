@@ -3,33 +3,7 @@
 <!-- 中间模板 -->
 
 		<div class="divcenter">
-			<script >
-$(function () {
-    $('#container').highcharts({
-        chart: {
-            type: 'column'
-        },
-        title: {
-            text: 'My first Highcharts chart'
-        },
-        xAxis: {
-            categories: ['my', 'first', 'chart']
-        },
-        yAxis: {
-            title: {
-                text: 'something'
-            }
-        },
-        series: [{
-            name: 'Jane',
-            data: [1, 0, 4]
-        }, {
-            name: 'John',
-            data: [5, 7, 3]
-        }]
-    });
-});
-</script>
+
 			<div class="reportForm">
 			 <div>
 			   <div data-toggle="modal" data-target="#NewModal"  style="cursor:pointer;margin-top:20px"><img src="/static/images/tianjia.png" />
@@ -183,6 +157,7 @@ $(function () {
 				 {% endfor%}
                     <!-- 弹出模态框结束-->
 			 <div id="requestTable" class="reportTableDiv">
+
 				 {% for tab in resource_usage_tab%}
 					<table  class="reportTable" id="Box"  >
 
@@ -209,7 +184,48 @@ $(function () {
                      <th>{{tab.zebu_platform}}H</th>
                      <th>{{tab.function}}H</th>
                   </tr>
-					<tr id="container" style="min-width:400px;height:400px;"></tr>
+					{% ifnotequal tab.total 0 %}
+					<tr id="container{{tab.id}}" style="min-width:400px;height:400px;"></tr>
+					<script>
+						$('#container{{tab.id}}').highcharts({
+							chart: {
+								plotBackgroundColor: null,
+								plotBorderWidth: null,
+								plotShadow: false
+							},
+							title: {
+								text: ''
+							},
+							tooltip: {
+								pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+							},
+							plotOptions: {
+								pie: {
+									allowPointSelect: true,
+									cursor: 'pointer',
+									dataLabels: {
+										enabled: true,
+										format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+										style: {
+											color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+										}
+									}
+								}
+							},
+							series: [{
+								type: 'pie',
+								name: 'Browser share',
+								data: [
+									['power_management',   {{tab.power_management}}],
+									['performance',       {{tab.performance}}],
+									['zebu_platform',    {{tab.zebu_platform}}],
+									['function',     {{tab.function}}],
+									['Remain',   {{tab.total}}-{{tab.power_management}}-{{tab.performance}}-{{tab.zebu_platform}}-{{tab.function}}]
+								]
+							}]
+						});
+					</script>
+					{% endifnotequal %}
 
 				<!--弹出模态框（Modal） -->
 						<div class="modal fade" id="editModal18{{tab.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -318,6 +334,35 @@ $(function () {
 						</table>
                         </div>
 			 </div>
+				<!--
+			<script >
+			{% for tab in resource_usage_tab %}
+
+				$('#container{{tab.id}}').highcharts({
+					chart: {
+						type: 'column'
+					},
+					title: {
+						text: 'My first Highcharts chart'
+					},
+					xAxis: {
+						categories: ['my', 'first', 'chart']
+					},
+					yAxis: {
+						title: {
+							text: 'something'
+						}
+					},
+					series: [{
+						name: 'Jane',
+						data: [1, 0, 4]
+					}, {
+						name: 'John',
+						data: [5, 7, 3]
+					}]
+				});
+			{% endfor %}
+			</script>-->
 		</div>
 		
 {% endblock %}
