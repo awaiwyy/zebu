@@ -56,7 +56,7 @@ def reportPage(request):
             del_report.save()
         else:
             print "there is something wrong"
-        return HttpResponseRedirect('/report/', {"daily_report_tab": daily_report_tab})
+        return HttpResponseRedirect('daily_report', {"daily_report_tab": daily_report_tab})
     else:
         print "GET!!!!"
         return render(request, 'report/report.html', {"daily_report_tab": daily_report_tab})
