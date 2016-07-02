@@ -11,9 +11,9 @@
 .scheduleTable {
 	width:768px;
 	table-layout:fixed;
-	height:1150px;
+	height:600px;
    border:0;
-	line-height:30px; 
+	line-height:20px;
 	border-collapse:collapse; 
 	border-spacing:0;
 }
@@ -28,7 +28,7 @@
 }
 
 .scheduleTable td{
-   height:48px;
+   height:30px;
    font-size:14px;
    border: 1px solid #cbcbcb;
    width:100%;  
@@ -40,7 +40,7 @@
 
 .scheduleTable th{
     font-size:14px;
-    height:48px;
+    height:30px;
     font-weight:normal;
     text-align:center;
     background-color: #E5E5E5;
