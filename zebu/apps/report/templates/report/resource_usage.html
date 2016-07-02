@@ -87,8 +87,8 @@ $(function () {
 			 <div class="">
 				 {% for tab in title_tab %}
 				 <table  class="" id="Box1"  >
-			 <tr><td><b>Total：{{tab.total}} H(10×24)</b></td></tr>
-             <tr><td><b>Usage：{{tab.usage}} H</b></td>
+			 <tr><td><b>Total(Piece)：{{tab.total}} H(10×24)</b></td></tr>
+             <tr><td><b>Usage(Piece)：{{tab.usage}} H</b></td>
              <td><a data-toggle="modal" data-target="#TitleModal{{tab.id}}"  style="cursor:pointer">
              <img src="/static/images/bianji.png"></a></td></tr>
 					  </table>
@@ -106,13 +106,23 @@ $(function () {
                               	<ul>
 									<li class="rqleft">Total:</li>
 									<li>
-										<input type="text" id="edittotal" name="edittotal" value = {{tab.total}} >
+										<select style="width:160px" id="edittotal" name="edittotal">
+                                      <option selected="selected">{{tab.total}}</option>
+											{% for i in totalitem%}
+									  <option>{{i}}</option>
+											{% endfor%}
+										</select>
 									</li>
 								</ul>
 								<ul>
 									<li class="rqleft">Usage:</li>
 									<li>
-										<input type="text" id="editusage" name="editusage"  value = {{tab.usage}} >
+										<select style="width:160px" id="editusage" name="editusage">
+                                      <option selected="selected">{{tab.usage}}</option>
+											{% for i in totalitem%}
+									  <option>{{i}}</option>
+											{% endfor%}
+										</select>
                                 	</li>
 							  	</ul>
 							  </div>
@@ -126,8 +136,8 @@ $(function () {
 					</div>
 				 {% empty %}
 				  <table  class="" id="Box1"  >
-			 <tr><td><b>Total：0 H(10×24)</b></td></tr>
-             <tr><td><b>Usage：0 H</b></td>
+			 <tr><td><b>Total(Piece)：0 H(10×24)</b></td></tr>
+             <tr><td><b>Usage(Piece)：0 H</b></td>
              <td><a data-toggle="modal" data-target="#TitleModal0"  style="cursor:pointer">
              <img src="/static/images/bianji.png"></a></td></tr>
 					  </table>
@@ -142,13 +152,23 @@ $(function () {
                               	<ul>
 									<li class="rqleft">Total:</li>
 									<li>
-										<input type="text" id="edittotal0" name="edittotal0" value = {{tab.total}} >
+										<select style="width:160px" id="edittotal0" name="edittotal0">
+                                      <option selected="selected">{{tab.total}}</option>
+											{% for i in totalitem%}
+									  <option>{{i}}</option>
+											{% endfor%}
+										</select>
 									</li>
 								</ul>
 								<ul>
 									<li class="rqleft">Usage:</li>
 									<li>
-										<input type="text" id="editusage0" name="editusage0"  value = {{tab.usage}} >
+										<select style="width:160px" id="editusage0" name="editusage0">
+                                      <option selected="selected">{{tab.usage}}</option>
+											{% for i in totalitem%}
+									  <option>{{i}}</option>
+											{% endfor%}
+										</select>
                                 	</li>
 							  	</ul>
 							  </div>
@@ -183,11 +203,11 @@ $(function () {
 							<th scope="col" width="120px"><span>zebu platform</span></th>
 						</tr>
                   <tr>
-                     <td>{{tab.total}}H</td>
-                     <td>{{tab.power_management}}H</td>
-                     <td>{{tab.performance}}H</td>
-                     <td>{{tab.zebu_platform}}H</td>
-                     <td>{{tab.function}}H</td>
+                     <th>{{tab.total}}H</th>
+                     <th>{{tab.power_management}}H</th>
+                     <th>{{tab.performance}}H</th>
+                     <th>{{tab.zebu_platform}}H</th>
+                     <th>{{tab.function}}H</th>
                   </tr>
 					<tr id="container" style="min-width:400px;height:400px;"></tr>
 

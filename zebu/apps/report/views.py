@@ -91,6 +91,7 @@ def file_Download(request,filename):
         return response
 
 def report_Resource(request):
+    totalitem=[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]
     title_tab = ResourceUsageTitleTable.objects.all()
     resource_usage_tab = ResourceUsageTable.objects.filter(is_show="true").order_by("id")
     if request.method == 'POST':
@@ -150,10 +151,10 @@ def report_Resource(request):
             del_resource.save()
         else:
             print "there is something wrong"
-        return HttpResponseRedirect('resource_usage', {"resource_usage_tab": resource_usage_tab,"title_tab": title_tab})
+        return HttpResponseRedirect('resource_usage', {"resource_usage_tab": resource_usage_tab,"title_tab": title_tab,"totalitem":totalitem})
     else:
         print "GET!!!!"
-        return render(request, 'report/resource_usage.html',{"resource_usage_tab": resource_usage_tab,"title_tab": title_tab})
+        return render(request, 'report/resource_usage.html',{"resource_usage_tab": resource_usage_tab,"title_tab": title_tab,"totalitem":totalitem})
 
 def report_MainTF(request):
     plan_tab = RequestTable.objects.filter(is_plan="true",is_maintf="false")
