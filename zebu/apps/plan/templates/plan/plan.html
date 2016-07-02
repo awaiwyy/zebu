@@ -87,18 +87,23 @@ function validatetime(tab_id,starttime)
 	    var datestring = startDate.toString();
 	    var aa = datestring.split(' ');
 	    var newmonth = aa[1].split(' ')[0];
-	    var a = starttime.split(',');
-	    var oldday = a[0].split(' ')[1];
-	    var oldyear = a[1].split(',')[0];
-	    var oldmonth1 = starttime.split(' ')[0];
-	    oldmonth = oldmonth1.substring(0,3);
-	    if (!(newyear==oldyear&&newmonth==oldmonth&&newday==oldday)){
+	    if (starttime!=="None"){
+	        var a = starttime.split(',');
+	        var oldday = a[0].split(' ')[1];
+	        var oldyear = a[1].split(',')[0];
+	        var oldmonth1 = starttime.split(' ')[0];
+	        oldmonth = oldmonth1.substring(0,3);
+	        if (!(newyear==oldyear&&newmonth==oldmonth&&newday==oldday)){
 	        if (startDate < today){
-	        alert("Start time 不能早于今天");
-	        return false;
+	            alert("Start time 不能早于今天");
+	            }
+	        }
+	    }else if (startyear) {
+	        if (startDate < today)
+	        {
+	            alert("Start time 不能早于今天");
+	        }
 	    }
-	    }
-
 	    if (closeDate>today) {
 	        alert("Close time不能晚于今天");
 	        return false;
