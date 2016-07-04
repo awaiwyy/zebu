@@ -32,6 +32,7 @@ a:hover {
 </style>
 <!-- js -->
 <script src="/static/js/jquery-1.11.1.min.js"></script>
+<script src="/static/js/jquery.validate.min.js"></script>
 <!-- <script src="http://apps.bdimg.com/libs/bootstrap/3.2.0/js/bootstrap.min.js"></script> -->
 <script src="/static/js/bootstrap.min.js"></script>
 <script type="text/javascript">
@@ -47,30 +48,7 @@ a:hover {
 		if (window.ActiveXObject) {
 			flag_browser = "ie";
 		}
-	})
-
-	function validate()
-	{
-	    if ($("select[name='durationHourEdit']").val()=="")
-	    {
-	        alert("Request Duration不能为空");
-	        return False;
-	    }
-	    if ($("select[name='durationDayEdit']").val()=="")
-	    {
-	        alert("Request Duration不能为空");
-	        return False;
-	    }
-	    if ($("select[name='durationPieceEdit']").val()=="")
-	    {
-	        alert("Request Duration不能为空");
-	        return False;
-	    }
-	    else
-	    {
-	        return True;
-	    }
-	}
+	})	
 </script>
 </head>
 <body>
@@ -143,7 +121,7 @@ a:hover {
                            <h4 class="modal-title" id="NewModalLabel">New Application</h4>
                         </div>
                         <div class="modal-body">
-                        <form class = "modalForm" method="POST" onsubmit="validate()">
+                        <form id="newapp" class="modalForm" method="POST" role="form">
                         {% csrf_token %}
                           <div class="modalFormContent">
                           <ul>
@@ -297,6 +275,7 @@ a:hover {
 								  <!-- <input type="hidden" name="submitUserInfo" value={{user.username}} /> -->
 								  </div>
 								  <div align="center" style="margin-bottom: 100px; ">
+									  <div name="errormsg" id="errormsg" style="color:red"></div>
                             <button class= "requestBtn" type="text" name="cancle" style="background-color: #FB8C8C" data-dismiss="modal">cancle</button>
                             <button class= "requestBtn" name="ok" type="submit" style="background-color:#67D00B ">confirm</button>
                           </div>
@@ -687,5 +666,31 @@ a:hover {
 			</div>
 		</div>
 	</div>
+	<script>
+		$("#newapp").validate({
+                 rules: {
+                     durationHourEdit: {
+                         required: true,
+                     },
+					 durationDayEdit: {
+                         required: true
+                     },
+					 durationPieceEdit: {
+                         required: true
+                     }
+             },
+			 messages:{
+				 durationHourEdit: "Hour is required",
+				 durationDayEdit: "Day is required",
+				 durationPieceEdit: "Piece is required"
+			 },
+			 errorElement: "p",
+			  errorPlacement: function(error, element){
+				  error.append("<p>");
+				  error.appendTo($("#errormsg"));
+				  error.append($("</p>"));
+        }}
+			 );
+		</script>
 </body>
 </html>
