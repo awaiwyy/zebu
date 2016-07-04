@@ -91,7 +91,7 @@ def file_Download(request,filename):
         return response
 
 def report_Resource(request):
-    totalitem=[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]
+    totalitem=[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]
     title_tab = ResourceUsageTitleTable.objects.all()
     resource_usage_tab = ResourceUsageTable.objects.filter(is_show="true").order_by("id")
     if request.method == 'POST':

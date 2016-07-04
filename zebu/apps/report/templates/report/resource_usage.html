@@ -234,7 +234,7 @@
                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                            <h4 class="modal-title" id="myModalLabel">Edit Usage</h4>
                         </div>
-                        <form  class = "modalForm" method="POST" enctype="multipart/form-data">
+                        <form  class = "modalForm" method="POST" enctype="multipart/form-data" onsubmit="return checkFunc({{tab.id}})">
 								{% csrf_token %}
                               <div class="modalFormContent" id="readRpTab{{tab.id}}">
 								  <input type="text" id="idEdit" name="idEdit" value = {{tab.id}} hidden/>
@@ -266,33 +266,59 @@
 								  <ul>
 									<li class="rqleft">Total:</li>
 									<li>
-										<input type="text" id="totalEdit" name="totalEdit" style="width:350px;height:24px" value = {{tab.total}} />
+										<select style="width:350px;height:24px" id="totalEdit{{tab.id}}" name="totalEdit">
+                                      <option selected="selected">{{tab.total}}</option>
+											{% for i in totalitem%}
+									  <option>{{i}}</option>
+											{% endfor%}
+										</select>
                                 	</li>
 							  	</ul>
 								  <ul>
 									<li class="rqleft">Power Management:</li>
 									<li>
-										<input type="text" id="managementEdit" name="managementEdit" style="width:350px;height:24px" value = {{tab.power_management}} />
+										<select id="managementEdit{{tab.id}}" name="managementEdit" style="width:350px;height:24px">
+                                      <option selected="selected">{{tab.power_management}}</option>
+											{% for i in totalitem%}
+									  <option>{{i}}</option>
+											{% endfor%}
+										</select>
                                 	</li>
 							  	</ul>
 								  <ul>
 									<li class="rqleft">Performance:</li>
 									<li>
-										<input type="text" id="performanceEdit" name="performanceEdit" style="width:350px;height:24px" value = {{tab.performance}} />
+										<select id="performanceEdit{{tab.id}}" name="performanceEdit" style="width:350px;height:24px">
+                                      <option selected="selected">{{tab.performance}}</option>
+											{% for i in totalitem%}
+									  <option>{{i}}</option>
+											{% endfor%}
+										</select>
                                 	</li>
 							  	</ul>
 								  <ul>
 									<li class="rqleft">Function:</li>
 									<li>
-										<input type="text" id="functionEdit" name="functionEdit" style="width:350px;height:24px" value = {{tab.function}} />
+										<select id="functionEdit{{tab.id}}" name="functionEdit" style="width:350px;height:24px">
+                                      <option selected="selected">{{tab.function}}</option>
+											{% for i in totalitem%}
+									  <option>{{i}}</option>
+											{% endfor%}
+										</select>
                                 	</li>
 							  	</ul>
 								  <ul>
 									<li class="rqleft"> zebu platform:</li>
 									<li>
-										<input type="text" id="zubeEdit" name="zubeEdit" style="width:350px;height:24px" value =  {{tab.zebu_platform}} />
+										<select id="zubeEdit{{tab.id}}" name="zubeEdit" style="width:350px;height:24px">
+                                      <option selected="selected">{{tab.zebu_platform}}</option>
+											{% for i in totalitem%}
+									  <option>{{i}}</option>
+											{% endfor%}
+										</select>
                                 	</li>
 							  	</ul>
+								  <p id="checkNum{{tab.id}}" style="text-align:center;color:red"></p>
 
 							  </div>
 								<div align="center" style="margin-bottom: 100px; vertical-align:middle;">
@@ -362,6 +388,25 @@
 				});
 			{% endfor %}
 			</script>-->
+
+			<script>
+				function checkFunc(id){
+				var total=$("#totalEdit"+id).val();				
+				var a=$("#managementEdit"+id).val();
+				var b=$("#performanceEdit"+id).val();
+				var c=$("#functionEdit"+id).val();
+				var d=$("#zubeEdit"+id).val();
+				var num = parseInt(a) +parseInt(b)+parseInt(c)+parseInt(d);
+
+				if ( parseInt(total)<num){
+					$("#checkNum"+id).text("Power Management、Performance、Function、zube platform值相加不能大于Total");
+					return false;
+				}
+				else{
+					return true;
+				}
+				}
+			</script>
 		</div>
 		
 {% endblock %}
