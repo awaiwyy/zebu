@@ -87,13 +87,13 @@
 					{% for tabs in is_high_tab %}
 					{% ifequal tabs.project tab.product %}
 					<tr>
-						<td>{{tabs.module}}</td>
-						<td>{{tabs.action_discription|safe}}</td>
-						<td>{{tabs.owner}}</td>
-						<td>{{tabs.status}}</td>
-						<td>{{tabs.start_time | date:"Y-m-d H:i:s"}}</td>
-						<td>{{tabs.next_target}}</td>
-						<td><a data-toggle="modal"
+						<td  style="text-align: center;">{{tabs.module}}</td>
+						<td style="text-align: center;">{{tabs.action_discription|safe}}</td>
+						<td style="text-align: center;">{{tabs.owner}}</td>
+						<td style="text-align: center;">{{tabs.status}}</td>
+						<td style="text-align: center;">{{tabs.start_time | date:"Y-m-d H:i:s"}}</td>
+						<td style="text-align: center;">{{tabs.next_target}}</td>
+						<td style="text-align: center;"><a data-toggle="modal"
 								data-target="#planModal{{tabs.id}}" style="cursor: pointer"><img
 									style="vertical-align: middle" src="/static/images/down.png" /></a></td>
 					</tr>
@@ -239,13 +239,13 @@
 					{% for tabs in is_low_tab %}
 					{% ifequal tabs.project tab.product %}
 					<tr>
-						<td>{{tabs.module}}</td>
-						<td>{{tabs.action_discription|safe}}</td>
-						<td>{{tabs.owner}}</td>
-						<td>{{tabs.status}}</td>
-						<td>{{tabs.start_time | date:"Y-m-d H:i:s"}}</td>
-						<td>{{tabs.next_target}}</td>
-						<td><a data-toggle="modal"
+						<td style="text-align: center;">{{tabs.module}}</td>
+						<td style="text-align: center;">{{tabs.action_discription|safe}}</td>
+						<td style="text-align: center;">{{tabs.owner}}</td>
+						<td style="text-align: center;">{{tabs.status}}</td>
+						<td style="text-align: center;">{{tabs.start_time | date:"Y-m-d H:i:s"}}</td>
+						<td style="text-align: center;">{{tabs.next_target}}</td>
+						<td style="text-align: center;"><a data-toggle="modal"
 								data-target="#planlowModal{{tabs.id}}" style="cursor: pointer"><img
 									style="vertical-align: middle" src="/static/images/down.png" /></a></td>
 					</tr>
