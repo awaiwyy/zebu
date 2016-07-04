@@ -71,7 +71,7 @@ def handle_uploaded_file(file, filename):
         for chunk in file.chunks():
             destination.write(chunk)
     pic_list=["jpg","png","gif","bmp","jpeg"]
-    if filename.split(".")[-1] in pic_list:
+    if filename.split(".")[-1].lower() in pic_list:
         img = Image.open(upload_dir + filename.decode('utf-8'))
         img.thumbnail((100, 100), Image.ANTIALIAS)
         img.save(upload_dir + "mini" +filename.decode('utf-8'))
@@ -240,7 +240,7 @@ def report_Schedule(request):
             if "file" in request.FILES:
                 file_link=str(request.FILES['file'])
                 handle_uploaded_file(request.FILES['file'], str(request.FILES['file']))
-                if file_link.split(".")[-1] in pic_list:
+                if file_link.split(".")[-1].lower() in pic_list:
                     is_picture = True
             else:
                 file_link=""
