@@ -4,11 +4,14 @@ from django.http import StreamingHttpResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import HttpResponseRedirect
 from models import RequestTable
-import os
 from common import xlwt
-
+import os
+# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 # Create your views here.
-temp_dir = "resources/tab/"
+temp_dir = os.path.join(BASE_DIR, "resources/tab/")
+# Create your views here.
+#temp_dir = "resources/tab/"
 request_file = "request_tab.xls"
 
 def saveRequestTab(request_tab,file_name):

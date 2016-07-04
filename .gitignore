@@ -11,3 +11,6 @@ upload/
 
 #ignore export files
 *.xls
+
+#ignor tab directory
+tab/

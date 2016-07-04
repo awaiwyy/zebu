@@ -9,10 +9,14 @@ import datetime
 from dateutil import tz
 from common import xlwt
 import os
-
+# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 # Create your views here.
-temp_dir = "resources/tab/"
+temp_dir = os.path.join(BASE_DIR, "resources/tab/")
+# Create your views here.
+#temp_dir = "resources/tab/"
 plan_file = "plan_tab.xls"
+
 def savePlanTab(plan_tab,file_name):
     #set style
     font0 = xlwt.Font()

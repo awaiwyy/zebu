@@ -10,9 +10,11 @@ from models import ScheduleTable
 import os
 from PIL import Image
 import sys
-
+# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 # Create your views here.
-upload_dir = "resources/upload/"
+upload_dir = os.path.join(BASE_DIR, "resources/upload/")
+# "resources/upload/"
 def reportPage(request):
     daily_report_tab = ReportTable.objects.filter(is_daily_report="true").order_by("id")
     #daily_report_tab = ReportTable.objects.all()

@@ -13,8 +13,13 @@ from common import xlwt
 import sys
 reload(sys)
 sys.setdefaultencoding( "utf-8" )
+import os
+# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 # Create your views here.
-temp_dir = "resources/tab/"
+temp_dir = os.path.join(BASE_DIR, "resources/tab/")
+# Create your views here.
+#temp_dir = "resources/tab/"
 schedule_file = "schedule_tab.xls"
 
 

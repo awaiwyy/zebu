@@ -5,6 +5,7 @@ encoding//apps/login/views.py=utf-8
 encoding//apps/plan/migrations/0001_initial.py=utf-8
 encoding//apps/plan/migrations/0002_delete_plantable.py=utf-8
 encoding//apps/plan/views.py=utf-8
+encoding//apps/report/views.py=utf-8
 encoding//apps/request/migrations/0001_initial.py=utf-8
 encoding//apps/request/migrations/0002_remove_requesttable_number.py=utf-8
 encoding//apps/request/migrations/0003_auto_20160316_1744.py=utf-8
