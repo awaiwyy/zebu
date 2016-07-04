@@ -65,13 +65,14 @@
 					  {% endif %}
 			   
 				<div id="requestTable" class="reportTableDiv">
+					{% for tab in daily_report_tab %}
 					<table  class="reportTable" id="Box"  >
 						<!--<tr>
 							<th scope="col" width="84px"><span>Product</span></th>
 							<th scope="col" width="84px"><span>SPM</span></th>
 							<th scope="col" width="222px"><span>Daily Reporter</span></th>
 						</tr>-->
-						{% for tab in daily_report_tab %}
+
                   <tr>
                      <td><b>Product:</b>{{tab.product}}</td>
                      <td><b>SPM:</b>{{tab.spm}}</td>
@@ -82,7 +83,7 @@
 				  <tr>
 				  <td><a href="downloadfile/{{tab.file_link}}">{{tab.file_link}}</a></td>
 				  </tr>
-
+					</table>
 					  <!-- 弹出模态框（Modal） -->
 						<div class="modal fade" id="myModal18{{tab.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                     <div class="modal-dialog" style = "width:800px">
@@ -167,7 +168,7 @@
 								</div>
 								<!-- delete plan table modal finish-->
 						{% endfor %}
-					</table>
+
 				</div>
 			 </div>
 			</div>

@@ -65,10 +65,8 @@
                  		</div>
 					  <!-- 添加模态框（Modal）结束 -->
 				<div id="requestTable" class="reportTableDiv">
+					{% for tab in schedule_tab %}
 					<table  class="reportTable" id="Box"  >
-
-                        {% for tab in schedule_tab %}
-
 						<tbody>
 <tr>
                      <td><b>Product:</b>{{tab.product}}</td>
@@ -88,7 +86,7 @@
 					  {%endifequal%}
 				  </tr>
 						</tbody>
-
+						 </table>
 				 <!-- 弹出edit模态框（Modal） -->
 						<div class="modal fade" id="editmodal{{tab.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                     <div class="modal-dialog" style = "width:800px">
@@ -171,7 +169,6 @@
 								</div>
 						<!-- delete plan table modal finish-->
 						{%endfor%}
-                    </table>
 				</div>
 
 
