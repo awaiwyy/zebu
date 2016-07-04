@@ -30,7 +30,6 @@
 
 .reportTable {
 	width:758px;
-	text-align:center;
 	table-layout:fixed;
 	height:auto;
 	border:0;
@@ -42,11 +41,10 @@
 
 .reportTable tr{
 	height:48px;
-	text-align:center;
-	transition:all .1s linear 0s; 
-	-moz-transition:all .1s linear 0s; 
-	-webkit-transition:all .1s linear 0s; 
-	-o-transition:all .1s linear 0s; 	
+	transition:all .1s linear 0s;
+	-moz-transition:all .1s linear 0s;
+	-webkit-transition:all .1s linear 0s;
+	-o-transition:all .1s linear 0s;
 }
 
 .reportTable tr:nth-of-type(even){
@@ -59,10 +57,9 @@
 
 .reportTable td{
     height:48px;
-    font-size:12px;
-    width:25%;  
-    word-break:keep-all;/* 不换行 */   
-    white-space:nowrap;/* 不换行 */    
+    font-size:14px;
+    word-break:keep-all;/* 不换行 */
+    white-space:nowrap;/* 不换行 */
     overflow:auto;/* 内容超出宽度时隐藏超出部分的内容 */
     text-overflow:ellipsis;/* 当对象内文本溢出时显示省略标记(...) ；需与overflow:hidden;一起使用。*/
 }
@@ -171,4 +168,19 @@
 	margin-right: 20px;
 }
 
+.miniForm1 {
+	width:90px;
+	height:30px;
+	margin-top: 0px;
+	margin-right: 16px;
+	border-radius: 8px;
+	margin-bottom: 0px;
+	border-top: 1px solid #cbcbcb;
+	border-bottom: 1px solid #cbcbcb;
+	border-left: 1px solid #cbcbcb;
+	border-right: 1px solid #cbcbcb;
+	font-size: 14px;
+	vertical-align:middle;
+    line-height:normal;
+}
 

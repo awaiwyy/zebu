@@ -64,17 +64,18 @@
                    </div>
                  		</div>
 					  <!-- 添加模态框（Modal）结束 -->
-				<div id="requestTable" class="reportTableDiv">
+				<div id="reportTable" class="reportTableDiv">
 					{% for tab in schedule_tab %}
 					<table  class="reportTable" id="Box"  >
 						<tbody>
-<tr>
-                     <td><b>Product:</b>{{tab.product}}</td>
-                     <td><b>SPM:</b>{{tab.spm}}</td>
-                     <td><b>Daily Reporter:</b>{{tab.daily_reporter}}</td>
-                     <td><a data-toggle="modal" data-target="#editmodal{{tab.id}}"  style="cursor:pointer"><img src="/static/images/bianji.png"></a>
+						<tr>
+					 <td width="21%"><b>Product: </b><input type="text"  readonly id="product" class="miniForm1" value="{{tab.product}}"/></td>
+				  	 <td width="20%"><b>SPM: </b><input type="text" readonly id="spm" class="miniForm1" value="{{tab.spm}}"/></td>
+				  	 <td width="35%"><b>Daily Reporter: </b><input type="text" readonly id="zebu" class="miniForm1" value="{{tab.daily_reporter}}"/></td>
+                     <td width="20%"><a data-toggle="modal" data-target="#editmodal{{tab.id}}"  style="cursor:pointer" ><img style="right:16px" src="/static/images/bianji.png"></a>
 					 <a data-toggle="modal" data-target="#delPlanModal{{tab.id}}"  style="cursor:pointer"><img src="/static/images/shanchu.png"></a></td>
-                  </tr>
+				 </tr>
+
                   <tr>
 					  {%ifequal tab.is_picture "True" %}
 					  <td >
