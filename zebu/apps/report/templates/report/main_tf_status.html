@@ -58,16 +58,16 @@
 		<div id="requestTable" class="maintfTableDiv">
 			<table class="reportTable" id="Box">
 				<tr>
-					 <td width="21%"><b>Product: </b><input type="text" width="50px"  height="10px" readonly id="product" class="miniForm1" value="{{tab.product}}"/></td>
+					 <td width="23%"><b>Product: </b><input type="text" width="50px"  height="10px" readonly id="product" class="miniForm1" value="{{tab.product}}"/></td>
 				  	 <td width="20%"><b>SPM: </b><input type="text" readonly id="spm" class="miniForm1" value="{{tab.spm}}"/></td>
 				  	 <td width="35%"><b>Daily Reporter: </b><input type="text" readonly id="zebu" class="miniForm1" value="{{tab.daily_reporter}}"/></td>
-                     <td width="20%"><a data-toggle="modal" data-target="#myModal18{{tab.id}}"  style="cursor:pointer" ><img style="right:16px" src="/static/images/bianji.png"></a>
+                     <td width="18%"><a data-toggle="modal" data-target="#myModal18{{tab.id}}"  style="cursor:pointer" ><img style="right:16px" src="/static/images/bianji.png"></a>
 					 <a data-toggle="modal" data-target="#delPlanModal{{tab.id}}"  style="cursor:pointer"><img src="/static/images/shanchu.png"></a></td>
 				 </tr>
 			</table>
 			<div>
 				<br>
-				<font size=3>Highlight:</font>
+				<font size=3><b>Highlight:</b></font>
 				<div data-toggle="modal" data-target="#NewHighModal{{tab.id}}" style="float:right">
 					<a style="cursor:pointer"><img src="/static/images/tianjia.png"></a>
 				</div>
@@ -76,12 +76,12 @@
 				<table class="reportTable" id="Box">
 					<tr>
 						<th scope="col" width="84px"><span>Module</span></th>
-						<th scope="col" width="222px"><span>Action
+						<th scope="col" width="193px"><span>Action
 									Discription</span></th>
 						<th scope="col" width="80px"><span>Owner</span></th>
 						<th scope="col" width="120px"><span>Status</span></th>
 						<th scope="col" width="88px"><span>Start Time</span></th>
-						<th scope="col" width="84px"><span>Next Target</span></th>
+						<th scope="col" width="80px"><span>Next Target</span></th>
 						<th scope="col" width="74px"><span>Detail</span></th>
 					</tr>
 					{% for tabs in is_high_tab %}
@@ -219,7 +219,7 @@
 					{%endfor%}
 
 				</table>
-				<font size=3>Lowlight:</font>
+				<font size=3><b>Lowlight:</b></font>
 				<div  data-toggle="modal" data-target="#NewLowModal{{tab.id}}" style="float:right">
 					<a style="cursor:pointer"><img src="/static/images/tianjia.png"></a>
 				</div>
@@ -228,12 +228,12 @@
 				<table class="reportTable" id="Box">
 					<tr>
 						<th scope="col" width="84px"><span>Module</span></th>
-						<th scope="col" width="222px"><span>Action
+						<th scope="col" width="193px"><span>Action
 									Discription</span></th>
 						<th scope="col" width="80px"><span>Owner</span></th>
 						<th scope="col" width="120px"><span>Status</span></th>
 						<th scope="col" width="88px"><span>Start Time</span></th>
-						<th scope="col" width="84px"><span>Next Target</span></th>
+						<th scope="col" width="80px"><span>Next Target</span></th>
 						<th scope="col" width="74px"><span>Detail</span></th>
 					</tr>
 					{% for tabs in is_low_tab %}

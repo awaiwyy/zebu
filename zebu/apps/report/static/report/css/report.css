@@ -29,6 +29,7 @@
 }
 
 .reportTable {
+        width:722px;
 	table-layout:fixed;
 	height:auto;
 	border:0;

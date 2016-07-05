@@ -192,6 +192,9 @@ def homeUser(request):
     print request.method
     print request.POST.keys()
     project_tab = projectInfo.objects.filter(display="true").order_by("id")
+    productlist=["iwhale2","isharkl2","Other"]
+    for tab in project_tab:
+        productlist.remove(tab.project)
     if request.method == 'POST' and 'userName' in request.POST.keys():
         print "into home post"
         #if 'userName' in request.POST.keys():
@@ -207,6 +210,7 @@ def homeUser(request):
         if user is not None and user.is_active:
             auth.login(request, user)
             schedule_dict = homePageData(request,project_tab)
+            schedule_dict.update(productlist=productlist)
             return HttpResponseRedirect('/home/', schedule_dict)
         else:
             #return render(request, 'login/login.html', {'password_is_wrong': True}) 
@@ -222,6 +226,7 @@ def homeUser(request):
                                    zebu=zebu)
         schedule_dict = homePageData(request,project_tab)
         schedule_dict.update(project_tab=project_tab)
+        schedule_dict.update(productlist=productlist)
         return HttpResponseRedirect('/home/', schedule_dict)
     elif request.method == 'POST' and "projectEdit" in request.POST.keys():
         print"edit home project "
@@ -234,6 +239,7 @@ def homeUser(request):
             edit_home.save()
         schedule_dict = homePageData(request,project_tab)
         schedule_dict.update(project_tab=project_tab)
+        schedule_dict.update(productlist=productlist)
         return HttpResponseRedirect('/home/', schedule_dict)
     elif request.method == 'POST' and "delhomeId" in request.POST.keys():
         print"delete home project "
@@ -241,11 +247,16 @@ def homeUser(request):
         del_home = projectInfo.objects.get(id=del_id)
         del_home.display = 'false'
         del_home.save()
+        schedule_dict = homePageData(request,project_tab)
+        schedule_dict.update(project_tab=project_tab)
+        schedule_dict.update(productlist=productlist)
+        return HttpResponseRedirect('/home/', schedule_dict)
     else:
         #other page(eg:request or plan page) to home 
         print "to home"
     schedule_dict = homePageData(request,project_tab)
     schedule_dict.update(project_tab = project_tab)
+    schedule_dict.update(productlist=productlist)
     return render(request, 'home/home.html', schedule_dict)
         #return render(request, 'home/home.html', {'project_tab': project_tab})
 
