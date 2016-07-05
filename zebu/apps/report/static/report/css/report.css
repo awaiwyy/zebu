@@ -29,6 +29,7 @@
 }
 
 .reportTable {
+        width:718px;
 	table-layout:fixed;
 	height:auto;
 	border:0;
@@ -55,7 +56,6 @@
 }
 
 .reportTable td{
-    width:718px;
     height:48px;
     font-size:14px;
     word-break:keep-all;/* 不换行 */   
