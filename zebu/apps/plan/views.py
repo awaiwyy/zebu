@@ -83,6 +83,8 @@ def exportPlanTab(request):
 
 def planPage(request, **kwargs):
     gopage = request.GET.get('page')
+    if (gopage == None):
+        gopage = "1"
     #show plan table
     request_tab = RequestTable.objects.filter(is_plan="false")
     plan_tab = RequestTable.objects.filter(is_plan="true").order_by("-id")
@@ -172,6 +174,35 @@ def planPage(request, **kwargs):
         projects = pager.page(1)
     except EmptyPage:
         projects = pager.page(pager.num_pages)
+    
+    # Pagination range
+    # pages_left: how many page numbers show on left of current page at most
+    # pages_right: how many page numbers show on right of current page at most
+    pages_left = 4
+    pages_right = 4
+    current_page = gopage
+    range_left = "norange"
+    range_right = "norange"
+    over_range_left = "false"
+    over_range_right = "false"
+
+    #Range Left
+    if (int(gopage)-1 > pages_left):
+        over_range_left = "true"
+        range_left = range(int(gopage) - pages_left, int(gopage))
+    if (int(gopage)-1 == pages_left):
+        range_left = range(1, int(gopage))
+    if (int(gopage)-1 < pages_left):
+        range_left = range(1, int(gopage))
+        
+    #Range Right
+    if (int(gopage) < pager.num_pages - pages_right):
+        over_range_right = "true"
+        range_right = range(int(gopage) + 1, int(gopage) + 1 + pages_right)
+    if (int(gopage) == pager.num_pages - pages_right):
+        range_right = range(int(gopage) + 1, int(gopage) + 1 + pages_right)
+    if (int(gopage) > pager.num_pages - pages_right):
+        range_right = range(int(gopage) + 1, pager.num_pages + 1)
 
     if request.method == 'POST':
         #获得表单数据
@@ -467,4 +498,13 @@ def planPage(request, **kwargs):
                 tab.save()
             tab.action_discription = tab.action_discription.replace("\n", "<br>")
             tab.progress = tab.progress.replace("\n", "<br>")
-        return render(request, 'plan/plan.html', {"request_tab": request_tab, "plan_tab": projects, 'valid_duration': valid_duration, 'valid_time':valid_time, 'valid_dailyDura':valid_dailyDura, 'page_range': range(1,pager.num_pages + 1)})
+        return render(request, 'plan/plan.html', {
+            "request_tab": request_tab, 
+            "plan_tab": projects, 
+            'valid_duration': valid_duration, 
+            'valid_time':valid_time, 
+            'valid_dailyDura':valid_dailyDura, 
+            'range_left': range_left, 
+            'range_right': range_right, 
+            'over_range_left': over_range_left, 
+            'over_range_right': over_range_right})

@@ -29,6 +29,14 @@
 	a.pagination:hover {
   		background-color: #ebf6ff;
 		  }
+	a.pagination-current{
+		margin: 8px;
+		padding: 8px;
+		text-decoration: 500;
+		text-align: center;
+		color: black;
+		transition: all .1s;
+	}
 	.error {
 		border: 1px solid red;
 		}
@@ -634,23 +642,41 @@
 					  <!-- 添加模态框（Modal）结束 -->
 					  {% endfor %}	  <!-- show request tab finish -->
 					</table>
+				</div>			
 				</div>
 				<div class="pagination">
 						<span class="step-links">
 						{% if request_tab.has_previous %}
-							<a class="pagination" href="?page=1"> << </a>
+							<a class="pagination" href="?page=1"> << </a>							
 						{% endif %}
 
-						{% for i in page_range %}
+						{% ifequal over_range_left "true" %}
+						. . .
+						{% endifequal %}
+						
+						{% ifnotequal range_left "norange" %}
+							{% for i in range_left %}
 							<a class="pagination" href="?page={{ i }}">{{ i }}</a>
-						{% endfor%}
+							{% endfor %}
+						{% endifnotequal %}
+						
+							<a class="pagination-current">{{request_tab.number}}</a>
+
+						{% ifnotequal range_right "norange" %}
+							{% for i in range_right %}
+							<a class="pagination" href="?page={{ i }}">{{ i }}</a>
+							{% endfor %}											
+						{% endifnotequal %}
+
+						{% ifequal over_range_right "true" %}
+						. . .
+						{% endifequal %}
 
 						{% if request_tab.has_next %}
 							<a class="pagination" href="?page={{ request_tab.paginator.num_pages }}"> >> </a>
 						{% endif %}
 						</span>
 					</div>
-				</div>
 			</div>
 		</div>
 	</div>
