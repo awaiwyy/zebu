@@ -79,7 +79,7 @@
                   <tr>
 					  {%ifequal tab.is_picture "True" %}
 					  <td >
-						  <div aria-valuetext="sslinks" ><a href="/static/{{tab.file_link}}"><img src="/static/mini{{tab.file_link}}" ></a></div>
+						  <div aria-valuetext="sslinks" ><a href="downloadfile/{{tab.file_link}}"><img src="downloadfile/mini{{tab.file_link}}" ></a></div>
 						  <a href="downloadfile/{{tab.file_link}}">{{tab.file_link}}</a>
 					  </td>
 					  {%else%}
