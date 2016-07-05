@@ -183,6 +183,7 @@ def planPage(request, **kwargs):
                 planid = 'newPlan%d' % requestid
                 if planid in request.POST.keys():
                     tab.is_plan = "true"
+                    tab.acceptance="Yes"
                     tab.save()
         elif 'idEdit' in request.POST.keys():
             print "into edit plan"

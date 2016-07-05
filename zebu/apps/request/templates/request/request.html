@@ -260,17 +260,6 @@ a:hover {
                                   </span>
                               </li>
 								  </ul>
-								  <ul>
-								      <li class="new_rqleft">Acceptance:</li>
-								      <li>
-                                  <span>
-                                  <select class="borderWidth" id="acceptanceInfo"  name="acceptanceInfo">
-                                      <option selected="">No</option>
-                                      <option>Yes</option>
-                                  </select>
-                                  </span>
-                              </li>
-								  </ul>
 								  <input type="hidden" name="ownerInfo" value={{user.username}} />
 								  <!-- <input type="hidden" name="submitUserInfo" value={{user.username}} /> -->
 								  </div>
@@ -567,18 +556,12 @@ a:hover {
                                   </span>
                                 </li>
 								      </ul>
-								       <ul>
-								      <li class="rqleft">Acceptance:</li>
-								      <li>
-                                  <span>
-                                  <select class="borderWidth" id="acceptanceEdit"  name="acceptanceEdit">
-                                      <option selected>{{tab.acceptance}}</option>
-                                      <option>No</option>
-                                      <option>Yes</option>
-                                  </select>
-                                  </span>
-                              </li>
-								  </ul>
+								  <ul>
+									     <li class="rqleft">Acceptance:</li>
+									     <li class="borderBottom">
+                                  <input id="acceptanceEdit" type="text" name=acceptanceEdit" value={{tab.acceptance}} readonly>
+                                </li>
+								      </ul>
 								      </div>
 								      <div align="center" style="margin-bottom: 100px; vertical-align:middle;">
                                   <button class= "requestBtn" type="button" id="cancleEditBtn{{tab.id}}" style="background-color: #FB8C8C" >cancle</button>
