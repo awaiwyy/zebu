@@ -247,6 +247,10 @@ def homeUser(request):
         del_home = projectInfo.objects.get(id=del_id)
         del_home.display = 'false'
         del_home.save()
+        schedule_dict = homePageData(request,project_tab)
+        schedule_dict.update(project_tab=project_tab)
+        schedule_dict.update(productlist=productlist)
+        return HttpResponseRedirect('/home/', schedule_dict)
     else:
         #other page(eg:request or plan page) to home 
         print "to home"
