@@ -428,6 +428,10 @@ function validatetime(tab_id,starttime)
 													<li class="rqleft">Next Target:</li>
 													<li class="borderBottom">{{tab.next_target}}</li>
 												</ul>
+												 <ul>
+								      <li class="rqleft">Acceptance:</li>
+								      <li class="borderBottom">{{tab.acceptance}}</li>
+								  </ul>
 											</div>
 											{% if perms.request.change_requesttable%}
 											<div id="editPlanForm{{tab.id}}">
@@ -678,6 +682,12 @@ function validatetime(tab_id,starttime)
 																	id="next_targetEdit{{tab.id}}" name="next_targetEdit">{{tab.next_target}}</textarea>
 															</li>
 														</ul>
+														<ul>
+									     <li class="rqleft">Acceptance:</li>
+									     <li class="borderBottom">
+                                  <input id="acceptanceEdit" type="text" name=acceptanceEdit" value={{tab.acceptance}} readonly>
+                                </li>
+								      </ul>
 													</div>
 													<div align="center" style="margin-bottom: 100px;">
 														<button class="requestBtn" type="button"
