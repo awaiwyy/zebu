@@ -185,9 +185,9 @@
 								<li>
 									<span>
                                   <select class="borderWidth" id="projectInfo" name="projectInfo">
-                                      <option selected="selected">iwhale2</option>
-                                      <option>isharkl2</option>
-                                      <option>Other</option>
+									  {%for i in productlist%}
+                                      <option>{{i}}</option>
+									  {%endfor%}
                                   </select>
                                   </span>
 								</li>
@@ -366,9 +366,9 @@
 										<span>
                                   <select class="borderWidth" id="projectEdit" name="projectEdit">
                                       <option selected="selected">{{pro_item.pro.project}}</option>
-									  <option>iwhale2</option>
-                                      <option>isharkl2</option>
-                                      <option>Other</option>
+									   {%for i in productlist%}
+                                      <option>{{i}}</option>
+									  {%endfor%}
                                   </select>
                                   </span>
                                 	</li>
@@ -377,13 +377,13 @@
                               	<ul>
 									<li class="rqleft">SPM:</li>
 									<li>
-										<input type="text" id="spmEdit" name="spmEdit" value = {{pro_item.pro.spm}} style="width:350px;height:24px"/>
+										<input type="text" id="spmEdit" name="spmEdit" value="{{pro_item.pro.spm}}" style="width:350px;height:24px"/>
 									</li>
 								</ul>
 								<ul>
 									<li class="rqleft">Zebu(Pieces):</li>
 									<li>
-										<input type="text" id="zubuEdit" name="zebuEdit" value = {{pro_item.pro.zebu}} style="width:350px;height:24px"/>
+										<input type="text" id="zubuEdit" name="zebuEdit" value ={{pro_item.pro.zebu}} style="width:350px;height:24px"/>
                                 	</li>
 							  	</ul>
 							  </div>
