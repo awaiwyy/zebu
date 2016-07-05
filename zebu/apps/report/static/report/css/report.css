@@ -55,6 +55,7 @@
 }
 
 .reportTable td{
+    width:718px;
     height:48px;
     font-size:14px;
     word-break:keep-all;/* 不换行 */   
