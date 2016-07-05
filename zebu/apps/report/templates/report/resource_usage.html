@@ -180,12 +180,13 @@
                      <th>{{tab.total}}H</th>
                      <th>{{tab.power_management}}H</th>
                      <th>{{tab.performance}}H</th>
-                     <th>{{tab.zebu_platform}}H</th>
                      <th>{{tab.function}}H</th>
+                     <th>{{tab.zebu_platform}}H</th>
                   </tr>
 					{% ifnotequal tab.total 0 %}
 					<tr id="container{{tab.id}}" style="min-width:400px;height:300px;"></tr>
 					<script>
+						var free = {{tab.total}}-{{tab.power_management}}-{{tab.performance}}-{{tab.zebu_platform}}-{{tab.function}}
 						$('#container{{tab.id}}').highcharts({
 							chart: {
 								plotBackgroundColor: null,
@@ -215,11 +216,21 @@
 								type: 'pie',
 								name: 'share',
 								data: [
+									{% ifnotequal tab.power_management 0 %}
 									['power_management',   {{tab.power_management}}],
+									{% endifnotequal %}
+									{% ifnotequal tab.performance 0 %}
 									['performance',       {{tab.performance}}],
-									['zebu_platform',    {{tab.zebu_platform}}],
+									{% endifnotequal %}
+									{% ifnotequal tab.function 0 %}
 									['function',     {{tab.function}}],
-									['free',   {{tab.total}}-{{tab.power_management}}-{{tab.performance}}-{{tab.zebu_platform}}-{{tab.function}}]
+									{% endifnotequal %}
+									{% ifnotequal tab.zebu_platform 0 %}
+									['zebu_platform',    {{tab.zebu_platform}}],
+									{% endifnotequal %}
+									{% ifnotequal free 0 %}
+									['free', free]
+									{% endifnotequal %}
 								]
 							}]
 						});
