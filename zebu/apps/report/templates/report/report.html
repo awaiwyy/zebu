@@ -66,6 +66,7 @@
 			   
 				<div id="requestTable" class="reportTableDiv">
 					{% for tab in daily_report_tab %}
+					<div class="scheduleForm">
 					<table  class="reportTable" id="Box"  >
 						<!--<tr>
 							<th scope="col" width="84px"><span>Product</span></th>
@@ -93,7 +94,7 @@
                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                            <h4 class="modal-title" id="myModalLabel">Daily Report Details</h4>
                         </div>
- 
+						  <div class="modal-body">
 							<form  class = "modalForm" method="POST" enctype="multipart/form-data">
 								{% csrf_token %}
                               <div class="modalFormContent" id="readRpTab{{tab.id}}">
@@ -135,6 +136,7 @@
                                   <button class= "requestBtn" type="submit" id="saveRqEdit18"  style="background-color:#67D00B ">confirm</button>
                               	</div>
                             </form>
+							  </div>
 					  </div>
 					</div>
 					  </div>
@@ -168,6 +170,7 @@
 									</div>
 								</div>
 								<!-- delete plan table modal finish-->
+						</div>
 						{% endfor %}
 
 				</div>

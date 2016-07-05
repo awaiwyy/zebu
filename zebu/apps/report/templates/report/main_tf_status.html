@@ -54,7 +54,7 @@
 		</div>
 		<!-- 添加模态框（Modal）结束 -->
 		{%for tab in maintf_tab%}
-		<div class="reportForm">
+		<div class="scheduleForm">
 		<div id="requestTable" class="maintfTableDiv">
 			<table class="reportTable" id="Box">
 				<tr>
@@ -384,6 +384,7 @@
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 						<h4 class="modal-title" id="myModalLabel">Schedule Details</h4>
 					</div>
+					<div class="modal-body">
 					<form class="modalForm" method="POST">
 						{% csrf_token %}
 						<div class="modalFormContent" id="readRpTab{{tab.id}}">
@@ -419,6 +420,7 @@
 							<button class="requestBtn" type="submit" id="saveRqEdit18" style="background-color:#67D00B ">confirm</button>
 						</div>
 					</form>
+						</div>
 				</div>
 			</div>
 		</div>

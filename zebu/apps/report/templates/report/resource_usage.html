@@ -159,6 +159,7 @@
 			 <div id="requestTable" class="reportTableDiv">
 
 				 {% for tab in resource_usage_tab%}
+				 <div class="scheduleForm">
 					<table  class="reportTable" id="Box"  >
 						<tr>
 					 <td width="21%"><b>Product: </b><input type="text"  readonly id="product" class="miniForm1" value="{{tab.product}}"/></td>
@@ -170,11 +171,11 @@
 						</table>
 					<table class="reportTable" >
 						<tr>
-							<th scope="col" width="84px"><span>Total</span></th>
-							<th scope="col" width="160px"><span>Power Management</span></th>
-							<th scope="col" width="160px"><span>Performance</span></th>
-							<th scope="col" width="80px"><span>Function</span></th>
-							<th scope="col" width="120px"><span>zebu platform</span></th>
+							<th scope="col" width="90px"><span>Total</span></th>
+							<th scope="col" width="180px"><span>Power Management</span></th>
+							<th scope="col" width="180px"><span>Performance</span></th>
+							<th scope="col" width="95px"><span>Function</span></th>
+							<th scope="col" width="180px"><span>zebu platform</span></th>
 						</tr>
                   <tr>
                      <th>{{tab.total}}H</th>
@@ -183,8 +184,10 @@
                      <th>{{tab.function}}H</th>
                      <th>{{tab.zebu_platform}}H</th>
                   </tr>
+						</table>
+					 <table>
 					{% ifnotequal tab.total 0 %}
-					<tr id="container{{tab.id}}" style="min-width:400px;height:300px;"></tr>
+					<tr id="container{{tab.id}}" style="min-width:650px;height:300px;text-align:center;"></tr>
 					<script>
 						var free = {{tab.total}}-{{tab.power_management}}-{{tab.performance}}-{{tab.zebu_platform}}-{{tab.function}}
 						$('#container{{tab.id}}').highcharts({
@@ -245,6 +248,7 @@
                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                            <h4 class="modal-title" id="myModalLabel">Edit Usage</h4>
                         </div>
+						  <div class="modal-body">
                         <form  class = "modalForm" method="POST" enctype="multipart/form-data" onsubmit="return checkFunc({{tab.id}})">
 								{% csrf_token %}
                               <div class="modalFormContent" id="readRpTab{{tab.id}}">
@@ -337,6 +341,7 @@
                                   <button class= "requestBtn" type="submit" id="saveRqEdit18"  style="background-color:#67D00B ">confirm</button>
                               	</div>
                             </form>
+							  </div>
                       </div>
                    </div>
                  </div>
@@ -367,6 +372,7 @@
 										</div>
 									</div>
 								</div>
+					 </div>
 				 {%endfor%}
                         </div>
 			 </div>
