@@ -246,7 +246,9 @@ a:hover {
 																	<option ></option>
 																	{% for piece in valid_duration.2 %}
 																	<option>{{piece}}</option> {% endfor %}
-															</select>Piece</li>
+															</select>Piece
+															<p id="errormsg" style="color:red"></p>
+															</li>
 								  </ul>
 								  <ul>
 								      <li class="new_rqleft">Priority:</li>
@@ -650,30 +652,33 @@ a:hover {
 		</div>
 	</div>
 	<script>
+		$.validator.addMethod("selectval", function(value,element){
+			if (value=="")
+			{
+				$("#errormsg").text("Duration is required");
+				return false;
+			}
+			else
+			{
+				return true;
+			}
+		},"")
+
 		$("#newapp").validate({
                  rules: {
                      durationHourEdit: {
-                         required: true,
+                         selectval: true,
                      },
 					 durationDayEdit: {
-                         required: true
+                         selectval: true
                      },
 					 durationPieceEdit: {
-                         required: true
+                         selectval: true
                      }
              },
 			 messages:{
-				 durationHourEdit: "Hour is required",
-				 durationDayEdit: "Day is required",
-				 durationPieceEdit: "Piece is required"
-			 },
-			 errorElement: "p",
-			  errorPlacement: function(error, element){
-				  error.append("<p>");
-				  error.appendTo($("#errormsg"));
-				  error.append($("</p>"));
-        }}
-			 );
+			 }
+			});
 		</script>
 </body>
 </html>
