@@ -189,10 +189,10 @@
                      <th>{{tab.zebu_platform}}H</th>
                   </tr>
 						</table>
-					 <table>
 					{% ifnotequal tab.total 0 %}
-					<tr id="container{{tab.id}}" style="min-width:650px;height:300px;text-align:center;"></tr>
+					<div id="container{{tab.id}}" style="min-width:650px;height:300px;text-align:center;">
 					<script>
+					    var color = ['#492970', '#f28f43', '#77a1e5', '#a6c96a', '#FF00FF'];
 						var free = {{tab.total}}-{{tab.power_management}}-{{tab.performance}}-{{tab.zebu_platform}}-{{tab.function}}
 						$('#container{{tab.id}}').highcharts({
 							chart: {
@@ -200,6 +200,7 @@
 								plotBorderWidth: null,
 								plotShadow: false
 							},
+							colors:color,
 							title: {
 								text: ''
 							},
@@ -242,8 +243,8 @@
 							}]
 						});
 					</script>
+					</div>
 					{% endifnotequal %}
-					</table>
 				<!--弹出模态框（Modal） -->
 						<div class="modal fade" id="editModal18{{tab.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                     <div class="modal-dialog" style = "width:800px">
