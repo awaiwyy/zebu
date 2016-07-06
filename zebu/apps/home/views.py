@@ -194,7 +194,8 @@ def homeUser(request):
     project_tab = projectInfo.objects.filter(display="true").order_by("id")
     productlist=["iwhale2","isharkl2","Other"]
     for tab in project_tab:
-        productlist.remove(tab.project)
+        if tab.project in productlist:
+            productlist.remove(tab.project)
     if request.method == 'POST' and 'userName' in request.POST.keys():
         print "into home post"
         #if 'userName' in request.POST.keys():

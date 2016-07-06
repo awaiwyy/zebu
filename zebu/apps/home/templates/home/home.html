@@ -18,6 +18,11 @@
 <link rel="stylesheet" href="/static/home/css/schedule.css" />
 <link href="/static/css/application.css" type="text/css" rel="stylesheet" />
 <!--  <link rel="stylesheet" href="/static/home/css/jquery.webui-popover.min.css">-->
+<style>
+	.error {
+		border: 1px solid red;
+		}
+</style>
 <!-- js -->
 <script src="/static/js/jquery-1.11.1.min.js"></script>
 <script src="/static/home/js/WeeklyReport.js"></script>
@@ -51,9 +56,12 @@
 		if(num)
 	    {
 	    if(!isNum(num)){
-	    alert("zebu请输入整数");
+		$("#zebucheckint"+pro).text("zebu请输入整数");
 	    return false;
 	    }
+		else{
+		$("#zebucheckint"+pro).text("");	
+		}
 	    }
 	for(var i=0;i<7;i++){
 		var j=i;
@@ -61,9 +69,12 @@
 		var num2=document.getElementById("usedEdit"+pro+j).value;
 		if(num1 || num2){
 		if(!isNum(num1) || !isNum(num2)){
-	    alert("Total和Used请均输入整数");
+	    $("#checkint"+pro).text("Total和Used请均输入整数");
 	    return false;
 	    }
+		else{
+		$("#checkint"+pro).text("");
+		}
 	    }
 	}
 	}
@@ -354,7 +365,7 @@
                      </div>
                      <div class="modal-body">
 
-						<form  class = "modalForm" method="POST" onsubmit="checkint({{pro_item.pro.id}})">
+						<form  class = "modalForm" method="POST" onsubmit="return checkint({{pro_item.pro.id}})">
 								{% csrf_token %}
 
 							  <input type="text" name="project_idEdit" value={{pro_item.pro.id}} hidden/>
@@ -384,6 +395,7 @@
 									<li class="rqleft">Zebu(Pieces):</li>
 									<li>
 										<input type="text" id="zubuEdit" name="zebuEdit" value ={{pro_item.pro.zebu}} style="width:350px;height:24px"/>
+										<p id="zebucheckint{{pro_item.pro.id}}" style="text-align:center;color:red"></p>
                                 	</li>
 							  	</ul>
 							  </div>
@@ -408,6 +420,7 @@
 
 						         {% endfor %}
                          </table>
+						 <p id="checkint{{pro_item.pro.id}}" style="text-align:center;color:red"></p>
                          <div class="scheduleDiv">
                             <button class= "scheduleBtn" type="text" style="background-color: #FB8C8C" data-dismiss="modal">cancle</button>
                             <button class= "scheduleBtn" type="submit" style="background-color:#67D00B ">confirm</button>
