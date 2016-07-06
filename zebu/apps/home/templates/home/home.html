@@ -45,7 +45,7 @@
 	    if(num)
 	    {
 	    if(!isNum(num)){
-	    alert("请输入整数");
+	   	$("#checkaddzebu").text("zebu请输入整数");
 	    return false;
 	    }
 	    }
@@ -187,7 +187,7 @@
                            <h4 class="modal-title" id="NewModalLabel">Product Information</h4>
                         </div>
                         <div class="modal-body">
-                        <form class = "modalForm" method="POST" onsubmit="checknum()">
+                        <form class = "modalForm" method="POST" onsubmit="return checknum()">
                         {% csrf_token %}
                           <div class="modalFormContent">
 
@@ -214,6 +214,7 @@
 								<li>
 									<input type="text" id="zebuInfo" name="zebuInfo" style="width:350px;height:24px"/>
 								</li>
+								<p id="checkaddzebu" style="text-align:center;color:red"></p>
 							</ul>
 						  </div>
 							<div align="center" style="margin-bottom: 100px; ">
@@ -398,8 +399,8 @@
 									<li class="rqleft">Zebu(Pieces):</li>
 									<li>
 										<input type="text" id="zubuEdit" name="zebuEdit" value ={{pro_item.pro.zebu}} style="width:350px;height:24px"/>
-										<p id="zebucheckint{{pro_item.pro.id}}" style="text-align:center;color:red"></p>
                                 	</li>
+									<p id="zebucheckint{{pro_item.pro.id}}" style="text-align:center;color:red"></p>
 							  	</ul>
 							  </div>
 
