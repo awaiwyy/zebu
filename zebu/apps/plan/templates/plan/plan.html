@@ -103,19 +103,31 @@ function validatetime(tab_id,starttime)
 	        oldmonth = oldmonth1.substring(0,3);
 	        if (!(newyear==oldyear&&newmonth==oldmonth&&newday==oldday)){
 	        if (startDate < today){
-	            alert("Start time 不能早于今天");
+				$("#checkStart"+tab_id).text("Start time 不能早于今天");
+				return false;
 	            }
+			else{
+			$("#checkStart"+tab_id).text("");
+				}
 	        }
 	    }else if (startyear) {
 	        if (startDate < today)
 	        {
-	            alert("Start time 不能早于今天");
+	            $("#checkStart"+tab_id).text("Start time 不能早于今天");
+				return false;
 	        }
+			else{
+			$("#checkStart"+tab_id).text("");
+				}
 	    }
+		
 	    if (closeDate>today) {
-	        alert("Close time不能晚于今天");
+			$("#checkClose"+tab_id).text("Close time不能晚于今天");
 	        return false;
 	    }
+		else{
+			$("#checkClose"+tab_id).text("");
+		}
 
 	}
 	var flag_browser = "other";
@@ -443,7 +455,7 @@ function validatetime(tab_id,starttime)
 											</div>
 											{% if perms.request.change_requesttable%}
 											<div id="editPlanForm{{tab.id}}">
-												<form class="modalForm" method="POST" onsubmit="validatetime({{tab.id}},'{{tab.start_time}}')">
+												<form class="modalForm" method="POST" onsubmit="return validatetime({{tab.id}},'{{tab.start_time}}')">
 													{% csrf_token %}
 													<div class="modalFormContent">
 														<ul>
@@ -611,6 +623,7 @@ function validatetime(tab_id,starttime)
 																	<option>{{sec}}</option> {% endfor %}
 															</select></li>
 														</ul>
+														<p id="checkStart{{tab.id}}" style="text-align:center;color:red"></p>
 														<ul>
 															<li class="rqleft">Request Duration:</li>
 															<!-- <li><span> <select class="borderWidth"
@@ -684,6 +697,7 @@ function validatetime(tab_id,starttime)
 																	<option>{{sec}}</option> {% endfor %}
 															</select></li>
 														</ul>
+														<p id="checkClose{{tab.id}}" style="text-align:center;color:red"></p>
 														<ul>
 															<li class="rqleft">Next Target:</li>
 															<li><textarea class="borderWidth modalReportText"
