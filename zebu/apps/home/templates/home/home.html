@@ -232,7 +232,7 @@
         <div class="requestForm" >
         <div id="requestTable" class="requestTableDiv" >
 			<div class="productForm">
-					<table  class="requestTable" id="Box"  >
+					<table   id="Box"  >
                     <!--<tr>
 							<th scope="col" width="84px"><span>Product</span></th>
 							<th scope="col" width="84px"><span>SPM</span></th>
@@ -240,12 +240,15 @@
 						</tr>-->
 
                   <tr>
-					 <td><b>Product: </b><input type="text" width="50px"  height="10px" readonly id="product" class="miniForm" value="{{pro_item.pro.project}}"/></td>
-				  	 <td><b>SPM: </b><input type="text" readonly id="spm" class="miniForm" value="{{pro_item.pro.spm}}"/></td>
-				  	 <td><b>Zube: </b><input type="text" readonly id="zebu" class="miniForm" value="{{pro_item.pro.zebu}}Pieces"/></td>
-					  <td width="120px"></td>
-                     <td><a data-toggle="modal" data-target="#scheduleModal{{pro_item.pro.id}}"  style="cursor:pointer" ><img style="right:16px" src="/static/images/bianji.png"></a>
-					 <a data-toggle="modal" data-target="#delPlanModal{{pro_item.pro.id}}"  style="cursor:pointer"><img src="/static/images/shanchu.png"></a></td>
+					  <td width="16px"></td>
+					 <td width="70px" ><b>Product: </b></td>
+					<td width="112px"><input type="text" readonly id="product" class="miniForm" value="{{pro_item.pro.project}}"/></td>
+				  	 <td width="60px" align="center"><b>SPM: </b></td>
+					<td width="112px"><input type="text" readonly id="spm" class="miniForm" value="{{pro_item.pro.spm}}"/></td>
+				  	 <td width="70px" align="center"><b>Zube: </b></td>
+					  <td width="150px"><input type="text" readonly id="zebu" class="miniForm" value="{{pro_item.pro.zebu}}Pieces"/></td>
+					  <td width="50px"><a data-toggle="modal" data-target="#scheduleModal{{pro_item.pro.id}}"  style="cursor:pointer" ><img style="right:16px" src="/static/images/bianji.png"></a></td>
+					  <td><a data-toggle="modal" data-target="#delPlanModal{{pro_item.pro.id}}"  style="cursor:pointer"><img src="/static/images/shanchu.png"></a></td>
 
 				 </tr>
    <!-- 模态框（Modal） -->
@@ -291,30 +294,30 @@
 				{% widthratio forloop.counter 1 7 as tloop %}
 				<ul class="weekly_bl" style="padding-left: 0">
 					<li id="time"
-						style="width: 90px; height: 50px; text-align: center; line-height: 48px; background-color: #e2e3e3;"></li>
+						style="width: 96px; height: 50px; text-align: center; line-height: 48px; background-color: #e2e3e3;"></li>
 					<li id="week{{tloop|add:-6}}" onClick="weekClick({{tloop|add:-6}})"
-						style="width: 90px; height: 50px; line-height: 200%; background-color: #e2e3e3;">Monday<br>{{cur_date.0}}</li>
+						style="width: 91px; height: 50px; line-height: 200%; background-color: #e2e3e3;">Monday<br>{{cur_date.0}}</li>
 					<li id="week{{tloop|add:-5}}" onClick="weekClick({{tloop|add:-5}})"
-						style="width: 90px; height: 50px; line-height: 200%; background-color: #e2e3e3;">Tuesday<br>{{cur_date.1}}</li>
+						style="width: 91px; height: 50px; line-height: 200%; background-color: #e2e3e3;">Tuesday<br>{{cur_date.1}}</li>
 					<li id="week{{tloop|add:-4}}" onClick="weekClick({{tloop|add:-4}})"
-						style="width: 90px; height: 50px; line-height: 200%; background-color: #e2e3e3;">Wednesday<br>{{cur_date.2}}</li>
+						style="width: 91px; height: 50px; line-height: 200%; background-color: #e2e3e3;">Wednesday<br>{{cur_date.2}}</li>
 					<li id="week{{tloop|add:-3}}" onClick="weekClick({{tloop|add:-3}})"
-						style="width: 90px; height: 50px; line-height: 200%; background-color: #e2e3e3;">Thursday<br>{{cur_date.3}}</li>
+						style="width: 91px; height: 50px; line-height: 200%; background-color: #e2e3e3;">Thursday<br>{{cur_date.3}}</li>
 					<li id="week{{tloop|add:-2}}" onClick="weekClick({{tloop|add:-2}})"
-						style="width: 90px; height: 50px; line-height: 200%; background-color: #e2e3e3;">Friday<br>{{cur_date.4}}</li>
+						style="width: 91px; height: 50px; line-height: 200%; background-color: #e2e3e3;">Friday<br>{{cur_date.4}}</li>
 					<li id="week{{tloop|add:-1}}" onClick="weekClick({{tloop|add:-1}})"
-						style="width: 90px; height: 50px; line-height: 200%; background-color: #e2e3e3;">Saturday<br>{{cur_date.5}}</li>
+						style="width: 91px; height: 50px; line-height: 200%; background-color: #e2e3e3;">Saturday<br>{{cur_date.5}}</li>
 					<li id="week{{tloop}}" onClick="weekClick({{tloop}})"
-						style="width: 90px; height: 50px; line-height: 200%; background-color: #e2e3e3;"
+						style="width: 91px; height: 50px; line-height: 200%; background-color: #e2e3e3;"
 						class="rightli">Sunday<br>{{cur_date.6}}</li>
 				</ul>
 				<ul class="weekly_bl" style="padding-left: 0px">
 					<li id="time1"
-						style="width: 90px; height: 174px; text-align: center; line-height: 90px; background-color: #e2e3e3;">0:00~24:00</li>
+						style="width: 96px; height: 174px; text-align: center; line-height: 90px; background-color: #e2e3e3;">0:00~24:00</li>
 					{% for item in pro_item.sch %}
 					{% widthratio forloop.parentloop.counter 1 7 as ploop %}
 					<li id="total{{item.0|add:-7|add:ploop}}" value="{{item.1}}"
-						style="width: 90px; height: 174px; background-color: #e2e3e3"
+						style="width: 91px; height: 174px; background-color: #e2e3e3"
 						title="Details" data-container="body" data-toggle="popover" data-placement="auto" data-html="true" data-trigger = "hover"
                   data-content="<strong>Total:</strong>{{item.1}}<br>
 							<strong>Used:</strong>{{item.2}}<br>
