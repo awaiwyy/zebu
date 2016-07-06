@@ -5,7 +5,7 @@
 			<div class="reportForm">
 			<div>
 				{% if perms.request.add_requesttable %}
-			   <div data-toggle="modal" data-target="#NewModal"  style="cursor:pointer;margin-top:20px"><img src="/static/images/tianjia.png" />
+			   <div data-toggle="modal" data-target="#NewModal"  style="cursor:pointer;"><img src="/static/images/tianjia.png" />
 				   <span Style="color:#6bd5f8">Add New Product</span>
 			   </div>
 			</div>
@@ -87,6 +87,7 @@
 						</table>
 					<table height="48px">
 				  <tr>
+				  <td width="16px"></td>
 				  <td ><a href="downloadfile/{{tab.file_link}}">{{tab.file_link}}</a></td>
 				  </tr>
 					</table>
