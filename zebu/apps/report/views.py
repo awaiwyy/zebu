@@ -93,7 +93,16 @@ def file_Download(request,filename):
         return response
 
 def report_Resource(request):
-    totalitem=[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]
+    totalitem=[]
+    houritem=[]
+    for hour in range(21):
+        if hour < 10:
+            hour = "0" + str(hour)
+        totalitem.append(hour)
+    for hour in range(25):
+        if hour < 10:
+            hour = "0" + str(hour)
+        houritem.append(hour)
     title_tab = ResourceUsageTitleTable.objects.all()
     resource_usage_tab = ResourceUsageTable.objects.filter(is_show="true").order_by("id")
     if request.method == 'POST':
@@ -138,11 +147,15 @@ def report_Resource(request):
             edit_resource.product = request.POST['productEdit']
             edit_resource.spm = request.POST['spmEdit']
             edit_resource.daily_reporter = request.POST['reporterEdit']
-            edit_resource.total = request.POST['totalEdit']
-            edit_resource.power_management = request.POST['managementEdit']
-            edit_resource.performance = request.POST['performanceEdit']
-            edit_resource.function = request.POST['functionEdit']
-            edit_resource.zebu_platform = request.POST['zubeEdit']
+            edit_resource.total = int(request.POST['totalEdit'])*24
+            edit_resource.power_management = int(request.POST['managementEdit'])*int(request.POST['managementhourEdit'])
+            edit_resource.performance = int(request.POST['performanceEdit'])*int(request.POST['performancehourEdit'])
+            edit_resource.function = int(request.POST['functionEdit'])*int(request.POST['functionhourEdit'])
+            edit_resource.zebu_platform = int(request.POST['zubeEdit'])*int(request.POST['zubehourEdit'])
+            edit_resource.power_management_str = request.POST['managementEdit']+"Piece"+request.POST['managementhourEdit']+"Hour"
+            edit_resource.performance_str = request.POST['performanceEdit']+"Piece"+request.POST['performancehourEdit']+"Hour"
+            edit_resource.function_str = request.POST['functionEdit']+"Piece"+request.POST['functionhourEdit']+"Hour"
+            edit_resource.zebu_platform_str = request.POST['zubeEdit']+"Piece"+request.POST['zubehourEdit']+"Hour"
             print edit_resource.total
             edit_resource.save()
         elif 'delresourceId' in request.POST.keys():
@@ -153,10 +166,10 @@ def report_Resource(request):
             del_resource.save()
         else:
             print "there is something wrong"
-        return HttpResponseRedirect('resource_usage', {"resource_usage_tab": resource_usage_tab,"title_tab": title_tab,"totalitem":totalitem})
+        return HttpResponseRedirect('resource_usage', {"resource_usage_tab": resource_usage_tab,"title_tab": title_tab,"totalitem":totalitem,"houritem":houritem})
     else:
         print "GET!!!!"
-        return render(request, 'report/resource_usage.html',{"resource_usage_tab": resource_usage_tab,"title_tab": title_tab,"totalitem":totalitem})
+        return render(request, 'report/resource_usage.html',{"resource_usage_tab": resource_usage_tab,"title_tab": title_tab,"totalitem":totalitem,"houritem":houritem})
 
 def report_MainTF(request):
     plan_tab = RequestTable.objects.filter(is_plan="true",is_maintf="false")

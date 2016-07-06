@@ -20,6 +20,10 @@ class ResourceUsageTable(models.Model):
     function = models.IntegerField(null = True)
     zebu_platform = models.IntegerField(null = True)
     is_show=models.CharField(max_length= 20, default="true")
+    power_management_str = models.CharField(max_length=100, null=True)
+    performance_str = models.CharField(max_length=100, null=True)
+    function_str = models.CharField(max_length=100, null=True)
+    zebu_platform_str = models.CharField(max_length=100, null=True)
 
 class ResourceUsageTitleTable(models.Model):
     total=models.IntegerField(default=0)

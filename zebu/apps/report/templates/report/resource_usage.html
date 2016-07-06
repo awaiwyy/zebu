@@ -61,7 +61,7 @@
 			 <div class="">
 				 {% for tab in title_tab %}
 				 <table  class="" id="Box1"  >
-			 <tr><td><b>Total(Piece)：{{tab.total}} H(10×24)</b></td></tr>
+			 <tr><td><b>Total(Piece)：{{tab.total}} H(×24)</b></td></tr>
              <tr><td><b>Usage(Piece)：{{tab.usage}} H</b></td>
              <td><a data-toggle="modal" data-target="#TitleModal{{tab.id}}"  style="cursor:pointer">
              <img src="/static/images/bianji.png"></a></td></tr>
@@ -73,7 +73,7 @@
                     <div class="modal-dialog" style = "width:800px">
                       <div class="modal-content">
 
-							<form  class = "modalForm" method="POST" enctype="multipart/form-data">
+							<form  class = "modalForm" method="POST">
 								{% csrf_token %}
                               <div class="modalFormContent" id="titleedit">
 								  <input type="text" id="Editid11" name="idEdit11" style="display:none" value = {{tab.id}} >
@@ -85,7 +85,7 @@
 											{% for i in totalitem%}
 									  <option>{{i}}</option>
 											{% endfor%}
-										</select>
+										</select>x24
 									</li>
 								</ul>
 								<ul>
@@ -253,7 +253,7 @@
                            <h4 class="modal-title" id="myModalLabel">Edit Usage</h4>
                         </div>
 						  <div class="modal-body">
-                        <form  class = "modalForm" method="POST" enctype="multipart/form-data" onsubmit="return checkFunc({{tab.id}})">
+                        <form  class = "modalForm" method="POST" onsubmit="return checkFunc({{tab.id}})">
 								{% csrf_token %}
                               <div class="modalFormContent" id="readRpTab{{tab.id}}">
 								  <input type="text" id="idEdit" name="idEdit" value = {{tab.id}} hidden/>
@@ -285,56 +285,96 @@
 								  <ul>
 									<li class="rqleft">Total:</li>
 									<li>
-										<select style="width:350px;height:24px" id="totalEdit{{tab.id}}" name="totalEdit">
-                                      <option selected="selected">{{tab.total}}</option>
+										<select style="width:330px;height:24px" id="totalEdit{{tab.id}}" name="totalEdit">
+                                      <option selected="selected">{% widthratio tab.total 24 1 %}</option>
 											{% for i in totalitem%}
 									  <option>{{i}}</option>
 											{% endfor%}
-										</select>
+										</select>x24
                                 	</li>
 							  	</ul>
 								  <ul>
 									<li class="rqleft">Power Management:</li>
 									<li>
-										<select id="managementEdit{{tab.id}}" name="managementEdit" style="width:350px;height:24px">
-                                      <option selected="selected">{{tab.power_management}}</option>
+										<select id="managementEdit{{tab.id}}" name="managementEdit" style="width:142px;height:24px">
+										{% if tab.power_management_str %}
+                                      <option selected="selected">{{tab.power_management_str|cut:"Piece"|cut:"Hour"| get_digit:"4"}}{{tab.power_management_str|cut:"Piece"|cut:"Hour"| get_digit:"3"}}</option>
+									  {% endif %}
 											{% for i in totalitem%}
 									  <option>{{i}}</option>
 											{% endfor%}
-										</select>
+										</select>Piece
+										<select id="managementhourEdit{{tab.id}}" name="managementhourEdit" style="width:142px;height:24px">
+										{% if tab.power_management_str %}
+										<option selected="selected">{{tab.power_management_str|cut:"Piece"|cut:"Hour"| get_digit:"2"}}{{tab.power_management_str|cut:"Piece"|cut:"Hour"| get_digit:"1"}}</option>
+										{% endif %}
+											{% for i in houritem%}
+									  <option>{{i}}</option>
+											{% endfor%}
+										</select>Hour
                                 	</li>
 							  	</ul>
 								  <ul>
 									<li class="rqleft">Performance:</li>
 									<li>
-										<select id="performanceEdit{{tab.id}}" name="performanceEdit" style="width:350px;height:24px">
-                                      <option selected="selected">{{tab.performance}}</option>
+										<select id="performanceEdit{{tab.id}}" name="performanceEdit" style="width:142px;height:24px">
+										{% if tab.performance_str %}
+                                      <option selected="selected">{{tab.performance_str|cut:"Piece"|cut:"Hour"| get_digit:"4"}}{{tab.performance_str|cut:"Piece"|cut:"Hour"| get_digit:"3"}}</option>
+									  {% endif %}
 											{% for i in totalitem%}
 									  <option>{{i}}</option>
 											{% endfor%}
-										</select>
+										</select>Piece
+										<select id="performancehourEdit{{tab.id}}" name="performancehourEdit" style="width:142px;height:24px">
+										{% if tab.performance_str %}
+										<option selected="selected">{{tab.performance_str|cut:"Piece"|cut:"Hour"| get_digit:"2"}}{{tab.performance_str|cut:"Piece"|cut:"Hour"| get_digit:"1"}}</option>	
+										{% endif %}
+											{% for i in houritem%}
+									  <option>{{i}}</option>
+											{% endfor%}
+										</select>Hour
                                 	</li>
 							  	</ul>
 								  <ul>
 									<li class="rqleft">Function:</li>
 									<li>
-										<select id="functionEdit{{tab.id}}" name="functionEdit" style="width:350px;height:24px">
-                                      <option selected="selected">{{tab.function}}</option>
+										<select id="functionEdit{{tab.id}}" name="functionEdit" style="width:142px;height:24px">
+										{% if tab.function_str %}
+                                      <option selected="selected">{{tab.function_str|cut:"Piece"|cut:"Hour"| get_digit:"4"}}{{tab.function_str|cut:"Piece"|cut:"Hour"| get_digit:"3"}}</option>
+									  {% endif %}
 											{% for i in totalitem%}
 									  <option>{{i}}</option>
 											{% endfor%}
-										</select>
+										</select>Piece
+										<select id="functionhourEdit{{tab.id}}" name="functionhourEdit" style="width:142px;height:24px">
+										{% if tab.function_str %}
+										<option selected="selected">{{tab.function_str|cut:"Piece"|cut:"Hour"| get_digit:"2"}}{{tab.function_str|cut:"Piece"|cut:"Hour"| get_digit:"1"}}</option>
+										{% endif %}	
+											{% for i in houritem%}
+									  <option>{{i}}</option>
+											{% endfor%}
+										</select>Hour
                                 	</li>
 							  	</ul>
 								  <ul>
 									<li class="rqleft"> zebu platform:</li>
 									<li>
-										<select id="zubeEdit{{tab.id}}" name="zubeEdit" style="width:350px;height:24px">
-                                      <option selected="selected">{{tab.zebu_platform}}</option>
+										<select id="zubeEdit{{tab.id}}" name="zubeEdit" style="width:142px;height:24px">
+										{% if tab.zebu_platform_str %}
+                                      <option selected="selected">{{tab.zebu_platform_str|cut:"Piece"|cut:"Hour"| get_digit:"4"}}{{tab.zebu_platform_str|cut:"Piece"|cut:"Hour"| get_digit:"3"}}</option>
+									  {% endif %}
 											{% for i in totalitem%}
 									  <option>{{i}}</option>
 											{% endfor%}
-										</select>
+										</select>Piece
+										<select id="zubehourEdit{{tab.id}}" name="zubehourEdit" style="width:142px;height:24px">
+										{% if tab.zebu_platform_str %}
+										<option selected="selected">{{tab.zebu_platform_str|cut:"Piece"|cut:"Hour"| get_digit:"2"}}{{tab.zebu_platform_str|cut:"Piece"|cut:"Hour"| get_digit:"1"}}</option>	
+										{% endif %}
+											{% for i in houritem%}
+									  <option>{{i}}</option>
+											{% endfor%}
+										</select>Hour
                                 	</li>
 							  	</ul>
 								  <p id="checkNum{{tab.id}}" style="text-align:center;color:red"></p>
@@ -417,10 +457,14 @@
 				var b=$("#performanceEdit"+id).val();
 				var c=$("#functionEdit"+id).val();
 				var d=$("#zubeEdit"+id).val();
-				var num = parseInt(a) +parseInt(b)+parseInt(c)+parseInt(d);
+				var a2=$("#managementhourEdit"+id).val();
+				var b2=$("#performancehourEdit"+id).val();
+				var c2=$("#functionhourEdit"+id).val();
+				var d2=$("#zubehourEdit"+id).val();
+				var num = parseInt(a)*parseInt(a2) +parseInt(b)*parseInt(b2)+parseInt(c)*parseInt(c2)+parseInt(d)*parseInt(d2);
 
-				if ( parseInt(total)<num){
-					$("#checkNum"+id).text("Power Management、Performance、Function、zube platform值相加不能大于Total");
+				if ( parseInt(total)*24<num){
+					$("#checkNum"+id).text("Power Management、Performance、Function、zube platform值的和不能大于Total");
 					return false;
 				}
 				else{
