@@ -63,8 +63,8 @@
 			 <div class="" style="padding-top:16px">
 				 {% for tab in title_tab %}
 				 <table  class="" id="Box1"  >
-			 <tr><td><b>Total(Piece)：{{tab.total}} H(×24)</b></td></tr>
-             <tr><td><b>Usage(Piece)：{{tab.usage}} H</b></td>
+			 <tr><td><b>Total：{{tab.total}} H</b></td></tr>
+             <tr><td><b>Usage：{{tab.usage}} H</b></td>
 		{% if perms.report.add_resourceusagetitletable %}
              <td><a data-toggle="modal" data-target="#TitleModal{{tab.id}}"  style="cursor:pointer">
              <img src="/static/images/bianji.png"></a></td></tr>
@@ -85,7 +85,7 @@
 									<li class="rqleft">Total:</li>
 									<li>
 										<select style="width:160px" id="edittotal" name="edittotal">
-                                      <option selected="selected">{{tab.total}}</option>
+                                      <option selected="selected">{% if tab.total < 240 %}0{% widthratio tab.total 24 1%}{%else%}{% widthratio tab.total 24 1%}{%endif%}</option>
 											{% for i in totalitem%}
 									  <option>{{i}}</option>
 											{% endfor%}
@@ -96,11 +96,11 @@
 									<li class="rqleft">Usage:</li>
 									<li>
 										<select style="width:160px" id="editusage" name="editusage">
-                                      <option selected="selected">{{tab.usage}}</option>
+                                      <option selected="selected">{% if tab.usage < 240 %}0{% widthratio tab.usage 24 1%}{%else%}{% widthratio tab.usage 24 1%}{%endif%}</option>
 											{% for i in totalitem%}
 									  <option>{{i}}</option>
 											{% endfor%}
-										</select>
+										</select>x24
                                 	</li>
 							  	</ul>
 							  </div>
@@ -295,7 +295,7 @@
 									<li class="rqleft">Total:</li>
 									<li>
 										<select style="width:330px;height:24px" id="totalEdit{{tab.id}}" name="totalEdit">
-                                      <option selected="selected">{% widthratio tab.total 24 1 %}</option>
+                                      <option selected="selected">{% if tab.total < 240 %}0{% widthratio tab.total 24 1 %}{%else%}{% widthratio tab.total 24 1 %}{%endif%}</option>
 											{% for i in totalitem%}
 									  <option>{{i}}</option>
 											{% endfor%}

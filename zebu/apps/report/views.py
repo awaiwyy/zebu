@@ -128,16 +128,16 @@ def report_Resource(request):
             print "edit total and usage"
             edit_id = request.POST["idEdit110"]
             print edit_id
-            total = request.POST["edittotal0"]
-            usage = request.POST["editusage0"]
+            total = int(request.POST["edittotal0"])*24
+            usage = int(request.POST["editusage0"])*24
             ResourceUsageTitleTable.objects.create(usage=usage,
                                                    total=total)
         elif 'edittotal' in request.POST.keys():
             print "edit total and usage"
             edit_id =request.POST["idEdit11" ]
             print edit_id
-            total = request.POST["edittotal"]
-            usage = request.POST["editusage"]
+            total = int(request.POST["edittotal"])*24
+            usage = int(request.POST["editusage"])*24
             edittitle_tab = ResourceUsageTitleTable.objects.get(id=edit_id)
             edittitle_tab.total= total
             edittitle_tab.usage = usage
