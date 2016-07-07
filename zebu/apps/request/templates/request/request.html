@@ -53,6 +53,36 @@
 					window.scrollTo(0, 1);
 			}, 1000);
 
+		function changeImage() {
+		document.getElementById("mybtn1").className = "classification1";
+		document.getElementById("mybtn2").className = "classification2";
+		if (document.getElementById("mybtn").className != "classification_down") {
+			document.getElementById("mybtn").className = "classification_down";
+		} else {
+			document.getElementById("mybtn").className = "classification_up";
+		}
+	}
+
+	function changeImage1() {
+		document.getElementById("mybtn").className = "classification";
+		document.getElementById("mybtn2").className = "classification2";
+		if (document.getElementById("mybtn1").className != "classification1_down") {
+			document.getElementById("mybtn1").className = "classification1_down";
+		} else {
+			document.getElementById("mybtn1").className = "classification1_up";
+		}
+	}
+
+	function changeImage2() {
+		document.getElementById("mybtn1").className = "classification1";
+		document.getElementById("mybtn").className = "classification";
+		if (document.getElementById("mybtn2").className != "classification2_down") {
+			document.getElementById("mybtn2").className = "classification2_down";
+		} else {
+			document.getElementById("mybtn2").className = "classification2_up";
+		}
+	}
+
 	var flag_browser = "other";
 	$(document).ready(function() {
 		//判断浏览器类型
