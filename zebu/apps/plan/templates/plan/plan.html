@@ -304,11 +304,12 @@ function validatetime(tab_id,starttime)
 			</div>
 			<div class="planForm">
 				<div data-toggle="modal" data-target="#NewPlanModal"  style="cursor:pointer;margin-top:-10px">
+				{% if perms.request.change_requesttable %}
 				<tr>
 					<td><img src="/static/images/tianjia.png" /></td>
 					<span Style="color:#6bd5f8">Add New TF case</span>
 				</tr>
-
+				{% endif %}
 				</div>
 				<div id="planTable" class="planTableDiv">
 					<table class="planTable" id="Box">
@@ -721,9 +722,9 @@ function validatetime(tab_id,starttime)
 												</form>
 											</div>
 											<div align="center" style="margin-bottom: 100px;">
+												{% if perms.request.change_requesttable%}
 												<button class="requestBtn" id="editBtn{{tab.id}}"
 													type="text" name="edit" style="background-color: #FB8C8C">Edit</button>
-												{% if perms.request.change_requesttable%}
 												<button class="requestBtn" id="delBtn{{tab.id}}"
 													type="submit" name="delete"
 													style="background-color: #67D00B" data-toggle="modal"
