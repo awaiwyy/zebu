@@ -4,7 +4,7 @@
 		<div class="divcenter">
 			<div class="reportForm">
 			<div>
-				{% if perms.request.add_requesttable %}
+			{% if perms.report.add_reporttable %}
 			   <div data-toggle="modal" data-target="#NewModal"  style="cursor:pointer;"><img src="/static/images/tianjia.png" />
 				   <span Style="color:#6bd5f8">Add New Product</span>
 			   </div>
@@ -81,8 +81,10 @@
 					<td width="120px"><input type="text" readonly id="spm" class="miniForm1" value="{{tab.spm}}"/></td>
 				  	 <td width="110px" align="center"><b>Daily Reporter: </b></td>
 					  <td width="150px"><input type="text" readonly id="zebu" class="miniForm1" value="{{tab.daily_reporter}}"/></td>
+					{% if perms.report.add_reporttable %}
 					  <td width="50px"><a data-toggle="modal" data-target="#myModal18{{tab.id}}"  style="cursor:pointer" ><img style="right:16px" src="/static/images/bianji.png"></a></td>
 					  <td><a data-toggle="modal" data-target="#delPlanModal{{tab.id}}"  style="cursor:pointer"><img src="/static/images/shanchu.png"></a></td>
+					{% endif %}
 						</tr>
 						</table>
 					<table height="48px">

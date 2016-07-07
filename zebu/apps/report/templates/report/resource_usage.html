@@ -63,8 +63,10 @@
 				 <table  class="" id="Box1"  >
 			 <tr><td><b>Total(Piece)：{{tab.total}} H(×24)</b></td></tr>
              <tr><td><b>Usage(Piece)：{{tab.usage}} H</b></td>
+		{% if perms.report.add_resourceusagetitletable %}
              <td><a data-toggle="modal" data-target="#TitleModal{{tab.id}}"  style="cursor:pointer">
              <img src="/static/images/bianji.png"></a></td></tr>
+		{% endif %}
 					  </table>
 
 
@@ -112,8 +114,10 @@
 				  <table  class="" id="Box1"  >
 			 <tr><td><b>Total(Piece)：0 H(10×24)</b></td></tr>
              <tr><td><b>Usage(Piece)：0 H</b></td>
+		{% if perms.report.add_resourceusagetitletable %}
              <td><a data-toggle="modal" data-target="#TitleModal0"  style="cursor:pointer">
              <img src="/static/images/bianji.png"></a></td></tr>
+		{% endif %}
 					  </table>
 				 <div class="modal fade" id="TitleModal0" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                     <div class="modal-dialog" style = "width:800px">
@@ -169,8 +173,10 @@
 					<td width="120px"><input type="text" readonly id="spm" class="miniForm1" value="{{tab.spm}}"/></td>
 				  	 <td width="110px" align="center"><b>Daily Reporter: </b></td>
 					  <td width="150px"><input type="text" readonly id="zebu" class="miniForm1" value="{{tab.daily_reporter}}"/></td>
+					{% if perms.report.add_resourceusagetable %}
 					  <td width="50px"><a data-toggle="modal" data-target="#editModal18{{tab.id}}"  style="cursor:pointer" ><img style="right:16px" src="/static/images/bianji.png"></a></td>
 					  <td><a data-toggle="modal" data-target="#delresourceModal{{tab.id}}"  style="cursor:pointer"><img src="/static/images/shanchu.png"></a></td>
+					{% endif %}
 						</tr>
 						</table>
 					<table class="reportTable" >

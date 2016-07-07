@@ -170,7 +170,7 @@
 </div>-->
 		<div class="divcenter">
 			<div class="homeForm">
-			{% if perms.home.add_scheduleinfo %}
+			{% if perms.home.add_projectinfo %}
 			<div class="" data-toggle="modal" data-target="#newscheduleModal"  style="cursor:pointer">
 				<tr>
 					<td><img src="/static/images/tianjia.png" /></td>
@@ -248,8 +248,10 @@
 					<td width="112px"><input type="text" readonly id="spm" class="miniForm" value="{{pro_item.pro.spm}}"/></td>
 				  	 <td width="70px" align="center"><b>Zube: </b></td>
 					  <td width="150px"><input type="text" readonly id="zebu" class="miniForm" value="{{pro_item.pro.zebu}}Pieces"/></td>
+					  {% if perms.home.add_scheduleinfo %}
 					  <td width="50px"><a data-toggle="modal" data-target="#scheduleModal{{pro_item.pro.id}}"  style="cursor:pointer" ><img style="right:16px" src="/static/images/bianji.png"></a></td>
 					  <td><a data-toggle="modal" data-target="#delPlanModal{{pro_item.pro.id}}"  style="cursor:pointer"><img src="/static/images/shanchu.png"></a></td>
+					  {% endif %}
 
 				 </tr>
    <!-- 模态框（Modal） -->
