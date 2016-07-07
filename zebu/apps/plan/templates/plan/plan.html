@@ -77,59 +77,35 @@
 			document.getElementById("mybtn2").className = "classification2_up";
 		}
 	}
-function validatetime(tab_id,starttime)
+function validatetime(tab_id) {
+	var closeDate = new Date();
+	var closeyear = document.getElementById("closeyearid" + tab_id).value;
+	var closemonth = document.getElementById("closemonthid" + tab_id).value;
+	var closeday = document.getElementById("closedayid" + tab_id).value;
+	closeDate.setFullYear(closeyear, closemonth - 1, closeday);
+	var startDate = new Date();
+	var startyear = document.getElementById("startyearid" + tab_id).value;
+	var startmonth = document.getElementById("startmonthid" + tab_id).value;
+	var startday = document.getElementById("startdayid" + tab_id).value;
+	startDate.setFullYear(startyear, startmonth - 1, startday);
+	if (startyear !== "")
 	{
-	    var closeDate = new Date();
-	    var closeyear = document.getElementById("closeyearid"+tab_id).value;
-	    var closemonth = document.getElementById("closemonthid"+tab_id).value;
-	    var closeday = document.getElementById("closedayid"+tab_id).value;
-	    closeDate.setFullYear(closeyear,closemonth-1,closeday);
-	    var startDate = new Date();
-	    var startyear = document.getElementById("startyearid"+tab_id).value;
-	    var startmonth = document.getElementById("startmonthid"+tab_id).value;
-	    var startday = document.getElementById("startdayid"+tab_id).value;
-	    startDate.setFullYear(startyear,startmonth-1,startday);
-	    var today = new Date();
-	    var newyear = startDate.getFullYear();
-	    var newday = startDate.getDate();
-	    var datestring = startDate.toString();
-	    var aa = datestring.split(' ');
-	    var newmonth = aa[1].split(' ')[0];
-	    if (starttime!=="None"){
-	        var a = starttime.split(',');
-	        var oldday = a[0].split(' ')[1];
-	        var oldyear = a[1].split(',')[0];
-	        var oldmonth1 = starttime.split(' ')[0];
-	        oldmonth = oldmonth1.substring(0,3);
-	        if (!(newyear==oldyear&&newmonth==oldmonth&&newday==oldday)){
-	        if (startDate < today){
-				$("#checkStart"+tab_id).text("Start time 不能早于今天");
-				return false;
-	            }
-			else{
-			$("#checkStart"+tab_id).text("");
-				}
-	        }
-	    }else if (startyear) {
-	        if (startDate < today)
-	        {
-	            $("#checkStart"+tab_id).text("Start time 不能早于今天");
-				return false;
-	        }
-			else{
-			$("#checkStart"+tab_id).text("");
-				}
-	    }
-		
-	    if (closeDate>today) {
-			$("#checkClose"+tab_id).text("Close time不能晚于今天");
-	        return false;
-	    }
-		else{
-			$("#checkClose"+tab_id).text("");
+		if (closeDate < startDate) {
+		$("#checkStart" + tab_id).text("Close time不能早于Start time");
+		return false;
+		} else {
+		$("#checkStart" + tab_id).text("");
 		}
-
+	}else {
+		if(closeyear !== ""){
+		$("#checkclose" + tab_id).text("请先输入Start time");
+		return false;
+		}else {
+		$("#checkclose" + tab_id).text("");
+		}
 	}
+
+}
 	var flag_browser = "other";
 	$(document).ready(function() {
 		//判断浏览器类型
@@ -456,7 +432,7 @@ function validatetime(tab_id,starttime)
 											</div>
 											{% if perms.request.change_requesttable%}
 											<div id="editPlanForm{{tab.id}}">
-												<form class="modalForm" method="POST" onsubmit="return validatetime({{tab.id}},'{{tab.start_time}}')">
+												<form class="modalForm" method="POST" onsubmit="return validatetime({{tab.id}})">
 													{% csrf_token %}
 													<div class="modalFormContent">
 														<ul>
@@ -624,7 +600,6 @@ function validatetime(tab_id,starttime)
 																	<option>{{sec}}</option> {% endfor %}
 															</select></li>
 														</ul>
-														<p id="checkStart{{tab.id}}" style="text-align:center;color:red"></p>
 														<ul>
 															<li class="rqleft">Request Duration:</li>
 															<!-- <li><span> <select class="borderWidth"
@@ -698,7 +673,8 @@ function validatetime(tab_id,starttime)
 																	<option>{{sec}}</option> {% endfor %}
 															</select></li>
 														</ul>
-														<p id="checkClose{{tab.id}}" style="text-align:center;color:red"></p>
+														<p id="checkStart{{tab.id}}" style="text-align:center;color:red"></p>
+														<p id="checkclose{{tab.id}}" style="text-align:center;color:red"></p>
 														<ul>
 															<li class="rqleft">Next Target:</li>
 															<li><textarea class="borderWidth modalReportText"

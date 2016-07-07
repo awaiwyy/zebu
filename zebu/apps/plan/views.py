@@ -276,7 +276,7 @@ def planPage(request, **kwargs):
                 #print duration.request_duration.split('Hour ')[0]
                 #print duration.request_duration.split('Hour')[1].split('Day')[0]
                 #print duration.request_duration.split('Hour')[1].split('Day')[1].split('Piece')[0]
-                
+
             print "test_starttime"
             year = request.POST['yearEdit']
             month = request.POST['monthEdit']
@@ -291,26 +291,22 @@ def planPage(request, **kwargs):
                 ftime1 = (year+"-"+month+"-"+day).encode("utf-8")
                 ftime = datetime.datetime.strptime(ftime1,'%Y-%m-%d').date()
                 utc_time = dtime.replace(tzinfo=tz.gettz('CST'))
-
-                print dtime
-                print "ftime:",ftime
-                print utc_time
+                edit_plan.start_time = utc_time
+                #print dtime
+                #print utc_time
                 #cur_time = datetime.datetime.now()
                 cur_time = datetime.date.today()
-                print "cur_time",cur_time
-                if cur_time <= ftime:
-                    edit_plan.start_time = utc_time
-                if cur_time >= ftime:
+                #print "cur_time",cur_time
+                if cur_time > ftime:
                     delta = (cur_time - ftime).days
-                    print "delta=", delta
                     total_tab1 = TotalTable.objects.filter(request_id=edit_plan.id)
-                    print "len(total_tab1)", len(total_tab1)
+                    #print "len(total_tab1)", len(total_tab1)
                     print
                     total = 0
                     for i in range(delta + 1):
-                        print "i=", i
+                        #print "i=", i
                         itime = ftime + datetime.timedelta(days=i)
-                        print itime
+                        #print itime
                         try:
                             curday = total_tab1.get(change_date=itime)
                             if curday.status == 'ongoing':
@@ -332,7 +328,7 @@ def planPage(request, **kwargs):
                                     total = total + 24 * request_p
                             except:
                                 total = 0
-                        print total
+                        #print total
                 else:
                     total = 0
                 edit_plan.duration = total
@@ -340,7 +336,7 @@ def planPage(request, **kwargs):
                 request_d = int((edit_plan.request_duration.split('r')[1]).split('D')[0])
                 request_p = int((edit_plan.request_duration.split('y')[1]).split('P')[0])
                 request_hours = request_h * request_d * request_p
-                print "request_hours", request_hours
+                #print "request_hours", request_hours
                 if total >= request_hours:
                     edit_plan.isdelay = 'delay'
                 elif 'delay' == edit_plan.isdelay:
@@ -363,11 +359,13 @@ def planPage(request, **kwargs):
             
             print "test_closetime"
             close_time = request.POST['closeYearEdit']+"-"+request.POST['closeMonthEdit']+"-"+request.POST['closeDayEdit']+" "+request.POST['closeHourEdit']+":"+request.POST['closeMinuteEdit']+":"+request.POST['closeSecondEdit']
-            if close_time != '-- ::':
+            start_time = request.POST['yearEdit']+"-"+request.POST['monthEdit']+"-"+request.POST['dayEdit']+" "+request.POST['hourEdit']+":"+request.POST['minuteEdit']+":"+request.POST['secondEdit']
+            if close_time != '-- ::' and start_time != '-- ::':
                 cltime = close_time.encode("utf-8")
                 clotime = datetime.datetime.strptime(cltime, '%Y-%m-%d %H:%M:%S').date()
-                cur_date = datetime.date.today()
-                if clotime <= cur_date:
+                sttime = start_time.encode("utf-8")
+                statime = datetime.datetime.strptime(sttime, '%Y-%m-%d %H:%M:%S').date()
+                if clotime > statime:
                     year = request.POST['closeYearEdit']
                     month = request.POST['closeMonthEdit']
                     day = request.POST['closeDayEdit']
@@ -430,25 +428,24 @@ def planPage(request, **kwargs):
             if stime and "close" != tab.status:
                 stime = stime + datetime.timedelta(hours=8)
                 ftimestr=stime.strftime('%Y-%m-%d %H:%M:%S')
-                print "ftimestr=",ftimestr
+                #print "ftimestr=",ftimestr
                 ftime1 = ftimestr.split(' ')[0]
                 ftime = datetime.datetime.strptime(ftime1,'%Y-%m-%d').date()
                 #ftime = datetime.datetime.strptime(stime.strftime('%Y-%m-%d %H:%M:%S'),'%Y-%m-%d %H:%M:%S').date()
-                print "ftime=",ftime
+                #print "ftime=",ftime
                 cur_time = datetime.date.today()
                 #ctime = datetime.datetime.utcnow()
                 #stime = datetime.datetime.strptime(stime.strftime('%Y-%m-%d %H:%M:%S'),'%Y-%m-%d %H:%M:%S')
                 if cur_time >= ftime:
                     delta = (cur_time - ftime).days
-                    print "delta=",delta
+                    #print "delta=",delta
                     total_tab1 = TotalTable.objects.filter(request_id=tab.id)
-                    print "len(total_tab1)",len(total_tab1)
-                    print
+                    #print "len(total_tab1)",len(total_tab1)
                     total = 0
                     for i in range(delta+1):
-                        print "i=",i
+                        #print "i=",i
                         itime = ftime + datetime.timedelta(days=i)
-                        print itime
+                        #print itime
                         try:
                             curday=total_tab1.get(change_date=itime)
                             if curday.status=='ongoing':
@@ -470,7 +467,7 @@ def planPage(request, **kwargs):
                                     total = total + 24 * request_p
                             except:
                                 total = 0
-                        print total
+                        #print total
                 else:
                     total = 0
                 tab.duration = total
@@ -478,7 +475,7 @@ def planPage(request, **kwargs):
                 request_d = int((tab.request_duration.split('r')[1]).split('D')[0])
                 request_p = int((tab.request_duration.split('y')[1]).split('P')[0])
                 request_hours = request_h * request_d * request_p
-                print "request_hours" , request_hours
+                #print "request_hours" , request_hours
                 if total >= request_hours:
                     tab.isdelay = 'delay'
                 elif 'delay' == tab.isdelay:
