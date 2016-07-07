@@ -21,3 +21,13 @@ for code_name in permission_codename_list:
 # all = admin_group.permissions.all()
 # for item in all:
 #     print item
+
+com_group = Group.objects.get(name="com user")
+permission_codename_list_com = ['add_requesttable']
+for code_name in permission_codename_list_com:
+    perm = Permission.objects.get(codename = code_name)
+    com_group.permissions.add(perm)
+
+# all = com_group.permissions.all()
+# for item in all:
+#     print item
