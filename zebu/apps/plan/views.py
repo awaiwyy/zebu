@@ -162,7 +162,7 @@ def planPage(request, **kwargs):
     #add plan application
 
     #Pagination -CC
-    perpage = 10 #show how many items per page
+    perpage = 15 #show how many items per page
     
     objects = plan_tab
     pager = Paginator(objects,perpage)

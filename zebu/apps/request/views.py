@@ -108,7 +108,7 @@ def requestUser(request, **kwargs):
     valid_duration.append(valid_requestduration_piece)
 
     #Pagination -CC
-    perpage = 10 #show how many items per page
+    perpage = 15 #show how many items per page
     
     objects = request_tab
     pager = Paginator(objects,perpage)
