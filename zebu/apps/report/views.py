@@ -178,7 +178,7 @@ def report_MainTF(request):
     is_maintf_tab=RequestTable.objects.filter(is_plan="true",is_maintf="true")
     is_high_tab=is_maintf_tab.filter(is_high="true")
     is_low_tab = is_maintf_tab.filter(is_low="true")
-    maintf_tab = MaintfstatusTable.objects.filter(is_maintf="true")
+    maintf_tab = MaintfstatusTable.objects.filter(is_maintf="true").order_by("id")
     if request.method == 'POST':
         print "POST!!!!"
         # 获得表单数据
