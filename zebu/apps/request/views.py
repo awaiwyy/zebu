@@ -5,6 +5,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import HttpResponseRedirect
 from models import RequestTable
 from common import xlwt
+import time,datetime
 import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -69,7 +70,9 @@ def exportRequestTab(request):
     request_tab = RequestTable.objects.all().order_by("-id")
     if not os.path.exists(temp_dir):
         os.mkdir(temp_dir)
-    file_name = temp_dir + request_file
+    #file_name = temp_dir + request_file
+    today = time.strftime("%Y_%m_%d", time.localtime())
+    file_name = today + "_" + request_file
     saveRequestTab(request_tab,file_name)
 
     response = StreamingHttpResponse(file_iterator(file_name))

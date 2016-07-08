@@ -7,7 +7,7 @@ from django.http import HttpResponse
 from django.contrib import auth
 from models import scheduleInfo
 from models import projectInfo
-import datetime
+import time,datetime
 import os
 from common import xlwt
 import sys
@@ -310,7 +310,9 @@ def exportScheduleTab(request):
     if not os.path.exists(temp_dir):
         os.mkdir(temp_dir)
 
-    file_name = temp_dir + schedule_file
+    #file_name = temp_dir + schedule_file
+    today = time.strftime("%Y_%m_%d", time.localtime())
+    file_name = today + "_" + schedule_file
     saveScheduleTab(file_name)
     
     f = open(file_name,"rb")

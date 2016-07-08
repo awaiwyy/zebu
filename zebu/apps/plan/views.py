@@ -5,7 +5,7 @@ from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from ..request.models import RequestTable
 from ..request.models import TotalTable
-import datetime
+import time,datetime
 from dateutil import tz
 from common import xlwt
 import os
@@ -70,7 +70,9 @@ def exportPlanTab(request):
     plan_tab = RequestTable.objects.filter(is_plan="true")
     if not os.path.exists(temp_dir):
         os.mkdir(temp_dir)
-    file_name = temp_dir + plan_file
+    #file_name = temp_dir + plan_file
+    today = time.strftime("%Y_%m_%d", time.localtime())
+    file_name = today + "_" + plan_file
     savePlanTab(plan_tab,file_name)
 
     f = open(file_name,"rb")
