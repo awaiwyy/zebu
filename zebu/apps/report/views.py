@@ -272,8 +272,14 @@ def report_Schedule(request):
             edit_schedule.product = request.POST['productEdit']
             edit_schedule.spm = request.POST['spmEdit']
             edit_schedule.daily_reporter = request.POST['reporterEdit']
+            pic_list = ["jpg", "png", "gif", "bmp", "jpeg"]
             if 'file_linkEdit' in request.FILES:
+                file_link = str(request.FILES['file_linkEdit'])
                 handle_uploaded_file(request.FILES['file_linkEdit'], str(request.FILES['file_linkEdit']))
+                if file_link.split(".")[-1].lower() in pic_list:
+                    edit_schedule.is_picture = True
+                else:
+                    edit_schedule.is_picture = False
                 edit_schedule.file_link = str(request.FILES['file_linkEdit'])
             edit_schedule.save()
         elif 'delReportId' in request.POST.keys():
