@@ -804,135 +804,135 @@ function validatetime(tab_id) {
 											</div>
 											<!-- admin user edit table :finish-->
 											<!-- common user edit progress :start -->
-											{% elif user.username == tab.owner %}
-											<div id="comEdit{{tab.id}}">
-												<form class="modalForm" method="POST">
-													{% csrf_token %}
-													<div class="modalFormContent">
-														<ul>
-															<li class="rqleft">ID:</li>
-															<li class="borderBottom"><input id="idEditCom"
-																type="text" name="idEditCom" value={{tab.id}} readonly>
-															</li>
-														</ul>
-														<ul>
-															<li class="rqleft">Product:</li>
-															<li class="borderBottom">{{tab.project}}</li>
-														</ul>
-														<ul>
-															<li class="rqleft">Classification:</li>
-															<li id="readClassification" class="borderBottom">{{tab.classification}}</li>
-														</ul>
-														<ul>
-															<li class="rqleft">Module:</li>
-															<li class="borderBottom">{{tab.module}}</li>
-														</ul>
-														<ul>
-															<li class="rqleft">TF Case:</li>
-															<li class="borderBottom">{{tab.tf_case}}</li>
-														</ul>
-														<ul>
-															<li class="rqleft">Action Discription:</li>
-															<li class="borderBottom">{{tab.action_discription|safe}}</li>
-														</ul>
-														<ul>
-															<li class="rqleft">Environment:</li>
-															<li class="borderBottom">{{tab.environment}}</li>
-														</ul>
-														<ul>
-															<li class="rqleft">Owner:</li>
-															<li class="borderBottom">{{tab.owner}}</li>
-														</ul>
-														<ul>
-															<li class="rqleft">Priority:</li>
-															<li class="borderBottom">{{tab.priority}}</li>
-														</ul>
-														<ul id="viewStatusCom{{tab.id}}">
-															<li class="rqleft">Status:</li>
-															<li class="borderBottom">{{tab.status}}</li>
-														</ul>
-														<ul>
-															<li class="rqleft">Progress:</li>
-															<li><textarea class="borderWidth modalText"
-																	id="progressEditCom{{tab.id}}" name="progressEditCom" >{{tab.progress|safe}}</textarea>
-															</li>
-														</ul>
-														<ul id="viewStimeCom{{tab.id}}">
-															<li class="rqleft">Start Time:</li>
-															<li class="borderBottom">{{tab.start_time | date:"Y-m-d H:i:s"}}</li>
-														</ul>
-														<ul>
-															<li class="rqleft">Request Duration:</li>
-															<li class="borderBottom">{{tab.request_duration}}</li>
-														</ul>
-														<ul>
-															<li class="rqleft">Duration:</li>
-															<li class="borderBottom">{{tab.duration}}</li>
-														</ul>
-													</div>
-													<div align="center" style="margin-bottom: 100px;">
-														<button class="requestBtn" type="text"
-															id="cancleBtnCom{{tab.id}}" name="cancle"
-															style="background-color: #FB8C8C" data-dismiss="modal">cancle</button>
-														<button class="requestBtn" name="ok" type="submit"
-															style="background-color: #67D00B">confirm</button>
-													</div>
-												</form>
-											</div>
-											<div align="center" style="margin-bottom: 100px;">
-												<button class="requestBtn" type="text"
-													id="comEditBtn{{tab.id}}" name="comEdit"
-													style="background-color: #FB8C8C">Edit</button>
-												<script type="text/javascript">
-													$(document)
-															.ready(
-																	function() {
-																		/* for view or edit*/
-																		$(
-																				"#comEdit{{tab.id}}")
-																				.hide();
+											<!--{% elif user.username == tab.owner %}-->
+											<!--<div id="comEdit{{tab.id}}">-->
+												<!--<form class="modalForm" method="POST">-->
+													<!--{% csrf_token %}-->
+													<!--<div class="modalFormContent">-->
+														<!--<ul>-->
+															<!--<li class="rqleft">ID:</li>-->
+															<!--<li class="borderBottom"><input id="idEditCom"-->
+																<!--type="text" name="idEditCom" value={{tab.id}} readonly>-->
+															<!--</li>-->
+														<!--</ul>-->
+														<!--<ul>-->
+															<!--<li class="rqleft">Product:</li>-->
+															<!--<li class="borderBottom">{{tab.project}}</li>-->
+														<!--</ul>-->
+														<!--<ul>-->
+															<!--<li class="rqleft">Classification:</li>-->
+															<!--<li id="readClassification" class="borderBottom">{{tab.classification}}</li>-->
+														<!--</ul>-->
+														<!--<ul>-->
+															<!--<li class="rqleft">Module:</li>-->
+															<!--<li class="borderBottom">{{tab.module}}</li>-->
+														<!--</ul>-->
+														<!--<ul>-->
+															<!--<li class="rqleft">TF Case:</li>-->
+															<!--<li class="borderBottom">{{tab.tf_case}}</li>-->
+														<!--</ul>-->
+														<!--<ul>-->
+															<!--<li class="rqleft">Action Discription:</li>-->
+															<!--<li class="borderBottom">{{tab.action_discription|safe}}</li>-->
+														<!--</ul>-->
+														<!--<ul>-->
+															<!--<li class="rqleft">Environment:</li>-->
+															<!--<li class="borderBottom">{{tab.environment}}</li>-->
+														<!--</ul>-->
+														<!--<ul>-->
+															<!--<li class="rqleft">Owner:</li>-->
+															<!--<li class="borderBottom">{{tab.owner}}</li>-->
+														<!--</ul>-->
+														<!--<ul>-->
+															<!--<li class="rqleft">Priority:</li>-->
+															<!--<li class="borderBottom">{{tab.priority}}</li>-->
+														<!--</ul>-->
+														<!--<ul id="viewStatusCom{{tab.id}}">-->
+															<!--<li class="rqleft">Status:</li>-->
+															<!--<li class="borderBottom">{{tab.status}}</li>-->
+														<!--</ul>-->
+														<!--<ul>-->
+															<!--<li class="rqleft">Progress:</li>-->
+															<!--<li><textarea class="borderWidth modalText"-->
+																	<!--id="progressEditCom{{tab.id}}" name="progressEditCom" >{{tab.progress|safe}}</textarea>-->
+															<!--</li>-->
+														<!--</ul>-->
+														<!--<ul id="viewStimeCom{{tab.id}}">-->
+															<!--<li class="rqleft">Start Time:</li>-->
+															<!--<li class="borderBottom">{{tab.start_time | date:"Y-m-d H:i:s"}}</li>-->
+														<!--</ul>-->
+														<!--<ul>-->
+															<!--<li class="rqleft">Request Duration:</li>-->
+															<!--<li class="borderBottom">{{tab.request_duration}}</li>-->
+														<!--</ul>-->
+														<!--<ul>-->
+															<!--<li class="rqleft">Duration:</li>-->
+															<!--<li class="borderBottom">{{tab.duration}}</li>-->
+														<!--</ul>-->
+													<!--</div>-->
+													<!--<div align="center" style="margin-bottom: 100px;">-->
+														<!--<button class="requestBtn" type="text"-->
+															<!--id="cancleBtnCom{{tab.id}}" name="cancle"-->
+															<!--style="background-color: #FB8C8C" data-dismiss="modal">cancle</button>-->
+														<!--<button class="requestBtn" name="ok" type="submit"-->
+															<!--style="background-color: #67D00B">confirm</button>-->
+													<!--</div>-->
+												<!--</form>-->
+											<!--</div>-->
+											<!--<div align="center" style="margin-bottom: 100px;">-->
+												<!--<button class="requestBtn" type="text"-->
+													<!--id="comEditBtn{{tab.id}}" name="comEdit"-->
+													<!--style="background-color: #FB8C8C">Edit</button>-->
+												<!--<script type="text/javascript">-->
+													<!--$(document)-->
+															<!--.ready(-->
+																	<!--function() {-->
+																		<!--/* for view or edit*/-->
+																		<!--$(-->
+																				<!--"#comEdit{{tab.id}}")-->
+																				<!--.hide();-->
 
-																		$(
-																				"#comEditBtn{{tab.id}}")
-																				.click(
-																						function() {
-																							$(
-																									"#readPlanDiv{{tab.id}}")
-																									.hide();
-																							$(
-																									"#comEdit{{tab.id}}")
-																									.show();
-																							$(
-																									this)
-																									.hide();
-																							$(
-																									'#progressEditCom{{tab.id}}')
-																									.val(
-																											$(
-																													'#progressEditCom{{tab.id}}')
-																													.val()
-																													.replace(
-																															/<br>/g,
-																															''));
+																		<!--$(-->
+																				<!--"#comEditBtn{{tab.id}}")-->
+																				<!--.click(-->
+																						<!--function() {-->
+																							<!--$(-->
+																									<!--"#readPlanDiv{{tab.id}}")-->
+																									<!--.hide();-->
+																							<!--$(-->
+																									<!--"#comEdit{{tab.id}}")-->
+																									<!--.show();-->
+																							<!--$(-->
+																									<!--this)-->
+																									<!--.hide();-->
+																							<!--$(-->
+																									<!--'#progressEditCom{{tab.id}}')-->
+																									<!--.val(-->
+																											<!--$(-->
+																													<!--'#progressEditCom{{tab.id}}')-->
+																													<!--.val()-->
+																													<!--.replace(-->
+																															<!--/<br>/g,-->
+																															<!--''));-->
 
-																							var stimelis = document
-																									.getElementById(
-																											"viewStimeCom{{tab.id}}")
-																									.getElementsByTagName(
-																											"li");
-																							if (stimelis[1].innerHTML) {
-																								$(
-																										'#viewStimeCom{{tab.id}}')
-																										.show();
-																							} else {
-																								$(
-																										'#viewStimeCom{{tab.id}}')
-																										.hide();
-																							}
-																						});
-																	});
-												</script>
-											</div>
+																							<!--var stimelis = document-->
+																									<!--.getElementById(-->
+																											<!--"viewStimeCom{{tab.id}}")-->
+																									<!--.getElementsByTagName(-->
+																											<!--"li");-->
+																							<!--if (stimelis[1].innerHTML) {-->
+																								<!--$(-->
+																										<!--'#viewStimeCom{{tab.id}}')-->
+																										<!--.show();-->
+																							<!--} else {-->
+																								<!--$(-->
+																										<!--'#viewStimeCom{{tab.id}}')-->
+																										<!--.hide();-->
+																							<!--}-->
+																						<!--});-->
+																	<!--});-->
+												<!--</script>-->
+											<!--</div>-->
 											{% endif %}
 											<!-- common user edit progress :finish -->
 											<!-- change plan table finish-->
