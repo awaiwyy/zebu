@@ -91,7 +91,7 @@ def file_Download(request,filename):
         file_name = upload_dir+ filename
         response = StreamingHttpResponse(file_iterator(file_name))
         response['Content-Type'] = 'application/octet-stream'
-        response['Content-Disposition'] = 'attachment;filename="{0}"'.format(file_name)
+        response['Content-Disposition'] = 'attachment;filename="{0}"'.format(filename)
         return response
 
 def report_Resource(request):
