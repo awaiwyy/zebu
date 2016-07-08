@@ -90,7 +90,7 @@ function validatetime(tab_id) {
 	startDate.setFullYear(startyear, startmonth - 1, startday);
 	if (startyear !== "")
 	{
-		if (closeDate < startDate) {
+		if (closeyear !== "" && closeDate < startDate) {
 		$("#checkStart" + tab_id).text("Close time不能早于Start time");
 		return false;
 		} else {
