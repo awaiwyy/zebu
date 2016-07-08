@@ -77,6 +77,11 @@
 			document.getElementById("mybtn2").className = "classification2_up";
 		}
 	}
+
+	function aaa(id) {
+   document.getElementById("history"+id).style.display='inline-flex';
+}
+
 function validatetime(tab_id) {
 	var closeDate = new Date();
 	var closeyear = document.getElementById("closeyearid" + tab_id).value;
@@ -663,6 +668,21 @@ function validatetime(tab_id) {
 																	<option>{{piece}}</option> {% endfor %}
 															</select>Piece</li>
 														</ul>
+														<ul>
+													<li class="rqleft">Total Duration:</li>
+													<li class="borderBottom">{{tab.duration}}Hour</li>
+													<li><img style="right:16px" src="/static/images/bianji.png" onclick="aaa({{tab.id}})"></li>
+												</ul>
+														<div id="history{{tab.id}}" style="width:760px;overflow-x:scroll;display:none" >
+														{% for tab2 in history_tab %}
+														{% ifequal tab2.request_id tab.id %}
+														<span class="width:101px; float:left">
+															<input style="width:100px;color: #A2A2A2;" type="text" name="dateEdit" value={{tab2.change_date | date:"Y-m-d"}} readonly>
+															<input style="width:100px" type="text" name="durationEdit" value={{tab2.daily_duration }} >
+														</span>
+														{% endifequal %}
+														{% endfor %}
+														</div>
 														<!-- <ul>
 															<li class="rqleft">Total Duration:</li>
 															<li class="borderBottom"><input id="durationEdit"

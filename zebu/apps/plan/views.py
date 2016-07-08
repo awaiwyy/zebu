@@ -84,6 +84,7 @@ def exportPlanTab(request):
     return response
 
 def planPage(request, **kwargs):
+    history_tab=TotalTable.objects.all()
     gopage = request.GET.get('page')
     if (gopage == None):
         gopage = "1"
@@ -423,7 +424,7 @@ def planPage(request, **kwargs):
         for tab in plan_tab:
             tab.action_discription = tab.action_discription.replace("\n", "<br>")
             tab.progress = tab.progress.replace("\n", "<br>")
-        return HttpResponseRedirect('/plan/', {"request_tab": request_tab, "plan_tab": plan_tab, 'valid_duration': valid_duration, 'valid_time':valid_time, 'valid_dailyDura':valid_dailyDura})
+        return HttpResponseRedirect('/plan/', {"request_tab": request_tab, "plan_tab": plan_tab, 'valid_duration': valid_duration, 'valid_time':valid_time, 'valid_dailyDura':valid_dailyDura,"history_tab":history_tab})
     else:
         for tab in plan_tab:
             stime = tab.start_time
@@ -506,4 +507,5 @@ def planPage(request, **kwargs):
             'range_left': range_left, 
             'range_right': range_right, 
             'over_range_left': over_range_left, 
-            'over_range_right': over_range_right})
+            'over_range_right': over_range_right,
+            'history_tab':history_tab})
