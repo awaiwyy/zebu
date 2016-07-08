@@ -82,12 +82,36 @@ function validatetime(tab_id) {
 	var closeyear = document.getElementById("closeyearid" + tab_id).value;
 	var closemonth = document.getElementById("closemonthid" + tab_id).value;
 	var closeday = document.getElementById("closedayid" + tab_id).value;
+	var closehour = document.getElementById("closehourid" + tab_id).value;
+	var closeminute = document.getElementById("closeminuteid" + tab_id).value;
+	var closesecond = document.getElementById("closesecondid" + tab_id).value;
 	closeDate.setFullYear(closeyear, closemonth - 1, closeday);
 	var startDate = new Date();
 	var startyear = document.getElementById("startyearid" + tab_id).value;
 	var startmonth = document.getElementById("startmonthid" + tab_id).value;
 	var startday = document.getElementById("startdayid" + tab_id).value;
+	var starthour = document.getElementById("starthourid" + tab_id).value;
+	var startminute = document.getElementById("startminuteid" + tab_id).value;
+	var startsecond = document.getElementById("startsecondid" + tab_id).value;
 	startDate.setFullYear(startyear, startmonth - 1, startday);
+	if (!(startyear == "" && startmonth == "" && startday == "" && starthour == "" && startminute == "" && startsecond == "")){
+		if (startyear == "" || startmonth == "" || startday == "" || starthour == "" || startminute == "" || startsecond == ""){
+			$("#starttime" + tab_id).text("请填完整Start Time");
+			return false;
+		}
+		else {
+		$("#starttime" + tab_id).text("");
+		}
+	}
+	if (!(closeyear == "" && closemonth == "" && closeday == "" && closehour == "" && closeminute == "" && closesecond == "")){
+		if (closeyear == "" || closemonth == "" || closeday == "" || closehour == "" || closeminute == "" || closesecond == ""){
+			$("#closetime" + tab_id).text("请填完整Close Time");
+			return false;
+		}
+		else {
+		$("#closetime" + tab_id).text("");
+		}
+	}
 	if (startyear !== "")
 	{
 		if (closeyear !== "" && closeDate < startDate) {
@@ -104,7 +128,6 @@ function validatetime(tab_id) {
 		$("#checkclose" + tab_id).text("");
 		}
 	}
-
 }
 	var flag_browser = "other";
 	$(document).ready(function() {
@@ -586,20 +609,21 @@ function validatetime(tab_id) {
 																	<option selected>{{tab.start_time | date:"d"}}</option>
 																	{% for day in valid_time.2 %}
 																	<option>{{day}}</option> {% endfor %}
-															</select> &nbsp;&nbsp;&nbsp;&nbsp; <select name="hourEdit">
+															</select> &nbsp;&nbsp;&nbsp;&nbsp; <select name="hourEdit" id ="starthourid{{tab.id}}">
 																	<option selected>{{tab.start_time | date:"H"}}</option>
 																	{% for hour in valid_time.3 %}
 																	<option>{{hour}}</option> {% endfor %}
-															</select> <select name="minuteEdit">
+															</select> <select name="minuteEdit" id ="startminuteid{{tab.id}}">
 																	<option selected>{{tab.start_time | date:"i"}}</option>
 																	{% for min in valid_time.4 %}
 																	<option>{{min}}</option> {% endfor %}
-															</select> <select name="secondEdit">
+															</select> <select name="secondEdit" id ="startsecondid{{tab.id}}">
 																	<option selected>{{tab.start_time | date:"s"}}</option>
 																	{% for sec in valid_time.4 %}
 																	<option>{{sec}}</option> {% endfor %}
 															</select></li>
 														</ul>
+														<p id="starttime{{tab.id}}" style="text-align:center;color:red"></p>
 														<ul>
 															<li class="rqleft">Request Duration:</li>
 															<!-- <li><span> <select class="borderWidth"
@@ -645,6 +669,7 @@ function validatetime(tab_id) {
 																name="durationEdit" type="text" value="{{tab.duration}}"
 																readonly></input></li>
 														</ul> -->
+
 														<ul>
 															<li class="rqleft">Close Time:</li>
 															<li><select name="closeYearEdit" id="closeyearid{{tab.id}}">
@@ -659,20 +684,21 @@ function validatetime(tab_id) {
 																	<option selected>{{tab.close_time | date:"d"}}</option>
 																	{% for day in valid_time.2 %}
 																	<option>{{day}}</option> {% endfor %}
-															</select> &nbsp;&nbsp;&nbsp;&nbsp; <select name="closeHourEdit">
+															</select> &nbsp;&nbsp;&nbsp;&nbsp; <select name="closeHourEdit" id="closehourid{{tab.id}}">
 																	<option selected>{{tab.close_time | date:"H"}}</option>
 																	{% for hour in valid_time.3 %}
 																	<option>{{hour}}</option> {% endfor %}
-															</select> <select name="closeMinuteEdit">
+															</select> <select name="closeMinuteEdit" id="closeminuteid{{tab.id}}">
 																	<option selected>{{tab.close_time | date:"i"}}</option>
 																	{% for min in valid_time.4 %}
 																	<option>{{min}}</option> {% endfor %}
-															</select> <select name="closeSecondEdit">
+															</select> <select name="closeSecondEdit" id="closesecondid{{tab.id}}">
 																	<option selected>{{tab.close_time | date:"s"}}</option>
 																	{% for sec in valid_time.4 %}
 																	<option>{{sec}}</option> {% endfor %}
 															</select></li>
 														</ul>
+														<p id="closetime{{tab.id}}" style="text-align:center;color:red"></p>
 														<p id="checkStart{{tab.id}}" style="text-align:center;color:red"></p>
 														<p id="checkclose{{tab.id}}" style="text-align:center;color:red"></p>
 														<ul>
