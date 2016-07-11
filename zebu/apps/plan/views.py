@@ -84,7 +84,7 @@ def exportPlanTab(request):
     return response
 
 def planPage(request, **kwargs):
-    history_tab=TotalTable.objects.all()
+    history_tab=TotalTable.objects.all().order_by("id")
     gopage = request.GET.get('page')
     if (gopage == None):
         gopage = "1"
@@ -397,9 +397,15 @@ def planPage(request, **kwargs):
             print "next_target"
             next_target = request.POST['next_targetEdit']
             edit_plan.next_target = next_target
-
-
-
+            changeId=request.POST['changeIdlist'].encode("utf-8")
+            changeIdlist=changeId.split(",")
+            changeIdlist.remove('')
+            editIdlist=list(set(changeIdlist))
+            for id in editIdlist:
+                durationEdit=request.POST['durationEdit'+id]
+                total_tab=TotalTable.objects.filter(request_id=edit_id).get(id=id)
+                total_tab.daily_duration=durationEdit
+                total_tab.save()
 
             edit_plan.save()
         elif 'delPlanId' in request.POST.keys():

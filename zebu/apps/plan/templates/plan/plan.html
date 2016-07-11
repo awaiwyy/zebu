@@ -82,6 +82,12 @@
    document.getElementById("history"+id).style.display='inline-flex';
 }
 
+function saveChangeid(proid,id){
+	var idlist=document.getElementById("changeIdlist"+proid).value;
+	idlist=idlist+id+",";
+	$("#changeIdlist"+proid).val(idlist)
+}
+
 function validatetime(tab_id) {
 	var closeDate = new Date();
 	var closeyear = document.getElementById("closeyearid" + tab_id).value;
@@ -677,11 +683,12 @@ function validatetime(tab_id) {
 														{% for tab2 in history_tab %}
 														{% ifequal tab2.request_id tab.id %}
 														<span class="width:101px; float:left">
-															<input style="width:100px;color: #A2A2A2;" type="text" name="dateEdit" value={{tab2.change_date | date:"Y-m-d"}} readonly>
-															<input style="width:100px" type="text" name="durationEdit" value={{tab2.daily_duration }} >
+															<input style="width:100px;color: #A2A2A2;" type="text" name="dateEdit{{tab2.id}}" id="dateEdit{{tab2.id}}" value={{tab2.change_date | date:"Y-m-d"}}  readonly>
+															<input style="width:100px" type="text" name="durationEdit{{tab2.id}}" id="durationEdit{{tab2.id}}" value={{tab2.daily_duration }} onchange="saveChangeid({{tab.id}},{{tab2.id}})">
 														</span>
 														{% endifequal %}
 														{% endfor %}
+														<input id="changeIdlist{{tab.id}}" name="changeIdlist"  style="text-align:center" hidden />
 														</div>
 														<!-- <ul>
 															<li class="rqleft">Total Duration:</li>
