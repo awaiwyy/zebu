@@ -288,7 +288,7 @@ def planPage(request, **kwargs):
             minute = request.POST['minuteEdit']
             second = request.POST['secondEdit']
             edit_stime = year+"-"+month+"-"+day+" "+hour+":"+minute+":"+second
-            if edit_stime != '-- ::' and 'close' != edit_plan.status:
+            if edit_stime != '-- ::' :
                 stime = edit_stime.encode("utf-8")
                 dtime = datetime.datetime.strptime(stime,'%Y-%m-%d %H:%M:%S')
                 ftime1 = (year+"-"+month+"-"+day).encode("utf-8")

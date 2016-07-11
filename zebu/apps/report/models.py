@@ -9,6 +9,7 @@ class ReportTable(models.Model):
     daily_reporter = models.CharField(max_length=50)
     file_link = models.TextField()
     is_daily_report = models.CharField(max_length= 20, default="true")
+    deletefile = models.CharField(max_length=20, default="false")
 
 class ResourceUsageTable(models.Model):
     product = models.CharField(max_length=50)

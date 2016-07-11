@@ -48,9 +48,14 @@ def reportPage(request):
             edit_report.product = request.POST['productEdit']
             edit_report.spm = request.POST['spmEdit']
             edit_report.daily_reporter = request.POST['reporterEdit']
+            edit_report.deletefile = request.POST['deletefile']
             if 'file_linkEdit' in request.FILES:
                 handle_uploaded_file(request.FILES['file_linkEdit'], str(request.FILES['file_linkEdit']))
                 edit_report.file_link = str(request.FILES['file_linkEdit'])
+                edit_report.deletefile = False
+            if edit_report.deletefile:
+                edit_report.is_picture = False
+                edit_report.file_link = ""
             edit_report.save()
         elif 'delReportId' in request.POST.keys():
             print "into delete plan"
