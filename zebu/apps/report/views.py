@@ -282,6 +282,13 @@ def report_Schedule(request):
                     edit_schedule.is_picture = False
                 edit_schedule.file_link = str(request.FILES['file_linkEdit'])
             edit_schedule.save()
+        elif 'delattId' in request.POST.keys():
+            print "delete attachment"
+            del_id = request.POST['delattId']
+            del_schedule = ScheduleTable.objects.get(id=del_id)
+            del_schedule.is_picture = False
+            del_schedule.file_link = ""
+            del_schedule.save()
         elif 'delReportId' in request.POST.keys():
             print "into delete plan"
             del_id = request.POST['delReportId']
