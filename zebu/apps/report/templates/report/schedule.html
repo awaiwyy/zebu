@@ -1,6 +1,14 @@
 {% extends "reportbase.html" %}
 {% block content %}
  <!-- 中间模板 -->
+<script>
+	function delattachment(tab_id)
+	{
+		document.getElementById("deletefile"+tab_id).value = "true";
+		document.getElementById("showfile"+tab_id).innerHTML = "";
+		document.getElementById("deleteicon"+tab_id).style.display ='none';
+	}
+</script>
 <div id="blueimp-gallery" class="blueimp-gallery">
     <div class="slides"></div>
 </div>	
@@ -146,11 +154,16 @@
                                 	</li>
 							  	</ul>
 								  <ul>
-									  <li style="width: 260px"></li>
-									  <li>{{tab.file_link}}</li>
 									  {% if  tab.file_link%}
-									  <li><a data-toggle="modal" data-target="#delPlanatt{{tab.id}}"  style="cursor:pointer"><img src="/static/images/shanchu.png"></a></li>
+									  <li style="width: 260px"></li>
+									  <li  id="showfile{{tab.id}}">{{tab.file_link}}</li>
+									  <li><img id="deleteicon{{tab.id}}" src="/static/images/shanchu.png" onclick="delattachment({{tab.id}})"></li>
 									  {% endif%}
+								  </ul>
+								  <ul>
+									  <li>
+								  <input type="text" id="deletefile{{tab.id}}" name="deletefile" value = {{tab.deletefile}} hidden/>
+									  </li>
 								  </ul>
 							  </div>
 								<div align="center" style="margin-bottom: 100px; vertical-align:middle;">

@@ -272,6 +272,7 @@ def report_Schedule(request):
             edit_schedule.product = request.POST['productEdit']
             edit_schedule.spm = request.POST['spmEdit']
             edit_schedule.daily_reporter = request.POST['reporterEdit']
+            edit_schedule.deletefile = request.POST['deletefile']
             pic_list = ["jpg", "png", "gif", "bmp", "jpeg"]
             if 'file_linkEdit' in request.FILES:
                 file_link = str(request.FILES['file_linkEdit'])
@@ -281,6 +282,10 @@ def report_Schedule(request):
                 else:
                     edit_schedule.is_picture = False
                 edit_schedule.file_link = str(request.FILES['file_linkEdit'])
+                edit_schedule.deletefile = False
+            if edit_schedule.deletefile:
+                edit_schedule.is_picture = False
+                edit_schedule.file_link = ""
             edit_schedule.save()
         elif 'delattId' in request.POST.keys():
             print "delete attachment"
