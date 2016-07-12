@@ -143,8 +143,8 @@ def requestUser(request, **kwargs):
                                    request.POST['durationPieceEdit'] + "Piece"
                 daily_duration=str(0)+"Hour"+request.POST['durationPieceEdit'] + "Piece"
             #添加到数据库
-                print [project, tf_case, classification, module, action_discription,
-                   environment, request_duration, owner, priority]
+                #print [project, tf_case, classification, module, action_discription,
+                   #environment, request_duration, owner, priority]
                 RequestTable.objects.create(project = project,
                                 tf_case = tf_case,
                                 classification = classification,
@@ -156,7 +156,7 @@ def requestUser(request, **kwargs):
                                 owner = owner,
                                 priority = priority)
         elif 'idEdit' in request.POST.keys():
-            print"into edit request tab"
+            #print"into edit request tab"
             edit_id = request.POST['idEdit']
             edit_request = RequestTable.objects.get(id = edit_id)
             edit_request.project = request.POST['projectEdit']
@@ -170,12 +170,12 @@ def requestUser(request, **kwargs):
             edit_request.priority = request.POST['priorityEdit']
             edit_request.save()
         elif 'delRqId' in request.POST.keys():
-            print "into delete request tab"
+            #print "into delete request tab"
             del_id = request.POST['delRqId']
             del_request = RequestTable.objects.get(id = del_id)
             del_request.delete()
-        else:
-            print "there is something wrong"
+        #else:
+            #print "there is something wrong"
         #update request table
         #request_tab = RequestTable.objects.all().order_by("-submit_date")
 

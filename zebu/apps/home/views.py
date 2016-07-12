@@ -30,10 +30,10 @@ def homePageData(request,project_tab):
     #time2 = "22:00-10:00"
     time = "0:00-24:00"
     today = datetime.date.today()
-    print today
+    #print today
     cur_month = today.month
     cur_week= today.isocalendar()
-    print cur_week
+    #print cur_week
     day = cur_week[2]
     #next_monday = today + datetime.timedelta(days=8-day)
     #next_month = next_monday.month
@@ -49,9 +49,9 @@ def homePageData(request,project_tab):
 
     #add or edit schedule table
     if request.method == 'POST' and "dateEdit0" in request.POST.keys():
-        print "into edit schedule"
+        #print "into edit schedule"
         project_id = request.POST["project_idEdit"]
-        print "project_id= ", project_id
+        #print "project_id= ", project_id
         for cnt in range(7):
             sdate = request.POST["dateEdit%d" % cnt]
             stime = request.POST["timeEdit%d" % cnt]
@@ -60,11 +60,11 @@ def homePageData(request,project_tab):
             arrangement = request.POST["arrangementEdit%d" % cnt]
             # print [total, used, arrangement]
             if not total or not used :
-                print "no compelete"
+                #print "no compelete"
                 continue
             '''
             if type(1) != type(total.strip()) or type(1) != type(used.strip()):
-                print "total or used is wrong"
+                #print "total or used is wrong"
                 continue
             '''
             if time == stime:
@@ -82,7 +82,7 @@ def homePageData(request,project_tab):
                     #schedule_tab.project_id = project_id
                     schedule_tab.save()
                 except:
-                    print "not exist"
+                    #print "not exist"
                     scheduleInfo.objects.create(sdate = sdate,
                                             time = stime,
                                             total = total,
@@ -90,7 +90,7 @@ def homePageData(request,project_tab):
                                             arrangement = arrangement,
                                             project_id=project_id)
             except ValueError:
-                print "value type error"
+                #print "value type error"
                 continue
             
         #display_tab = scheduleInfo.objects.filter(sdate__gte = start_date, sdate__lte = end_date)
@@ -105,7 +105,7 @@ def homePageData(request,project_tab):
     cur_date.append(cur_month)
 
     for project in project_tab:
-        print "project.id: ",project.id
+        #print "project.id: ",project.id
         display_tab = scheduleInfo.objects.filter(project_id = project.id, sdate__gte=start_date, sdate__lte=end_date)
         schedule_item =[]
         for i in range(7): #two week and twice one day
@@ -137,14 +137,14 @@ def homePageData(request,project_tab):
             # schedule_item[delta][7] = project.project
             # schedule_item[delta][8] = project.spm
             # schedule_item[delta][9] = project.zebu
-            print "total, used, arranage, project_id:",tab.total,tab.used,tab.arrangement,tab.project_id
+            #print "total, used, arranage, project_id:",tab.total,tab.used,tab.arrangement,tab.project_id
 
         schedule_list.append({'pro':project,'sch':schedule_item})
-        print "len(schedule_list)" ,len(schedule_list)
-        for pro_i in schedule_list:
-            print "pro_i['pro']",pro_i['pro'].id,pro_i['pro'].spm
-            for i in range(7):
-                print i, pro_i['sch'][i][0],pro_i['sch'][i][1], pro_i['sch'][i][2],pro_i['sch'][i][3], pro_i['sch'][i][6]
+        #print "len(schedule_list)" ,len(schedule_list)
+        #for pro_i in schedule_list:
+            #print "pro_i['pro']",pro_i['pro'].id,pro_i['pro'].spm
+            #for i in range(7):
+                #print i, pro_i['sch'][i][0],pro_i['sch'][i][1], pro_i['sch'][i][2],pro_i['sch'][i][3], pro_i['sch'][i][6]
 
         #cur_daylight = schedule_item[:14:2]
         #cur_night = schedule_item[1:15:2]
@@ -189,25 +189,25 @@ def homePageData(request,project_tab):
     return schedule_dict
 
 def homeUser(request):
-    print request.method
-    print request.POST.keys()
+    #print request.method
+    #print request.POST.keys()
     project_tab = projectInfo.objects.filter(display="true").order_by("id")
     productlist=["iwhale2","isharkl2","Other"]
     for tab in project_tab:
         if tab.project in productlist:
             productlist.remove(tab.project)
     if request.method == 'POST' and 'userName' in request.POST.keys():
-        print "into home post"
+        #print "into home post"
         #if 'userName' in request.POST.keys():
         #login to home
-        print "login to home"
+        #print "login to home"
         username = request.POST['userName']
         password = request.POST['password']
-        print "input0"
-        print username
-        print password
+        #print "input0"
+        #print username
+        #print password
         user = auth.authenticate(username=username, password=password)
-        print user
+        #print user
         if user is not None and user.is_active:
             auth.login(request, user)
             schedule_dict = homePageData(request,project_tab)
@@ -217,7 +217,7 @@ def homeUser(request):
             #return render(request, 'login/login.html', {'password_is_wrong': True}) 
             return HttpResponse('Failed: username or password is error!')
     elif request.method == 'POST' and "projectInfo" in request.POST.keys():
-        print"into new home project "
+        #print"into new home project "
         project = request.POST["projectInfo"]
         spm = request.POST["spmInfo"]
         zebu = request.POST["zebuInfo"]
@@ -230,7 +230,7 @@ def homeUser(request):
         schedule_dict.update(productlist=productlist)
         return HttpResponseRedirect('/home/', schedule_dict)
     elif request.method == 'POST' and "projectEdit" in request.POST.keys():
-        print"edit home project "
+        #print"edit home project "
         edit_id = request.POST['idEdit']
         edit_home = projectInfo.objects.get(id=edit_id)
         edit_home.project = request.POST["projectEdit"]
@@ -243,7 +243,7 @@ def homeUser(request):
         schedule_dict.update(productlist=productlist)
         return HttpResponseRedirect('/home/', schedule_dict)
     elif request.method == 'POST' and "delhomeId" in request.POST.keys():
-        print"delete home project "
+        #print"delete home project "
         del_id = request.POST['delhomeId']
         del_home = projectInfo.objects.get(id=del_id)
         del_home.display = 'false'
@@ -252,9 +252,9 @@ def homeUser(request):
         schedule_dict.update(project_tab=project_tab)
         schedule_dict.update(productlist=productlist)
         return HttpResponseRedirect('/home/', schedule_dict)
-    else:
+    #else:
         #other page(eg:request or plan page) to home 
-        print "to home"
+        #print "to home"
     schedule_dict = homePageData(request,project_tab)
     schedule_dict.update(project_tab = project_tab)
     schedule_dict.update(productlist=productlist)

@@ -129,7 +129,7 @@ def planPage(request, **kwargs):
         valid_dailyduration_piece.append(piece)
     valid_dailyDura.append(valid_dailyduration_hour)
     valid_dailyDura.append(valid_dailyduration_piece)
-    print valid_dailyDura
+    #print valid_dailyDura
 
     valid_time = []
     valid_year = []
@@ -209,9 +209,9 @@ def planPage(request, **kwargs):
 
     if request.method == 'POST':
         #获得表单数据
-        print request.POST.keys()
+        #print request.POST.keys()
         if 'newPlanId' in request.POST.keys():
-            print"into new plan"
+            #print"into new plan"
             for tab in request_tab:
                 requestid = int(tab.id)
                 planid = 'newPlan%d' % requestid
@@ -220,7 +220,7 @@ def planPage(request, **kwargs):
                     tab.acceptance="Yes"
                     tab.save()
         elif 'idEdit' in request.POST.keys():
-            print "into edit plan"
+            #print "into edit plan"
             edit_id = request.POST['idEdit']
             edit_plan = RequestTable.objects.get(id=edit_id)
             edit_plan.project = request.POST['projectEdit']
@@ -236,16 +236,16 @@ def planPage(request, **kwargs):
             edit_plan.status = request.POST['statusEdit']
             #edit_stime = request.POST['startTimeEdit']
             
-            print "request_duration"
+            #print "request_duration"
             valid_requestduration_piece = request.POST['durationPieceEdit']
             valid_requestduration_day = request.POST['durationDayEdit']
             valid_requestduration_hour = request.POST['durationHourEdit']
             request_dura = valid_requestduration_hour+"Hour"+valid_requestduration_day+"Day"+valid_requestduration_piece+"Piece"
             if request_dura != 'HourDayPiece':
                 edit_plan.request_duration = request_dura
-            print request_dura
+            #print request_dura
             
-            print "daily_duration"
+            #print "daily_duration"
             valid_dailyduration_piece = request.POST['dailyduraPieceEdit']
             valid_dailyduration_hour = request.POST['dailyduraHourEdit']
             if valid_dailyduration_piece and valid_dailyduration_hour:
@@ -280,7 +280,7 @@ def planPage(request, **kwargs):
                 #print duration.request_duration.split('Hour')[1].split('Day')[0]
                 #print duration.request_duration.split('Hour')[1].split('Day')[1].split('Piece')[0]
 
-            print "test_starttime"
+            #print "test_starttime"
             year = request.POST['yearEdit']
             month = request.POST['monthEdit']
             day = request.POST['dayEdit']
@@ -304,7 +304,6 @@ def planPage(request, **kwargs):
                     delta = (cur_time - ftime).days
                     total_tab1 = TotalTable.objects.filter(request_id=edit_plan.id)
                     #print "len(total_tab1)", len(total_tab1)
-                    print
                     total = 0
                     for i in range(delta + 1):
                         #print "i=", i
@@ -366,7 +365,7 @@ def planPage(request, **kwargs):
                     #elif 'delay' == edit_plan.status:
                         #edit_plan.status = 'ongoing'
             
-            print "test_closetime"
+            #print "test_closetime"
             close_time = request.POST['closeYearEdit']+"-"+request.POST['closeMonthEdit']+"-"+request.POST['closeDayEdit']+" "+request.POST['closeHourEdit']+":"+request.POST['closeMinuteEdit']+":"+request.POST['closeSecondEdit']
             start_time = request.POST['yearEdit']+"-"+request.POST['monthEdit']+"-"+request.POST['dayEdit']+" "+request.POST['hourEdit']+":"+request.POST['minuteEdit']+":"+request.POST['secondEdit']
             if close_time != '-- ::' and start_time != '-- ::':
@@ -393,14 +392,14 @@ def planPage(request, **kwargs):
                         total_tab.status = 'close'
                         total_tab.save()
                     except:
-                        print "not exist"
+                        #print "not exist"
                         TotalTable.objects.create(change_date=change_date,
                                           daily_duration=daily_duration,
                                           status=edit_plan.status,
                                           request_id=request_id)
 
 
-            print "next_target"
+            #print "next_target"
             next_target = request.POST['next_targetEdit']
             edit_plan.next_target = next_target
             changeId=request.POST['changeIdlist'].encode("utf-8")
@@ -416,23 +415,23 @@ def planPage(request, **kwargs):
 
             edit_plan.save()
         elif 'delPlanId' in request.POST.keys():
-            print "into delete plan"
+            #print "into delete plan"
             del_id = request.POST['delPlanId']
             del_plan = RequestTable.objects.get(id=del_id)
             del_plan.is_plan = 'false'
             del_plan.save()
         elif 'idEditCom' in request.POST.keys():
-            print "into common user edit plan"
+            #print "into common user edit plan"
             edit_id = request.POST['idEditCom']
             edit_plan = RequestTable.objects.get(id=edit_id)
             edit_plan.progress = request.POST['progressEditCom']
             edit_plan.save()
-        else:
-            print "there is something wrong"
+        #else:
+            #print "there is something wrong"
         #update plan table
         request_tab = RequestTable.objects.filter(is_plan="false")
         plan_tab = RequestTable.objects.filter(is_plan="true").order_by("id")
-        print plan_tab
+        #print plan_tab
  
         for tab in plan_tab:
             tab.action_discription = tab.action_discription.replace("\n", "<br>")

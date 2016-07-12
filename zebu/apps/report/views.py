@@ -21,11 +21,11 @@ def reportPage(request):
     daily_report_tab = ReportTable.objects.filter(is_daily_report="true").order_by("id")
     #daily_report_tab = ReportTable.objects.all()
     if request.method == 'POST':
-        print "POST!!!!"
+        #print "POST!!!!"
         #print request.body
         # 获得表单数据
         if 'productInfo' in request.POST.keys():
-            print"into new daily report "
+            #print"into new daily report "
             
             product = request.POST['productInfo']
             spm = request.POST['spmInfo']
@@ -42,7 +42,7 @@ def reportPage(request):
                                        file_link =file_link,
                                        )
         elif "idEdit" in request.POST.keys():
-            print "into new report table"
+            #print "into new report table"
             edit_id = request.POST['idEdit']
             edit_report = ReportTable.objects.get(id=edit_id)
             edit_report.product = request.POST['productEdit']
@@ -57,16 +57,16 @@ def reportPage(request):
                 edit_report.file_link = str(request.FILES['file_linkEdit'])
             edit_report.save()
         elif 'delReportId' in request.POST.keys():
-            print "into delete plan"
+            #print "into delete plan"
             del_id = request.POST['delReportId']
             del_report = ReportTable.objects.get(id=del_id)
             del_report.is_daily_report = 'false'
             del_report.save()
-        else:
-            print "there is something wrong"
+        #else:
+            #print "there is something wrong"
         return HttpResponseRedirect('daily_report', {"daily_report_tab": daily_report_tab})
     else:
-        print "GET!!!!"
+        #print "GET!!!!"
         return render(request, 'report/report.html', {"daily_report_tab": daily_report_tab})
         #   return render(request, 'report/report.html')
 
@@ -112,10 +112,10 @@ def report_Resource(request):
     title_tab = ResourceUsageTitleTable.objects.all()
     resource_usage_tab = ResourceUsageTable.objects.filter(is_show="true").order_by("id")
     if request.method == 'POST':
-        print "POST!!!!"
+        #print "POST!!!!"
         # 获得表单数据
         if 'productInfo' in request.POST.keys():
-            print"into new resource uasge"
+            #print"into new resource uasge"
             product = request.POST['productInfo']
             spm = request.POST['spmInfo']
             reporter = request.POST['reporterInfo']
@@ -129,17 +129,17 @@ def report_Resource(request):
                                               function=0,
                                               zebu_platform=0)
         elif 'edittotal0' in request.POST.keys():
-            print "edit total and usage"
+            #print "edit total and usage"
             edit_id = request.POST["idEdit110"]
-            print edit_id
+            #print edit_id
             total = int(request.POST["edittotal0"])*24
             usage = int(request.POST["editusage0"])*24
             ResourceUsageTitleTable.objects.create(usage=usage,
                                                    total=total)
         elif 'edittotal' in request.POST.keys():
-            print "edit total and usage"
+            #print "edit total and usage"
             edit_id =request.POST["idEdit11" ]
-            print edit_id
+            #print edit_id
             total = int(request.POST["edittotal"])*24
             usage = int(request.POST["editusage"])*24
             edittitle_tab = ResourceUsageTitleTable.objects.get(id=edit_id)
@@ -147,7 +147,7 @@ def report_Resource(request):
             edittitle_tab.usage = usage
             edittitle_tab.save()
         elif 'productEdit' in request.POST.keys():
-            print"edit resource uasge"
+            #print"edit resource uasge"
             edit_id = request.POST['idEdit']
             edit_resource = ResourceUsageTable.objects.get(id=edit_id)
             edit_resource.product = request.POST['productEdit']
@@ -162,19 +162,19 @@ def report_Resource(request):
             edit_resource.performance_str = request.POST['performanceEdit']+"Piece"+request.POST['performancehourEdit']+"Hour"
             edit_resource.function_str = request.POST['functionEdit']+"Piece"+request.POST['functionhourEdit']+"Hour"
             edit_resource.zebu_platform_str = request.POST['zubeEdit']+"Piece"+request.POST['zubehourEdit']+"Hour"
-            print edit_resource.total
+            #print edit_resource.total
             edit_resource.save()
         elif 'delresourceId' in request.POST.keys():
-            print "into delete resource"
+            #print "into delete resource"
             del_id = request.POST['delresourceId']
             del_resource = ResourceUsageTable.objects.get(id=del_id)
             del_resource.is_show = 'false'
             del_resource.save()
-        else:
-            print "there is something wrong"
+        #else:
+            #print "there is something wrong"
         return HttpResponseRedirect('resource_usage', {"resource_usage_tab": resource_usage_tab,"title_tab": title_tab,"totalitem":totalitem,"houritem":houritem})
     else:
-        print "GET!!!!"
+       # print "GET!!!!"
         return render(request, 'report/resource_usage.html',{"resource_usage_tab": resource_usage_tab,"title_tab": title_tab,"totalitem":totalitem,"houritem":houritem})
 
 def report_MainTF(request):
@@ -184,10 +184,10 @@ def report_MainTF(request):
     is_low_tab = is_maintf_tab.filter(is_low="true")
     maintf_tab = MaintfstatusTable.objects.filter(is_maintf="true").order_by("id")
     if request.method == 'POST':
-        print "POST!!!!"
+        #print "POST!!!!"
         # 获得表单数据
         if 'productInfo' in request.POST.keys():
-            print"into new report maintf"
+            #print"into new report maintf"
             product = request.POST['productInfo']
             spm = request.POST['spmInfo']
             reporter = request.POST['reporterInfo']
@@ -197,7 +197,7 @@ def report_MainTF(request):
                                        daily_reporter=reporter
                                        )
         elif "idEdit" in request.POST.keys():
-            print "into new report table"
+            #print "into new report table"
             edit_id = request.POST['idEdit']
             edit_report = MaintfstatusTable.objects.get(id=edit_id)
             edit_report.product = request.POST['productEdit']
@@ -205,13 +205,13 @@ def report_MainTF(request):
             edit_report.daily_reporter = request.POST['reporterEdit']
             edit_report.save()
         elif 'delReportId' in request.POST.keys():
-            print "into delete plan"
+            #print "into delete plan"
             del_id = request.POST['delReportId']
             del_report = MaintfstatusTable.objects.get(id=del_id)
             del_report.is_maintf = 'false'
             del_report.save()
         elif 'newHighId' in request.POST.keys():
-            print"into new plan"
+            #print"into new plan"
             for tab in plan_tab:
                 requestid = int(tab.id)
                 planid = 'newPlan%d' % requestid
@@ -220,7 +220,7 @@ def report_MainTF(request):
                     tab.is_high="true"
                     tab.save()
         elif 'newLowId' in request.POST.keys():
-            print"into new plan"
+            #print"into new plan"
             for tab in plan_tab:
                 requestid = int(tab.id)
                 planid = 'newPlan%d' % requestid
@@ -229,28 +229,28 @@ def report_MainTF(request):
                     tab.is_low = "true"
                     tab.save()
         elif 'delPlanId' in request.POST.keys():
-            print "into delete plan"
+            #print "into delete plan"
             del_id = request.POST['delPlanId']
             del_plan = RequestTable.objects.get(id=del_id)
             del_plan.is_maintf = 'false'
             del_plan.is_high='false'
             del_plan.is_low='false'
             del_plan.save()
-        else:
-            print "there is something wrong"
+        #else:
+            #print "there is something wrong"
         return HttpResponseRedirect('main_tf_status',{"plan_tab": plan_tab,"maintf_tab":maintf_tab,"is_maintf_tab":is_maintf_tab,"is_high_tab":is_high_tab,"is_low_tab":is_low_tab})
     else:
-        print "GET!!!!"
+        #print "GET!!!!"
         return render(request, 'report/main_tf_status.html',{"plan_tab": plan_tab,"maintf_tab":maintf_tab,"is_maintf_tab":is_maintf_tab,"is_high_tab":is_high_tab,"is_low_tab":is_low_tab})
 
 def report_Schedule(request):
     schedule_tab = ScheduleTable.objects.filter(is_schedule="true").order_by("id")
     if request.method == 'POST':
-        print "POST!!!!"
+        #print "POST!!!!"
         # print request.body
         # 获得表单数据
         if 'productInfo' in request.POST.keys():
-            print"into new schedule "
+            #print"into new schedule "
             product = request.POST['productInfo']
             spm = request.POST['spmInfo']
             reporter = request.POST['reporterInfo']
@@ -270,7 +270,7 @@ def report_Schedule(request):
                                        file_link=file_link,
                                         is_picture=is_picture)
         elif 'productEdit' in request.POST.keys():
-            print "edit schedule"
+            #print "edit schedule"
             edit_id = request.POST['idEdit']
             edit_schedule = ScheduleTable.objects.get(id=edit_id)
             edit_schedule.product = request.POST['productEdit']
@@ -291,21 +291,21 @@ def report_Schedule(request):
                 edit_schedule.file_link = str(request.FILES['file_linkEdit'])
             edit_schedule.save()
         elif 'delattId' in request.POST.keys():
-            print "delete attachment"
+            #print "delete attachment"
             del_id = request.POST['delattId']
             del_schedule = ScheduleTable.objects.get(id=del_id)
             del_schedule.is_picture = False
             del_schedule.file_link = ""
             del_schedule.save()
         elif 'delReportId' in request.POST.keys():
-            print "into delete plan"
+            #print "into delete plan"
             del_id = request.POST['delReportId']
             del_schedule = ScheduleTable.objects.get(id=del_id)
             del_schedule.is_schedule = 'false'
             del_schedule.save()
-        else:
-            print "there is something wrong"
+        #else:
+            #print "there is something wrong"
         return HttpResponseRedirect('schedule', {"schedule_tab": schedule_tab})
     else:
-        print "GET!!!!"
+        #print "GET!!!!"
         return render(request, 'report/schedule.html', {"schedule_tab": schedule_tab})
