@@ -20,6 +20,10 @@ upload_dir = os.path.join(BASE_DIR, "resources/upload/")
 def reportPage(request):
     daily_report_tab = ReportTable.objects.filter(is_daily_report="true").order_by("id")
     #daily_report_tab = ReportTable.objects.all()
+    productlist = ["iwhale2","isharkl2","Other"]
+    for tab in daily_report_tab:
+        if tab.product in productlist:
+            productlist.remove(tab.product)
     if request.method == 'POST':
         #print "POST!!!!"
         #print request.body
@@ -64,10 +68,10 @@ def reportPage(request):
             del_report.save()
         #else:
             #print "there is something wrong"
-        return HttpResponseRedirect('daily_report', {"daily_report_tab": daily_report_tab})
+        return HttpResponseRedirect('daily_report', {"daily_report_tab": daily_report_tab, "productlist":productlist})
     else:
         #print "GET!!!!"
-        return render(request, 'report/report.html', {"daily_report_tab": daily_report_tab})
+        return render(request, 'report/report.html', {"daily_report_tab": daily_report_tab, "productlist":productlist})
         #   return render(request, 'report/report.html')
 
 def handle_uploaded_file(file, filename):
@@ -111,6 +115,10 @@ def report_Resource(request):
         houritem.append(hour)
     title_tab = ResourceUsageTitleTable.objects.all()
     resource_usage_tab = ResourceUsageTable.objects.filter(is_show="true").order_by("id")
+    productlist = ["iwhale2", "isharkl2", "Other"]
+    for tab in resource_usage_tab:
+        if tab.product in productlist:
+            productlist.remove(tab.product)
     if request.method == 'POST':
         #print "POST!!!!"
         # 获得表单数据
@@ -172,10 +180,10 @@ def report_Resource(request):
             del_resource.save()
         #else:
             #print "there is something wrong"
-        return HttpResponseRedirect('resource_usage', {"resource_usage_tab": resource_usage_tab,"title_tab": title_tab,"totalitem":totalitem,"houritem":houritem})
+        return HttpResponseRedirect('resource_usage', {"resource_usage_tab": resource_usage_tab,"title_tab": title_tab,"totalitem":totalitem,"houritem":houritem,"productlist":productlist})
     else:
        # print "GET!!!!"
-        return render(request, 'report/resource_usage.html',{"resource_usage_tab": resource_usage_tab,"title_tab": title_tab,"totalitem":totalitem,"houritem":houritem})
+        return render(request, 'report/resource_usage.html',{"resource_usage_tab": resource_usage_tab,"title_tab": title_tab,"totalitem":totalitem,"houritem":houritem,"productlist":productlist})
 
 def report_MainTF(request):
     plan_tab = RequestTable.objects.filter(is_plan="true",is_maintf="false")
@@ -183,6 +191,10 @@ def report_MainTF(request):
     is_high_tab=is_maintf_tab.filter(is_high="true")
     is_low_tab = is_maintf_tab.filter(is_low="true")
     maintf_tab = MaintfstatusTable.objects.filter(is_maintf="true").order_by("id")
+    productlist = ["iwhale2", "isharkl2", "Other"]
+    for tab in maintf_tab:
+        if tab.product in productlist:
+            productlist.remove(tab.product)
     if request.method == 'POST':
         #print "POST!!!!"
         # 获得表单数据
@@ -238,13 +250,17 @@ def report_MainTF(request):
             del_plan.save()
         #else:
             #print "there is something wrong"
-        return HttpResponseRedirect('main_tf_status',{"plan_tab": plan_tab,"maintf_tab":maintf_tab,"is_maintf_tab":is_maintf_tab,"is_high_tab":is_high_tab,"is_low_tab":is_low_tab})
+        return HttpResponseRedirect('main_tf_status',{"plan_tab": plan_tab,"maintf_tab":maintf_tab,"is_maintf_tab":is_maintf_tab,"is_high_tab":is_high_tab,"is_low_tab":is_low_tab,"productlist":productlist})
     else:
         #print "GET!!!!"
-        return render(request, 'report/main_tf_status.html',{"plan_tab": plan_tab,"maintf_tab":maintf_tab,"is_maintf_tab":is_maintf_tab,"is_high_tab":is_high_tab,"is_low_tab":is_low_tab})
+        return render(request, 'report/main_tf_status.html',{"plan_tab": plan_tab,"maintf_tab":maintf_tab,"is_maintf_tab":is_maintf_tab,"is_high_tab":is_high_tab,"is_low_tab":is_low_tab,"productlist":productlist})
 
 def report_Schedule(request):
     schedule_tab = ScheduleTable.objects.filter(is_schedule="true").order_by("id")
+    productlist = ["iwhale2", "isharkl2", "Other"]
+    for tab in schedule_tab:
+        if tab.product in productlist:
+            productlist.remove(tab.product)
     if request.method == 'POST':
         #print "POST!!!!"
         # print request.body
@@ -305,7 +321,7 @@ def report_Schedule(request):
             del_schedule.save()
         #else:
             #print "there is something wrong"
-        return HttpResponseRedirect('schedule', {"schedule_tab": schedule_tab})
+        return HttpResponseRedirect('schedule', {"schedule_tab": schedule_tab,"productlist":productlist})
     else:
         #print "GET!!!!"
-        return render(request, 'report/schedule.html', {"schedule_tab": schedule_tab})
+        return render(request, 'report/schedule.html', {"schedule_tab": schedule_tab,"productlist":productlist})

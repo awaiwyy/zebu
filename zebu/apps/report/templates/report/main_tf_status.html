@@ -25,9 +25,9 @@
 									<li>
 										<span>
                                   <select class="borderWidth" id="productInfo"  name="productInfo">
-                                      <option selected="selected">iwhale2</option>
-                                      <option>isharkl2</option>
-                                      <option>Other</option>
+                                      {%for i in productlist%}
+                                      <option>{{i}}</option>
+									  {%endfor%}
                                   </select>
                                   </span>
 									</li>
@@ -409,9 +409,9 @@
 									<span>
                                   <select class="borderWidth" id="productEdit" name="productEdit">
                                       <option selected="selected">{{tab.product}}</option>
-									  <option>iwhale2</option>
-                                      <option>isharkl2</option>
-                                      <option>Other</option>
+									 {%for i in productlist%}
+                                      <option>{{i}}</option>
+									  {%endfor%}
                                   </select>
                                   </span>
 								</li>
