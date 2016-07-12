@@ -1,6 +1,7 @@
 #coding:utf-8
 from django.shortcuts import render
 from django.core.paginator import Page,PageNotAnInteger,Paginator
+from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from ..request.models import RequestTable
@@ -314,15 +315,16 @@ def planPage(request, **kwargs):
                             if curday.status == 'ongoing':
                                 idaily_h = int(curday.daily_duration.split('H')[0])
                                 idaily_p = int((curday.daily_duration.split('r')[1]).split('P')[0])
-                                total = total + idaily_h * idaily_p
+                                total = total + idaily_h * idaily_p 
                         except:
                             print "not exist"
                             try:
                                 lastday = total_tab1.get(change_date=(itime - datetime.timedelta(days=1)))
+                                request_hour=edit_plan.request_duration.split('r')[0]
                                 request_piece = edit_plan.request_duration.split('y')[1]
                                 if lastday.status =='ongoing':
                                     TotalTable.objects.get_or_create(change_date=itime,
-                                                          daily_duration='24Hour' + request_piece,
+                                                          daily_duration=request_hour + request_piece,
                                                           status=lastday.status,
                                                           request_id=lastday.request_id)
                                 else:
@@ -332,8 +334,9 @@ def planPage(request, **kwargs):
                                                           request_id=lastday.request_id)
                                 curday = total_tab1.get(change_date=itime)
                                 if curday.status == 'ongoing':
+                                    request_h = int((edit_plan.request_duration.split('r')[0]).split('H')[0])
                                     request_p = int((edit_plan.request_duration.split('y')[1]).split('P')[0])
-                                    total = total + 24 * request_p
+                                    total = total + request_h * request_p
                             except:
                                 total = 0
                         #print total
@@ -471,10 +474,11 @@ def planPage(request, **kwargs):
                             print "not exist"
                             try:
                                 lastday = total_tab1.get(change_date=(itime-datetime.timedelta(days=1)))
+                                request_hour=tab.request_duration.split('r')[0]
                                 request_piece = tab.request_duration.split('y')[1]
                                 if lastday.status == 'ongoing':
                                     TotalTable.objects.get_or_create(change_date=itime,
-                                                      daily_duration='24Hour'+request_piece,
+                                                      daily_duration=request_hour + request_piece,
                                                       status=lastday.status,
                                                       request_id=lastday.request_id)
                                 else:
@@ -484,8 +488,9 @@ def planPage(request, **kwargs):
                                                       request_id=lastday.request_id)
                                 curday = total_tab1.get(change_date=itime)
                                 if curday.status == 'ongoing':
+                                    request_h = int((tab.request_duration.split('r')[0]).split('H')[0])
                                     request_p = int((tab.request_duration.split('y')[1]).split('P')[0])
-                                    total = total + 24 * request_p
+                                    total = total + request_h * request_p
                             except:
                                 total = 0
                         #print total
