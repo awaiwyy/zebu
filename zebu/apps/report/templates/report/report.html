@@ -5,8 +5,16 @@
 	function delattachment(tab_id)
 	{
 		document.getElementById("deletefile"+tab_id).value = "true";
-		document.getElementById("showfile"+tab_id).innerHTML = "";
+		document.getElementById("showfile"+tab_id).style.display ='none';
 		document.getElementById("deleteicon"+tab_id).style.display ='none';
+	}
+	function canceldeit(tab_id,tab_file_link)
+	{
+		if (tab_file_link !== "")
+		{
+			document.getElementById("showfile"+tab_id).style.display ='inline';
+		    document.getElementById("deleteicon"+tab_id).style.display ='inline';
+		}
 	}
 </script>
 		<div class="divcenter">
@@ -159,7 +167,7 @@
 								  </ul>
 							  </div>
 								<div align="center" style="margin-bottom: 100px; vertical-align:middle;">
-                                  <button class= "requestBtn" type="text" id="cancleEditBtn18" style="background-color: #FB8C8C" data-dismiss="modal">cancel</button>
+                                  <button class= "requestBtn" type="text" id="cancleEditBtn18" style="background-color: #FB8C8C" data-dismiss="modal" onclick="canceldeit({{tab.id}},'{{tab.file_link}}')">cancel</button>
                                   <button class= "requestBtn" type="submit" id="saveRqEdit18"  style="background-color:#67D00B ">confirm</button>
                               	</div>
                             </form>
