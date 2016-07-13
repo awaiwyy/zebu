@@ -301,12 +301,13 @@ def planPage(request, **kwargs):
                 #cur_time = datetime.datetime.now()
                 cur_time = datetime.date.today()
                 #print "cur_time",cur_time
-                total_tab1 = TotalTable.objects.filter(request_id=edit_plan.id).order_by("change_date")
-                delta = (cur_time - ftime).days
+                total_tab1 = TotalTable.objects.filter(request_id=edit_plan.id).order_by("-change_date")
+                
                 if not total_tab1 :
                     if cur_time > ftime:
                         total = 0
                         request_piece = edit_plan.request_duration.split('y')[1]
+                        delta = (cur_time - ftime).days
                         for i in range(delta):
                             itime = ftime + datetime.timedelta(days=i)
                             TotalTable.objects.create(change_date=itime,
@@ -321,9 +322,12 @@ def planPage(request, **kwargs):
                                                 request_id=edit_plan.id)
                 elif cur_time > ftime:
                     total = 0
-                    for i in range(delta + 1):
+                    recent_edit=total_tab1[0]
+                    rtime=recent_edit.change_date
+                    delta = (cur_time - rtime).days
+                    for i in range(delta):
                         #print "i=", i
-                        itime = ftime + datetime.timedelta(days=i)
+                        itime = rtime + datetime.timedelta(days=i+1)
                         #print itime
                         try:
                             curday = total_tab1.get(change_date=itime)
