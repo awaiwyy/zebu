@@ -302,15 +302,15 @@ def planPage(request, **kwargs):
                 cur_time = datetime.date.today()
                 #print "cur_time",cur_time
                 total_tab1 = TotalTable.objects.filter(request_id=edit_plan.id).order_by("change_date")
+                delta = (cur_time - ftime).days
                 if not total_tab1 :
                     if cur_time > ftime:
                         total = 0
-                        delta = (cur_time - ftime).days
                         request_piece = edit_plan.request_duration.split('y')[1]
                         for i in range(delta):
                             itime = ftime + datetime.timedelta(days=i)
                             TotalTable.objects.create(change_date=itime,
-                                                      daily_duration='0Hour'+request_piece,
+                                                      daily_duration='00Hour'+request_piece,
                                                       status="ongoing",
                                                       request_id=edit_plan.id)
                         daily_hour=edit_plan.daily_duration.split('H')[0]
@@ -344,7 +344,7 @@ def planPage(request, **kwargs):
                                                           request_id=lastday.request_id)
                                 else:
                                     TotalTable.objects.get_or_create(change_date=itime,
-                                                          daily_duration='0Hour' + request_piece,
+                                                          daily_duration='00Hour' + request_piece,
                                                           status=lastday.status,
                                                           request_id=lastday.request_id)
                                 curday = total_tab1.get(change_date=itime)
@@ -498,7 +498,7 @@ def planPage(request, **kwargs):
                                                       request_id=lastday.request_id)
                                 else:
                                     TotalTable.objects.get_or_create(change_date=itime,
-                                                      daily_duration='0Hour'+request_piece,
+                                                      daily_duration='00Hour'+request_piece,
                                                       status=lastday.status,
                                                       request_id=lastday.request_id)
                                 curday = total_tab1.get(change_date=itime)
