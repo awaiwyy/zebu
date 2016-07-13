@@ -322,12 +322,12 @@ def planPage(request, **kwargs):
                                 lastday = total_tab1.get(change_date=(itime - datetime.timedelta(days=1)))
                                 request_piece = edit_plan.request_duration.split('y')[1]
                                 if lastday.status =='ongoing':
-                                    TotalTable.objects.create(change_date=itime,
+                                    TotalTable.objects.get_or_create(change_date=itime,
                                                           daily_duration='24Hour' + request_piece,
                                                           status=lastday.status,
                                                           request_id=lastday.request_id)
                                 else:
-                                    TotalTable.objects.create(change_date=itime,
+                                    TotalTable.objects.get_or_create(change_date=itime,
                                                           daily_duration='0Hour' + request_piece,
                                                           status=lastday.status,
                                                           request_id=lastday.request_id)
@@ -474,12 +474,12 @@ def planPage(request, **kwargs):
                                 lastday = total_tab1.get(change_date=(itime-datetime.timedelta(days=1)))
                                 request_piece = tab.request_duration.split('y')[1]
                                 if lastday.status == 'ongoing':
-                                    TotalTable.objects.create(change_date=itime,
+                                    TotalTable.objects.get_or_create(change_date=itime,
                                                       daily_duration='24Hour'+request_piece,
                                                       status=lastday.status,
                                                       request_id=lastday.request_id)
                                 else:
-                                    TotalTable.objects.create(change_date=itime,
+                                    TotalTable.objects.get_or_create(change_date=itime,
                                                       daily_duration='0Hour'+request_piece,
                                                       status=lastday.status,
                                                       request_id=lastday.request_id)
