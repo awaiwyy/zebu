@@ -682,7 +682,7 @@ function validatetime(tab_id) {
 														<div id="history{{tab.id}}" style="width:760px;overflow-x:scroll;display:none" >
 														{% for tab2 in history_tab %}
 														{% ifequal tab2.request_id tab.id %}
-														<span class="width:101px; float:left">
+														<span style="width:101px; float:left">
 															<input style="width:100px;color: #A2A2A2;" type="text" name="dateEdit{{tab2.id}}" id="dateEdit{{tab2.id}}" value={{tab2.change_date | date:"Y-m-d"}}  readonly>
 															<input style="width:100px" type="text" name="durationEdit{{tab2.id}}" id="durationEdit{{tab2.id}}" value={{tab2.daily_duration }} onchange="saveChangeid({{tab.id}},{{tab2.id}})">
 														</span>

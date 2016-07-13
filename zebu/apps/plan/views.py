@@ -84,7 +84,7 @@ def exportPlanTab(request):
     return response
 
 def planPage(request, **kwargs):
-    history_tab=TotalTable.objects.all().order_by("id")
+    history_tab=TotalTable.objects.all().exclude(change_date = datetime.date.today()).order_by("id")
     gopage = request.GET.get('page')
     if (gopage == None):
         gopage = "1"
@@ -251,7 +251,7 @@ def planPage(request, **kwargs):
             if valid_dailyduration_piece and valid_dailyduration_hour:
                 daily_dura = valid_dailyduration_hour + "Hour" + valid_dailyduration_piece + "Piece"
             else:
-                valid_dailyduration_hour = str(24)
+                valid_dailyduration_hour = str(0)
                 valid_dailyduration_piece = request.POST['durationPieceEdit']
                 daily_dura = valid_dailyduration_hour + "Hour" + valid_dailyduration_piece + "Piece"
             edit_plan.daily_duration = daily_dura
@@ -321,8 +321,14 @@ def planPage(request, **kwargs):
                             try:
                                 lastday = total_tab1.get(change_date=(itime - datetime.timedelta(days=1)))
                                 request_piece = edit_plan.request_duration.split('y')[1]
-                                TotalTable.objects.create(change_date=itime,
+                                if lastday.status =='ongoing':
+                                    TotalTable.objects.create(change_date=itime,
                                                           daily_duration='24Hour' + request_piece,
+                                                          status=lastday.status,
+                                                          request_id=lastday.request_id)
+                                else:
+                                    TotalTable.objects.create(change_date=itime,
+                                                          daily_duration='0Hour' + request_piece,
                                                           status=lastday.status,
                                                           request_id=lastday.request_id)
                                 curday = total_tab1.get(change_date=itime)
@@ -405,6 +411,7 @@ def planPage(request, **kwargs):
                 durationEdit=request.POST['durationEdit'+id]
                 total_tab=TotalTable.objects.filter(request_id=edit_id).get(id=id)
                 total_tab.daily_duration=durationEdit
+                total_tab.status='ongoing'
                 total_tab.save()
 
             edit_plan.save()
@@ -466,8 +473,14 @@ def planPage(request, **kwargs):
                             try:
                                 lastday = total_tab1.get(change_date=(itime-datetime.timedelta(days=1)))
                                 request_piece = tab.request_duration.split('y')[1]
-                                TotalTable.objects.create(change_date=itime,
+                                if lastday.status == 'ongoing':
+                                    TotalTable.objects.create(change_date=itime,
                                                       daily_duration='24Hour'+request_piece,
+                                                      status=lastday.status,
+                                                      request_id=lastday.request_id)
+                                else:
+                                    TotalTable.objects.create(change_date=itime,
+                                                      daily_duration='0Hour'+request_piece,
                                                       status=lastday.status,
                                                       request_id=lastday.request_id)
                                 curday = total_tab1.get(change_date=itime)
