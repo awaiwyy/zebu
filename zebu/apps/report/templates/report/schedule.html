@@ -201,7 +201,7 @@
 														<button class="requestBtn" type="text"
 															id="cancleDelBtn" name="cancle"
 															style="background-color: #FB8C8C"
-															data-dismiss="modal">Cancle</button>
+															data-dismiss="modal">Cancel</button>
 														<button class="requestBtn" name="ok" type="submit"
 															style="background-color: #67D00B">confirm</button>
 													</div>
@@ -211,32 +211,7 @@
 									</div>
 								</div>
 						<!-- delete plan table modal finish-->
-						<div class="modal fade" id="delPlanatt{{tab.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-									aria-hidden="true" style='margin: -150px 0 0 -100px'>
-									<div class="modal-dialog planDelForm">
-										<div class="modal-content">
-											<div class="modal-header">
-												<!-- <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> -->
-												<h4 class="modal-title" id="myModalLabelatt">Delete the Report item ?</h4>
-											</div>
-											<div class="modal-body">
-												<form class="delForm" method="POST">
-                                                {% csrf_token %}
-                                                 <input type="text" name = "delattId" value = {{tab.id}} hidden />
-													<div align="center" style="margin-bottom: 50px;">
-														<button class="requestBtn" type="text"
-															id="cancleDelBtnatt" name="cancle"
-															style="background-color: #FB8C8C"
-															data-dismiss="modal">Cancle</button>
-														<button class="requestBtn" name="ok" type="submit"
-															style="background-color: #67D00B">confirm</button>
-													</div>
-												</form>
-											</div>
-										</div>
-									</div>
-								</div>
-						</div>
+					</div>
 						{%endfor%}
 				</div>
 

@@ -387,6 +387,7 @@
                                 	</li>
 							  	</ul>
 								  <p id="checkNum{{tab.id}}" style="text-align:center;color:red"></p>
+								  <p id="checkNum2{{tab.id}}" style="text-align:center;color:red"></p>
 
 							  </div>
 								<div align="center" style="margin-bottom: 100px; vertical-align:middle;">
@@ -416,7 +417,7 @@
 														<button class="requestBtn" type="text"
 															id="cancleDelBtn" name="cancle"
 															style="background-color: #FB8C8C"
-															data-dismiss="modal">Cancle</button>
+															data-dismiss="modal">Cancel</button>
 														<button class="requestBtn" name="ok" type="submit"
 															style="background-color: #67D00B">confirm</button>
 													</div>
@@ -474,6 +475,7 @@
 
 				if ( parseInt(total)*24<num){
 					$("#checkNum"+id).text("Power Management、Performance、Function、zube platform值的和不能大于Total");
+					$("#checkNum2"+id).text("请修改Power Management、Performance、Function、zube platform或者Total");
 					return false;
 				}
 				else{
