@@ -18,6 +18,11 @@
 <link rel="stylesheet" href="/static/home/css/schedule.css" />
 <link href="/static/css/application.css" type="text/css" rel="stylesheet" />
 <!--  <link rel="stylesheet" href="/static/home/css/jquery.webui-popover.min.css">-->
+<style>
+	.error {
+		border: 1px solid red;
+		}
+</style>
 <!-- js -->
 <script src="/static/js/jquery-1.11.1.min.js"></script>
 <script src="/static/home/js/WeeklyReport.js"></script>
@@ -29,10 +34,55 @@
 				if (!pageYOffset)
 					window.scrollTo(0, 1);
 			}, 1000);
-    
+
       $(function ()
       { $("[data-toggle='popover']").popover();
       });
+
+	function checknum()
+	{
+		var num=document.getElementById("zebuInfo").value;
+	    if(num)
+	    {
+	    if(!isNum(num)){
+	   	$("#checkaddzebu").text("zebu请输入整数");
+	    return false;
+	    }
+	    }
+	}
+
+	function checkint(pro){
+	var num=document.getElementById("zubuEdit").value
+		if(num)
+	    {
+	    if(!isNum(num)){
+		$("#zebucheckint"+pro).text("zebu请输入整数");
+	    return false;
+	    }
+		else{
+		$("#zebucheckint"+pro).text("");	
+		}
+	    }
+	for(var i=0;i<7;i++){
+		var j=i;
+		var num1=document.getElementById("totalEdit"+pro+j).value;
+		var num2=document.getElementById("usedEdit"+pro+j).value;
+		if(num1 || num2){
+		if(!isNum(num1) || !isNum(num2)){
+	    $("#checkint"+pro).text("Total和Used请均输入整数");
+	    return false;
+	    }
+		else{
+		$("#checkint"+pro).text("");
+		}
+	    }
+	}
+	}
+
+	function isNum(num){
+       var reNum =/^[0-9]+$/;
+       return (reNum.test(num));
+    }
 
 </script>
 </head>
@@ -75,13 +125,14 @@
 			</tr>
 		</table>
 	</div>
+	<div class="divleft"></div>
 	<!-- 中间部分 -->
 	<div class="middle">
 		<div class="middletitle">
 			<p>
 				<span class="middletite1"> <a href="/" class="title">Login</a>&nbsp;&nbsp;-&nbsp;&nbsp;
-					<a href="/home" class="title">Home</a>
 				</span>
+				<span class="middletite2">Home</span>
 			</p>
 		</div>
 		<!-- 左侧模块 -->
@@ -89,7 +140,7 @@
 			<div class="middleleft2" style="position: relative; top: -16px;">
 				<div class="middleleft_center">
 					<ul>
-						<li id="middleleft_center_topli"><a href="exportTab">Export
+						<li id="middleleft_center_topli"><a href="exportTab" style="color:#8e8e8e">Export
 								Excel</a></li>
 						<li><a href="#">&nbsp;</a></li>
 						<li><a href="#">&nbsp;</a></li>
@@ -97,39 +148,73 @@
 					</ul>
 				</div>
 			</div>
-			{% if perms.home.add_scheduleinfo %}
-			<div class="middleleft_bottom_new" data-toggle="modal" data-target="#newscheduleModal"  style="cursor:pointer">
-				<a >New</a>
+
+		</div>
+
+		<!-- 中间模板 -->
+
+<!--<div class="pagination">
+    <span class="step-links">
+        {% if schedule_tab.has_previous %}
+            <a href="?page={{ schedule_tab.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ schedule_tab.number }} of {{ schedule_tab.paginator.num_pages }}.
+        </span>
+
+        {% if schedule_tab.has_next %}
+            <a href="?page={{ schedule_tab.next_page_number }}">next</a>
+        {% endif %}
+    </span>
+</div>-->
+		<div class="divcenter">
+			<div class="homeForm">
+			{% if perms.home.add_projectinfo %}
+			<div class="" data-toggle="modal" data-target="#newscheduleModal"  style="cursor:pointer">
+				<tr>
+					<td><img src="/static/images/tianjia.png" /></td>
+					<span Style="color:#6bd5f8">Add New Product</span>
+				</tr>
+
 			</div>
             <!--弹出模态框（Modal） -->
-						<div class="modal fade" id="newscheduleModal" tabindex="-1" role="dialog" aria-labelledby="NewModalLabel" aria-hidden="true">
+					<div class="modal fade" id="newscheduleModal" tabindex="-1" role="dialog" aria-labelledby="NewModalLabel" aria-hidden="true">
                     <div class="modal-dialog" style = "width:800px">
                       <div class="modal-content">
                         <div class="modal-header">
                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                           <h4 class="modal-title" id="NewModalLabel">Project Information</h4>
+                           <h4 class="modal-title" id="NewModalLabel">Product Information</h4>
                         </div>
                         <div class="modal-body">
-                        <form class = "modalForm" method="POST" >
+                        <form class = "modalForm" method="POST" onsubmit="return checknum()">
                         {% csrf_token %}
                           <div class="modalFormContent">
+
                           	<ul>
-								<li class="new_rqleft">Project:</li>
+								<li class="new_rqleft">Product:</li>
 								<li>
-									<input type="text" id="projectInfo" name="projectInfo" />
+									<span>
+                                  <select class="borderWidth" id="projectInfo" name="projectInfo">
+									  {%for i in productlist%}
+                                      <option>{{i}}</option>
+									  {%endfor%}
+                                  </select>
+                                  </span>
 								</li>
 							</ul>
 							<ul>
 								<li class="new_rqleft">SPM:</li>
 								<li>
-									<input type="text" id="spmInfo" name="spmInfo" />
+									<input type="text" id="spmInfo" name="spmInfo" style="width:350px;height:24px"/>
 								</li>
 							</ul>
 							<ul>
-								<li class="new_rqleft" >Zebu:</li>
+								<li class="new_rqleft" >Zebu(Pieces):</li>
 								<li>
-									<input type="text" id="zebuInfo" name="zebuInfo" />
+									<input type="text" id="zebuInfo" name="zebuInfo" style="width:350px;height:24px"/>
 								</li>
+								<p id="checkaddzebu" style="text-align:center;color:red"></p>
 							</ul>
 						  </div>
 							<div align="center" style="margin-bottom: 100px; ">
@@ -144,15 +229,11 @@
 					  <!-- 添加模态框（Modal）结束 -->
 			{% endif %}
 			<!-- new schedule info finish -->
-		</div>
-
-		<!-- 中间模板 -->
-		<div class="divcenter">
 			{% for pro_item in schedule_tab %}
-        <div class="requestForm">
-
-        <div id="requestTable" class="requestTableDiv">
-					<table  class="requestTable" id="Box"  >
+        <div class="requestForm" >
+        <div id="requestTable" class="requestTableDiv" >
+			<div class="productForm">
+					<table   id="Box"  >
                     <!--<tr>
 							<th scope="col" width="84px"><span>Product</span></th>
 							<th scope="col" width="84px"><span>SPM</span></th>
@@ -160,11 +241,18 @@
 						</tr>-->
 
                   <tr>
-                     <td><b>Product:</b>{{pro_item.pro.project}}</td>
-                     <td><b>SPM:</b>{{pro_item.pro.spm}}</td>
-                     <td><b>Zebu:</b>{{pro_item.pro.zebu}}<b>Pieces</b></td>
-                     <td><a data-toggle="modal" data-target="#scheduleModal{{pro_item.pro.id}}"  style="cursor:pointer"><button class= "requestBtn" id="editBtn21" type="text" style="background-color: #FB8C8C">Edit</button></a></td>
-					 <td><a data-toggle="modal" data-target="#delPlanModal{{pro_item.pro.id}}"  style="cursor:pointer"><button class= "requestBtn" id="editBtn21" type="text" style="background-color: #FB8C8C">Delete</button></a></td>
+					  <td width="16px"></td>
+					 <td width="70px" ><b>Product: </b></td>
+					<td width="112px"><input type="text" readonly id="product" class="miniForm" value="{{pro_item.pro.project}}"/></td>
+				  	 <td width="60px" align="center"><b>SPM: </b></td>
+					<td width="112px"><input type="text" readonly id="spm" class="miniForm" value="{{pro_item.pro.spm}}"/></td>
+				  	 <td width="70px" align="center"><b>Zube: </b></td>
+					  <td width="150px"><input type="text" readonly id="zebu" class="miniForm" value="{{pro_item.pro.zebu}}Pieces"/></td>
+					  {% if perms.home.add_scheduleinfo %}
+					  <td width="50px"><a data-toggle="modal" data-target="#scheduleModal{{pro_item.pro.id}}"  style="cursor:pointer" ><img style="right:16px" src="/static/images/bianji.png"></a></td>
+					  <td><a data-toggle="modal" data-target="#delPlanModal{{pro_item.pro.id}}"  style="cursor:pointer"><img src="/static/images/shanchu.png"></a></td>
+					  {% endif %}
+
 				 </tr>
    <!-- 模态框（Modal） -->
 								<div class="modal fade" id="delPlanModal{{pro_item.pro.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
@@ -178,7 +266,7 @@
 											<div class="modal-body">
 												<form class="delForm" method="POST">
                                                 {% csrf_token %}
-                                                 <input type="text" name = "delhomeId" value = {{tab.id}} hidden />
+                                                 <input type="text" name = "delhomeId" value = {{pro_item.pro.id}} hidden />
 													<div align="center" style="margin-bottom: 50px;">
 														<button class="requestBtn" type="text"
 															id="cancleDelBtn" name="cancle"
@@ -195,7 +283,7 @@
 								<!-- delete plan table modal finish-->
 
 					</table>
-				</div>
+
 					  <!-- 添加模态框（Modal）结束 -->
 			<div>
 				<div class="divst">
@@ -206,43 +294,46 @@
 						<input id="cur_day" style="display:none" value="{{cur_week.2}}"/>
 					</div>
 				</div>
+				{% widthratio forloop.counter 1 7 as tloop %}
 				<ul class="weekly_bl" style="padding-left: 0">
 					<li id="time"
 						style="width: 96px; height: 50px; text-align: center; line-height: 48px; background-color: #e2e3e3;"></li>
-					<li id="week1" onClick="weekClick(1)"
-						style="width: 96px; height: 50px; line-height: 200%; background-color: #e2e3e3;">Monday<br>{{cur_date.0}}</li>
-					<li id="week2" onClick="weekClick(2)"
-						style="width: 96px; height: 50px; line-height: 200%; background-color: #e2e3e3;">Tuesday<br>{{cur_date.1}}</li>
-					<li id="week3" onClick="weekClick(3)"
-						style="width: 96px; height: 50px; line-height: 200%; background-color: #e2e3e3;">Wednesday<br>{{cur_date.2}}</li>
-					<li id="week4" onClick="weekClick(4)"
-						style="width: 96px; height: 50px; line-height: 200%; background-color: #e2e3e3;">Thursday<br>{{cur_date.3}}</li>
-					<li id="week5" onClick="weekClick(5)"
-						style="width: 96px; height: 50px; line-height: 200%; background-color: #e2e3e3;">Friday<br>{{cur_date.4}}</li>
-					<li id="week6" onClick="weekClick(6)"
-						style="width: 96px; height: 50px; line-height: 200%; background-color: #e2e3e3;">Saturday<br>{{cur_date.5}}</li>
-					<li id="week7" onClick="weekClick(7)"
-						style="width: 96px; height: 50px; line-height: 200%; background-color: #e2e3e3;"
+					<li id="week{{tloop|add:-6}}" onClick="weekClick({{tloop|add:-6}})"
+						style="width: 91px; height: 50px; line-height: 200%; background-color: #e2e3e3;">Monday<br>{{cur_date.0}}</li>
+					<li id="week{{tloop|add:-5}}" onClick="weekClick({{tloop|add:-5}})"
+						style="width: 91px; height: 50px; line-height: 200%; background-color: #e2e3e3;">Tuesday<br>{{cur_date.1}}</li>
+					<li id="week{{tloop|add:-4}}" onClick="weekClick({{tloop|add:-4}})"
+						style="width: 91px; height: 50px; line-height: 200%; background-color: #e2e3e3;">Wednesday<br>{{cur_date.2}}</li>
+					<li id="week{{tloop|add:-3}}" onClick="weekClick({{tloop|add:-3}})"
+						style="width: 91px; height: 50px; line-height: 200%; background-color: #e2e3e3;">Thursday<br>{{cur_date.3}}</li>
+					<li id="week{{tloop|add:-2}}" onClick="weekClick({{tloop|add:-2}})"
+						style="width: 91px; height: 50px; line-height: 200%; background-color: #e2e3e3;">Friday<br>{{cur_date.4}}</li>
+					<li id="week{{tloop|add:-1}}" onClick="weekClick({{tloop|add:-1}})"
+						style="width: 91px; height: 50px; line-height: 200%; background-color: #e2e3e3;">Saturday<br>{{cur_date.5}}</li>
+					<li id="week{{tloop}}" onClick="weekClick({{tloop}})"
+						style="width: 91px; height: 50px; line-height: 200%; background-color: #e2e3e3;"
 						class="rightli">Sunday<br>{{cur_date.6}}</li>
 				</ul>
 				<ul class="weekly_bl" style="padding-left: 0px">
 					<li id="time1"
 						style="width: 96px; height: 174px; text-align: center; line-height: 90px; background-color: #e2e3e3;">0:00~24:00</li>
 					{% for item in pro_item.sch %}
-					<li id="total{{item.0}}" value="{{item.1}}"
-						style="width: 96px; height: 174px; background-color: #e2e3e3;" 
+					{% widthratio forloop.parentloop.counter 1 7 as ploop %}
+					<li id="total{{item.0|add:-7|add:ploop}}" value="{{item.1}}"
+						style="width: 91px; height: 174px; background-color: #e2e3e3"
 						title="Details" data-container="body" data-toggle="popover" data-placement="auto" data-html="true" data-trigger = "hover"
                   data-content="<strong>Total:</strong>{{item.1}}<br>
 							<strong>Used:</strong>{{item.2}}<br>
-							<strong>Information:</strong>{{item.3}}">
-						<div class="listyle" style="display: none">
+							<strong>Information:</strong><div style='word-wrap: break-word'>{{item.3}}</div>">
+						<div class="listyle" style="display: none" >
 							<strong>Total:</strong>{{item.1}}<br>
 							<strong>Used:</strong>{{item.2}}<br>
 							<strong>Information:</strong>{{item.3}}
 						</div>
-						<canvas id="W3Cfuns_canvas{{item.0}}" width="96px" height="174px"></canvas>
+						
+						<canvas id="W3Cfuns_canvas{{item.0|add:-7|add:ploop}}" width="90px" height="174px"></canvas>
 					</li>
-					<li id="used{{item.0}}" style="display: none"
+					<li id="used{{item.0|add:-7|add:ploop}}" style="display: none"
 						value="{{item.2}}"></li>
 					{% endfor %}
 				</ul>
@@ -280,50 +371,62 @@
                      </div>
                      <div class="modal-body">
 
-						<form  class = "modalForm" method="POST" >
+						<form  class = "modalForm" method="POST" onsubmit="return checkint({{pro_item.pro.id}})">
 								{% csrf_token %}
-							  <p>project_id:<input type="text" name="project_idEdit" value={{tab.id}} ></p>
+
+							  <input type="text" name="project_idEdit" value={{pro_item.pro.id}} hidden/>
                               <div class="modalFormContent" id="readRpTab{{tab.id}}">
-								  <input type="text" id="idEdit" name="idEdit" value = {{tab.id}} hidden/>
+								  <input type="text" id="idEdit" name="idEdit" value={{pro_item.pro.id}} hidden/>
                               	<ul>
 									<li class="rqleft">Product:</li>
 									<li>
-										<input type="text" id="projectEdit" name="projectEdit" value = {{tab.project}} />
+										<span>
+                                  <select class="borderWidth" id="projectEdit" name="projectEdit">
+                                      <option selected="selected">{{pro_item.pro.project}}</option>
+									   {%for i in productlist%}
+                                      <option>{{i}}</option>
+									  {%endfor%}
+                                  </select>
+                                  </span>
                                 	</li>
 								</ul>
+
                               	<ul>
 									<li class="rqleft">SPM:</li>
 									<li>
-										<input type="text" id="spmEdit" name="spmEdit" value = {{tab.spm}} />
+										<input type="text" id="spmEdit" name="spmEdit" value="{{pro_item.pro.spm}}" style="width:350px;height:24px"/>
 									</li>
 								</ul>
 								<ul>
-									<li class="rqleft">Zebu:</li>
+									<li class="rqleft">Zebu(Pieces):</li>
 									<li>
-										<input type="text" id="zubuEdit" name="zebuEdit" value = {{tab.zebu}} />
+										<input type="text" id="zubuEdit" name="zebuEdit" value ={{pro_item.pro.zebu}} style="width:350px;height:24px"/>
                                 	</li>
+									<p id="zebucheckint{{pro_item.pro.id}}" style="text-align:center;color:red"></p>
 							  	</ul>
 							  </div>
+
                          <table  class="scheduleTable">
 						         <tr>
 							        <th scope="col" width="120px"><span>Date</span></th>
-							        <th scope="col" width="120px"><span>日历数据库取出的ID</span></th>
+							        <th scope="col" width="120px"><span>Time</span></th>
 							        <th scope="col" width="84px"><span>Total</span></th>
 							        <th scope="col" width="84px"><span>Used</span></th>
 							        <th scope="col" width="340px"><span>Arrangement</span></th>
 						         </tr>
-						         {% for tab2 in schedule_tab %}
-							  {%  ifequal tab2.6 tab.id  %}
+						         {% for tab2 in pro_item.sch %}
+
 						         <tr>
-                             <td><input class="scheduleInput" type="text" name="dateEdit{{tab2.0}}"value={{tab2.4 | date:"Y-m-d"}} readonly></td>
-                             <td><input class="scheduleInput" type="text" name="timeEdit{{tab2.0}}"value={{tab2.6}} readonly></td>
-                             <td><input class="scheduleInput" type="text" name="totalEdit{{tab2.0}}"value={{tab2.1}}></td>
-                             <td><input class="scheduleInput" type="text" name="usedEdit{{tab2.0}}"value={{tab2.2}}></td>
-                             <td><textarea class="scheduleText" name="arrangementEdit{{tab2.0}}">{{tab.3}}</textarea></td>
+                             <td><input class="scheduleInput" type="text" name="dateEdit{{tab2.0}}" value={{tab2.4 | date:"Y-m-d"}} readonly></td>
+                             <td><input class="scheduleInput" type="text" name="timeEdit{{tab2.0}}" value={{tab2.5}} readonly></td>
+                             <td><input class="scheduleInput" type="text" name="totalEdit{{tab2.0}}" id="totalEdit{{pro_item.pro.id}}{{tab2.0}}" value={{tab2.1}}></td>
+                             <td><input class="scheduleInput" type="text" name="usedEdit{{tab2.0}}" id="usedEdit{{pro_item.pro.id}}{{tab2.0}}" value={{tab2.2}}></td>
+                             <td><textarea class="scheduleText" name="arrangementEdit{{tab2.0}}">{{tab2.3}}</textarea></td>
                            </tr>
-							 {% endifequal %}
+
 						         {% endfor %}
                          </table>
+						 <p id="checkint{{pro_item.pro.id}}" style="text-align:center;color:red"></p>
                          <div class="scheduleDiv">
                             <button class= "scheduleBtn" type="text" style="background-color: #FB8C8C" data-dismiss="modal">cancle</button>
                             <button class= "scheduleBtn" type="submit" style="background-color:#67D00B ">confirm</button>
@@ -334,10 +437,13 @@
              </div>
          </div>
 		   <!-- 添加模态框（Modal）结束 -->
-
+			</div>
 		</div>
 			{% endfor %}
         </div>
+			</div>
+			</div>
+
 	</div>
 </body>
 </html>

@@ -1,6 +1,7 @@
 .requestForm {
 	width:768px;
-	height: 864px;
+	min-height: 864px;
+	height:auto!important
 	margin-top: 16px;
 	margin-right: 16px;
 	border-radius: 8px;
@@ -14,11 +15,13 @@
 }
 
 .requestTableDiv{
-	margin-top:0;
+	margin-top:15px;
 	padding:0;
 	height:720px;
 	
 }
+
+
 .requestTable {
 	width:758px;
 	align:center;

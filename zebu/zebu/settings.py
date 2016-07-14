@@ -159,7 +159,10 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "resources/common_static"),
+    #os.path.join(BASE_DIR, "resources/upload"),
 )
 
+
+
 # used for ./manage.py collectstatic
-STATIC_ROOT = os.path.join(BASE_DIR, 'resources/collect_static')
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')

@@ -13,8 +13,37 @@
 <link href="/static/css/com.css" type="text/css" rel="stylesheet" />
 <link href="/static/request/css/request.css" type="text/css" rel="stylesheet" />
 <link href="/static/css/application.css" type="text/css" rel="stylesheet" />
+<link href="/static/plan/css/plan.css" type="text/css" rel="stylesheet" />
+<style>
+	a.pagination {
+		margin: 8px;
+		padding: 8px;
+		border: solid 2px rgba(193, 216, 230, .2);
+		text-decoration: none;
+		text-align: center;
+		color: #428bca;
+		background-color: rgba(255, 255, 255, .2);
+		transition: all .1s;
+		}
+
+	a.pagination:hover {
+  		background-color: #ebf6ff;
+		  }
+	a.pagination-current{
+		margin: 8px;
+		padding: 8px;
+		text-decoration: 500;
+		text-align: center;
+		color: black;
+		transition: all .1s;
+	}
+	.error {
+		border: 1px solid red;
+		}
+</style>
 <!-- js -->
 <script src="/static/js/jquery-1.11.1.min.js"></script>
+<script src="/static/js/jquery.validate.min.js"></script>
 <!-- <script src="http://apps.bdimg.com/libs/bootstrap/3.2.0/js/bootstrap.min.js"></script> -->
 <script src="/static/js/bootstrap.min.js"></script>
 <script type="text/javascript">
@@ -24,36 +53,43 @@
 					window.scrollTo(0, 1);
 			}, 1000);
 
+		function changeImage() {
+		document.getElementById("mybtn1").className = "classification1";
+		document.getElementById("mybtn2").className = "classification2";
+		if (document.getElementById("mybtn").className != "classification_down") {
+			document.getElementById("mybtn").className = "classification_down";
+		} else {
+			document.getElementById("mybtn").className = "classification_up";
+		}
+	}
+
+	function changeImage1() {
+		document.getElementById("mybtn").className = "classification";
+		document.getElementById("mybtn2").className = "classification2";
+		if (document.getElementById("mybtn1").className != "classification1_down") {
+			document.getElementById("mybtn1").className = "classification1_down";
+		} else {
+			document.getElementById("mybtn1").className = "classification1_up";
+		}
+	}
+
+	function changeImage2() {
+		document.getElementById("mybtn1").className = "classification1";
+		document.getElementById("mybtn").className = "classification";
+		if (document.getElementById("mybtn2").className != "classification2_down") {
+			document.getElementById("mybtn2").className = "classification2_down";
+		} else {
+			document.getElementById("mybtn2").className = "classification2_up";
+		}
+	}
+
 	var flag_browser = "other";
 	$(document).ready(function() {
 		//判断浏览器类型
 		if (window.ActiveXObject) {
 			flag_browser = "ie";
 		}
-	})
-
-	function validate()
-	{
-	    if ($("select[name='durationHourEdit']").val()=="")
-	    {
-	        alert("Request Duration不能为空");
-	        return False;
-	    }
-	    if ($("select[name='durationDayEdit']").val()=="")
-	    {
-	        alert("Request Duration不能为空");
-	        return False;
-	    }
-	    if ($("select[name='durationPieceEdit']").val()=="")
-	    {
-	        alert("Request Duration不能为空");
-	        return False;
-	    }
-	    else
-	    {
-	        return True;
-	    }
-	}
+	})	
 </script>
 </head>
 <body>
@@ -65,7 +101,7 @@
 		<div class="clearfix"></div>
 		<table class="headtable">
 			<tr>
-				<td><a href="#"><img src="/static/images/zebu.png" /></a></td>
+				<td><img src="/static/images/zebu.png" /></td>
 			</tr>
 			<tr>
 				<td>
@@ -94,13 +130,13 @@
 			</tr>
 		</table>
 	</div>
+        <div class="divleft"></div>
 	<!-- 中间部分 -->
 	<div class="middle" >
 		<div class="middletitle" >
 			<p>
 				<span class="middletite1"> 
 				<a href="/" class="title">Login</a>&nbsp;&nbsp;-&nbsp;&nbsp;
-				<a href="/home/" class="title">Home</a>&nbsp;&nbsp;-&nbsp;&nbsp;
 				</span>
 				<span class="middletite2">Request</span>
 			</p>
@@ -110,16 +146,12 @@
 			<div class="middleleft2" style="position: relative; top: -16px;">
 				<div class="middleleft_center">
 					<ul>
-						<li id="middleleft_center_topli"><a href="exportTab">Export Excel</a></li>
+						<li id="middleleft_center_topli"><a href="exportTab" style="color:#8e8e8e">Export Excel</a></li>
 						<li><a href="#">&nbsp;</a></li>
 						<li><a href="#">&nbsp;</a></li>
 						<li id="middleleft_center_bottomli"><a href="#">&nbsp;</a></li>
 					</ul>
 				</div>
-			</div>
-			{% if perms.request.add_requesttable %}
-			<div class="middleleft_bottom_new" data-toggle="modal" data-target="#NewModal"  style="cursor:pointer">
-				<a >New</a>
 			</div>
 				<!--弹出模态框（Modal） -->
 						<div class="modal fade" id="NewModal" tabindex="-1" role="dialog" aria-labelledby="NewModalLabel" aria-hidden="true">
@@ -130,11 +162,11 @@
                            <h4 class="modal-title" id="NewModalLabel">New Application</h4>
                         </div>
                         <div class="modal-body">
-                        <form class = "modalForm" method="POST" onsubmit="validate()">
+                        <form id="newapp" class="modalForm" method="POST" role="form">
                         {% csrf_token %}
                           <div class="modalFormContent">
                           <ul>
-									   <li class="new_rqleft">Project:</li>
+									   <li class="new_rqleft">Product:</li>
 									   <li>
                                   <span>
                                   <select class="borderWidth" id="projectInfo"  name="projectInfo">
@@ -217,7 +249,7 @@
 								  <ul>
 									   <li class="new_rqleft">Action Discription:</li>
 									   <li>
-                                  <textarea class="borderWidth modalText" id="actionDiscription" name="actionDiscriptionInfo">GFS Benchmark</textarea>
+                                  <textarea class="borderWidth modalText" id="actionDiscription" name="actionDiscriptionInfo" style=vertical-align:text-top>GFS Benchmark</textarea>
                               </li>
 								  </ul>
 								  <ul>
@@ -255,7 +287,9 @@
 																	<option ></option>
 																	{% for piece in valid_duration.2 %}
 																	<option>{{piece}}</option> {% endfor %}
-															</select>Piece</li>
+															</select>Piece
+															<p id="errormsg" style="color:red"></p>
+															</li>
 								  </ul>
 								  <ul>
 								      <li class="new_rqleft">Priority:</li>
@@ -269,21 +303,11 @@
                                   </span>
                               </li>
 								  </ul>
-								  <ul>
-								      <li class="new_rqleft">Acceptance:</li>
-								      <li>
-                                  <span>
-                                  <select class="borderWidth" id="acceptanceInfo"  name="acceptanceInfo">
-                                      <option selected="">No</option>
-                                      <option>Yes</option>
-                                  </select>
-                                  </span>
-                              </li>
-								  </ul>
 								  <input type="hidden" name="ownerInfo" value={{user.username}} />
 								  <!-- <input type="hidden" name="submitUserInfo" value={{user.username}} /> -->
 								  </div>
 								  <div align="center" style="margin-bottom: 100px; ">
+									  <div name="errormsg" id="errormsg" style="color:red"></div>
                             <button class= "requestBtn" type="text" name="cancle" style="background-color: #FB8C8C" data-dismiss="modal">cancle</button>
                             <button class= "requestBtn" name="ok" type="submit" style="background-color:#67D00B ">confirm</button>
                           </div>
@@ -293,16 +317,61 @@
                    </div>
                  </div>
 					  <!-- 添加模态框（Modal）结束 -->
-					  {% endif %}
 		</div>
 		<!-- 中间模板 -->
 		<div class="divcenter">
-			<div class="requestForm">
-			   <div class="new_request_title">Application List</div>
-				<div id="requestTable" class="requestTableDiv">
+
+            <div class="md_search">
+				<span class="keyword">Search Keywords：</span>
+				<form class="form1">
+					<input name="submit" type="submit" class="search_btn1" value="" />
+					<input name="text" type="text" class="textinput1" value="">
+				</form>
+			</div>
+			<div class="CText">
+				<p>
+					<span class="content">Content：</span> <a href="#">Product</a>&nbsp;&nbsp;&nbsp;
+					<a href="#">Classification</a>&nbsp;&nbsp;&nbsp;<a href="#">Module</a>&nbsp;&nbsp;&nbsp;
+					<a href="#">Environment</a>&nbsp;&nbsp;&nbsp; <a href="#">Priority</a>&nbsp;&nbsp;&nbsp;
+					<a href="#">Status</a>&nbsp;&nbsp;&nbsp;<a href="#">Request
+						time</a>&nbsp;&nbsp;&nbsp;
+				</p>
+				<p>
+					<span class="content">Department：</span> <a href="#">APPS</a>&nbsp;&nbsp;
+					<a href="#">BSP</a>&nbsp;&nbsp; <a href="#">MM</a>&nbsp;&nbsp; <a
+						href="#">Modem</a>&nbsp;&nbsp; <a href="#">Power</a>&nbsp;&nbsp; <a
+						href="#">Stability</a>&nbsp;&nbsp; <a href="#">Kernel</a>&nbsp;&nbsp;
+					<a href="#">Graphics</a>&nbsp;&nbsp; <a href="#">DDR</a>&nbsp;&nbsp;
+					<a href="#">WCN</a>
+				</p>
+			</div>
+
+			<div class="classify ">
+				<a href="#">
+					<button type="button" class="classification_down" id="mybtn"
+						onclick="changeImage()" style="background-color: #F8F8F8">Request
+						time</button>
+				</a> <a href="#">
+					<button type="button" class="classification1" id="mybtn1"
+						onclick="changeImage1()" style="background-color: #F8F8F8">Product</button>
+				</a> <a href="#">
+					<button type="button" class="classification2" id="mybtn2"
+						onclick="changeImage2()" style="background-color: #F8F8F8">Status</button>
+				</a>
+			</div>
+			<div class="requestForm" style="margin-top:32px">
+			   <div data-toggle="modal" data-target="#NewModal"  style="cursor:pointer;margin-top:-10px">
+				{% if perms.request.add_requesttable %}
+				<tr>
+					<td><img src="/static/images/tianjia.png" /></td>
+					<span Style="color:#6bd5f8">Add New TF case</span>
+				</tr>
+				{% endif %}
+			</div>
+				<div id="requestTable" class="requestTableDiv" >
 					<table  class="requestTable" id="Box"  >
 						<tr>
-							<th scope="col" width="84px"><span>Project</span></th>
+							<th scope="col" width="84px"><span>Product</span></th>
 							<th scope="col" width="84px"><span>Module</span></th>
 							<th scope="col" width="222px"><span>TF Case</span></th>
 							<th scope="col" width="80px"><span>Owner</span></th>
@@ -320,6 +389,7 @@
                      <td>{{tab.submit_date}}</td>
                      <td><a data-toggle="modal" data-target="#myModal{{tab.id}}"  style="cursor:pointer"><img style="vertical-align:middle" src="/static/images/down.png" /></a></td>
                   </tr>
+				  
                   <!--弹出模态框（Modal） -->
 						<div class="modal fade" id="myModal{{tab.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                     <div class="modal-dialog" style = "width:800px">
@@ -336,7 +406,7 @@
 										<li class="borderBottom">{{tab.id}}</li>
 								  </ul>
                           <ul>
-									   <li class="rqleft">Project:</li>
+									   <li class="rqleft">Product:</li>
 									   <li class="borderBottom">{{tab.project}}</li>
 								  </ul>
 								  <ul>
@@ -380,8 +450,8 @@
 								      <li class="borderBottom">{{tab.acceptance}}</li>
 								  </ul>
 								  </div>
-								  {% if perms.request.change_requesttable%}
-								  <div id="editRqTab{{tab.id}}">
+
+						<div id="editRqTab{{tab.id}}">
 								    <form  class = "modalForm" method="POST">
                               {% csrf_token %}
                               <div class="modalFormContent">
@@ -392,7 +462,7 @@
                                 </li>
 								      </ul>
                               <ul>
-									     <li class="rqleft">Project:</li>
+									     <li class="rqleft">Product:</li>
 									     <li>
                                   <span>
                                   <select class="borderWidth" id="projectEdit"  name="projectEdit">
@@ -479,7 +549,7 @@
 								      <ul>
 									     <li class="rqleft">Action Discription:</li>
 									     <li>
-                                  <textarea class="borderWidth modalText" id="actionDiscriptionEdit{{tab.id}}" name="actionDiscriptionEdit">{{tab.action_discription}}</textarea>
+                                  <textarea class="borderWidth modalText" id="actionDiscriptionEdit{{tab.id}}" name="actionDiscriptionEdit" style=vertical-align:text-top>{{tab.action_discription}}</textarea>
                                 </li>
 								      </ul>
 								      <ul>
@@ -530,32 +600,33 @@
                                   </span>
                                 </li>
 								      </ul>
-								       <ul>
-								      <li class="rqleft">Acceptance:</li>
-								      <li>
-                                  <span>
-                                  <select class="borderWidth" id="acceptanceEdit"  name="acceptanceEdit">
-                                      <option selected>{{tab.acceptance}}</option>
-                                      <option>No</option>
-                                      <option>Yes</option>
-                                  </select>
-                                  </span>
-                              </li>
-								  </ul>
+								  <ul>
+									     <li class="rqleft">Acceptance:</li>
+									     <li class="borderBottom">
+                                  <input id="acceptanceEdit" type="text" name=acceptanceEdit" value={{tab.acceptance}} readonly>
+                                </li>
+								      </ul>
 								      </div>
 								      <div align="center" style="margin-bottom: 100px; vertical-align:middle;">
-                                  <button class= "requestBtn" type="text" id="cancleEditBtn{{tab.id}}" style="background-color: #FB8C8C" data-dismiss="modal">cancle</button>
+                                  <button class= "requestBtn" type="button" id="cancleEditBtn{{tab.id}}" style="background-color: #FB8C8C" >cancle</button>
                                   <button class= "requestBtn" type="submit" id="saveRqEdit{{tab.id}}"  style="background-color:#67D00B ">confirm</button>
                               </div>
                             </form>
                           </div>
                           <div align="center" style="margin-bottom: 100px; ">
+							  {% if perms.request.change_requesttable %}
                               <button class= "requestBtn" id="editBtn{{tab.id}}" type="text" style="background-color: #FB8C8C">Edit</button>
-                              {% if perms.request.delete_requesttable%}
-                              <button class= "requestBtn" id ="delBtn{{tab.id}}" type="submit" style="background-color:#67D00B " 
+                              <button class= "requestBtn" id ="delBtn{{tab.id}}" type="submit" style="background-color:#67D00B "
                                data-toggle="modal" data-target="#delRqModal{{tab.id}}"  style="cursor:pointer">Delete</button>
+							  {% else %}
+							  	{% ifequal tab.owner user.username %}
+							  		<button class= "requestBtn" id="editBtn{{tab.id}}" type="text" style="background-color: #FB8C8C">Edit</button>
+                              		<button class= "requestBtn" id ="delBtn{{tab.id}}" type="submit" style="background-color:#67D00B "
+                               data-toggle="modal" data-target="#delRqModal{{tab.id}}"  style="cursor:pointer">Delete</button>
+							  	{% endifequal %}
+							  {% endif %}
                               <!-- delete request模态框（Modal） -->
-                              <div class="modal fade" id="delRqModal{{tab.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                              <div class="modal fade" id="delRqModal{{tab.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style='margin: -150px 0 0 -100px'>
                                 <div class="modal-dialog requestDelForm">
                                   <div class="modal-content">
                                      <div class="modal-header">
@@ -567,7 +638,7 @@
                                            {% csrf_token %}
                                            <input type="text" name = "delRqId" value = {{tab.id}} hidden />
                                            <div align="center" style="margin-bottom: 50px; ">
-                                               <button class= "requestBtn" type="text" id="cancleDelBtn{{tab.id}}"name="cancleDel" style="background-color: #FB8C8C" data-dismiss="modal">Cancle</button>
+                                               <button class= "requestBtn" type="text" id="cancleDelBtn{{tab.id}}"name="cancleDel" style="background-color: #FB8C8C" >Cancle</button>
                                                <button class= "requestBtn" name="okDel" type="submit" style="background-color:#67D00B ">Delete</button>
                                            </div>
                                        </form>
@@ -576,7 +647,7 @@
                                 </div>
                               </div>
                               <!-- delete request模态框（Modal） finish-->
-                              {% endif %}
+
                               <!-- delete request tab finish -->
                               <script type="text/javascript" >
                                 $(document).ready(function(){
@@ -598,7 +669,7 @@
                                     }); 
                                 });
                             </script>
-								  {% endif %}
+
 								  <!-- change request tab finish -->
 								  </div>
 								  </div>
@@ -609,9 +680,72 @@
 					  <!-- 添加模态框（Modal）结束 -->
 					  {% endfor %}	  <!-- show request tab finish -->
 					</table>
+				</div>			
 				</div>
+				<div class="pagination">
+						<span class="step-links">
+						{% if request_tab.has_previous %}
+							<a class="pagination" href="?page=1"> << </a>							
+						{% endif %}
+
+						{% ifequal over_range_left "true" %}
+						. . .
+						{% endifequal %}
+						
+						{% ifnotequal range_left "norange" %}
+							{% for i in range_left %}
+							<a class="pagination" href="?page={{ i }}">{{ i }}</a>
+							{% endfor %}
+						{% endifnotequal %}
+						
+							<a class="pagination-current">{{request_tab.number}}</a>
+
+						{% ifnotequal range_right "norange" %}
+							{% for i in range_right %}
+							<a class="pagination" href="?page={{ i }}">{{ i }}</a>
+							{% endfor %}											
+						{% endifnotequal %}
+
+						{% ifequal over_range_right "true" %}
+						. . .
+						{% endifequal %}
+
+						{% if request_tab.has_next %}
+							<a class="pagination" href="?page={{ request_tab.paginator.num_pages }}"> >> </a>
+						{% endif %}
+						</span>
+					</div>
 			</div>
 		</div>
 	</div>
+	<script>
+		$.validator.addMethod("selectval", function(value,element){
+			if (value=="")
+			{
+				$("#errormsg").text("Duration is required");
+				return false;
+			}
+			else
+			{
+				return true;
+			}
+		},"")
+
+		$("#newapp").validate({
+                 rules: {
+                     durationHourEdit: {
+                         selectval: true,
+                     },
+					 durationDayEdit: {
+                         selectval: true
+                     },
+					 durationPieceEdit: {
+                         selectval: true
+                     }
+             },
+			 messages:{
+			 }
+			});
+		</script>
 </body>
 </html>

@@ -4,7 +4,7 @@ from django.contrib import auth
 
 # Create your views here.
 def login(request, **kwargs):
-    print "into login"
+    #print "into login"
     '''
     response = render_to_response('login/login.html')
     # 在客户端Cookie中添加Post表单token，避免用户重复提交表单

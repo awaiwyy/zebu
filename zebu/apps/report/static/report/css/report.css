@@ -1,0 +1,201 @@
+.reportForm {
+	width:768px;
+	min-height: 864px;
+	height:auto!important;
+	margin-top: 16px;
+	margin-right: 16px;
+	border-radius: 8px;
+	margin-bottom: 24px;
+	border-top: 1px solid #cbcbcb;
+	border-bottom: 1px solid #cbcbcb;
+	border-left: 1px solid #cbcbcb;
+	border-right: 1px solid #cbcbcb;
+	font-size: 14px;
+	padding:16px 16px 80px 16px;
+}
+
+.reportTableDiv{
+	margin-top:15px;
+	padding:0;
+	min-height:720px;
+	
+}
+
+.maintfTableDiv{
+	margin-top:0;
+	padding:0;
+	min-height:290px;
+	height:auto!important
+}
+
+.reportTable {
+        width:732px;
+	table-layout:fixed;
+	height:auto;
+	border:0;
+	line-height:48px; 
+	border-bottom:0; 
+	border-collapse:collapse; 
+	border-spacing:0;
+}
+
+.reportTable tr{
+	height:48px;
+	transition:all .1s linear 0s;
+	-moz-transition:all .1s linear 0s;
+	-webkit-transition:all .1s linear 0s;
+	-o-transition:all .1s linear 0s;
+}
+
+.reportTable tr:nth-of-type(even){
+	background-color:#FFF;	
+}
+
+.reportTable tr:nth-of-type(odd){
+	background-color:#F1F1F1;
+}
+
+.reportTable td{
+    height:48px;
+    font-size:14px;
+    word-break:keep-all;/* 不换行 */   
+    white-space:nowrap;/* 不换行 */    
+    overflow:hidden;/* 内容超出宽度时隐藏超出部分的内容 */
+    text-overflow:ellipsis;/* 当对象内文本溢出时显示省略标记(...) ；需与overflow:hidden;一起使用。*/
+}
+
+.reportTable th{
+	background-color: #E5E5E5;
+	font-size:14px;
+	height:48px;
+	font-weight:normal; 
+	border:1px solid; 
+	text-align:center;
+}
+
+
+/*弹出框*/
+.planDelForm{
+    width:400px;
+    margin-top:580px;
+    margin-top:500px\9\0;
+}
+
+
+/*----new plan table----*/
+.newPlanForm{
+	width:768px;
+	height: auto;//720px;
+	margin:0;
+	padding: 0;
+	border:0;
+	font-size: 16px;
+}
+
+.newPlanTable {
+	width:768px;
+	table-layout:fixed;
+	height:auto;
+   border:0;
+	line-height:30px;
+	border-collapse:collapse;
+	border-spacing:0;
+}
+
+.newPlanTable tr{
+	height:30px;
+	text-align:center;
+	transition:all .1s linear 0s;
+	-moz-transition:all .1s linear 0s;
+	-webkit-transition:all .1s linear 0s;
+	-o-transition:all .1s linear 0s;
+}
+
+.newPlanTable td{
+   height:30px;
+   font-size:14px;
+   border: 1px solid #cbcbcb;
+   width:100%;
+   word-break:keep-all;/* 不换行 */
+   white-space:nowrap;/* 不换行 */
+   overflow:hidden;/* 内容超出宽度时隐藏超出部分的内容 */
+   text-overflow:ellipsis;/* 当对象内文本溢出时显示省略标记(...) ；需与overflow:hidden;一起使用。*/
+}
+
+.newPlanTable th{
+    font-size:14px;
+    height:30px;
+    font-weight:normal;
+    text-align:center;
+    background-color: #E5E5E5;
+    border:1px solid;
+    white-space: nowrap;
+　  overflow: hidden;
+　  text-overflow: ellipsis;
+}
+
+.newPlanDiv{
+	text-align: center;
+	margin:0;
+	margin-top: 48px;
+	margin-bottom: 80px;
+}
+
+.newPlanBtn{
+	color:white;
+	width: 106px;
+	height: 40px;
+   line-height:34px;/*针对IE*/
+   vertical-align:middle;
+	border-radius: 8px;
+	margin-left: 20px;
+	margin-right: 20px;
+}
+
+.miniForm1 {
+	width:120px;
+	height:30px;
+	margin-top: 0px;
+	margin-right: 16px;
+	border-radius: 8px;
+	margin-bottom: 0px;
+	border-top: 1px solid #cbcbcb;
+	border-bottom: 1px solid #cbcbcb;
+	border-left: 1px solid #cbcbcb;
+	border-right: 1px solid #cbcbcb;
+	font-size: 14px;
+	vertical-align:middle;
+    line-height:normal;
+}
+
+.scheduleForm {
+	width:735px;
+	min-height:100px;
+	margin-top: 16px;
+	margin-left: 0px;
+	margin-right: 15px;
+	border-radius: 8px;
+	margin-bottom: 24px;
+	border-top: 1px solid #cbcbcb;
+	border-bottom: 1px solid #cbcbcb;
+	border-left: 1px solid #cbcbcb;
+	border-right: 1px solid #cbcbcb;
+	font-size: 14px;
+	padding:16px 0px 0px 0px;
+}
+
+.productForm {
+	width:735px;
+	height: 318px;
+	margin-top: 16px;
+	margin-left: 0px;
+	margin-right: 15px;
+	border-radius: 8px;
+	margin-bottom: 24px;
+	border-top: 1px solid #cbcbcb;
+	border-bottom: 1px solid #cbcbcb;
+	border-left: 1px solid #cbcbcb;
+	border-right: 1px solid #cbcbcb;
+	font-size: 14px;
+	padding:16px 0px 80px 0px;
+}

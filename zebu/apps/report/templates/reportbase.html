@@ -11,10 +11,13 @@
 <!--  <link href="http://apps.bdimg.com/libs/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">-->
 <link rel="stylesheet" href="/static/css/bootstrap.min.css" />
 <link href="/static/css/com.css" type="text/css" rel="stylesheet" />
-<link href="/static/request/css/request.css" type="text/css" rel="stylesheet" />
+<link href="/static/report/css/report.css" type="text/css" rel="stylesheet" />
 <link href="/static/css/application.css" type="text/css" rel="stylesheet" />
+<link rel="stylesheet" href="/static/report/css/blueimp-gallery.min.css">
 <!-- js -->
 <script src="/static/js/jquery-1.11.1.min.js"></script>
+<script src="/static/report/js/blueimp-gallery.min.js"></script>
+<script src="/static/js/highcharts.js"></script>
 <!-- <script src="http://apps.bdimg.com/libs/bootstrap/3.2.0/js/bootstrap.min.js"></script> -->
 <script src="/static/js/bootstrap.min.js"></script>
 <script type="text/javascript">
@@ -32,6 +35,11 @@
 		}
 	})
 </script>
+<style>
+	.menu { padding:0; margin:0; list-style-type:none;}
+	.menu li a { display:block; width:140px; text-align:center; height:34px; line-height:32px; color:#00000;text-decoration:none;}
+	.cur{ background:#87CEFF;}
+</style>
 </head>
 <body>
 	<!-- 头文件 -->
@@ -71,13 +79,13 @@
 			</tr>
 		</table>
 	</div>
+        <div class="divleft"></div>
 	<!-- 中间部分 -->
 	<div class="middle" >
 		<div class="middletitle" >
 			<p>
 				<span class="middletite1"> 
 				<a href="/" class="title">Login</a>&nbsp;&nbsp;-&nbsp;&nbsp;
-				<a href="/home/" class="title">Home</a>&nbsp;&nbsp;-&nbsp;&nbsp;
 				</span>
 				<span class="middletite2">Report</span>
 			</p>
@@ -86,16 +94,41 @@
 		<div class="middleleft">
 			<div class="middleleft2" style="position: relative; top: -16px;">
 				<div class="middleleft_center">
-					<ul>
-						<li id="middleleft_center_topli"><a href="schedule" >Schedule</a></li>
-						<li><a href="resource_usage">Resource Usage</a></li>
-						<li><a href="main_tf_status">Main TF Status</a></li>
-						<li id="middleleft_center_bottomli"><a href="daily_report">Daily Report</a></li>
+					<ul class="menu" id="menu">
+						<li id="middleleft_center_topli"><a href="resource_usage" style="color:#8e8e8e">Resource Usage</a></li>
+						<li><a href="schedule" style="color:#8e8e8e">Schedule</a></li>
+						<li><a href="main_tf_status" style="color:#8e8e8e">Main TF Status</a></li>
+						<li id="middleleft_center_bottomli" ><a href="daily_report" style="color:#8e8e8e">Daily Report</a></li>
 					</ul>
+					<script type="text/javascript">
+					var urlstr = location.href;
+					//alert((urlstr + '/').indexOf($(this).attr('href')));
+					var urlstatus=false;
+					$("#menu a").each(function () {
+					if ((urlstr + '/').indexOf($(this).attr('href')) > -1&&$(this).attr('href')!='') {
+					$(this).addClass('cur'); urlstatus = true;
+					} else {
+					$(this).removeClass('cur');
+					}
+					});
+					if (!urlstatus) {$("#menu a").eq(0).addClass('cur'); }
+
+					</script>
 				</div>
+
 			</div>
-			
 		</div>
         {% block content %}{% endblock %}
+	<script>
+$("div[aria-valuetext='sslinks']").click(function (event) {
+	event = event || window.event;
+	var target = event.target || event.srcElement,
+	link = target.src ? target.parentNode : target,
+	options = {index: link, event: event},
+	links = this.getElementsByTagName('a');
+	blueimp.Gallery(links, options);
+	});
+</script>
+		</div>
 </body>
 </html>
