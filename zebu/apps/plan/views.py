@@ -317,7 +317,7 @@ def planPage(request, **kwargs):
                                                         status="ongoing",
                                                         request_id=edit_plan.id)
                         elif ftime > fedit:
-                            TotalTable.objects.filter(change_date__lt=ftime).delete()
+                            total_tab2.filter(change_date__lt=ftime).delete()
                     except:
                         pass
                     if not total_tab1 :
