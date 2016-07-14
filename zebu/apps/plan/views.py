@@ -486,6 +486,7 @@ def planPage(request, **kwargs):
                 cur_time = datetime.date.today()
                 #ctime = datetime.datetime.utcnow()
                 #stime = datetime.datetime.strptime(stime.strftime('%Y-%m-%d %H:%M:%S'),'%Y-%m-%d %H:%M:%S')
+                total = 0
                 if cur_time >= ftime:
                     total_tab1 = TotalTable.objects.filter(request_id=tab.id).order_by("-change_date")
                     recent_edit=total_tab1[0]
@@ -494,7 +495,6 @@ def planPage(request, **kwargs):
                     totaldelta = (cur_time - ftime).days
                     #print "delta=",delta
                     #print "len(total_tab1)",len(total_tab1)
-                    total = 0
                     for i in range(delta):
                         #print "i=",i
                         itime = rtime + datetime.timedelta(days=i+1)
