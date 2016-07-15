@@ -78,8 +78,15 @@
 		}
 	}
 
-	function aaa(id) {
-   document.getElementById("history"+id).style.display='inline-flex';
+	function showHistory(id) {
+		if($("#history"+id).attr("aria-checked") == "false"){			
+			document.getElementById("history"+id).style.display='inline-block';
+			$("#history"+id).attr("aria-checked","true");
+		}else{
+			document.getElementById("history"+id).style.display='none';
+			$("#history"+id).attr("aria-checked","false");
+		}
+   
 }
 
 function saveChangeid(proid,id){
@@ -677,14 +684,14 @@ function validatetime(tab_id) {
 														<ul>
 													<li class="rqleft">Total Duration:</li>
 													<li class="borderBottom">{{tab.duration}}Hour</li>
-													<li><img style="right:16px" src="/static/images/bianji.png" onclick="aaa({{tab.id}})"></li>
+													<li><img style="right:16px" src="/static/images/bianji.png" onclick="showHistory({{tab.id}})"></li>
 												</ul>
-														<div id="history{{tab.id}}" style="width:760px;overflow-x:scroll;display:none" >
+														<div id="history{{tab.id}}" style="height:113px;overflow-x:scroll;display:none" aria-checked="false">
 														{% for tab2 in history_tab %}
 														{% ifequal tab2.request_id tab.id %}
 														<span style="width:101px; float:left">
-															<input style="width:100px;color: #A2A2A2;" type="text" name="dateEdit{{tab2.id}}" id="dateEdit{{tab2.id}}" value={{tab2.change_date | date:"Y-m-d"}}  readonly>
-															<input style="width:100px" type="text" name="durationEdit{{tab2.id}}" id="durationEdit{{tab2.id}}" value={{tab2.daily_duration }} onchange="saveChangeid({{tab.id}},{{tab2.id}})">
+															<input style="width:100px;color: #A2A2A2;line-height:normal;" type="text" name="dateEdit{{tab2.id}}" id="dateEdit{{tab2.id}}" value={{tab2.change_date | date:"Y-m-d"}}  readonly>
+															<input style="width:100px;line-height:normal;" type="text" name="durationEdit{{tab2.id}}" id="durationEdit{{tab2.id}}" value={{tab2.daily_duration }} onchange="saveChangeid({{tab.id}},{{tab2.id}})">
 														</span>
 														{% endifequal %}
 														{% endfor %}
