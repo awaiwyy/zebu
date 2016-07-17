@@ -84,7 +84,7 @@ def exportPlanTab(request):
     return response
 
 def planPage(request, **kwargs):
-    history_tab=TotalTable.objects.all().exclude(change_date = datetime.date.today()).order_by("id")
+    history_tab=TotalTable.objects.all().exclude(change_date = datetime.date.today()).order_by("change_date")
     gopage = request.GET.get('page')
     if (gopage == None):
         gopage = "1"
@@ -302,7 +302,22 @@ def planPage(request, **kwargs):
                 cur_time = datetime.date.today()
                 #print "cur_time",cur_time
                 total_tab1 = TotalTable.objects.filter(request_id=edit_plan.id).order_by("-change_date")
-                
+                total_tab2 = TotalTable.objects.filter(request_id=edit_plan.id).order_by("change_date")
+                try:
+                    first_edit=total_tab2[0]
+                    fedit=first_edit.change_date
+                    if ftime < fedit:
+                        if cur_time > ftime:
+                            request_piece = edit_plan.request_duration.split('y')[1]
+                            diffnum=(fedit - ftime).days
+                            for j in range(diffnum):
+                                itime=ftime + datetime.timedelta(days=j)
+                                TotalTable.objects.create(change_date=itime,
+                                                      daily_duration='00Hour'+request_piece,
+                                                      status="ongoing",
+                                                      request_id=edit_plan.id)
+                except:
+                    pass
                 if not total_tab1 :
                     if cur_time > ftime:
                         total = 0
@@ -333,15 +348,15 @@ def planPage(request, **kwargs):
                         try:
                             lastday = total_tab1.get(change_date=(itime - datetime.timedelta(days=1)))
                             daily_hour=edit_plan.daily_duration.split('H')[0]
-                            request_piece = edit_plan.request_duration.split('y')[1]
+                            daily_piece=edit_plan.daily_duration.split('r')[1]
                             if lastday.status =='ongoing':
                                 TotalTable.objects.get_or_create(change_date=itime,
-                                                          daily_duration=daily_hour +"Hour"+ request_piece,
+                                                          daily_duration=daily_hour +"Hour"+ daily_piece,
                                                           status=lastday.status,
                                                           request_id=lastday.request_id)
                             else:
                                     TotalTable.objects.get_or_create(change_date=itime,
-                                                          daily_duration='00Hour' + request_piece,
+                                                          daily_duration='00Hour' + daily_piece,
                                                           status=lastday.status,
                                                           request_id=lastday.request_id)
                         except:
@@ -486,15 +501,15 @@ def planPage(request, **kwargs):
                         try:
                             lastday = total_tab1.get(change_date=(itime-datetime.timedelta(days=1)))
                             daily_hour=tab.daily_duration.split('H')[0]
-                            request_piece = tab.request_duration.split('y')[1]
+                            daily_piece=tab.daily_duration.split('r')[1]
                             if lastday.status == 'ongoing':
                                 TotalTable.objects.get_or_create(change_date=itime,
-                                                      daily_duration=daily_hour +"Hour"+ request_piece,
+                                                      daily_duration=daily_hour +"Hour"+ daily_piece,
                                                       status=lastday.status,
                                                       request_id=lastday.request_id)
                             else:
                                 TotalTable.objects.get_or_create(change_date=itime,
-                                                      daily_duration='00Hour'+request_piece,
+                                                      daily_duration='00Hour'+daily_piece,
                                                       status=lastday.status,
                                                       request_id=lastday.request_id)
                         except:
