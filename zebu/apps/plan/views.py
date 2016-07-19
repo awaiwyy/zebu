@@ -9,86 +9,93 @@ import time,datetime
 from dateutil import tz
 from common import xlwt
 import os
+import xlsxwriter
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 # Create your views here.
 temp_dir = os.path.join(BASE_DIR, "resources/tab/")
 # Create your views here.
 #temp_dir = "resources/tab/"
-plan_file = "plan_tab.xls"
+plan_file = "plan_tab.xlsx"
 
 def savePlanTab(plan_tab,file_name):
-    #set style
-    font0 = xlwt.Font()
-    font0.bold = True
-    style0 = xlwt.XFStyle()
-    style0.font = font0
-
-    style = xlwt.XFStyle()
-    style.num_format_str = 'YYYY-MM-DD'
-
     #creat sheet
-    wb = xlwt.Workbook(encoding = 'utf-8')
+    wb = xlsxwriter.Workbook(file_name)
+
+    cell_format = wb.add_format({'bold': True,'align':'center','font':'Arial','font_size':10})
+    style= wb.add_format({'bold': True,'align':'center','font':'Arial','font_size':10})  # 定义format格式对象
+    style.set_num_format('yyyy-mm-dd')
+    cell_format1 = wb.add_format({'align': 'center', 'font': 'Arial', 'font_size': 10})
+
     projectlist=RequestTable.objects.filter(is_plan="true")
+    daily_tab1 = TotalTable.objects.all().order_by("change_date")
+    sdate = daily_tab1[0].change_date
+    daily_tab2 = TotalTable.objects.all().order_by("-change_date")
+    cdate = daily_tab2[0].change_date
+    dates = (cdate - sdate).days+1
     project=[]
     for tab in projectlist:
         project.append(tab.project)
     project=list(set(project))
     if len(project):
         for pro in project:
-            sheet = wb.add_sheet(pro, cell_overwrite_ok=True)
+            sheet = wb.add_worksheet(pro)
             row = 0
-            sheet.write(row, 0, 'ID', style0)
-            sheet.write(row, 1, 'Project', style0)
-            sheet.write(row, 2, 'Classification', style0)
-            sheet.write(row, 3, 'Module', style0)
-            sheet.write(row, 4, 'TF Case', style0)
-            sheet.write(row, 5, 'Action Discription', style0)
-            sheet.write(row, 6, 'Environment', style0)
-            sheet.write(row, 7, 'Duration', style0)
-            sheet.write(row, 8, 'Owner', style0)
-            sheet.write(row, 9, 'Priority', style0)
-            sheet.write(row, 10, 'Status', style0)
-            sheet.write(row, 11, 'Progress', style0)
-            sheet.write(row, 12, 'Start Time', style0)
-            sheet.write(row, 13, 'Request Duration', style0)
-            sheet.col(13).width = 256 *23
-            for i in range(200):
-                sdate = datetime.datetime.strptime('2016-06-01', '%Y-%m-%d').date()
+            sheet.write(row, 0, 'ID',cell_format)
+            sheet.write(row, 1, 'Project',cell_format)
+            sheet.write(row, 2, 'Classification',cell_format)
+            sheet.write(row, 3, 'Module',cell_format)
+            sheet.write(row, 4, 'TF Case',cell_format)
+            sheet.write(row, 5, 'Action Discription',cell_format)
+            sheet.write(row, 6, 'Environment',cell_format)
+            sheet.write(row, 7, 'Duration',cell_format)
+            sheet.write(row, 8, 'Owner',cell_format)
+            sheet.write(row, 9, 'Priority',cell_format)
+            sheet.write(row, 10, 'Status',cell_format)
+            sheet.write(row, 11, 'Progress',cell_format)
+            sheet.write(row, 12, 'Start Time',cell_format)
+            sheet.write(row, 13, 'Request Duration',cell_format)
+            sheet.set_column(1,4,13)
+            sheet.set_column(5, 6, 15)
+            sheet.set_column(7, 12, 10)
+            sheet.set_column(13, 13, 18)
+            for i in range(dates):
+                sheet.set_column(14 + i,14+dates,13)
+                #sdate = datetime.datetime.strptime('2016-01-01', '%Y-%m-%d').date()
                 date = sdate+datetime.timedelta(days=i)
                 sheet.write(row,14+i,date,style)
-                sheet.col(14+i).width =256 *15
+
 
             row += 1
 
             project_tab=RequestTable.objects.filter(is_plan="true",project=pro)
             for tab in project_tab:
-                sheet.write(row, 0, tab.id)
-                sheet.write(row, 1, tab.project)
-                sheet.write(row, 2, tab.classification)
-                sheet.write(row, 3, tab.module)
-                sheet.write(row, 4, tab.tf_case)
-                sheet.write(row, 5, tab.action_discription)
-                sheet.write(row, 6, tab.environment)
-                sheet.write(row, 7, tab.duration)
-                sheet.write(row, 8, tab.owner)
-                sheet.write(row, 9, tab.priority)
-                sheet.write(row, 10, tab.status)
-                sheet.write(row, 11, tab.progress)
+                sheet.write(row, 0, tab.id,cell_format1)
+                sheet.write(row, 1, tab.project,cell_format1)
+                sheet.write(row, 2, tab.classification,cell_format1)
+                sheet.write(row, 3, tab.module,cell_format1)
+                sheet.write(row, 4, tab.tf_case,cell_format1)
+                sheet.write(row, 5, tab.action_discription,cell_format1)
+                sheet.write(row, 6, tab.environment,cell_format1)
+                sheet.write(row, 7, tab.duration,cell_format1)
+                sheet.write(row, 8, tab.owner,cell_format1)
+                sheet.write(row, 9, tab.priority,cell_format1)
+                sheet.write(row, 10, tab.status,cell_format1)
+                sheet.write(row, 11, tab.progress,cell_format1)
                 if tab.start_time:
                     sheet.write(row, 12, (tab.start_time + datetime.timedelta(hours=8)).strftime("%Y-%m-%d %H:%M:%S"))
                     daily_tab = TotalTable.objects.filter(request_id=tab.id).order_by("change_date")
-                    for i in range(200):
-                        sdate = datetime.datetime.strptime('2016-06-01', '%Y-%m-%d').date()
+                    for i in range(dates):
+                        #sdate = datetime.datetime.strptime('2016-01-01', '%Y-%m-%d').date()
                         date = sdate + datetime.timedelta(days=i)
                         for tab1 in daily_tab:
                             if tab1.change_date==date:
-                                sheet.write(row, 14+i, tab1.daily_duration)
+                                sheet.write(row, 14+i, tab1.daily_duration,cell_format1)
                 else:
                     sheet.write(row, 12, (tab.start_time))
                 sheet.write(row, 13, tab.request_duration)
                 row += 1
-        wb.save(file_name)
+        wb.close()
 
 def exportPlanTab(request):
     plan_tab = RequestTable.objects.filter(is_plan="true")
@@ -98,7 +105,6 @@ def exportPlanTab(request):
     today = time.strftime("%Y_%m_%d", time.localtime())
     file_name = today + "_" + plan_file
     savePlanTab(plan_tab,file_name)
-
     f = open(file_name,"rb")
     data = f.read()
     f.close()
@@ -327,6 +333,7 @@ def planPage(request, **kwargs):
                 #print "cur_time",cur_time
                 total_tab1 = TotalTable.objects.filter(request_id=edit_plan.id).order_by("-change_date")
                 total_tab2 = TotalTable.objects.filter(request_id=edit_plan.id).order_by("change_date")
+                total=0
                 if cur_time > ftime:
                     try:
                         first_edit=total_tab2[0]
