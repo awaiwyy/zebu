@@ -3,6 +3,7 @@ from django.http import HttpResponseRedirect,StreamingHttpResponse
 from django.shortcuts import render
 from models import ReportTable
 from ..request.models import RequestTable
+from common import com_def
 from models import ResourceUsageTable
 from models import ResourceUsageTitleTable
 from models import MaintfstatusTable
@@ -20,7 +21,7 @@ upload_dir = os.path.join(BASE_DIR, "resources/upload/")
 def reportPage(request):
     daily_report_tab = ReportTable.objects.filter(is_daily_report="true").order_by("id")
     #daily_report_tab = ReportTable.objects.all()
-    productlist = ["iwhale2","isharkl2","Other"]
+    productlist = com_def.productlist[:]
     for tab in daily_report_tab:
         if tab.product in productlist:
             productlist.remove(tab.product)
