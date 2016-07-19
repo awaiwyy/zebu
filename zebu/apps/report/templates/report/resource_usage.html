@@ -166,6 +166,11 @@
 
 				 {% for tab in resource_usage_tab%}
 				 <div class="scheduleForm">
+					 <div class="form-group">
+                                <div class="input-group date col-xs-3 pull-right" name="showcalendar">
+                                    <span class="input-group-addon" ><i class="fa fa-calendar"></i></span><input  id=choosedate{{tab.id}} type="text" class="form-control">
+                                </div>
+                            </div>
 					<table  class="reportTable" id="Box"  >
 						<tr>
 					  <td width="16px"></td>
@@ -482,7 +487,13 @@
 					return true;
 				}
 				}
-			</script>
+				</script>
+				<script>
+				$("div[name='showcalendar']").datepicker({
+    				language: "zh-CN",
+					endDate: "today"
+				});
+				</script>
 		</div>
 		
 {% endblock %}
