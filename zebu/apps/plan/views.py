@@ -303,75 +303,76 @@ def planPage(request, **kwargs):
                 #print "cur_time",cur_time
                 total_tab1 = TotalTable.objects.filter(request_id=edit_plan.id).order_by("-change_date")
                 total_tab2 = TotalTable.objects.filter(request_id=edit_plan.id).order_by("change_date")
-                try:
-                    first_edit=total_tab2[0]
-                    fedit=first_edit.change_date
-                    if ftime < fedit:
-                        if cur_time > ftime:
+                if cur_time > ftime:
+                    try:
+                        first_edit=total_tab2[0]
+                        fedit=first_edit.change_date
+                        if ftime < fedit:
                             request_piece = edit_plan.request_duration.split('y')[1]
                             diffnum=(fedit - ftime).days
                             for j in range(diffnum):
                                 itime=ftime + datetime.timedelta(days=j)
                                 TotalTable.objects.create(change_date=itime,
-                                                      daily_duration='00Hour'+request_piece,
-                                                      status="ongoing",
-                                                      request_id=edit_plan.id)
-                except:
-                    pass
-                if not total_tab1 :
-                    if cur_time > ftime:
+                                                        daily_duration='00Hour'+request_piece,
+                                                        status="ongoing",
+                                                        request_id=edit_plan.id)
+                        elif ftime > fedit:
+                            TotalTable.objects.filter(change_date__lt=ftime).delete()
+                    except:
+                        pass
+                    if not total_tab1 :
                         total = 0
                         request_piece = edit_plan.request_duration.split('y')[1]
                         delta = (cur_time - ftime).days
                         for i in range(delta):
                             itime = ftime + datetime.timedelta(days=i)
                             TotalTable.objects.create(change_date=itime,
-                                                      daily_duration='00Hour'+request_piece,
-                                                      status="ongoing",
-                                                      request_id=edit_plan.id)
+                                                    daily_duration='00Hour'+request_piece,
+                                                    status="ongoing",
+                                                    request_id=edit_plan.id)
                         daily_hour=edit_plan.daily_duration.split('H')[0]
                         request_piece = edit_plan.request_duration.split('y')[1]
                         TotalTable.objects.create(change_date=cur_time,
                                                 daily_duration=daily_hour +"Hour"+ request_piece,
                                                 status=edit_plan.status,
                                                 request_id=edit_plan.id)
-                elif cur_time > ftime:
-                    total = 0
-                    recent_edit=total_tab1[0]
-                    rtime=recent_edit.change_date
-                    delta = (cur_time - rtime).days
-                    totaldelta = (cur_time - ftime).days
-                    for i in range(delta):
-                        #print "i=", i
-                        itime = rtime + datetime.timedelta(days=i+1)
-                        #print itime
-                        try:
-                            lastday = total_tab1.get(change_date=(itime - datetime.timedelta(days=1)))
-                            daily_hour=edit_plan.daily_duration.split('H')[0]
-                            daily_piece=edit_plan.daily_duration.split('r')[1]
-                            if lastday.status =='ongoing':
-                                TotalTable.objects.get_or_create(change_date=itime,
-                                                          daily_duration=daily_hour +"Hour"+ daily_piece,
-                                                          status=lastday.status,
-                                                          request_id=lastday.request_id)
-                            else:
+                    else:
+                        total = 0
+                        recent_edit=total_tab1[0]
+                        rtime=recent_edit.change_date
+                        delta = (cur_time - rtime).days
+                        totaldelta = (cur_time - ftime).days
+                        for i in range(delta):
+                            #print "i=", i
+                            itime = rtime + datetime.timedelta(days=i+1)
+                            #print itime
+                            try:
+                                lastday = total_tab1.get(change_date=(itime - datetime.timedelta(days=1)))
+                                daily_hour=edit_plan.daily_duration.split('H')[0]
+                                daily_piece=edit_plan.daily_duration.split('r')[1]
+                                if lastday.status =='ongoing':
                                     TotalTable.objects.get_or_create(change_date=itime,
-                                                          daily_duration='00Hour' + daily_piece,
-                                                          status=lastday.status,
-                                                          request_id=lastday.request_id)
-                        except:
-                            pass
-                    i=0
-                    for i in range(totaldelta+1):
-                        itime = ftime + datetime.timedelta(days=i)
-                        try:
-                            curday = total_tab1.get(change_date=itime)
-                            if curday.status == 'ongoing':
-                                idaily_h = int(curday.daily_duration.split('H')[0])
-                                idaily_p = int((curday.daily_duration.split('r')[1]).split('P')[0])
-                                total = total + idaily_h * idaily_p 
-                        except:
-                            pass
+                                                            daily_duration=daily_hour +"Hour"+ daily_piece,
+                                                            status=lastday.status,
+                                                            request_id=lastday.request_id)
+                                else:
+                                        TotalTable.objects.get_or_create(change_date=itime,
+                                                            daily_duration='00Hour' + daily_piece,
+                                                            status=lastday.status,
+                                                            request_id=lastday.request_id)
+                            except:
+                                pass
+                        i=0
+                        for i in range(totaldelta+1):
+                            itime = ftime + datetime.timedelta(days=i)
+                            try:
+                                curday = total_tab1.get(change_date=itime)
+                                if curday.status == 'ongoing':
+                                    idaily_h = int(curday.daily_duration.split('H')[0])
+                                    idaily_p = int((curday.daily_duration.split('r')[1]).split('P')[0])
+                                    total = total + idaily_h * idaily_p 
+                            except:
+                                pass
                
                 edit_plan.duration = total
                 request_h = int(edit_plan.request_duration.split('H')[0])
