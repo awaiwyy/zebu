@@ -116,7 +116,7 @@ def report_Resource(request):
         houritem.append(hour)
     title_tab = ResourceUsageTitleTable.objects.all()
     resource_usage_tab = ResourceUsageTable.objects.filter(is_show="true").order_by("id")
-    productlist = ["iwhale2", "isharkl2", "Other"]
+    productlist = com_def.productlist[:]
     for tab in resource_usage_tab:
         if tab.product in productlist:
             productlist.remove(tab.product)
@@ -192,7 +192,7 @@ def report_MainTF(request):
     is_high_tab=is_maintf_tab.filter(is_high="true")
     is_low_tab = is_maintf_tab.filter(is_low="true")
     maintf_tab = MaintfstatusTable.objects.filter(is_maintf="true").order_by("id")
-    productlist = ["iwhale2", "isharkl2", "Other"]
+    productlist = com_def.productlist[:]
     for tab in maintf_tab:
         if tab.product in productlist:
             productlist.remove(tab.product)
@@ -258,7 +258,7 @@ def report_MainTF(request):
 
 def report_Schedule(request):
     schedule_tab = ScheduleTable.objects.filter(is_schedule="true").order_by("id")
-    productlist = ["iwhale2", "isharkl2", "Other"]
+    productlist = com_def.productlist[:]
     for tab in schedule_tab:
         if tab.product in productlist:
             productlist.remove(tab.product)

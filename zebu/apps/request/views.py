@@ -3,6 +3,7 @@ from django.shortcuts import render
 from django.http import StreamingHttpResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import HttpResponseRedirect
+from common import com_def
 from models import RequestTable
 from common import xlwt
 import time,datetime
@@ -124,6 +125,7 @@ def requestUser(request, **kwargs):
     except EmptyPage:
         projects = pager.page(pager.num_pages)
 
+    productlist = com_def.productlist[:]
     #deal with application
     if request.method == 'POST':
         #获得表单数据
@@ -181,7 +183,7 @@ def requestUser(request, **kwargs):
 
         for tab in request_tab:
             tab.action_discription = tab.action_discription.replace("\n", "<br>")
-        return HttpResponseRedirect('/request/', {"request_tab": request_tab, 'valid_duration': valid_duration}) #avoid submit twice when entering"F5"
+        return HttpResponseRedirect('/request/', {"request_tab": request_tab, 'valid_duration': valid_duration,"productlist":productlist}) #avoid submit twice when entering"F5"
     else:
         # Pagination range
         # pages_left: how many page numbers show on left of current page at most
@@ -220,4 +222,5 @@ def requestUser(request, **kwargs):
             'range_left': range_left, 
             'range_right': range_right, 
             'over_range_left': over_range_left, 
-            'over_range_right': over_range_right})
+            'over_range_right': over_range_right,
+            "productlist": productlist})
