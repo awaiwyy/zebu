@@ -197,15 +197,11 @@ def report_Resource(request):
             edit_resource.product = request.POST['productEdit']
             edit_resource.spm = request.POST['spmEdit']
             edit_resource.daily_reporter = request.POST['reporterEdit']
+            total1=edit_resource.total
             edit_resource.total = int(request.POST['totalEdit'])*24
-            edit_resource.power_management = int(request.POST['managementhourEdit'])
-            edit_resource.performance = int(request.POST['performancehourEdit'])
-            edit_resource.function = int(request.POST['functionhourEdit'])
-            edit_resource.zebu_platform = int(request.POST['zubehourEdit'])
-            edit_resource.power_management_str = request.POST['managementEdit']+"Piece"+request.POST['managementhourEdit']+"Hour"
-            edit_resource.performance_str = request.POST['performanceEdit']+"Piece"+request.POST['performancehourEdit']+"Hour"
-            edit_resource.function_str = request.POST['functionEdit']+"Piece"+request.POST['functionhourEdit']+"Hour"
-            edit_resource.zebu_platform_str = request.POST['zubeEdit']+"Piece"+request.POST['zubehourEdit']+"Hour"   
+            total2 = edit_resource.total
+            if total1 != total2:
+                edit_resource.is_edit = "true"
             #print edit_resource.total
             edit_resource.save()
         elif 'delresourceId' in request.POST.keys():
@@ -258,7 +254,8 @@ def report_Resource(request):
             refresh_tab = resource_usage_tab.get(product=restab.product)
             for cou in range(count):
                 if avglist[cou]['pro']== restab.product:
-                    refresh_tab.total = avglist[cou]['data']*24
+                    if restab.is_edit == 'false':
+                        refresh_tab.total = avglist[cou]['data']*24
                 if usagetotallist[cou*4]['pro']== restab.product:
                     refresh_tab.power_management = usagetotallist[cou*4]['data'][1]
                     refresh_tab.performance = usagetotallist[cou*4+1]['data'][1]
