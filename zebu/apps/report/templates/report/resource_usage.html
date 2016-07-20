@@ -296,101 +296,61 @@
 										<input type="text" id="reporterEdit" name="reporterEdit" style="width:350px;height:24px" value = "{{tab.daily_reporter}}"/>
                                 	</li>
 							  	</ul>
+								  {% for pro_item in avglist %}
+								  {% ifequal pro_item.pro tab.product %}
 								  <ul>
 									<li class="rqleft">Total:</li>
 									<li>
 										<select style="width:330px;height:24px" id="totalEdit{{tab.id}}" name="totalEdit">
-                                      <option selected="selected">{% if tab.total < 240 %}0{% widthratio tab.total 24 1 %}{%else%}{% widthratio tab.total 24 1 %}{%endif%}</option>
+                                      <option selected="selected">{{pro_item.data}}</option>
 											{% for i in totalitem%}
 									  <option>{{i}}</option>
 											{% endfor%}
 										</select>x24
                                 	</li>
 							  	</ul>
+								  {% endifequal%}
+								  {% endfor %}
+								  {% for pro_item in usagetotallist %}
+								  {% ifequal pro_item.pro tab.product %}
+								  {% ifequal pro_item.data.0 "Power" %}
 								  <ul>
 									<li class="rqleft">Power Management:</li>
 									<li>
-										<select id="managementEdit{{tab.id}}" name="managementEdit" style="width:142px;height:24px">
-										{% if tab.power_management_str %}
-                                      <option selected="selected">{{tab.power_management_str|cut:"Piece"|cut:"Hour"| get_digit:"4"}}{{tab.power_management_str|cut:"Piece"|cut:"Hour"| get_digit:"3"}}</option>
-									  {% endif %}
-											{% for i in totalitem%}
-									  <option>{{i}}</option>
-											{% endfor%}
-										</select>Piece
-										<select id="managementhourEdit{{tab.id}}" name="managementhourEdit" style="width:142px;height:24px">
-										{% if tab.power_management_str %}
-										<option selected="selected">{{tab.power_management_str|cut:"Piece"|cut:"Hour"| get_digit:"2"}}{{tab.power_management_str|cut:"Piece"|cut:"Hour"| get_digit:"1"}}</option>
-										{% endif %}
-											{% for i in houritem%}
-									  <option>{{i}}</option>
-											{% endfor%}
-										</select>Hour
+										<input id="managementhourEdit{{tab.id}}" name="managementhourEdit" style="width:330px;height:24px;color: #A2A2A2;" value={{pro_item.data.1}} readonly /> 
+										Hour
                                 	</li>
 							  	</ul>
+								  {% endifequal%}
+								  {% ifequal pro_item.data.0 "Performance" %}
 								  <ul>
 									<li class="rqleft">Performance:</li>
 									<li>
-										<select id="performanceEdit{{tab.id}}" name="performanceEdit" style="width:142px;height:24px">
-										{% if tab.performance_str %}
-                                      <option selected="selected">{{tab.performance_str|cut:"Piece"|cut:"Hour"| get_digit:"4"}}{{tab.performance_str|cut:"Piece"|cut:"Hour"| get_digit:"3"}}</option>
-									  {% endif %}
-											{% for i in totalitem%}
-									  <option>{{i}}</option>
-											{% endfor%}
-										</select>Piece
-										<select id="performancehourEdit{{tab.id}}" name="performancehourEdit" style="width:142px;height:24px">
-										{% if tab.performance_str %}
-										<option selected="selected">{{tab.performance_str|cut:"Piece"|cut:"Hour"| get_digit:"2"}}{{tab.performance_str|cut:"Piece"|cut:"Hour"| get_digit:"1"}}</option>	
-										{% endif %}
-											{% for i in houritem%}
-									  <option>{{i}}</option>
-											{% endfor%}
-										</select>Hour
+										<input id="performancehourEdit{{tab.id}}" name="performancehourEdit" style="width:330px;height:24px;color: #A2A2A2;" value={{pro_item.data.1}} readonly />
+										Hour
                                 	</li>
 							  	</ul>
+								  {% endifequal%}
+								  {% ifequal pro_item.data.0 "Fun" %}
 								  <ul>
 									<li class="rqleft">Function:</li>
 									<li>
-										<select id="functionEdit{{tab.id}}" name="functionEdit" style="width:142px;height:24px">
-										{% if tab.function_str %}
-                                      <option selected="selected">{{tab.function_str|cut:"Piece"|cut:"Hour"| get_digit:"4"}}{{tab.function_str|cut:"Piece"|cut:"Hour"| get_digit:"3"}}</option>
-									  {% endif %}
-											{% for i in totalitem%}
-									  <option>{{i}}</option>
-											{% endfor%}
-										</select>Piece
-										<select id="functionhourEdit{{tab.id}}" name="functionhourEdit" style="width:142px;height:24px">
-										{% if tab.function_str %}
-										<option selected="selected">{{tab.function_str|cut:"Piece"|cut:"Hour"| get_digit:"2"}}{{tab.function_str|cut:"Piece"|cut:"Hour"| get_digit:"1"}}</option>
-										{% endif %}	
-											{% for i in houritem%}
-									  <option>{{i}}</option>
-											{% endfor%}
-										</select>Hour
+										<input id="functionhourEdit{{tab.id}}" name="functionhourEdit" style="width:330px;height:24px;color: #A2A2A2;" value={{pro_item.data.1}} readonly />
+										Hour
                                 	</li>
 							  	</ul>
+								  {% endifequal%}
+								  {% ifequal pro_item.data.0 "ZEBU" %}
 								  <ul>
 									<li class="rqleft"> zebu platform:</li>
 									<li>
-										<select id="zubeEdit{{tab.id}}" name="zubeEdit" style="width:142px;height:24px">
-										{% if tab.zebu_platform_str %}
-                                      <option selected="selected">{{tab.zebu_platform_str|cut:"Piece"|cut:"Hour"| get_digit:"4"}}{{tab.zebu_platform_str|cut:"Piece"|cut:"Hour"| get_digit:"3"}}</option>
-									  {% endif %}
-											{% for i in totalitem%}
-									  <option>{{i}}</option>
-											{% endfor%}
-										</select>Piece
-										<select id="zubehourEdit{{tab.id}}" name="zubehourEdit" style="width:142px;height:24px">
-										{% if tab.zebu_platform_str %}
-										<option selected="selected">{{tab.zebu_platform_str|cut:"Piece"|cut:"Hour"| get_digit:"2"}}{{tab.zebu_platform_str|cut:"Piece"|cut:"Hour"| get_digit:"1"}}</option>	
-										{% endif %}
-											{% for i in houritem%}
-									  <option>{{i}}</option>
-											{% endfor%}
-										</select>Hour
+										<input id="zubehourEdit{{tab.id}}" name="zubehourEdit" style="width:330px;height:24px;color: #A2A2A2;" value={{pro_item.data.1}} readonly />
+										Hour
                                 	</li>
 							  	</ul>
+								  {% endifequal%}
+								  {% endifequal %}
+								  {% endfor %}
 								  <p id="checkNum{{tab.id}}" style="text-align:center;color:red"></p>
 								  <p id="checkNum2{{tab.id}}" style="text-align:center;color:red"></p>
 
