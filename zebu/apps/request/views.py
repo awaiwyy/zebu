@@ -31,7 +31,7 @@ def saveRequestTab(request_tab,file_name):
 
     row = 0  
     sheet.write(row, 0, 'ID', style0)
-    sheet.write(row, 1, 'Project', style0)
+    sheet.write(row, 1, 'Product', style0)
     sheet.write(row, 2, 'TF Case', style0)
     sheet.write(row, 3, 'Classification', style0)
     sheet.write(row, 4, 'Module', style0)
@@ -41,6 +41,7 @@ def saveRequestTab(request_tab,file_name):
     sheet.write(row, 8, 'Owner', style0)
     sheet.write(row, 9, 'Priority', style0)
     sheet.write(row, 10, 'Submit Date', style0)
+    sheet.write(row, 11, 'Acceptance', style0)
     row += 1
     
     for tab in request_tab:
@@ -55,6 +56,7 @@ def saveRequestTab(request_tab,file_name):
         sheet.write(row, 8, tab.owner)
         sheet.write(row, 9, tab.priority)
         sheet.write(row, 10, tab.submit_date, style)
+        sheet.write(row, 11, tab.acceptance, style)
         row += 1
     wb.save(file_name)
 

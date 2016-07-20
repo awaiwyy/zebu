@@ -42,29 +42,33 @@ def savePlanTab(plan_tab,file_name):
             sheet = wb.add_worksheet(pro)
             row = 0
             sheet.write(row, 0, 'ID',cell_format)
-            sheet.write(row, 1, 'Project',cell_format)
+            sheet.write(row, 1, 'Product',cell_format)
             sheet.write(row, 2, 'Classification',cell_format)
             sheet.write(row, 3, 'Module',cell_format)
             sheet.write(row, 4, 'TF Case',cell_format)
             sheet.write(row, 5, 'Action Discription',cell_format)
             sheet.write(row, 6, 'Environment',cell_format)
-            sheet.write(row, 7, 'Duration',cell_format)
+            sheet.write(row, 7, 'Total Duration',cell_format)
             sheet.write(row, 8, 'Owner',cell_format)
             sheet.write(row, 9, 'Priority',cell_format)
             sheet.write(row, 10, 'Status',cell_format)
             sheet.write(row, 11, 'Progress',cell_format)
             sheet.write(row, 12, 'Start Time',cell_format)
             sheet.write(row, 13, 'Request Duration',cell_format)
+            sheet.write(row, 14, 'Close Time',cell_format)
+            sheet.write(row, 15, 'Next Target', cell_format)
+            sheet.write(row, 16, 'Acceptance', cell_format)
             sheet.set_column(1,4,13)
             sheet.set_column(5, 6, 15)
             sheet.set_column(7, 12, 10)
             sheet.set_column(13, 13, 18)
+            sheet.set_column(14,16,10)
 
             for i in range(dates):
-                sheet.set_column(14 + i,14+dates,13)
+                sheet.set_column(17 + i,17+dates,13)
                 #sdate = datetime.datetime.strptime('2016-01-01', '%Y-%m-%d').date()
                 date = sdate+datetime.timedelta(days=i)
-                sheet.write(row,14+i,date,style)
+                sheet.write(row,17+i,date,style)
 
             sheet.freeze_panes(1, 3)
 
@@ -85,17 +89,23 @@ def savePlanTab(plan_tab,file_name):
                 sheet.write(row, 10, tab.status,cell_format1)
                 sheet.write(row, 11, tab.progress,cell_format1)
                 if tab.start_time:
-                    sheet.write(row, 12, (tab.start_time + datetime.timedelta(hours=8)).strftime("%Y-%m-%d %H:%M:%S"))
+                    sheet.write(row, 12, (tab.start_time + datetime.timedelta(hours=8)).strftime("%Y-%m-%d"))
                     daily_tab = TotalTable.objects.filter(request_id=tab.id).order_by("change_date")
                     for i in range(dates):
                         #sdate = datetime.datetime.strptime('2016-01-01', '%Y-%m-%d').date()
                         date = sdate + datetime.timedelta(days=i)
                         for tab1 in daily_tab:
                             if tab1.change_date==date:
-                                sheet.write(row, 14+i, tab1.daily_duration,cell_format1)
+                                sheet.write(row, 17+i, tab1.daily_duration,cell_format1)
                 else:
                     sheet.write(row, 12, (tab.start_time))
-                sheet.write(row, 13, tab.request_duration)
+                sheet.write(row, 13, tab.request_duration,cell_format1)
+                if tab.close_time:
+                    sheet.write(row,14,(tab.close_time + datetime.timedelta(hours=8)).strftime("%Y-%m-%d"))
+                else:
+                    sheet.write(row, 14, tab.close_time)
+                sheet.write(row, 15, tab.next_target,cell_format1)
+                sheet.write(row, 16, tab.acceptance,cell_format1)
                 row += 1
     wb.close()
 
