@@ -59,12 +59,14 @@ def savePlanTab(plan_tab,file_name):
             sheet.set_column(5, 6, 15)
             sheet.set_column(7, 12, 10)
             sheet.set_column(13, 13, 18)
+
             for i in range(dates):
                 sheet.set_column(14 + i,14+dates,13)
                 #sdate = datetime.datetime.strptime('2016-01-01', '%Y-%m-%d').date()
                 date = sdate+datetime.timedelta(days=i)
                 sheet.write(row,14+i,date,style)
 
+            sheet.freeze_panes(1, 3)
 
             row += 1
 
@@ -95,7 +97,7 @@ def savePlanTab(plan_tab,file_name):
                     sheet.write(row, 12, (tab.start_time))
                 sheet.write(row, 13, tab.request_duration)
                 row += 1
-        wb.close()
+    wb.close()
 
 def exportPlanTab(request):
     plan_tab = RequestTable.objects.filter(is_plan="true")
