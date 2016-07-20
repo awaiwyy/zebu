@@ -35,7 +35,7 @@ def saveRequestTab(request_tab,file_name):
     sheet.write(row, 2, 'TF Case', style0)
     sheet.write(row, 3, 'Classification', style0)
     sheet.write(row, 4, 'Module', style0)
-    sheet.write(row, 5, 'Action Discription', style0)
+    sheet.write(row, 5, 'Action Description', style0)
     sheet.write(row, 6, 'Environment', style0)
     sheet.write(row, 7, 'Request Duration', style0)
     sheet.write(row, 8, 'Owner', style0)

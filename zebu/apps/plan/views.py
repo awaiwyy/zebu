@@ -46,7 +46,7 @@ def savePlanTab(plan_tab,file_name):
             sheet.write(row, 2, 'Classification',cell_format)
             sheet.write(row, 3, 'Module',cell_format)
             sheet.write(row, 4, 'TF Case',cell_format)
-            sheet.write(row, 5, 'Action Discription',cell_format)
+            sheet.write(row, 5, 'Action Description',cell_format)
             sheet.write(row, 6, 'Environment',cell_format)
             sheet.write(row, 7, 'Total Duration',cell_format)
             sheet.write(row, 8, 'Owner',cell_format)
@@ -70,7 +70,7 @@ def savePlanTab(plan_tab,file_name):
                 date = sdate+datetime.timedelta(days=i)
                 sheet.write(row,17+i,date,style)
 
-            sheet.freeze_panes(1, 3)
+            sheet.freeze_panes(1, 6)
 
             row += 1
 
