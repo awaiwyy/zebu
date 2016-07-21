@@ -1,5 +1,6 @@
 #coding:utf-8
 from __future__ import division
+from django.http import HttpResponse
 from django.http import HttpResponseRedirect,StreamingHttpResponse
 from django.shortcuts import render
 from models import ReportTable
@@ -12,6 +13,8 @@ from models import MaintfstatusTable
 from models import ScheduleTable
 import os
 import math
+import datetime
+import json
 from PIL import Image
 import sys
 reload(sys)
@@ -109,6 +112,13 @@ def file_Download(request,filename):
 def report_Resource(request):
     tf_list=['Power','Performance','Fun','ZEBU']
     plan_tab=RequestTable.objects.filter(is_plan="true",status="ongoing").order_by("id")
+    total_tab1=TotalTable.objects.order_by("-change_date","-id")
+    fedit=""
+    try:
+        first_edit=total_tab1[0]
+        fedit=first_edit.change_date
+    except:
+        pass
     totalitem=[]
     # houritem=[]
     for hour in range(21):
@@ -133,13 +143,6 @@ def report_Resource(request):
             product = request.POST['productInfo']
             spm = request.POST['spmInfo']
             reporter = request.POST['reporterInfo']
-            total_tab1=TotalTable.objects.order_by("-change_date","-id")
-            fedit=""
-            try:
-                first_edit=total_tab1[0]
-                fedit=first_edit.change_date
-            except:
-                pass
             usagelist=[]
             usage=[]
             for tf in tf_list:
@@ -159,19 +162,34 @@ def report_Resource(request):
                 usage.append(usagelist)
             sum=0
             avg=0
-            j=0
             for j in range(4):
                 sum=sum+usage[j][1]
             avg=int(math.ceil(sum/24)) 
             # 添加到数据库
-            ResourceUsageTable.objects.create(product=product,
-                                             spm=spm,
-                                             daily_reporter=reporter,
-                                             total=avg*24,
-                                              power_management=usage[0][1],
-                                              performance=usage[1][1],
-                                              function=usage[2][1],
-                                              zebu_platform=usage[3][1])
+            try:
+                ResourceUsageTable.objects.create(product=product,
+                                                spm=spm,
+                                                daily_reporter=reporter,
+                                                choosedate=datetime.date.today(),
+                                                total=avg*24,
+                                                power_management=usage[0][1],
+                                                performance=usage[1][1],
+                                                function=usage[2][1],
+                                                zebu_platform=usage[3][1] 
+                                                )
+            except:
+                ResourceUsageTable.objects.create(product=product,
+                                                spm=spm,
+                                                daily_reporter=reporter,
+                                                choosedate=datetime.date.today(),
+                                                total=0,
+                                                power_management=0,
+                                                performance=0,
+                                                function=0,
+                                                zebu_platform=0 
+                                                )
+            re_usage_tab=resource_usage_tab.filter(choosedate=fedit)
+                                            
         elif 'edittotal0' in request.POST.keys():
             #print "edit total and usage"
             edit_id = request.POST["idEdit110"]
@@ -201,9 +219,9 @@ def report_Resource(request):
             edit_resource.total = int(request.POST['totalEdit'])*24
             total2 = edit_resource.total
             if total1 != total2:
-                edit_resource.is_edit = "true"
+                edit_resource.is_edit = "true" 
+            re_usage_tab=resource_usage_tab.filter(choosedate=choosedate)
             #print edit_resource.total
-            edit_resource.save()
         elif 'delresourceId' in request.POST.keys():
             #print "into delete resource"
             del_id = request.POST['delresourceId']
@@ -212,7 +230,7 @@ def report_Resource(request):
             del_resource.save()
         #else:
             #print "there is something wrong"
-        return HttpResponseRedirect('resource_usage', {"resource_usage_tab": resource_usage_tab,"title_tab": title_tab,"totalitem":totalitem,"productlist":productlist})
+        return HttpResponseRedirect('resource_usage', {" resource_usage_tab":  resource_usage_tab,"title_tab": title_tab,"totalitem":totalitem,"productlist":productlist})
     else:
        # print "GET!!!!"
         total_tab1=TotalTable.objects.order_by("-change_date","-id")
@@ -222,12 +240,17 @@ def report_Resource(request):
             fedit=first_edit.change_date
         except:
             pass
+        
         usagelist=[]
         usagetotallist=[]
         avglist=[]
+        restablist=[]
         for restab in resource_usage_tab:
+            restablist.append(restab.product)
+        relist=list(set(restablist))
+        for product in relist:
             for tf in tf_list:
-                res_plan_tab=plan_tab.filter(project=restab.product,tf_case__startswith=tf)
+                res_plan_tab=plan_tab.filter(project=product,tf_case__startswith=tf)
                 idlist=[]
                 for tab1 in res_plan_tab:
                     idlist.append(tab1.id)
@@ -240,7 +263,7 @@ def report_Resource(request):
                     daily_usage=int(tab.daily_duration.split('H')[0])*int(tab.daily_duration.split('r')[1].split('P')[0])
                     totalusage=totalusage+daily_usage
                 usagelist=[tf,totalusage]
-                usagetotallist.append({'pro':restab.product,'data':usagelist})
+                usagetotallist.append({'pro':product,'data':usagelist})
         count=int(len(usagetotallist)/4)
         for i in range(count):
             sum=0
@@ -250,6 +273,7 @@ def report_Resource(request):
                 sum=sum+usagetotallist[(i)*4+j]['data'][1]
             avg=int(math.ceil(sum/24))
             avglist.append({'pro':usagetotallist[(i)*4+j]['pro'],'data':avg}) 
+
         for restab in resource_usage_tab:
             refresh_tab = resource_usage_tab.get(product=restab.product)
             for cou in range(count):
@@ -339,6 +363,11 @@ def report_MainTF(request):
         return render(request, 'report/main_tf_status.html',{"plan_tab": plan_tab,"maintf_tab":maintf_tab,"is_maintf_tab":is_maintf_tab,"is_high_tab":is_high_tab,"is_low_tab":is_low_tab,"productlist":productlist})
 
 def report_Schedule(request):
+
+
+
+
+
     schedule_tab = ScheduleTable.objects.filter(is_schedule="true").order_by("id")
     productlist = com_def.productlist[:]
     for tab in schedule_tab:
@@ -408,3 +437,68 @@ def report_Schedule(request):
     else:
         #print "GET!!!!"
         return render(request, 'report/schedule.html', {"schedule_tab": schedule_tab,"productlist":productlist})
+
+def ajaxget(request):
+    getproductid = int(request.GET['productid'][10:])
+    getdate = request.GET['date'].replace(".","-")
+    edit_product = ResourceUsageTable.objects.get(id=getproductid).product
+    
+    tf_list=['Power','Performance','Fun','ZEBU']
+    plan_tab=RequestTable.objects.filter(is_plan="true",status="ongoing").order_by("id")
+    usagelist=[]
+    usage=[]
+    for tf in tf_list:
+        res_plan_tab=plan_tab.filter(project=edit_product,tf_case__startswith=tf)
+        idlist=[]
+        for tab1 in res_plan_tab:
+            idlist.append(tab1.id)
+        #print idlist
+        total_tab_all=TotalTable.objects.filter(request_id__in=idlist).order_by("-change_date","-id")
+        total_tab=total_tab_all.filter(change_date=getdate)
+        totalusage=0
+        for tab in total_tab:
+            #print tab.daily_duration
+            daily_usage=int(tab.daily_duration.split('H')[0])*int(tab.daily_duration.split('r')[1].split('P')[0])
+            totalusage=totalusage+daily_usage
+        usagelist=[tf,totalusage]
+        usage.append(usagelist)
+    sum=0
+    avg=0
+    for j in range(4):
+        sum=sum+usage[j][1]
+    avg=int(math.ceil(sum/24)) 
+    try:
+        ResourceUsageTable.objects.get_or_create(product=edit_product,
+                                                spm=spm,
+                                                daily_reporter=reporter,
+                                                choosedate=getdate,
+                                                total=avg*24,
+                                                power_management=usage[0][1],
+                                                performance=usage[1][1],
+                                                function=usage[2][1],
+                                                zebu_platform=usage[3][1] 
+                                                )
+    except:
+        pass
+    try:
+        edit_tab=ResourceUsageTable.objects.get(choosedate=getdate,product=edit_product)
+        total=edit_tab.total
+        power_management=edit_tab.power_management
+        performance=edit_tab.performance
+        function=edit_tab.function
+        zebu_platform=edit_tab.zebu_platform
+    except:
+        total=0
+        power_management=0
+        performance=0
+        function=0
+        zebu_platform=0
+
+    edit_dict = {'total': total,
+                 'power_management': power_management,
+                 'performance':performance,
+                 'function':function,
+                 'zebu_platform':zebu_platform
+                 }
+    return HttpResponse(json.dumps(edit_dict),
+                    content_type="application/json")

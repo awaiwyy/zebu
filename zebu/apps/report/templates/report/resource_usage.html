@@ -164,11 +164,11 @@
                     <!-- 弹出模态框结束-->
 			 <div id="requestTable" class="reportTableDiv">
 
-				 {% for tab in resource_usage_tab%}
+				 {% for tab in  resource_usage_tab%}
 				 <div class="scheduleForm">
 					 <div class="form-group">
                                 <div class="input-group date col-xs-3 pull-right" name="showcalendar">
-                                    <span class="input-group-addon" ><i class="fa fa-calendar"></i></span><input  id=choosedate{{tab.id}} type="text" class="form-control">
+                                    <span class="input-group-addon" ><i class="fa fa-calendar"></i></span><input id=choosedate{{tab.id}} name="datepicker" type="text" class="form-control">
                                 </div>
                             </div>
 					<table  class="reportTable" id="Box"  >
@@ -195,11 +195,11 @@
 							<th scope="col" width="175px"><span>zebu platform</span></th>
 						</tr>
                   <tr>
-                     <th>{{tab.total}}H</th>
-                     <th>{{tab.power_management}}H</th>
-                     <th>{{tab.performance}}H</th>
-                     <th>{{tab.function}}H</th>
-                     <th>{{tab.zebu_platform}}H</th>
+                     <th id="totalval{{tab.id}}">{{tab.total}}H</th>
+                     <th id="power_managementval{{tab.id}}">{{tab.power_management}}H</th>
+                     <th id="performanceval{{tab.id}}">{{tab.performance}}H</th>
+                     <th id="functionval{{tab.id}}">{{tab.function}}H</th>
+                     <th id="zebu_platformval{{tab.id}}">{{tab.zebu_platform}}H</th>
                   </tr>
 						</table>
 					{% ifnotequal tab.total 0 %}
@@ -271,6 +271,7 @@
 								{% csrf_token %}
                               <div class="modalFormContent" id="readRpTab{{tab.id}}">
 								  <input type="text" id="idEdit" name="idEdit" value = {{tab.id}} hidden/>
+								  <input type="text" name="showchoosedate" id="showchoosedate{{tab.id}}" readonly/>
                               	<ul>
 								<li class="new_rqleft">Product:</li>
 								<li>
@@ -390,9 +391,9 @@
 										</div>
 									</div>
 								</div>
-					 </div>
-				 {%endfor%}
-                        </div>
+					 		</div>
+			{%endfor%}
+            	</div>
 			 </div>
 				<!--
 			<script >
@@ -426,7 +427,7 @@
 
 			<script>
 				function checkFunc(id){
-				var total=$("#totalEdit"+id).val();
+				var total=$("#totalEdit"+id).val();				
 				var a2=$("#managementhourEdit"+id).val();
 				var b2=$("#performancehourEdit"+id).val();
 				var c2=$("#functionhourEdit"+id).val();
@@ -446,8 +447,34 @@
 				<script>
 				$("div[name='showcalendar']").datepicker({
     				language: "zh-CN",
-					endDate: "today"
+					endDate: "today",
+					format: "yyyy-mm-dd",					
 				});
+
+				//
+				$("input[name='datepicker']").change(function(){
+					$("#show" + $(this).attr("id")).val($(this).val());
+
+					dates = $(this).val().replace('-','.').replace('-','.');
+
+					id = $(this).attr("id").substring(10);
+					// $.get("/report/ajaxget",{'productid':$(this).attr("id"),'date': date}, function(ret)
+
+					$.ajax({ type:"GET",url:"/report/ajaxget",data:{'productid':$(this).attr("id"),'date': dates},
+					dataType:"json",success:function(ret){
+					$("#totalval"+id).text(ret.total+"H");
+                    $("#power_managementval"+id).text(ret.power_management+"H");
+                    $("#performanceval"+id).text(ret.performance+"H");
+                    $("#functionval"+id).text(ret.function+"H");
+					$("#zebu_platformval"+id).text(ret.zebu_platform+"H");
+
+                	$("#totalEdit"+id).val(ret.total/24);
+					$("#managementhourEdit"+id).val(ret.power_management);
+					$("#performancehourEdit"+id).val(ret.performance);
+					$("#functionhourEdit"+id).val(ret.function);
+					$("#zubehourEdit"+id).val(ret.zebu_platform);
+					}});
+				})
 				</script>
 		</div>
 		
