@@ -317,7 +317,7 @@
 								  <ul>
 									<li class="rqleft">Power Management:</li>
 									<li>
-										<input id="managementhourEdit{{tab.id}}" name="managementhourEdit" style="width:330px;height:24px;color: #A2A2A2;" value={{pro_item.data.1}} readonly /> 
+										<input id="managementhourEdit{{tab.id}}" name="managementhourEdit" style="width:330px;height:24px;color: #A2A2A2;" value={{pro_item.data.1}} readonly />
 										Hour
                                 	</li>
 							  	</ul>
@@ -352,7 +352,6 @@
 								  {% endifequal %}
 								  {% endfor %}
 								  <p id="checkNum{{tab.id}}" style="text-align:center;color:red"></p>
-								  <p id="checkNum2{{tab.id}}" style="text-align:center;color:red"></p>
 
 							  </div>
 								<div align="center" style="margin-bottom: 100px; vertical-align:middle;">
@@ -427,24 +426,19 @@
 
 			<script>
 				function checkFunc(id){
-				var total=$("#totalEdit"+id).val();				
-				var a=$("#managementEdit"+id).val();
-				var b=$("#performanceEdit"+id).val();
-				var c=$("#functionEdit"+id).val();
-				var d=$("#zubeEdit"+id).val();
+				var total=$("#totalEdit"+id).val();
 				var a2=$("#managementhourEdit"+id).val();
 				var b2=$("#performancehourEdit"+id).val();
 				var c2=$("#functionhourEdit"+id).val();
 				var d2=$("#zubehourEdit"+id).val();
-				var num = parseInt(a)*parseInt(a2) +parseInt(b)*parseInt(b2)+parseInt(c)*parseInt(c2)+parseInt(d)*parseInt(d2);
+				var num = parseInt(a2) +parseInt(b2)+parseInt(c2)+parseInt(d2);
 
 				if ( parseInt(total)*24<num){
-					$("#checkNum"+id).text("Power Management、Performance、Function、zube platform值的和不能大于Total");
-					$("#checkNum2"+id).text("请修改Power Management、Performance、Function、zube platform或者Total");
+					$("#checkNum"+id).text("Total不能小于Power Management、Performance、Function、zube platform值的和");
 					return false;
 				}
 				else{
-					return true;
+					$("#checkNum"+id).text("");
 				}
 				}
 				</script>
