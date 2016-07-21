@@ -352,7 +352,7 @@
 								  {% endifequal %}
 								  {% endfor %}
 								  <p id="checkNum{{tab.id}}" style="text-align:center;color:red"></p>
-
+								  <p id="checkNum2{{tab.id}}" style="text-align:center;color:red"></p>
 							  </div>
 								<div align="center" style="margin-bottom: 100px; vertical-align:middle;">
                                   <button class= "requestBtn" type="text" id="cancleEditBtn18" style="background-color: #FB8C8C" data-dismiss="modal">cancel</button>
@@ -435,6 +435,7 @@
 
 				if ( parseInt(total)*24<num){
 					$("#checkNum"+id).text("Total不能小于Power Management、Performance、Function、zube platform值的和");
+					$("#checkNum2"+id).text("请修改Total的值或到Plan页修改Power Management、Performance、Function、zube platform值");
 					return false;
 				}
 				else{

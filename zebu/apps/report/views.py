@@ -253,14 +253,17 @@ def report_Resource(request):
         for restab in resource_usage_tab:
             refresh_tab = resource_usage_tab.get(product=restab.product)
             for cou in range(count):
-                if avglist[cou]['pro']== restab.product:
-                    if restab.is_edit == 'false':
-                        refresh_tab.total = avglist[cou]['data']*24
                 if usagetotallist[cou*4]['pro']== restab.product:
                     refresh_tab.power_management = usagetotallist[cou*4]['data'][1]
                     refresh_tab.performance = usagetotallist[cou*4+1]['data'][1]
                     refresh_tab.function = usagetotallist[cou*4+2]['data'][1]
                     refresh_tab.zebu_platform = usagetotallist[cou*4+3]['data'][1]
+                if avglist[cou]['pro'] == restab.product:
+                    totalsum=refresh_tab.power_management+refresh_tab.performance+refresh_tab.function+refresh_tab.zebu_platform
+                    if refresh_tab.total < totalsum:
+                        restab.is_edit = 'false'
+                    if restab.is_edit == 'false':
+                        refresh_tab.total = avglist[cou]['data'] * 24
             refresh_tab.save()
         
         return render(request, 'report/resource_usage.html',{"resource_usage_tab": resource_usage_tab,"title_tab": title_tab,"productlist":productlist,"totalitem":totalitem,"usagetotallist":usagetotallist,"avglist":avglist})
