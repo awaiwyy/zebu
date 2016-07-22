@@ -266,7 +266,6 @@ def report_Resource(request):
 
             try:
                 refresh_tab = resource_usage_tab.get(product=product,choosedate=fedit)
-                refresh_tab.total=avglist[0]['data']*24
                 refresh_tab.power_management = usagetotallist[0]['data'][1]
                 refresh_tab.performance = usagetotallist[1]['data'][1]
                 refresh_tab.function = usagetotallist[2]['data'][1]
@@ -449,6 +448,7 @@ def ajaxget(request):
     
     tf_list=['Power','Performance','Fun','ZEBU']
     plan_tab=RequestTable.objects.filter(is_plan="true",status="ongoing").order_by("id")
+    resource_usage_tab = ResourceUsageTable.objects.filter(is_show="true",product=edit_product).order_by('-choosedate')
     usagelist=[]
     usage=[]
     for tf in tf_list:
@@ -471,7 +471,22 @@ def ajaxget(request):
     for j in range(4):
         sum=sum+usage[j][1]
     avg=int(math.ceil(sum/24)) 
+
     try:
+        refresh_tab = resource_usage_tab.get(choosedate=getdate)        
+        refresh_tab.power_management = usage[0][1]
+        refresh_tab.performance = usage[1][1]
+        refresh_tab.function = usage[2][1]
+        refresh_tab.zebu_platform = usage[3][1]
+        totalsum=refresh_tab.power_management+refresh_tab.performance+refresh_tab.function+refresh_tab.zebu_platform
+        if refresh_tab.total < totalsum:
+            restab.is_edit = 'false'
+        if restab.is_edit == 'false':
+            refresh_tab.total = avg * 24
+        refresh_tab.save()
+    except:
+        spm=resource_usage_tab[0].spm
+        reporter=resource_usage_tab[0].daily_reporter
         ResourceUsageTable.objects.get_or_create(product=edit_product,
                                                 spm=spm,
                                                 daily_reporter=reporter,
@@ -480,24 +495,15 @@ def ajaxget(request):
                                                 power_management=usage[0][1],
                                                 performance=usage[1][1],
                                                 function=usage[2][1],
-                                                zebu_platform=usage[3][1] 
-                                                )
-    except:
-        pass
-    try:
-        edit_tab=ResourceUsageTable.objects.get(choosedate=getdate,product=edit_product)
-        total=edit_tab.total
-        power_management=edit_tab.power_management
-        performance=edit_tab.performance
-        function=edit_tab.function
-        zebu_platform=edit_tab.zebu_platform
-    except:
-        total=0
-        power_management=0
-        performance=0
-        function=0
-        zebu_platform=0
+                                                zebu_platform=usage[3][1] )
 
+    edit_tab=ResourceUsageTable.objects.get(choosedate=getdate,product=edit_product)
+    total=edit_tab.total
+    power_management=edit_tab.power_management
+    performance=edit_tab.performance
+    function=edit_tab.function
+    zebu_platform=edit_tab.zebu_platform
+    
     edit_dict = {'total': total,
                  'power_management': power_management,
                  'performance':performance,
