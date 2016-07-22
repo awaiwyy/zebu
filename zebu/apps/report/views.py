@@ -242,13 +242,15 @@ def report_Resource(request):
             pass
         
         usagelist=[]
-        usagetotallist=[]
-        avglist=[]
+        
+        
         restablist=[]
         for restab in resource_usage_tab:
             restablist.append(restab.product)
         relist=list(set(restablist))
         for product in relist:
+            usagetotallist=[]
+            avglist=[]
             for tf in tf_list:
                 res_plan_tab=plan_tab.filter(project=product,tf_case__startswith=tf)
                 idlist=[]
@@ -264,35 +266,28 @@ def report_Resource(request):
                     totalusage=totalusage+daily_usage
                 usagelist=[tf,totalusage]
                 usagetotallist.append({'pro':product,'data':usagelist})
-        count=int(len(usagetotallist)/4)
-        for i in range(count):
             sum=0
             avg=0
-            j=0
             for j in range(4):
-                sum=sum+usagetotallist[(i)*4+j]['data'][1]
+                sum=sum+usagetotallist[j]['data'][1]
             avg=int(math.ceil(sum/24))
-            avglist.append({'pro':usagetotallist[(i)*4+j]['pro'],'data':avg}) 
+            avglist.append({'pro':usagetotallist[j]['pro'],'data':avg}) 
 
-        for product in relist:
             try:
                 refresh_tab = resource_usage_tab.get(product=product,choosedate=fedit)
-                for cou in range(count):
-                    if usagetotallist[cou*4]['pro']== restab.product:
-                        refresh_tab.power_management = usagetotallist[cou*4]['data'][1]
-                        refresh_tab.performance = usagetotallist[cou*4+1]['data'][1]
-                        refresh_tab.function = usagetotallist[cou*4+2]['data'][1]
-                        refresh_tab.zebu_platform = usagetotallist[cou*4+3]['data'][1]
-                    if avglist[cou]['pro'] == restab.product:
-                        totalsum=refresh_tab.power_management+refresh_tab.performance+refresh_tab.function+refresh_tab.zebu_platform
-                        if refresh_tab.total < totalsum:
-                            restab.is_edit = 'false'
-                        if restab.is_edit == 'false':
-                            refresh_tab.total = avglist[cou]['data'] * 24
+                refresh_tab.power_management = usagetotallist[0]['data'][1]
+                refresh_tab.performance = usagetotallist[1]['data'][1]
+                refresh_tab.function = usagetotallist[2]['data'][1]
+                refresh_tab.zebu_platform = usagetotallist[3]['data'][1]
+                totalsum=refresh_tab.power_management+refresh_tab.performance+refresh_tab.function+refresh_tab.zebu_platform
+                if refresh_tab.total < totalsum:
+                     restab.is_edit = 'false'
+                if restab.is_edit == 'false':
+                    refresh_tab.total = avglist[cou]['data'] * 24
                 refresh_tab.save()
             except:
                 pass
-        
+
         return render(request, 'report/resource_usage.html',{"resource_usage_tab": resource_usage_tab,"title_tab": title_tab,"productlist":productlist,"totalitem":totalitem,"usagetotallist":usagetotallist,"avglist":avglist,"fedit":fedit})
 
 def report_MainTF(request):
