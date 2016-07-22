@@ -179,8 +179,7 @@ def report_Resource(request):
                                                 )
             except:
                 pass
-                
-            re_usage_tab=resource_usage_tab.filter(choosedate=fedit)
+
                                             
         elif 'edittotal0' in request.POST.keys():
             #print "edit total and usage"
@@ -211,8 +210,7 @@ def report_Resource(request):
             edit_resource.total = int(request.POST['totalEdit'])*24
             total2 = edit_resource.total
             if total1 != total2:
-                edit_resource.is_edit = "true" 
-            re_usage_tab=resource_usage_tab.filter(choosedate=choosedate)
+                edit_resource.is_edit = "true"
             #print edit_resource.total
         elif 'delresourceId' in request.POST.keys():
             #print "into delete resource"
@@ -222,7 +220,8 @@ def report_Resource(request):
             del_resource.save()
         #else:
             #print "there is something wrong"
-        return HttpResponseRedirect('resource_usage', {"re_usage_tab":  re_usage_tab,"title_tab": title_tab,"totalitem":totalitem,"productlist":productlist,"fedit":fedit})
+        resource_usage_tab = ResourceUsageTable.objects.filter(is_show="true", choosedate=fedit).order_by("id")
+        return HttpResponseRedirect('resource_usage', {"resource_usage_tab":  resource_usage_tab,"title_tab": title_tab,"totalitem":totalitem,"productlist":productlist,"fedit":fedit})
     else:
        # print "GET!!!!"
         total_tab1=TotalTable.objects.order_by("-change_date","-id")
@@ -234,7 +233,7 @@ def report_Resource(request):
             pass
         
         usagelist=[]
-        
+
         
         restablist=[]
         for restab in resource_usage_tab:
@@ -263,7 +262,7 @@ def report_Resource(request):
             for j in range(4):
                 sum=sum+usagetotallist[j]['data'][1]
             avg=int(math.ceil(sum/24))
-            avglist.append({'pro':usagetotallist[j]['pro'],'data':avg}) 
+            avglist.append({'pro':product,'data':avg})
 
             try:
                 refresh_tab = resource_usage_tab.get(product=product,choosedate=fedit)
@@ -276,9 +275,10 @@ def report_Resource(request):
                 if refresh_tab.total < totalsum:
                      restab.is_edit = 'false'
                 if restab.is_edit == 'false':
-                    refresh_tab.total = avglist[cou]['data'] * 24
+                    refresh_tab.total = avglist[0]['data'] * 24
                 refresh_tab.save()
             except:
+
                 example_usage_tab=resource_usage_tab.filter(product=product).order_by('-choosedate')
                 spm=example_usage_tab[0].spm
                 reporter=example_usage_tab[0].daily_reporter
@@ -291,8 +291,10 @@ def report_Resource(request):
                                                 performance = usagetotallist[1]['data'][1],
                                                 function = usagetotallist[2]['data'][1],
                                                 zebu_platform = usagetotallist[3]['data'][1])
-        re_usage_tab=resource_usage_tab.filter(choosedate=fedit)
-        return render(request, 'report/resource_usage.html',{"re_usage_tab": re_usage_tab,"title_tab": title_tab,"productlist":productlist,"totalitem":totalitem,"usagetotallist":usagetotallist,"avglist":avglist,"fedit":fedit})
+        resource_usage_tab = ResourceUsageTable.objects.filter(is_show="true",choosedate=fedit).order_by("id")
+
+        return render(request, 'report/resource_usage.html',{"resource_usage_tab": resource_usage_tab,"title_tab": title_tab,"productlist":productlist,"totalitem":totalitem,"fedit":fedit})
+
 
 def report_MainTF(request):
     plan_tab = RequestTable.objects.filter(is_plan="true",is_maintf="false")
