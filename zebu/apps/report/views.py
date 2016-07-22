@@ -178,16 +178,8 @@ def report_Resource(request):
                                                 zebu_platform=usage[3][1] 
                                                 )
             except:
-                ResourceUsageTable.objects.create(product=product,
-                                                spm=spm,
-                                                daily_reporter=reporter,
-                                                choosedate=datetime.date.today(),
-                                                total=0,
-                                                power_management=0,
-                                                performance=0,
-                                                function=0,
-                                                zebu_platform=0 
-                                                )
+                pass
+                
             re_usage_tab=resource_usage_tab.filter(choosedate=fedit)
                                             
         elif 'edittotal0' in request.POST.keys():

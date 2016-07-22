@@ -302,61 +302,45 @@
 										<input type="text" id="reporterEdit" name="reporterEdit" style="width:350px;height:24px" value = "{{tab.daily_reporter}}"/>
                                 	</li>
 							  	</ul>
-								  {% for pro_item in avglist %}
-								  {% ifequal pro_item.pro tab.product %}
 								  <ul>
 									<li class="rqleft">Total:</li>
 									<li>
 										<select style="width:330px;height:24px" id="totalEdit{{tab.id}}" name="totalEdit">
-                                      <option selected="selected">{{pro_item.data}}</option>
+                                      <option selected="selected">{{tab.total}}</option>
 											{% for i in totalitem%}
 									  <option>{{i}}</option>
 											{% endfor%}
 										</select>x24
                                 	</li>
 							  	</ul>
-								  {% endifequal%}
-								  {% endfor %}
-								  {% for pro_item in usagetotallist %}
-								  {% ifequal pro_item.pro tab.product %}
-								  {% ifequal pro_item.data.0 "Power" %}
 								  <ul>
 									<li class="rqleft">Power Management:</li>
 									<li>
-										<input id="managementhourEdit{{tab.id}}" name="managementhourEdit" style="width:330px;height:24px;color: #A2A2A2;" value={{pro_item.data.1}} readonly />
+										<input id="managementhourEdit{{tab.id}}" name="managementhourEdit" style="width:330px;height:24px;color: #A2A2A2;" value={{tab.power_management}} readonly />
 										Hour
                                 	</li>
 							  	</ul>
-								  {% endifequal%}
-								  {% ifequal pro_item.data.0 "Performance" %}
 								  <ul>
 									<li class="rqleft">Performance:</li>
 									<li>
-										<input id="performancehourEdit{{tab.id}}" name="performancehourEdit" style="width:330px;height:24px;color: #A2A2A2;" value={{pro_item.data.1}} readonly />
+										<input id="performancehourEdit{{tab.id}}" name="performancehourEdit" style="width:330px;height:24px;color: #A2A2A2;" value={{tab.performance}} readonly />
 										Hour
                                 	</li>
 							  	</ul>
-								  {% endifequal%}
-								  {% ifequal pro_item.data.0 "Fun" %}
-								  <ul>
+								 <ul>
 									<li class="rqleft">Function:</li>
 									<li>
-										<input id="functionhourEdit{{tab.id}}" name="functionhourEdit" style="width:330px;height:24px;color: #A2A2A2;" value={{pro_item.data.1}} readonly />
+										<input id="functionhourEdit{{tab.id}}" name="functionhourEdit" style="width:330px;height:24px;color: #A2A2A2;" value={{tab.function}} readonly />
 										Hour
                                 	</li>
 							  	</ul>
-								  {% endifequal%}
-								  {% ifequal pro_item.data.0 "ZEBU" %}
 								  <ul>
 									<li class="rqleft"> zebu platform:</li>
 									<li>
-										<input id="zubehourEdit{{tab.id}}" name="zubehourEdit" style="width:330px;height:24px;color: #A2A2A2;" value={{pro_item.data.1}} readonly />
+										<input id="zubehourEdit{{tab.id}}" name="zubehourEdit" style="width:330px;height:24px;color: #A2A2A2;" value={{tab.zebu_platform}} readonly />
 										Hour
                                 	</li>
 							  	</ul>
-								  {% endifequal%}
-								  {% endifequal %}
-								  {% endfor %}
 								  <p id="checkNum{{tab.id}}" style="text-align:center;color:red"></p>
 								  <p id="checkNum2{{tab.id}}" style="text-align:center;color:red"></p>
 							  </div>
