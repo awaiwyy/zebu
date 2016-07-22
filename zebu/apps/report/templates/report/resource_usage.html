@@ -271,7 +271,12 @@
 								{% csrf_token %}
                               <div class="modalFormContent" id="readRpTab{{tab.id}}">
 								  <input type="text" id="idEdit" name="idEdit" value = {{tab.id}} hidden/>
-								  <input type="text" name="showchoosedate" id="showchoosedate{{tab.id}}" readonly/>
+								  <ul>
+									<li class="rqleft">Date:</li>
+										<li class="borderBottom">
+										<input type="text" name="showchoosedate" id="showchoosedate{{tab.id}}" value="{{fedit|date:'Y-m-d'}}"  readonly/>
+									  </li>
+								</ul>
                               	<ul>
 								<li class="new_rqleft">Product:</li>
 								<li>
@@ -448,7 +453,8 @@
 				$("div[name='showcalendar']").datepicker({
     				language: "zh-CN",
 					endDate: "today",
-					format: "yyyy-mm-dd",					
+					format: "yyyy-mm-dd",
+					autoclose : true
 				});
 
 				//
