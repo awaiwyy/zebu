@@ -230,7 +230,7 @@ def report_Resource(request):
             del_resource.save()
         #else:
             #print "there is something wrong"
-        return HttpResponseRedirect('resource_usage', {" resource_usage_tab":  resource_usage_tab,"title_tab": title_tab,"totalitem":totalitem,"productlist":productlist})
+        return HttpResponseRedirect('resource_usage', {" resource_usage_tab":  resource_usage_tab,"title_tab": title_tab,"totalitem":totalitem,"productlist":productlist,"fedit":fedit})
     else:
        # print "GET!!!!"
         total_tab1=TotalTable.objects.order_by("-change_date","-id")
@@ -293,7 +293,7 @@ def report_Resource(request):
             except:
                 pass
         
-        return render(request, 'report/resource_usage.html',{"resource_usage_tab": resource_usage_tab,"title_tab": title_tab,"productlist":productlist,"totalitem":totalitem,"usagetotallist":usagetotallist,"avglist":avglist})
+        return render(request, 'report/resource_usage.html',{"resource_usage_tab": resource_usage_tab,"title_tab": title_tab,"productlist":productlist,"totalitem":totalitem,"usagetotallist":usagetotallist,"avglist":avglist,"fedit":fedit})
 
 def report_MainTF(request):
     plan_tab = RequestTable.objects.filter(is_plan="true",is_maintf="false")
