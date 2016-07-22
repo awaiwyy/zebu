@@ -582,35 +582,51 @@ def planPage(request, **kwargs):
                 if "close" != tab.status:
                     if cur_time >= ftime:
                         total_tab1 = TotalTable.objects.filter(request_id=tab.id).order_by("-change_date")
-                        recent_edit=total_tab1[0]
-                        rtime=recent_edit.change_date
-                        delta = (cur_time - rtime).days
-                        totaldelta = (cur_time - ftime).days
-                        #print "delta=",delta
-                        #print "len(total_tab1)",len(total_tab1)
-                        for i in range(delta):
-                            # Totaltable中最大日期到今天相差天数的数据，按照前一天的数据补入：
-                            # 1.若前一天状态为ongoing，当天的daily_duration值和前一天一样；
-                            # 2.若前一天状态不是ongoing，当天的daily_duration值Hour为0，pieces为前一天daily_duration的pieces；
-                            itime = rtime + datetime.timedelta(days=i+1)
-                            #print itime
-                            try:
-                                lastday = total_tab1.get(change_date=(itime-datetime.timedelta(days=1)))
-                                daily_hour=tab.daily_duration.split('H')[0]
-                                daily_piece=tab.daily_duration.split('r')[1]
-                                if lastday.status == 'ongoing':
-                                    TotalTable.objects.get_or_create(change_date=itime,
+                        if total_tab1:
+                            recent_edit=total_tab1[0]
+                            rtime=recent_edit.change_date
+                            delta = (cur_time - rtime).days
+                            #print "delta=",delta
+                            #print "len(total_tab1)",len(total_tab1)
+                            for i in range(delta):
+                                 # Totaltable中最大日期到今天相差天数的数据，按照前一天的数据补入：
+                                # 1.若前一天状态为ongoing，当天的daily_duration值和前一天一样；
+                                # 2.若前一天状态不是ongoing，当天的daily_duration值Hour为0，pieces为前一天daily_duration的pieces；
+                                itime = rtime + datetime.timedelta(days=i+1)
+                                #print itime
+                                try:
+                                    lastday = total_tab1.get(change_date=(itime-datetime.timedelta(days=1)))
+                                    daily_hour=tab.daily_duration.split('H')[0]
+                                    daily_piece=tab.daily_duration.split('r')[1]
+                                    if lastday.status == 'ongoing':
+                                        TotalTable.objects.get_or_create(change_date=itime,
                                                       daily_duration=daily_hour +"Hour"+ daily_piece,
                                                       status=lastday.status,
                                                       request_id=lastday.request_id)
-                                else:
-                                    TotalTable.objects.get_or_create(change_date=itime,
+                                    else:
+                                        TotalTable.objects.get_or_create(change_date=itime,
                                                       daily_duration='00Hour'+daily_piece,
                                                       status=lastday.status,
                                                       request_id=lastday.request_id)
-                            except:
-                                pass
-                        i=0
+                                except:
+                                    pass
+                        else:
+                            request_piece = tab.request_duration.split('y')[1]
+                            delta = (cur_time - ftime).days
+                            for i in range(delta):
+                                itime = ftime + datetime.timedelta(days=i)
+                                TotalTable.objects.create(change_date=itime,
+                                                          daily_duration='00Hour' + request_piece,
+                                                          status="ongoing",
+                                                          request_id=tab.id)
+                            daily_hour = tab.daily_duration.split('H')[0]
+                            daily_piece = tab.daily_duration.split('r')[1]
+                            TotalTable.objects.create(change_date=cur_time,
+                                                      daily_duration=daily_hour + "Hour" + daily_piece,
+                                                      status=tab.status,
+                                                      request_id=tab.id)
+                        i=0  
+                        totaldelta = (cur_time - ftime).days
                         for i in range(totaldelta+1):
                             itime = ftime + datetime.timedelta(days=i)
                             try:
