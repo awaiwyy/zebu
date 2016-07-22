@@ -306,7 +306,7 @@
 									<li class="rqleft">Total:</li>
 									<li>
 										<select style="width:330px;height:24px" id="totalEdit{{tab.id}}" name="totalEdit">
-                                      <option selected="selected">{%widthratio tab.total 24 1%}</option>
+                                      <option selected="selected" id="selected{{tab.id}}">{%widthratio tab.total 24 1%}</option>
 											{% for i in totalitem%}
 									  <option>{{i}}</option>
 											{% endfor%}
@@ -458,7 +458,8 @@
                     $("#functionval"+id).text(ret.function+"H");
 					$("#zebu_platformval"+id).text(ret.zebu_platform+"H");
 
-                	$("#totalEdit"+id).val(ret.total/24);
+                	$("#selected"+id).text(ret.total/24);
+					console.log(ret.total/24);
 					$("#managementhourEdit"+id).val(ret.power_management);
 					$("#performancehourEdit"+id).val(ret.performance);
 					$("#functionhourEdit"+id).val(ret.function);
