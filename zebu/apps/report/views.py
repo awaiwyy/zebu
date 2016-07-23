@@ -222,7 +222,7 @@ def report_Resource(request):
             del_resource.save()
         #else:
             #print "there is something wrong"
-        return HttpResponseRedirect('resource_usage', {" resource_usage_tab":  resource_usage_tab,"title_tab": title_tab,"totalitem":totalitem,"productlist":productlist,"fedit":fedit})
+        return HttpResponseRedirect('resource_usage', {"re_usage_tab":  re_usage_tab,"title_tab": title_tab,"totalitem":totalitem,"productlist":productlist,"fedit":fedit})
     else:
        # print "GET!!!!"
         total_tab1=TotalTable.objects.order_by("-change_date","-id")
@@ -267,6 +267,7 @@ def report_Resource(request):
 
             try:
                 refresh_tab = resource_usage_tab.get(product=product,choosedate=fedit)
+                refresh_tab.total=avglist[0]['data']*24
                 refresh_tab.power_management = usagetotallist[0]['data'][1]
                 refresh_tab.performance = usagetotallist[1]['data'][1]
                 refresh_tab.function = usagetotallist[2]['data'][1]
@@ -278,9 +279,20 @@ def report_Resource(request):
                     refresh_tab.total = avglist[cou]['data'] * 24
                 refresh_tab.save()
             except:
-                pass
-
-        return render(request, 'report/resource_usage.html',{"resource_usage_tab": resource_usage_tab,"title_tab": title_tab,"productlist":productlist,"totalitem":totalitem,"usagetotallist":usagetotallist,"avglist":avglist,"fedit":fedit})
+                example_usage_tab=resource_usage_tab.filter(product=product).order_by('-choosedate')
+                spm=example_usage_tab[0].spm
+                reporter=example_usage_tab[0].daily_reporter
+                ResourceUsageTable.objects.get_or_create(product=product,
+                                                spm=spm,
+                                                daily_reporter=reporter,
+                                                choosedate=fedit,
+                                                total=avglist[0]['data']*24,
+                                                power_management = usagetotallist[0]['data'][1],
+                                                performance = usagetotallist[1]['data'][1],
+                                                function = usagetotallist[2]['data'][1],
+                                                zebu_platform = usagetotallist[3]['data'][1])
+        re_usage_tab=resource_usage_tab.filter(choosedate=fedit)
+        return render(request, 'report/resource_usage.html',{"re_usage_tab": re_usage_tab,"title_tab": title_tab,"productlist":productlist,"totalitem":totalitem,"usagetotallist":usagetotallist,"avglist":avglist,"fedit":fedit})
 
 def report_MainTF(request):
     plan_tab = RequestTable.objects.filter(is_plan="true",is_maintf="false")

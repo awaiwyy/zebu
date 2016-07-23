@@ -164,7 +164,7 @@
                     <!-- 弹出模态框结束-->
 			 <div id="requestTable" class="reportTableDiv">
 
-				 {% for tab in  resource_usage_tab%}
+				 {% for tab in  re_usage_tab%}
 				 <div class="scheduleForm">
 					 <div class="form-group">
                                 <div class="input-group date col-xs-3 pull-right" name="showcalendar">
@@ -306,7 +306,7 @@
 									<li class="rqleft">Total:</li>
 									<li>
 										<select style="width:330px;height:24px" id="totalEdit{{tab.id}}" name="totalEdit">
-                                      <option selected="selected">{{tab.total}}</option>
+                                      <option selected="selected">{%widthratio tab.total 24 1%}</option>
 											{% for i in totalitem%}
 									  <option>{{i}}</option>
 											{% endfor%}
