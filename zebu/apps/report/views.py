@@ -212,6 +212,7 @@ def report_Resource(request):
             if total1 != total2:
                 edit_resource.is_edit = "true"
             #print edit_resource.total
+            edit_resource.save()
         elif 'delresourceId' in request.POST.keys():
             #print "into delete resource"
             del_id = request.POST['delresourceId']
@@ -272,8 +273,8 @@ def report_Resource(request):
                 refresh_tab.zebu_platform = usagetotallist[3]['data'][1]
                 totalsum=refresh_tab.power_management+refresh_tab.performance+refresh_tab.function+refresh_tab.zebu_platform
                 if refresh_tab.total < totalsum:
-                     restab.is_edit = 'false'
-                if restab.is_edit == 'false':
+                    refresh_tab.is_edit = 'false'
+                if refresh_tab.is_edit == 'false':
                     refresh_tab.total = avglist[0]['data'] * 24
                 refresh_tab.save()
             except:
@@ -480,8 +481,8 @@ def ajaxget(request):
         refresh_tab.zebu_platform = usage[3][1]
         totalsum=refresh_tab.power_management+refresh_tab.performance+refresh_tab.function+refresh_tab.zebu_platform
         if refresh_tab.total < totalsum:
-            restab.is_edit = 'false'
-        if restab.is_edit == 'false':
+            refresh_tab.is_edit = 'false'
+        if refresh_tab.is_edit == 'false':
             refresh_tab.total = avg * 24
         refresh_tab.save()
     except:
