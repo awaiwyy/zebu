@@ -459,11 +459,68 @@
 					$("#zebu_platformval"+id).text(ret.zebu_platform+"H");
 
                 	$("#selected"+id).text(ret.total/24);
-					console.log(ret.total/24);
 					$("#managementhourEdit"+id).val(ret.power_management);
 					$("#performancehourEdit"+id).val(ret.performance);
 					$("#functionhourEdit"+id).val(ret.function);
 					$("#zubehourEdit"+id).val(ret.zebu_platform);
+					
+					if(ret.total != 0){
+						$('#container'+id).show()
+					    var color = ['#cc9999', '#ffff99', '#666699', '#0099cc', '#cc3999'];
+						var free = ret.total-ret.power_management-ret.performance-ret.function-ret.zebu_platform;
+						$('#container'+id).highcharts({
+							chart: {
+								plotBackgroundColor: null,
+								plotBorderWidth: null,
+								plotShadow: false
+							},
+							colors:color,
+							title: {
+								text: ''
+							},
+							tooltip: {
+								pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+							},
+							plotOptions: {
+								pie: {
+									allowPointSelect: true,
+									cursor: 'pointer',
+									dataLabels: {
+										enabled: true,
+										format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+										style: {
+											color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+										}
+									}
+								}
+							},
+							series: [{
+								type: 'pie',
+								name: 'share',
+								data: [
+									{% ifnotequal tab.power_management 0 %}
+									['power_management',   ret.power_management],
+									{% endifnotequal %}
+									{% ifnotequal tab.performance 0 %}
+									['performance',       ret.performance],
+									{% endifnotequal %}
+									{% ifnotequal tab.function 0 %}
+									['function',     ret.function],
+									{% endifnotequal %}
+									{% ifnotequal tab.zebu_platform 0 %}
+									['zebu_platform',    ret.zebu_platform],
+									{% endifnotequal %}
+									{% ifnotequal free 0 %}
+									['free', free]
+									{% endifnotequal %}
+								]
+							}]
+						});
+					}else{
+						$('#container'+id).hide()
+						
+					}
+
 					}});
 				})
 				</script>
