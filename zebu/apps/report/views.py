@@ -216,9 +216,9 @@ def report_Resource(request):
         elif 'delresourceId' in request.POST.keys():
             #print "into delete resource"
             del_id = request.POST['delresourceId']
-            del_resource = ResourceUsageTable.objects.get(id=del_id)
-            del_resource.is_show = 'false'
-            del_resource.save()
+            del_product=ResourceUsageTable.objects.get(id=del_id).product
+            ResourceUsageTable.objects.filter(product=del_product).update(is_show="false")
+            
         #else:
             #print "there is something wrong"
         resource_usage_tab = ResourceUsageTable.objects.filter(is_show="true", choosedate=fedit).order_by("id")
@@ -498,7 +498,7 @@ def ajaxget(request):
                                                 function=usage[2][1],
                                                 zebu_platform=usage[3][1] )
 
-    edit_tab=ResourceUsageTable.objects.get(choosedate=getdate,product=edit_product)
+    edit_tab=ResourceUsageTable.objects.get(is_show="true",choosedate=getdate,product=edit_product)
     total=edit_tab.total
     power_management=edit_tab.power_management
     performance=edit_tab.performance
