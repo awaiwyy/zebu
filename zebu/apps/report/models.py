@@ -10,6 +10,7 @@ class ReportTable(models.Model):
     file_link = models.TextField()
     is_daily_report = models.CharField(max_length= 20, default="true")
 
+#Record plan page daily duration sum which product name same as resource usage page classify by tf_case.
 class ResourceUsageTable(models.Model):
     product = models.CharField(max_length=50)
     spm = models.CharField(max_length=50)
@@ -23,6 +24,7 @@ class ResourceUsageTable(models.Model):
     choosedate=models.DateField(null=True)
     is_edit=models.CharField(max_length= 20, default="false")
 
+#Record Total and Usage date of top left corner on resource usage page.
 class ResourceUsageTitleTable(models.Model):
     total=models.IntegerField(default=0)
     usage=models.IntegerField(default=0)

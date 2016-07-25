@@ -113,24 +113,22 @@ def report_Resource(request):
     tf_list=['Power','Performance','Fun','ZEBU']
     plan_tab=RequestTable.objects.filter(is_plan="true",status="ongoing").order_by("id")
     total_tab1=TotalTable.objects.order_by("-change_date","-id")
+    title_tab = ResourceUsageTitleTable.objects.all()
+    resource_usage_tab = ResourceUsageTable.objects.filter(is_show="true").order_by("id")
+    #find first edit date of TotalTable.
     fedit=""
     try:
         first_edit=total_tab1[0]
         fedit=first_edit.change_date
     except:
         pass
+    #create '0~20' list for html pull-down list.
     totalitem=[]
-    # houritem=[]
     for hour in range(21):
         if hour < 10:
             hour = "0" + str(hour)
         totalitem.append(hour)
-    # for hour in range(25):
-    #     if hour < 10:
-    #         hour = "0" + str(hour)
-    #     houritem.append(hour)
-    title_tab = ResourceUsageTitleTable.objects.all()
-    resource_usage_tab = ResourceUsageTable.objects.filter(is_show="true").order_by("id")
+    #remove page exist products from new product list.
     productlist = com_def.productlist[:]
     for tab in resource_usage_tab:
         if tab.product in productlist:
@@ -139,27 +137,28 @@ def report_Resource(request):
         #print "POST!!!!"
         # 获得表单数据
         if 'productInfo' in request.POST.keys():
-            #print"into new resource uasge"
             product = request.POST['productInfo']
             spm = request.POST['spmInfo']
             reporter = request.POST['reporterInfo']
             usagelist=[]
             usage=[]
             for tf in tf_list:
+                #collect plan page ids which product name same as resource usage page,and classify by tf_case.
                 res_plan_tab=plan_tab.filter(project=product,tf_case__startswith=tf)
                 idlist=[]
                 for tab1 in res_plan_tab:
                     idlist.append(tab1.id)
-                print idlist
+                #collect TotalTable daily duration data of recent edit which id in idlist.
                 total_tab_all=TotalTable.objects.filter(request_id__in=idlist).order_by("-change_date","-id")
                 total_tab=total_tab_all.filter(change_date=fedit)
+                #calculate each tf_case value
                 totalusage=0
                 for tab in total_tab:
-                    print tab.daily_duration
                     daily_usage=int(tab.daily_duration.split('H')[0])*int(tab.daily_duration.split('r')[1].split('P')[0])
                     totalusage=totalusage+daily_usage
                 usagelist=[tf,totalusage]
                 usage.append(usagelist)
+            #calculate sum and average of four tf_case
             sum=0
             avg=0
             for j in range(4):
@@ -179,7 +178,6 @@ def report_Resource(request):
                                                 )
             except:
                 pass
-
                                             
         elif 'edittotal0' in request.POST.keys():
             #print "edit total and usage"
@@ -200,7 +198,6 @@ def report_Resource(request):
             edittitle_tab.usage = usage
             edittitle_tab.save()
         elif 'productEdit' in request.POST.keys():
-            #print"edit resource uasge"
             edit_id = request.POST['idEdit']
             edit_resource = ResourceUsageTable.objects.get(id=edit_id)
             edit_resource.product = request.POST['productEdit']
@@ -211,35 +208,23 @@ def report_Resource(request):
             total2 = edit_resource.total
             if total1 != total2:
                 edit_resource.is_edit = "true"
-            #print edit_resource.total
             edit_resource.save()
         elif 'delresourceId' in request.POST.keys():
-            #print "into delete resource"
             del_id = request.POST['delresourceId']
             del_product=ResourceUsageTable.objects.get(id=del_id).product
             ResourceUsageTable.objects.filter(product=del_product).update(is_show="false")
-            
-        #else:
-            #print "there is something wrong"
+      
         resource_usage_tab = ResourceUsageTable.objects.filter(is_show="true", choosedate=fedit).order_by("id")
         return HttpResponseRedirect('resource_usage', {"resource_usage_tab":  resource_usage_tab,"title_tab": title_tab,"totalitem":totalitem,"productlist":productlist,"fedit":fedit})
     else:
-       # print "GET!!!!"
-        total_tab1=TotalTable.objects.order_by("-change_date","-id")
-        fedit=""
-        try:
-            first_edit=total_tab1[0]
-            fedit=first_edit.change_date
-        except:
-            pass
-        
+        #print "GET!!!!"
         usagelist=[]
-
-        
         restablist=[]
+        #list all product on resource usage page.
         for restab in resource_usage_tab:
             restablist.append(restab.product)
         relist=list(set(restablist))
+        #collect plan page daily duration sum which product name same as resource usage page classify by tf_case.
         for product in relist:
             usagetotallist=[]
             avglist=[]
@@ -248,7 +233,6 @@ def report_Resource(request):
                 idlist=[]
                 for tab1 in res_plan_tab:
                     idlist.append(tab1.id)
-                print idlist
                 total_tab_all=TotalTable.objects.filter(request_id__in=idlist).order_by("-change_date","-id")
                 total_tab=total_tab_all.filter(change_date=fedit)
                 totalusage=0
@@ -258,14 +242,16 @@ def report_Resource(request):
                     totalusage=totalusage+daily_usage
                 usagelist=[tf,totalusage]
                 usagetotallist.append({'pro':product,'data':usagelist})
+            #calculate sum and average of four tf_case
             sum=0
             avg=0
             for j in range(4):
                 sum=sum+usagetotallist[j]['data'][1]
             avg=int(math.ceil(sum/24))
             avglist.append({'pro':product,'data':avg})
-
+            # 添加到数据库
             try:
+                #update
                 refresh_tab = resource_usage_tab.get(product=product,choosedate=fedit)
                 refresh_tab.power_management = usagetotallist[0]['data'][1]
                 refresh_tab.performance = usagetotallist[1]['data'][1]
@@ -278,7 +264,7 @@ def report_Resource(request):
                     refresh_tab.total = avglist[0]['data'] * 24
                 refresh_tab.save()
             except:
-
+                #new
                 example_usage_tab=resource_usage_tab.filter(product=product).order_by('-choosedate')
                 spm=example_usage_tab[0].spm
                 reporter=example_usage_tab[0].daily_reporter
@@ -292,7 +278,6 @@ def report_Resource(request):
                                                 function = usagetotallist[2]['data'][1],
                                                 zebu_platform = usagetotallist[3]['data'][1])
         resource_usage_tab = ResourceUsageTable.objects.filter(is_show="true",choosedate=fedit).order_by("id")
-
         return render(request, 'report/resource_usage.html',{"resource_usage_tab": resource_usage_tab,"title_tab": title_tab,"productlist":productlist,"totalitem":totalitem,"fedit":fedit})
 
 
@@ -443,10 +428,11 @@ def report_Schedule(request):
         return render(request, 'report/schedule.html', {"schedule_tab": schedule_tab,"productlist":productlist})
 
 def ajaxget(request):
+    #get datepicker checked date and id.
     getproductid = int(request.GET['productid'][10:])
     getdate = request.GET['date'].replace(".","-")
     edit_product = ResourceUsageTable.objects.get(id=getproductid).product
-    
+    #collect plan page daily duration sum which product name same as resource usage page classify by tf_case.
     tf_list=['Power','Performance','Fun','ZEBU']
     plan_tab=RequestTable.objects.filter(is_plan="true",status="ongoing").order_by("id")
     resource_usage_tab = ResourceUsageTable.objects.filter(is_show="true",product=edit_product).order_by('-choosedate')
@@ -457,23 +443,24 @@ def ajaxget(request):
         idlist=[]
         for tab1 in res_plan_tab:
             idlist.append(tab1.id)
-        #print idlist
         total_tab_all=TotalTable.objects.filter(request_id__in=idlist).order_by("-change_date","-id")
         total_tab=total_tab_all.filter(change_date=getdate)
         totalusage=0
         for tab in total_tab:
-            #print tab.daily_duration
             daily_usage=int(tab.daily_duration.split('H')[0])*int(tab.daily_duration.split('r')[1].split('P')[0])
             totalusage=totalusage+daily_usage
         usagelist=[tf,totalusage]
         usage.append(usagelist)
+    #calculate sum and average of four tf_case
     sum=0
     avg=0
     for j in range(4):
         sum=sum+usage[j][1]
     avg=int(math.ceil(sum/24)) 
 
+    # 添加到数据库
     try:
+        #update
         refresh_tab = resource_usage_tab.get(choosedate=getdate)        
         refresh_tab.power_management = usage[0][1]
         refresh_tab.performance = usage[1][1]
@@ -486,6 +473,7 @@ def ajaxget(request):
             refresh_tab.total = avg * 24
         refresh_tab.save()
     except:
+        #new
         spm=resource_usage_tab[0].spm
         reporter=resource_usage_tab[0].daily_reporter
         ResourceUsageTable.objects.get_or_create(product=edit_product,
@@ -499,12 +487,12 @@ def ajaxget(request):
                                                 zebu_platform=usage[3][1] )
 
     edit_tab=ResourceUsageTable.objects.get(is_show="true",choosedate=getdate,product=edit_product)
+    #transmit ResourceUsageTable data to webpage.
     total=edit_tab.total
     power_management=edit_tab.power_management
     performance=edit_tab.performance
     function=edit_tab.function
     zebu_platform=edit_tab.zebu_platform
-    
     edit_dict = {'total': total,
                  'power_management': power_management,
                  'performance':performance,
