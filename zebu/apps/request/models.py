@@ -1,3 +1,4 @@
+#coding:utf-8
 from __future__ import unicode_literals
 
 from django.db import models
@@ -66,6 +67,10 @@ acceptance_choice = (
               ('accept', 'Yes'),
               )
 
+#is_plan标记是否在plan页显示：true是显示，false是不显示；
+#is_maintf标记是否在Report的Main TF Status页显示：true是显示，false是不显示；
+#is_high标记是否是Main TF Status页的Hightlight：true为是，false为不是；
+#is_low标记是否是Main TF Status页的lowlight：true为是，false为不是；
 class RequestTable(models.Model):
     project = models.CharField(max_length=100, choices = project_choice)
     classification = models.CharField(max_length=100, choices = classification_choice)
@@ -91,6 +96,7 @@ class RequestTable(models.Model):
     is_low = models.CharField(max_length=20, default="false")
     next_target=models.TextField(blank=True)
 
+#TotalTable内容是plan页每条记录每天的daily_duration值和状态
 class TotalTable(models.Model):
     change_date = models.DateField()
     daily_duration = models.CharField(max_length=100, null=True)

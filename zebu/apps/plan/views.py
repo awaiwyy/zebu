@@ -334,6 +334,7 @@ def planPage(request, **kwargs):
             if edit_stime != '-- ::' :
                 stime = edit_stime.encode("utf-8")
                 dtime = datetime.datetime.strptime(stime,'%Y-%m-%d %H:%M:%S')
+                #ftime为starttime的日期
                 ftime1 = (year+"-"+month+"-"+day).encode("utf-8")
                 ftime = datetime.datetime.strptime(ftime1,'%Y-%m-%d').date()
                 utc_time = dtime.replace(tzinfo=tz.gettz('CST'))
@@ -348,9 +349,11 @@ def planPage(request, **kwargs):
                 total=0
                 if cur_time > ftime:
                     try:
+                        #获得Totaltable中的最小日期
                         first_edit=total_tab2[0]
                         fedit=first_edit.change_date
                         if ftime < fedit:
+                            #如果starttime的日期在已有的最小日期之前，相差几天的数据Hour为0，pieces为request_duration的pieces,并存入TotalTable表
                             request_piece = edit_plan.request_duration.split('y')[1]
                             diffnum=(fedit - ftime).days
                             for j in range(diffnum):
@@ -360,10 +363,12 @@ def planPage(request, **kwargs):
                                                         status="ongoing",
                                                         request_id=edit_plan.id)
                         elif ftime > fedit:
+                            #如果starttime的日期在已有的最小日期之后，多余的几天的数据就直接从TotalTable表中删除
                             total_tab2.filter(change_date__lt=ftime).delete()
                     except:
                         pass
                     if not total_tab1 :
+                        #如果TotalTable里面没有数据即第一次编辑starttime时，当天的数据按照当天编辑的数据保存，之前的数据Hour为0，pieces为request_duration的pieces
                         total = 0
                         request_piece = edit_plan.request_duration.split('y')[1]
                         delta = (cur_time - ftime).days
@@ -374,13 +379,17 @@ def planPage(request, **kwargs):
                                                     status="ongoing",
                                                     request_id=edit_plan.id)
                         daily_hour=edit_plan.daily_duration.split('H')[0]
-                        request_piece = edit_plan.request_duration.split('y')[1]
+                        daily_piece = edit_plan.daily_duration.split('r')[1]
                         TotalTable.objects.create(change_date=cur_time,
-                                                daily_duration=daily_hour +"Hour"+ request_piece,
+                                                daily_duration=daily_hour +"Hour"+ daily_piece,
                                                 status=edit_plan.status,
                                                 request_id=edit_plan.id)
                     else:
+                        #TotalTable中已经有当前记录的数据时，Totaltable中最大日期到今天相差天数的数据，按照前一天的数据补入：
+                        #1.若前一天状态为ongoing，当天的daily_duration值和前一天一样；
+                        #2.若前一天状态不是ongoing，当天的daily_duration值Hour为0，pieces为前一天daily_duration的pieces；
                         total = 0
+                        # 获得Totaltable中的最大日期
                         recent_edit=total_tab1[0]
                         rtime=recent_edit.change_date
                         delta = (cur_time - rtime).days
@@ -407,6 +416,7 @@ def planPage(request, **kwargs):
                                 pass
                         i=0
                         for i in range(totaldelta+1):
+                            #计算total的值
                             itime = ftime + datetime.timedelta(days=i)
                             try:
                                 curday = total_tab1.get(change_date=itime)
@@ -480,6 +490,7 @@ def planPage(request, **kwargs):
             #print "next_target"
             next_target = request.POST['next_targetEdit']
             edit_plan.next_target = next_target
+            #编辑每一天的daily_duration的值
             changeId=request.POST['changeIdlist'].encode("utf-8")
             changeIdlist=changeId.split(",")
             changeIdlist.remove('')
@@ -539,7 +550,9 @@ def planPage(request, **kwargs):
                     #print "delta=",delta
                     #print "len(total_tab1)",len(total_tab1)
                     for i in range(delta):
-                        #print "i=",i
+                        # Totaltable中最大日期到今天相差天数的数据，按照前一天的数据补入：
+                        # 1.若前一天状态为ongoing，当天的daily_duration值和前一天一样；
+                        # 2.若前一天状态不是ongoing，当天的daily_duration值Hour为0，pieces为前一天daily_duration的pieces；
                         itime = rtime + datetime.timedelta(days=i+1)
                         #print itime
                         try:
@@ -570,6 +583,7 @@ def planPage(request, **kwargs):
                         except:
                             pass
                 tab.duration = total
+                #判断total值是否超过request的值
                 request_h = int(tab.request_duration.split('H')[0])
                 request_d = int((tab.request_duration.split('r')[1]).split('D')[0])
                 request_p = int((tab.request_duration.split('y')[1]).split('P')[0])
