@@ -200,15 +200,27 @@ def report_Resource(request):
         elif 'productEdit' in request.POST.keys():
             edit_id = request.POST['idEdit']
             edit_resource = ResourceUsageTable.objects.get(id=edit_id)
+            Pro_product = edit_resource.product
             edit_resource.product = request.POST['productEdit']
-            edit_resource.spm = request.POST['spmEdit']
-            edit_resource.daily_reporter = request.POST['reporterEdit']
-            total1=edit_resource.total
-            edit_resource.total = int(request.POST['totalEdit'])*24
-            total2 = edit_resource.total
-            if total1 != total2:
-                edit_resource.is_edit = "true"
-            edit_resource.save()
+            if Pro_product != edit_resource.product:
+                ResourceUsageTable.objects.filter(product=Pro_product).delete()
+                edit_resource.product = request.POST['productEdit']
+                edit_resource.spm = request.POST['spmEdit']
+                edit_resource.daily_reporter = request.POST['reporterEdit']
+                edit_resource.total = int(request.POST['totalEdit']) * 24
+                edit_resource.save()
+            else:
+                edit_product = request.POST['productEdit']
+                edit_date = request.POST['showchoosedate']
+                edit_resource1 = ResourceUsageTable.objects.get(product=edit_product,choosedate=edit_date)
+                edit_resource1.spm = request.POST['spmEdit']
+                edit_resource1.daily_reporter = request.POST['reporterEdit']
+                total1=edit_resource1.total
+                edit_resource1.total = int(request.POST['totalEdit'])*24
+                total2 = edit_resource1.total
+                if total1 != total2:
+                   edit_resource1.is_edit = "true"
+                edit_resource1.save()
         elif 'delresourceId' in request.POST.keys():
             del_id = request.POST['delresourceId']
             del_product=ResourceUsageTable.objects.get(id=del_id).product
