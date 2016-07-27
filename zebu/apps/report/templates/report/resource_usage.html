@@ -3,7 +3,7 @@
 <!-- 中间模板 -->
 
 		<div class="divcenter">
-
+			
 			<div class="reportForm">
 		{% if perms.report.add_resourceusagetable %}
 			 <div>
@@ -168,7 +168,16 @@
 				 <div class="scheduleForm">
 					 <div class="form-group">
                                 <div class="input-group date col-xs-3 pull-right" name="showcalendar">
-                                    <span class="input-group-addon" ><i class="fa fa-calendar"></i></span><input id=choosedate{{tab.id}} name="datepicker" type="text" value="{{fedit|date:'Y-m-d'}}" class="form-control">
+									{% ifnotequal product_changed "notcheck" %}
+										{% ifequal tab.id product_changed %}
+										<span class="input-group-addon" ><i class="fa fa-calendar"></i></span><input id=choosedate{{tab.id}} name="datepicker" type="text" value="{{date_changed}}" class="form-control">
+										{% else %}
+										<span class="input-group-addon" ><i class="fa fa-calendar"></i></span><input id=choosedate{{tab.id}} name="datepicker" type="text" value="{{fedit|date:'Y-m-d'}}" class="form-control">
+										{% endifequal %}
+									{% else %}
+									<span class="input-group-addon" ><i class="fa fa-calendar"></i></span><input id=choosedate{{tab.id}} name="datepicker" type="text" value="{{fedit|date:'Y-m-d'}}" class="form-control">
+									{% endifnotequal %}
+
                                 </div>
                             </div>
 					<table  class="reportTable" id="Box"  >
@@ -415,6 +424,7 @@
 			</script>-->
 
 			<script>
+
 				function checkFunc(id){
 				var total=$("#totalEdit"+id).val();				
 				var a2=$("#managementhourEdit"+id).val();
@@ -432,8 +442,7 @@
 					$("#checkNum"+id).text("");
 				}
 				}
-				</script>
-				<script>
+
 				$("div[name='showcalendar']").datepicker({
     				language: "zh-CN",
 					endDate: "today",

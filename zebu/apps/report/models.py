@@ -10,7 +10,7 @@ class ReportTable(models.Model):
     file_link = models.TextField()
     is_daily_report = models.CharField(max_length= 20, default="true")
 
-#Record plan page daily duration sum which product name same as resource usage page classify by tf_case.
+#Table for resource usage page: statistical data of daily duration from request_requesttable classified by tf_case based on product name
 class ResourceUsageTable(models.Model):
     product = models.CharField(max_length=50)
     spm = models.CharField(max_length=50)

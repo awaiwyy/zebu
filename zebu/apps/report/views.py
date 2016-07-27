@@ -110,13 +110,16 @@ def file_Download(request,filename):
         return response
 
 def report_Resource(request):
+    date_changed=""
     tf_list=['Power','Performance','Fun','ZEBU']
     plan_tab=RequestTable.objects.filter(is_plan="true",status="ongoing").order_by("id")
     total_tab1=TotalTable.objects.order_by("-change_date","-id")
     title_tab = ResourceUsageTitleTable.objects.all()
     resource_usage_tab = ResourceUsageTable.objects.filter(is_show="true").order_by("id")
     #find first edit date of TotalTable.
-    fedit=""
+    fedit="2000-01-01"
+    edit_date="2000-01-01"
+    edit_id="-1"
     try:
         first_edit=total_tab1[0]
         fedit=first_edit.change_date
@@ -225,9 +228,19 @@ def report_Resource(request):
             del_id = request.POST['delresourceId']
             del_product=ResourceUsageTable.objects.get(id=del_id).product
             ResourceUsageTable.objects.filter(product=del_product).update(is_show="false")
-      
+        date_changed =  edit_date
         resource_usage_tab = ResourceUsageTable.objects.filter(is_show="true", choosedate=fedit).order_by("id")
-        return HttpResponseRedirect('resource_usage', {"resource_usage_tab":  resource_usage_tab,"title_tab": title_tab,"totalitem":totalitem,"productlist":productlist,"fedit":fedit})
+        
+        #return HttpResponseRedirect('resource_usage', {"date_changed": date_changed, "resource_usage_tab":  resource_usage_tab,"title_tab": title_tab,"totalitem":totalitem,"productlist":productlist,"fedit":fedit})
+        return render(request, 'report/resource_usage.html',
+                        {"product_changed": int(edit_id),
+                        "date_changed":date_changed, 
+                        "resource_usage_tab": resource_usage_tab,
+                        "title_tab": title_tab,
+                        "productlist":productlist,
+                        "totalitem":totalitem,
+                        "fedit":fedit})
+
     else:
         #print "GET!!!!"
         usagelist=[]
@@ -290,7 +303,7 @@ def report_Resource(request):
                                                 function = usagetotallist[2]['data'][1],
                                                 zebu_platform = usagetotallist[3]['data'][1])
         resource_usage_tab = ResourceUsageTable.objects.filter(is_show="true",choosedate=fedit).order_by("id")
-        return render(request, 'report/resource_usage.html',{"resource_usage_tab": resource_usage_tab,"title_tab": title_tab,"productlist":productlist,"totalitem":totalitem,"fedit":fedit})
+        return render(request, 'report/resource_usage.html',{"product_changed": "notcheck","resource_usage_tab": resource_usage_tab,"title_tab": title_tab,"productlist":productlist,"totalitem":totalitem,"fedit":fedit})
 
 
 def report_MainTF(request):
