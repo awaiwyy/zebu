@@ -212,7 +212,7 @@ def report_Resource(request):
             else:
                 edit_product = request.POST['productEdit']
                 edit_date = request.POST['showchoosedate']
-                edit_resource1 = ResourceUsageTable.objects.get(product=edit_product,choosedate=edit_date)
+                edit_resource1 = ResourceUsageTable.objects.get(is_show="true",product=edit_product,choosedate=edit_date)
                 edit_resource1.spm = request.POST['spmEdit']
                 edit_resource1.daily_reporter = request.POST['reporterEdit']
                 total1=edit_resource1.total
@@ -500,12 +500,18 @@ def ajaxget(request):
 
     edit_tab=ResourceUsageTable.objects.get(is_show="true",choosedate=getdate,product=edit_product)
     #transmit ResourceUsageTable data to webpage.
+    product=edit_tab.product
+    spm=edit_tab.spm
+    daily_reporter=edit_tab.daily_reporter
     total=edit_tab.total
     power_management=edit_tab.power_management
     performance=edit_tab.performance
     function=edit_tab.function
     zebu_platform=edit_tab.zebu_platform
-    edit_dict = {'total': total,
+    edit_dict = {'product':product,
+                'spm':spm,
+                'daily_reporter':daily_reporter,
+                 'total': total,
                  'power_management': power_management,
                  'performance':performance,
                  'function':function,

@@ -175,11 +175,11 @@
 						<tr>
 					  <td width="16px"></td>
 					 <td width="70px" ><b>Product: </b></td>
-					<td width="120px"><input type="text"  readonly id="product" class="miniForm1" value="{{tab.product}}"/></td>
+					<td width="120px"><input type="text"  readonly id="product{{tab.id}}" class="miniForm1" value="{{tab.product}}"/></td>
 				  	 <td width="60px" align="center"><b>SPM: </b></td>
-					<td width="120px"><input type="text" readonly id="spm" class="miniForm1" value="{{tab.spm}}"/></td>
+					<td width="120px"><input type="text" readonly id="spm{{tab.id}}" class="miniForm1" value="{{tab.spm}}"/></td>
 				  	 <td width="110px" align="center"><b>Daily Reporter: </b></td>
-					  <td width="150px"><input type="text" readonly id="zebu" class="miniForm1" value="{{tab.daily_reporter}}"/></td>
+					  <td width="150px"><input type="text" readonly id="daily_reporter{{tab.id}}" class="miniForm1" value="{{tab.daily_reporter}}"/></td>
 					{% if perms.report.add_resourceusagetable %}
 					  <td width="50px"><a data-toggle="modal" data-target="#editModal18{{tab.id}}"  style="cursor:pointer" ><img style="right:16px" src="/static/images/bianji.png"></a></td>
 					  <td><a data-toggle="modal" data-target="#delresourceModal{{tab.id}}"  style="cursor:pointer"><img src="/static/images/shanchu.png"></a></td>
@@ -458,12 +458,16 @@
                     $("#functionval"+id).text(ret.function+"H");
 					$("#zebu_platformval"+id).text(ret.zebu_platform+"H");
 
+					$("#product"+id).val(ret.product)
+					$("#spm"+id).val(ret.spm)
+					$("#daily_reporter"+id).val(ret.daily_reporter)
+
                 	$("#selected"+id).text(ret.total/24);
 					$("#managementhourEdit"+id).val(ret.power_management);
 					$("#performancehourEdit"+id).val(ret.performance);
 					$("#functionhourEdit"+id).val(ret.function);
 					$("#zubehourEdit"+id).val(ret.zebu_platform);
-					
+
 					if(ret.total != 0){
 						$('#container'+id).show()
 					    var color = ['#cc9999', '#ffff99', '#666699', '#0099cc', '#cc3999'];
@@ -498,21 +502,11 @@
 								type: 'pie',
 								name: 'share',
 								data: [
-									{% ifnotequal tab.power_management 0 %}
 									['power_management',   ret.power_management],
-									{% endifnotequal %}
-									{% ifnotequal tab.performance 0 %}
 									['performance',       ret.performance],
-									{% endifnotequal %}
-									{% ifnotequal tab.function 0 %}
 									['function',     ret.function],
-									{% endifnotequal %}
-									{% ifnotequal tab.zebu_platform 0 %}
 									['zebu_platform',    ret.zebu_platform],
-									{% endifnotequal %}
-									{% ifnotequal free 0 %}
 									['free', free]
-									{% endifnotequal %}
 								]
 							}]
 						});
