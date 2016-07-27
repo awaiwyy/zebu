@@ -235,7 +235,11 @@
 									cursor: 'pointer',
 									dataLabels: {
 										enabled: true,
-										format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+										/* format: '<b>{point.name}</b>: {point.percentage:.1f} %', */
+										formatter: function() {
+							                   if (this.percentage > 0)
+							                       return '<b>' + this.point.name + '</b>: ' + this.percentage.toFixed(1) + '%'; //当所占百分比为0时不显示
+							               },
 										style: {
 											color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
 										}
