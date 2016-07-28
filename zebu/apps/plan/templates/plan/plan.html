@@ -112,6 +112,7 @@ function validatetime(tab_id) {
 	var startminute = document.getElementById("startminuteid" + tab_id).value;
 	var startsecond = document.getElementById("startsecondid" + tab_id).value;
 	startDate.setFullYear(startyear, startmonth - 1, startday);
+	var today = new Date();
 	if (!(startyear == "" && startmonth == "" && startday == "" && starthour == "" && startminute == "" && startsecond == "")){
 		if (startyear == "" || startmonth == "" || startday == "" || starthour == "" || startminute == "" || startsecond == ""){
 			$("#starttime" + tab_id).text("请填完整Start Time");
@@ -130,6 +131,13 @@ function validatetime(tab_id) {
 		$("#closetime" + tab_id).text("");
 		}
 	}
+	if (closeDate>today) {
+		$("#checkClose1" + tab_id).text("Close time不能是未来时间");
+		return false;
+	    }
+		else{
+			$("#checkClose1"+tab_id).text("");
+		}
 	if (startyear !== "")
 	{
 		if (closeyear !== "" && closeDate < startDate) {
@@ -735,6 +743,7 @@ function validatetime(tab_id) {
 														<p id="closetime{{tab.id}}" style="text-align:center;color:red"></p>
 														<p id="checkStart{{tab.id}}" style="text-align:center;color:red"></p>
 														<p id="checkclose{{tab.id}}" style="text-align:center;color:red"></p>
+														<p id="checkClose1{{tab.id}}" style="text-align:center;color:red"></p>
 														<ul>
 															<li class="rqleft">Next Target:</li>
 															<li><textarea class="borderWidth modalReportText"
