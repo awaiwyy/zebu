@@ -454,7 +454,7 @@ def report_Schedule(request):
 
 def ajaxget(request):
     #get datepicker checked date and id.
-    getproductid = int(request.GET['productid'][10:])
+    getproductid = int(request.GET['productid'])
     getdate = request.GET['date'].replace(".","-")
     edit_product = ResourceUsageTable.objects.get(id=getproductid).product
     #collect plan page daily duration sum which product name same as resource usage page classify by tf_case.
@@ -532,3 +532,37 @@ def ajaxget(request):
                  }
     return HttpResponse(json.dumps(edit_dict),
                     content_type="application/json")
+
+
+def ajaxpost(request):
+    date = request.POST['showchoosedate']
+    product = request.POST['productEdit']
+    spm = request.POST['spmEdit']
+    total = request.POST['totalEdit']
+    edit_id = request.POST['idEdit']
+    edit_resource = ResourceUsageTable.objects.get(id=edit_id)
+    Pro_product = edit_resource.product
+    edit_resource.product = request.POST['productEdit']
+    if Pro_product != edit_resource.product:
+        ResourceUsageTable.objects.filter(product=Pro_product).delete()
+        edit_resource.product = request.POST['productEdit']
+        edit_resource.spm = request.POST['spmEdit']
+        edit_resource.daily_reporter = request.POST['reporterEdit']
+        edit_resource.total = int(request.POST['totalEdit']) * 24
+        edit_resource.save()
+    else:
+        edit_product = request.POST['productEdit']
+        edit_date = request.POST['showchoosedate']
+        edit_resource1 = ResourceUsageTable.objects.get(is_show="true", product=edit_product, choosedate=edit_date)
+        edit_resource1.spm = request.POST['spmEdit']
+        edit_resource1.daily_reporter = request.POST['reporterEdit']
+        total1 = edit_resource1.total
+        edit_resource1.total = int(request.POST['totalEdit']) * 24
+        total2 = edit_resource1.total
+        if total1 != total2:
+            edit_resource1.is_edit = "true"
+        edit_resource1.save()
+        edit_resource1.save()
+    success_dict = {}
+    return HttpResponse(json.dumps(success_dict),
+                        content_type="application/json")

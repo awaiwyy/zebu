@@ -2,32 +2,34 @@
 {% block content %}
 <!-- 中间模板 -->
 
-		<div class="divcenter">
-			
-			<div class="reportForm">
-		{% if perms.report.add_resourceusagetable %}
-			 <div>
-			   <div data-toggle="modal" data-target="#NewModal"  style="cursor:pointer;"><img src="/static/images/tianjia.png" />
-				   <span Style="color:#6bd5f8">Add New Product</span>
+<div class="divcenter">
 
-			   </div>
-			 </div>
-		{% endif %}
-			 <!--弹出模态框（Modal） -->
-						<div class="modal fade" id="NewModal" tabindex="-1" role="dialog" aria-labelledby="NewModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" style = "width:800px">
-                      <div class="modal-content">
-                        <div class="modal-header">
-                           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                           <h4 class="modal-title" id="NewModalLabel">Daily Report</h4>
-                        </div>
-                        <div class="modal-body">
-                        <form class = "modalForm" method="POST" enctype="multipart/form-data">
-                        {% csrf_token %}
-                          <div class="modalFormContent">
-                          	<ul>
-								<li class="new_rqleft">Product:</li>
-								<li>
+    <div class="reportForm">
+        {% if perms.report.add_resourceusagetable %}
+        <div>
+            <div data-toggle="modal" data-target="#NewModal" style="cursor:pointer;"><img
+                    src="/static/images/tianjia.png"/>
+                <span Style="color:#6bd5f8">Add New Product</span>
+
+            </div>
+        </div>
+        {% endif %}
+        <!--弹出模态框（Modal） -->
+        <div class="modal fade" id="NewModal" tabindex="-1" role="dialog" aria-labelledby="NewModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog" style="width:800px">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="NewModalLabel">Daily Report</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form class="modalForm" method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="modalFormContent">
+                                <ul>
+                                    <li class="new_rqleft">Product:</li>
+                                    <li>
 									<span>
                                   <select class="borderWidth" id="productInfo" name="productInfo">
                                       {%for i in productlist%}
@@ -35,185 +37,225 @@
 									  {%endfor%}
                                   </select>
                                   </span>
-								</li>
-							</ul>
-							<ul>
-								<li class="new_rqleft">SPM:</li>
-								<li>
-									<input type="text" id="spmInfo" name="spmInfo" style="width:350px;height:24px"/>
-								</li>
-							</ul>
-							<ul>
-								<li class="new_rqleft" >Daily Reporter:</li>
-								<li>
-									<input type="text" id="reporterInfo" name="reporterInfo" style="width:350px;height:24px"/>
-								</li>
-							</ul>
-						  </div>
-							<div align="center" style="margin-bottom: 100px; ">
-                            <button class= "requestBtn" type="text" name="cancle" style="background-color: #FB8C8C" data-dismiss="modal">cancel</button>
-                            <button class= "requestBtn" name="ok" type="submit" style="background-color:#67D00B ">confirm</button>
-                          	</div>
-						</form>
-						</div>
-                      </div>
-                   </div>
-                 		</div>
-					  <!-- 添加模态框（Modal）结束 -->
-			 <div class="" style="padding-top:16px">
-				 {% for tab in title_tab %}
-				 <table  class="" id="Box1"  >
-			 <tr><td><b>Total：{{tab.total}} H</b></td></tr>
-             <tr><td><b>Usage：{{tab.usage}} H</b></td>
-		{% if perms.report.add_resourceusagetitletable %}
-             <td><a data-toggle="modal" data-target="#TitleModal{{tab.id}}"  style="cursor:pointer">
-             <img src="/static/images/bianji.png"></a></td></tr>
-		{% endif %}
-					  </table>
-
-
-             <!-- 弹出模态框（Modal） -->
-				<div class="modal fade" id="TitleModal{{tab.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" style = "width:800px">
-                      <div class="modal-content">
-
-							<form  class = "modalForm" method="POST">
-								{% csrf_token %}
-                              <div class="modalFormContent" id="titleedit">
-								  <input type="text" id="Editid11" name="idEdit11" style="display:none" value = {{tab.id}} >
-                              	<ul>
-									<li class="rqleft">Total:</li>
-									<li>
-										<select style="width:160px" id="edittotal" name="edittotal">
-                                      <option selected="selected">{% if tab.total < 240 %}0{% widthratio tab.total 24 1%}{%else%}{% widthratio tab.total 24 1%}{%endif%}</option>
-											{% for i in totalitem%}
-									  <option>{{i}}</option>
-											{% endfor%}
-										</select>x24
-									</li>
-								</ul>
-								<ul>
-									<li class="rqleft">Usage:</li>
-									<li>
-										<select style="width:160px" id="editusage" name="editusage">
-                                      <option selected="selected">{% if tab.usage < 240 %}0{% widthratio tab.usage 24 1%}{%else%}{% widthratio tab.usage 24 1%}{%endif%}</option>
-											{% for i in totalitem%}
-									  <option>{{i}}</option>
-											{% endfor%}
-										</select>x24
-                                	</li>
-							  	</ul>
-							  </div>
-								<div align="center" style="margin-bottom: 100px; vertical-align:middle;">
-                                  <button class= "requestBtn" type="text" id="cancleEditBtn1" style="background-color: #FB8C8C" data-dismiss="modal">cancel</button>
-                                  <button class= "requestBtn" type="submit" id="saveRqEdit1"  style="background-color:#67D00B ">confirm</button>
-                              	</div>
-                            </form>
-					  </div>
-					</div>
-					</div>
-				 {% empty %}
-				  <table  class="" id="Box1"  >
-			 <tr><td><b>Total(Piece)：0 H(10×24)</b></td></tr>
-             <tr><td><b>Usage(Piece)：0 H</b></td>
-		{% if perms.report.add_resourceusagetitletable %}
-             <td><a data-toggle="modal" data-target="#TitleModal0"  style="cursor:pointer">
-             <img src="/static/images/bianji.png"></a></td></tr>
-		{% endif %}
-					  </table>
-				 <div class="modal fade" id="TitleModal0" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" style = "width:800px">
-                      <div class="modal-content">
-
-							<form  class = "modalForm" method="POST" enctype="multipart/form-data">
-								{% csrf_token %}
-                              <div class="modalFormContent" id="titleedit0">
-								  <input type="text" id="Editid110" name="idEdit110" style="display:none" value = {{tab.id}} >
-                              	<ul>
-									<li class="rqleft">Total:</li>
-									<li>
-										<select style="width:160px" id="edittotal0" name="edittotal0">
-                                      <option selected="selected">{{tab.total}}</option>
-											{% for i in totalitem%}
-									  <option>{{i}}</option>
-											{% endfor%}
-										</select>
-									</li>
-								</ul>
-								<ul>
-									<li class="rqleft">Usage:</li>
-									<li>
-										<select style="width:160px" id="editusage0" name="editusage0">
-                                      <option selected="selected">{{tab.usage}}</option>
-											{% for i in totalitem%}
-									  <option>{{i}}</option>
-											{% endfor%}
-										</select>
-                                	</li>
-							  	</ul>
-							  </div>
-								<div align="center" style="margin-bottom: 100px; vertical-align:middle;">
-                                  <button class= "requestBtn" type="text" id="cancleEditBtn10" style="background-color: #FB8C8C" data-dismiss="modal">cancel</button>
-                                  <button class= "requestBtn" type="submit" id="saveRqEdit10"  style="background-color:#67D00B ">confirm</button>
-                              	</div>
-                            </form>
-					  </div>
-					</div>
-					</div>
-				 {% endfor%}
-                    <!-- 弹出模态框结束-->
-			 <div id="requestTable" class="reportTableDiv">
-
-				 {% for tab in  resource_usage_tab%}
-				 <div class="scheduleForm">
-					 <div class="form-group">
-                                <div class="input-group date col-xs-3 pull-right" name="showcalendar">
-									{% ifnotequal product_changed "notcheck" %}
-										{% ifequal tab.id product_changed %}
-										<span class="input-group-addon" ><i class="fa fa-calendar"></i></span><input id=choosedate{{tab.id}} name="datepicker" type="text" value="{{date_changed}}" class="form-control">
-										{% else %}
-										<span class="input-group-addon" ><i class="fa fa-calendar"></i></span><input id=choosedate{{tab.id}} name="datepicker" type="text" value="{{fedit|date:'Y-m-d'}}" class="form-control">
-										{% endifequal %}
-									{% else %}
-									<span class="input-group-addon" ><i class="fa fa-calendar"></i></span><input id=choosedate{{tab.id}} name="datepicker" type="text" value="{{fedit|date:'Y-m-d'}}" class="form-control">
-									{% endifnotequal %}
-
-                                </div>
+                                    </li>
+                                </ul>
+                                <ul>
+                                    <li class="new_rqleft">SPM:</li>
+                                    <li>
+                                        <input type="text" id="spmInfo" name="spmInfo" style="width:350px;height:24px"/>
+                                    </li>
+                                </ul>
+                                <ul>
+                                    <li class="new_rqleft">Daily Reporter:</li>
+                                    <li>
+                                        <input type="text" id="reporterInfo" name="reporterInfo"
+                                               style="width:350px;height:24px"/>
+                                    </li>
+                                </ul>
                             </div>
-					<table  class="reportTable" id="Box"  >
-						<tr>
-					  <td width="16px"></td>
-					 <td width="70px" ><b>Product: </b></td>
-					<td width="120px"><input type="text"  readonly id="product{{tab.id}}" class="miniForm1" value="{{tab.product}}"/></td>
-				  	 <td width="60px" align="center"><b>SPM: </b></td>
-					<td width="120px"><input type="text" readonly id="spm{{tab.id}}" class="miniForm1" value="{{tab.spm}}"/></td>
-				  	 <td width="110px" align="center"><b>Daily Reporter: </b></td>
-					  <td width="150px"><input type="text" readonly id="daily_reporter{{tab.id}}" class="miniForm1" value="{{tab.daily_reporter}}"/></td>
-					{% if perms.report.add_resourceusagetable %}
-					  <td width="50px"><a data-toggle="modal" data-target="#editModal18{{tab.id}}"  style="cursor:pointer" ><img style="right:16px" src="/static/images/bianji.png"></a></td>
-					  <td><a data-toggle="modal" data-target="#delresourceModal{{tab.id}}"  style="cursor:pointer"><img src="/static/images/shanchu.png"></a></td>
-					{% endif %}
-						</tr>
-						</table>
-					<table class="reportTable" >
-						<tr>
-							<th scope="col" width="90px"><span>Total</span></th>
-							<th scope="col" width="175px"><span>Power Management</span></th>
-							<th scope="col" width="180px"><span>Performance</span></th>
-							<th scope="col" width="95px"><span>Function</span></th>
-							<th scope="col" width="175px"><span>zebu platform</span></th>
-						</tr>
-                  <tr>
-                     <th id="totalval{{tab.id}}">{{tab.total}}H</th>
-                     <th id="power_managementval{{tab.id}}">{{tab.power_management}}H</th>
-                     <th id="performanceval{{tab.id}}">{{tab.performance}}H</th>
-                     <th id="functionval{{tab.id}}">{{tab.function}}H</th>
-                     <th id="zebu_platformval{{tab.id}}">{{tab.zebu_platform}}H</th>
-                  </tr>
-						</table>
-					{% ifnotequal tab.total 0 %}
-					<div id="container{{tab.id}}" style="min-width:650px;height:300px;text-align:center;">
-					<script>
+                            <div align="center" style="margin-bottom: 100px; ">
+                                <button class="requestBtn" type="text" name="cancle" style="background-color: #FB8C8C"
+                                        data-dismiss="modal">cancel
+                                </button>
+                                <button class="requestBtn" name="ok" type="submit" style="background-color:#67D00B ">
+                                    confirm
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 添加模态框（Modal）结束 -->
+        <div class="" style="padding-top:16px">
+            {% for tab in title_tab %}
+            <table class="" id="Box1">
+                <tr>
+                    <td><b>Total：{{tab.total}} H</b></td>
+                </tr>
+                <tr>
+                    <td><b>Usage：{{tab.usage}} H</b></td>
+                    {% if perms.report.add_resourceusagetitletable %}
+                    <td><a data-toggle="modal" data-target="#TitleModal{{tab.id}}" style="cursor:pointer">
+                        <img src="/static/images/bianji.png"></a></td>
+                </tr>
+                {% endif %}
+            </table>
+
+
+            <!-- 弹出模态框（Modal） -->
+            <div class="modal fade" id="TitleModal{{tab.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog" style="width:800px">
+                    <div class="modal-content">
+
+                        <form class="modalForm" method="POST">
+                            {% csrf_token %}
+                            <div class="modalFormContent" id="titleedit">
+                                <input type="text" id="Editid11" name="idEdit11" style="display:none" value={{tab.id}}>
+                                <ul>
+                                    <li class="rqleft">Total:</li>
+                                    <li>
+                                        <select style="width:160px" id="edittotal" name="edittotal">
+                                            <option selected="selected">{% if tab.total < 240 %}0{% widthratio tab.total
+                                                24 1%}{%else%}{% widthratio tab.total 24 1%}{%endif%}
+                                            </option>
+                                            {% for i in totalitem%}
+                                            <option>{{i}}</option>
+                                            {% endfor%}
+                                        </select>x24
+                                    </li>
+                                </ul>
+                                <ul>
+                                    <li class="rqleft">Usage:</li>
+                                    <li>
+                                        <select style="width:160px" id="editusage" name="editusage">
+                                            <option selected="selected">{% if tab.usage < 240 %}0{% widthratio tab.usage
+                                                24 1%}{%else%}{% widthratio tab.usage 24 1%}{%endif%}
+                                            </option>
+                                            {% for i in totalitem%}
+                                            <option>{{i}}</option>
+                                            {% endfor%}
+                                        </select>x24
+                                    </li>
+                                </ul>
+                            </div>
+                            <div align="center" style="margin-bottom: 100px; vertical-align:middle;">
+                                <button class="requestBtn" type="text" id="cancleEditBtn1"
+                                        style="background-color: #FB8C8C" data-dismiss="modal">cancel
+                                </button>
+                                <button class="requestBtn" type="submit" id="saveRqEdit1"
+                                        style="background-color:#67D00B ">confirm
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <table class="" id="Box1">
+                <tr>
+                    <td><b>Total(Piece)：0 H(10×24)</b></td>
+                </tr>
+                <tr>
+                    <td><b>Usage(Piece)：0 H</b></td>
+                    {% if perms.report.add_resourceusagetitletable %}
+                    <td><a data-toggle="modal" data-target="#TitleModal0" style="cursor:pointer">
+                        <img src="/static/images/bianji.png"></a></td>
+                </tr>
+                {% endif %}
+            </table>
+            <div class="modal fade" id="TitleModal0" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog" style="width:800px">
+                    <div class="modal-content">
+
+                        <form class="modalForm" method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="modalFormContent" id="titleedit0">
+                                <input type="text" id="Editid110" name="idEdit110" style="display:none"
+                                       value={{tab.id}}>
+                                <ul>
+                                    <li class="rqleft">Total:</li>
+                                    <li>
+                                        <select style="width:160px" id="edittotal0" name="edittotal0">
+                                            <option selected="selected">{{tab.total}}</option>
+                                            {% for i in totalitem%}
+                                            <option>{{i}}</option>
+                                            {% endfor%}
+                                        </select>
+                                    </li>
+                                </ul>
+                                <ul>
+                                    <li class="rqleft">Usage:</li>
+                                    <li>
+                                        <select style="width:160px" id="editusage0" name="editusage0">
+                                            <option selected="selected">{{tab.usage}}</option>
+                                            {% for i in totalitem%}
+                                            <option>{{i}}</option>
+                                            {% endfor%}
+                                        </select>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div align="center" style="margin-bottom: 100px; vertical-align:middle;">
+                                <button class="requestBtn" type="text" id="cancleEditBtn10"
+                                        style="background-color: #FB8C8C" data-dismiss="modal">cancel
+                                </button>
+                                <button class="requestBtn" type="submit" id="saveRqEdit10"
+                                        style="background-color:#67D00B ">confirm
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            {% endfor%}
+            <!-- 弹出模态框结束-->
+            <div id="requestTable" class="reportTableDiv">
+
+                {% for tab in resource_usage_tab%}
+                <div class="scheduleForm">
+                    <div class="form-group">
+                        <div class="input-group date col-xs-3 pull-right" name="showcalendar">
+                            {% ifnotequal product_changed "notcheck" %}
+                            {% ifequal tab.id product_changed %}
+                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span><input
+                                id=choosedate{{tab.id}} name="datepicker" type="text" value="{{date_changed}}"
+                                class="form-control">
+                            {% else %}
+                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span><input
+                                id=choosedate{{tab.id}} name="datepicker" type="text" value="{{fedit|date:'Y-m-d'}}"
+                                class="form-control">
+                            {% endifequal %}
+                            {% else %}
+                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span><input
+                                id=choosedate{{tab.id}} name="datepicker" type="text" value="{{fedit|date:'Y-m-d'}}"
+                                class="form-control">
+                            {% endifnotequal %}
+
+                        </div>
+                    </div>
+                    <table class="reportTable" id="Box">
+                        <tr>
+                            <td width="16px"></td>
+                            <td width="70px"><b>Product: </b></td>
+                            <td width="120px"><input type="text" readonly id="product{{tab.id}}" class="miniForm1"
+                                                     value="{{tab.product}}"/></td>
+                            <td width="60px" align="center"><b>SPM: </b></td>
+                            <td width="120px"><input type="text" readonly id="spm{{tab.id}}" class="miniForm1"
+                                                     value="{{tab.spm}}"/></td>
+                            <td width="110px" align="center"><b>Daily Reporter: </b></td>
+                            <td width="150px"><input type="text" readonly id="daily_reporter{{tab.id}}"
+                                                     class="miniForm1" value="{{tab.daily_reporter}}"/></td>
+                            {% if perms.report.add_resourceusagetable %}
+                            <td width="50px"><a data-toggle="modal" data-target="#editModal18{{tab.id}}"
+                                                style="cursor:pointer"><img style="right:16px"
+                                                                            src="/static/images/bianji.png"></a></td>
+                            <td><a data-toggle="modal" data-target="#delresourceModal{{tab.id}}" style="cursor:pointer"><img
+                                    src="/static/images/shanchu.png"></a></td>
+                            {% endif %}
+                        </tr>
+                    </table>
+                    <table class="reportTable">
+                        <tr>
+                            <th scope="col" width="90px"><span>Total</span></th>
+                            <th scope="col" width="175px"><span>Power Management</span></th>
+                            <th scope="col" width="180px"><span>Performance</span></th>
+                            <th scope="col" width="95px"><span>Function</span></th>
+                            <th scope="col" width="175px"><span>zebu platform</span></th>
+                        </tr>
+                        <tr>
+                            <th id="totalval{{tab.id}}">{{tab.total}}H</th>
+                            <th id="power_managementval{{tab.id}}">{{tab.power_management}}H</th>
+                            <th id="performanceval{{tab.id}}">{{tab.performance}}H</th>
+                            <th id="functionval{{tab.id}}">{{tab.function}}H</th>
+                            <th id="zebu_platformval{{tab.id}}">{{tab.zebu_platform}}H</th>
+                        </tr>
+                    </table>
+                    {% ifnotequal tab.total 0 %}
+                    <div id="container{{tab.id}}" style="min-width:650px;height:300px;text-align:center;">
+                        <script>
 					    var color = ['#cc9999', '#ffff99', '#666699', '#0099cc', '#cc3999'];
 						var free = {{tab.total}}-{{tab.power_management}}-{{tab.performance}}-{{tab.zebu_platform}}-{{tab.function}}
 						$('#container{{tab.id}}').highcharts({
@@ -268,166 +310,282 @@
 								]
 							}]
 						});
-					</script>
-					</div>
-					{% endifnotequal %}
-				<!--弹出模态框（Modal） -->
-						<div class="modal fade" id="editModal18{{tab.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" style = "width:800px">
-                      <div class="modal-content">
-                        <div class="modal-header">
-                           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                           <h4 class="modal-title" id="myModalLabel">Edit Usage</h4>
-                        </div>
-						  <div class="modal-body">
-                        <form  class = "modalForm" method="POST" onsubmit="return checkFunc({{tab.id}})">
-								{% csrf_token %}
-                              <div class="modalFormContent" id="readRpTab{{tab.id}}">
-								  <input type="text" id="idEdit" name="idEdit" value = {{tab.id}} hidden/>
-								  <ul>
-									<li class="rqleft">Date:</li>
-										<li class="borderBottom">
-										<input type="text" name="showchoosedate" id="showchoosedate{{tab.id}}" value="{{fedit|date:'Y-m-d'}}"  readonly/>
-									  </li>
-								</ul>
-                              	<ul>
-								<li class="new_rqleft">Product:</li>
-								<li>
+
+
+                        </script>
+                    </div>
+                    {% endifnotequal %}
+                    <!--弹出模态框（Modal） -->
+                    <div class="modal fade" id="editModal18{{tab.id}}" tabindex="-1" role="dialog"
+                         aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" style="width:800px">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal"
+                                            aria-hidden="true">&times;</button>
+                                    <h4 class="modal-title" id="myModalLabel">Edit Usage</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <form class="modalForm" method="POST" onsubmit="return checkFunc({{tab.id}})">
+                                        {% csrf_token %}
+                                        <div class="modalFormContent" id="readRpTab{{tab.id}}">
+                                            <input type="text" id="idEdit" name="idEdit" value={{tab.id}} hidden/>
+                                            <ul>
+                                                <li class="rqleft">Date:</li>
+                                                <li class="borderBottom">
+                                                    <input type="text" name="showchoosedate"
+                                                           id="showchoosedate{{tab.id}}" value="{{fedit|date:'Y-m-d'}}"
+                                                           readonly/>
+                                                </li>
+                                            </ul>
+                                            <ul>
+                                                <li class="new_rqleft">Product:</li>
+                                                <li>
 									<span>
-                                  <select class="borderWidth" id="productEdit" name="productEdit">
+                                  <select class="borderWidth" id="productEdit{{tab.id}}" name="productEdit">
                                       <option selected="selected">{{tab.product}}</option>
 									 {%for i in productlist%}
                                       <option>{{i}}</option>
 									  {%endfor%}
                                   </select>
                                   </span>
-								</li>
-							</ul>
-                              	<ul>
-									<li class="rqleft">SPM:</li>
-									<li>
-										<input type="text" id="spmEdit" name="spmEdit" style="width:350px;height:24px" value = "{{tab.spm}}"/>
-									</li>
-								</ul>
-								<ul>
-									<li class="rqleft">Daily Reporter:</li>
-									<li>
-										<input type="text" id="reporterEdit" name="reporterEdit" style="width:350px;height:24px" value = "{{tab.daily_reporter}}"/>
-                                	</li>
-							  	</ul>
-								  <ul>
-									<li class="rqleft">Total:</li>
-									<li>
-										<select style="width:330px;height:24px" id="totalEdit{{tab.id}}" name="totalEdit">
-                                      <option selected="selected" id="selected{{tab.id}}">{%widthratio tab.total 24 1%}</option>
-											{% for i in totalitem%}
-									  <option>{{i}}</option>
-											{% endfor%}
-										</select>x24
-                                	</li>
-							  	</ul>
-								  <ul>
-									<li class="rqleft">Power Management:</li>
-									<li>
-										<input id="managementhourEdit{{tab.id}}" name="managementhourEdit" style="width:330px;height:24px;color: #A2A2A2;" value={{tab.power_management}} readonly />
-										Hour
-                                	</li>
-							  	</ul>
-								  <ul>
-									<li class="rqleft">Performance:</li>
-									<li>
-										<input id="performancehourEdit{{tab.id}}" name="performancehourEdit" style="width:330px;height:24px;color: #A2A2A2;" value={{tab.performance}} readonly />
-										Hour
-                                	</li>
-							  	</ul>
-								 <ul>
-									<li class="rqleft">Function:</li>
-									<li>
-										<input id="functionhourEdit{{tab.id}}" name="functionhourEdit" style="width:330px;height:24px;color: #A2A2A2;" value={{tab.function}} readonly />
-										Hour
-                                	</li>
-							  	</ul>
-								  <ul>
-									<li class="rqleft"> zebu platform:</li>
-									<li>
-										<input id="zubehourEdit{{tab.id}}" name="zubehourEdit" style="width:330px;height:24px;color: #A2A2A2;" value={{tab.zebu_platform}} readonly />
-										Hour
-                                	</li>
-							  	</ul>
-								  <p id="checkNum{{tab.id}}" style="text-align:center;color:red"></p>
-								  <p id="checkNum2{{tab.id}}" style="text-align:center;color:red"></p>
-							  </div>
-								<div align="center" style="margin-bottom: 100px; vertical-align:middle;">
-                                  <button class= "requestBtn" type="text" id="cancleEditBtn18" style="background-color: #FB8C8C" data-dismiss="modal">cancel</button>
-                                  <button class= "requestBtn" type="submit" id="saveRqEdit18"  style="background-color:#67D00B ">confirm</button>
-                              	</div>
-                            </form>
-							  </div>
-                      </div>
-                   </div>
-                 </div>
-					  <!-- 添加模态框（Modal）结束 -->
-						<!-- 模态框（Modal） -->
-								<div class="modal fade" id="delresourceModal{{tab.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-									aria-hidden="true" style='margin: -150px 0 0 -100px'>
-									<div class="modal-dialog planDelForm">
-										<div class="modal-content">
-											<div class="modal-header">
-												<!-- <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> -->
-												<h4 class="modal-title" id="myModalLabel">Delete The Product ?</h4>
-											</div>
-											<div class="modal-body">
-												<form class="delForm" method="POST">
-                                                {% csrf_token %}
-                                                 <input type="text" name = "delresourceId" value = {{tab.id}} hidden />
-													<div align="center" style="margin-bottom: 50px;">
-														<button class="requestBtn" type="text"
-															id="cancleDelBtn" name="cancle"
-															style="background-color: #FB8C8C"
-															data-dismiss="modal">Cancel</button>
-														<button class="requestBtn" name="ok" type="submit"
-															style="background-color: #67D00B">confirm</button>
-													</div>
-												</form>
-											</div>
-										</div>
-									</div>
-								</div>
-					 		</div>
-			{%endfor%}
-            	</div>
-			 </div>
-				<!--
-			<script >
-			{% for tab in resource_usage_tab %}
+                                                </li>
+                                            </ul>
+                                            <ul>
+                                                <li class="rqleft">SPM:</li>
+                                                <li>
+                                                    <input type="text" id="spmEdit{{tab.id}}" name="spmEdit"
+                                                           style="width:350px;height:24px" value="{{tab.spm}}"/>
+                                                </li>
+                                            </ul>
+                                            <ul>
+                                                <li class="rqleft">Daily Reporter:</li>
+                                                <li>
+                                                    <input type="text" id="reporterEdit{{tab.id}}" name="reporterEdit"
+                                                           style="width:350px;height:24px"
+                                                           value="{{tab.daily_reporter}}"/>
+                                                </li>
+                                            </ul>
+                                            <ul>
+                                                <li class="rqleft">Total:</li>
+                                                <li>
+                                                    <select style="width:330px;height:24px" id="totalEdit{{tab.id}}"
+                                                            name="totalEdit">
+                                                        <option selected="selected" id="selected{{tab.id}}">{%widthratio tab.total 24 1%}</option>
+                                                        {% for i in totalitem%}
+                                                        <option>{{i}}</option>
+                                                        {% endfor%}
+                                                    </select>x24
+                                                </li>
+                                            </ul>
+                                            <ul>
+                                                <li class="rqleft">Power Management:</li>
+                                                <li>
+                                                    <input id="managementhourEdit{{tab.id}}" name="managementhourEdit"
+                                                           style="width:330px;height:24px;color: #A2A2A2;"
+                                                           value={{tab.power_management}} readonly/>
+                                                    Hour
+                                                </li>
+                                            </ul>
+                                            <ul>
+                                                <li class="rqleft">Performance:</li>
+                                                <li>
+                                                    <input id="performancehourEdit{{tab.id}}" name="performancehourEdit"
+                                                           style="width:330px;height:24px;color: #A2A2A2;"
+                                                           value={{tab.performance}} readonly/>
+                                                    Hour
+                                                </li>
+                                            </ul>
+                                            <ul>
+                                                <li class="rqleft">Function:</li>
+                                                <li>
+                                                    <input id="functionhourEdit{{tab.id}}" name="functionhourEdit"
+                                                           style="width:330px;height:24px;color: #A2A2A2;"
+                                                           value={{tab.function}} readonly/>
+                                                    Hour
+                                                </li>
+                                            </ul>
+                                            <ul>
+                                                <li class="rqleft"> zebu platform:</li>
+                                                <li>
+                                                    <input id="zubehourEdit{{tab.id}}" name="zubehourEdit"
+                                                           style="width:330px;height:24px;color: #A2A2A2;"
+                                                           value={{tab.zebu_platform}} readonly/>
+                                                    Hour
+                                                </li>
+                                            </ul>
+                                            <p id="checkNum{{tab.id}}" style="text-align:center;color:red"></p>
+                                            <p id="checkNum2{{tab.id}}" style="text-align:center;color:red"></p>
+                                        </div>
+                                        <div align="center" style="margin-bottom: 100px; vertical-align:middle;">
+                                            <button class="requestBtn" type="button"
+                                                    style="background-color: #FB8C8C" data-dismiss="modal">cancel
+                                            </button>
+                                            <button class="requestBtn" type="button" onclick="submitModal({{tab.id}})"
+                                                    style="background-color:#67D00B ">confirm
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 添加模态框（Modal）结束 -->
+                    <!-- 模态框（Modal） -->
+                    <div class="modal fade" id="delresourceModal{{tab.id}}" tabindex="-1" role="dialog"
+                         aria-labelledby="myModalLabel"
+                         aria-hidden="true" style='margin: -150px 0 0 -100px'>
+                        <div class="modal-dialog planDelForm">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <!-- <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> -->
+                                    <h4 class="modal-title" id="myModalLabel">Delete The Product ?</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <form class="delForm" method="POST">
+                                        {% csrf_token %}
+                                        <input type="text" name="delresourceId" value={{tab.id}} hidden/>
+                                        <div align="center" style="margin-bottom: 50px;">
+                                            <button class="requestBtn" type="text"
+                                                    id="cancleDelBtn" name="cancle"
+                                                    style="background-color: #FB8C8C"
+                                                    data-dismiss="modal">Cancel
+                                            </button>
+                                            <button class="requestBtn" name="ok" type="submit"
+                                                    style="background-color: #67D00B">confirm
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {%endfor%}
+            </div>
+        </div>
 
-				$('#container{{tab.id}}').highcharts({
-					chart: {
-						type: 'column'
-					},
-					title: {
-						text: 'My first Highcharts chart'
-					},
-					xAxis: {
-						categories: ['my', 'first', 'chart']
-					},
-					yAxis: {
-						title: {
-							text: 'something'
-						}
-					},
-					series: [{
-						name: 'Jane',
-						data: [1, 0, 4]
-					}, {
-						name: 'John',
-						data: [5, 7, 3]
-					}]
-				});
-			{% endfor %}
-			</script>-->
 
-			<script>
+        <script>
+                function submitModal(id) {
+                    var date = $("#showchoosedate" + id).val();
+                    postData(id, date);
+                }
+
+
+                function getData(product_id, select_date) {
+                    $.ajax({
+                        type: "GET", url: "/report/ajaxget", data: { 'productid': product_id, 'date': select_date },
+                        dataType: "json", success: function (ret) {
+                            //update table view
+                            $("#totalval" + product_id).text(ret.total + "H");
+                            $("#power_managementval" + product_id).text(ret.power_management + "H");
+                            $("#performanceval" + product_id).text(ret.performance + "H");
+                            $("#functionval" + product_id).text(ret.function + "H");
+                            $("#zebu_platformval" + product_id).text(ret.zebu_platform + "H");
+
+                            $("#product" + product_id).val(ret.product);
+                            $("#spm" + product_id).val(ret.spm);
+                            $("#daily_reporter" + product_id).val(ret.daily_reporter);
+
+                            //update modal
+                            $('#productEdit' + product_id).val(ret.product);
+                            $('#spmEdit' + product_id).val(ret.spm);
+                            $('#reporterEdit' + product_id).val(ret.daily_reporter);
+                            $("#totalEdit" + product_id).val(ret.total / 24);
+                            $("#selected" + product_id).text(ret.total / 24);
+                            $("#managementhourEdit" + product_id).val(ret.power_management);
+                            $("#performancehourEdit" + product_id).val(ret.performance);
+                            $("#functionhourEdit" + product_id).val(ret.function);
+                            $("#zubehourEdit" + product_id).val(ret.zebu_platform);
+
+                            //update highchart
+                            if (ret.total != 0) {
+                                $('#container' + id).show()
+                                var color = ['#cc9999', '#ffff99', '#666699', '#0099cc', '#cc3999'];
+                                var free = ret.total - ret.power_management - ret.performance - ret.function - ret.zebu_platform;
+                                $('#container' + id).highcharts({
+                                    chart: {
+                                        plotBackgroundColor: null,
+                                        plotBorderWidth: null,
+                                        plotShadow: false
+                                    },
+                                    colors: color,
+                                    title: {
+                                        text: ''
+                                    },
+                                    tooltip: {
+                                        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                                    },
+                                    plotOptions: {
+                                        pie: {
+                                            allowPointSelect: true,
+                                            cursor: 'pointer',
+                                            dataLabels: {
+                                                enabled: true,
+                                                /* format: '<b>{point.name}</b>: {point.percentage:.1f} %', */
+                                                formatter: function () {
+                                                    if (this.percentage > 0)
+                                                        return '<b>' + this.point.name + '</b>: ' + this.percentage.toFixed(1) + '%'; //当所占百分比为0时不显示
+                                                },
+                                                style: {
+                                                    color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                                                }
+                                            }
+                                        }
+                                    },
+                                    series: [{
+                                        type: 'pie',
+                                        name: 'share',
+                                        data: [
+                                            ['power_management', ret.power_management],
+                                            ['performance', ret.performance],
+                                            ['function', ret.function],
+                                            ['zebu_platform', ret.zebu_platform],
+                                            ['free', free]
+                                        ]
+                                    }]
+                                });
+                            }
+                            else {
+                                $('#container' + id).hide();
+                            }
+                        }
+                    })
+                }
+
+                function postData(product_id, select_date) {
+                    $.ajax({
+                        type: "POST",
+                        url: "/report/ajaxpost",
+                        data: {
+                            'productEdit': $("#product" + product_id).val(),
+                            'spmEdit': $('#spmEdit' + product_id).val(),
+                            'reporterEdit': $('#reporterEdit' + product_id).val(),
+                            'totalEdit': $("#totalEdit" + product_id).val(),
+                            'showchoosedate': select_date,
+                            'idEdit': product_id
+                        },
+
+                        dataType: "json",
+                        success: function () {
+                            console.log("success");
+                            //update table view
+                            $("#totalval" + product_id).text($("#totalEdit" + product_id).val()*24 + "H");
+                            $("#power_managementval" + product_id).text($("#managementhourEdit" + product_id).val() + "H");
+                            $("#performanceval" + product_id).text($("#performancehourEdit" + product_id).val() + "H");
+                            $("#functionval" + product_id).text($("#functionhourEdit" + product_id).val() + "H");
+                            $("#zebu_platformval" + product_id).text($("#zubehourEdit" + product_id).val() + "H");
+
+                            $("#product" + product_id).val($("#productEdit" + product_id).val());
+                            $("#spm" + product_id).val($("#spmEdit" + product_id).val());
+                            $("#daily_reporter" + product_id).val($("#reporterEdit" + product_id).val());
+
+                            //hide modal
+                            $("#editModal18"+product_id).modal('hide')
+                        },
+                    })
+                }
 
 				function checkFunc(id){
 				var total=$("#totalEdit"+id).val();				
@@ -463,78 +621,11 @@
 					id = $(this).attr("id").substring(10);
 					// $.get("/report/ajaxget",{'productid':$(this).attr("id"),'date': date}, function(ret)
 
-					$.ajax({ type:"GET",url:"/report/ajaxget",data:{'productid':$(this).attr("id"),'date': dates},
-					dataType:"json",success:function(ret){
-					$("#totalval"+id).text(ret.total+"H");
-                    $("#power_managementval"+id).text(ret.power_management+"H");
-                    $("#performanceval"+id).text(ret.performance+"H");
-                    $("#functionval"+id).text(ret.function+"H");
-					$("#zebu_platformval"+id).text(ret.zebu_platform+"H");
+					getData(id, dates);
+				});
 
-					$("#product"+id).val(ret.product)
-					$("#spm"+id).val(ret.spm)
-					$("#daily_reporter"+id).val(ret.daily_reporter)
 
-                	$("#selected"+id).text(ret.total/24);
-					$("#managementhourEdit"+id).val(ret.power_management);
-					$("#performancehourEdit"+id).val(ret.performance);
-					$("#functionhourEdit"+id).val(ret.function);
-					$("#zubehourEdit"+id).val(ret.zebu_platform);
-
-					if(ret.total != 0){
-						$('#container'+id).show()
-					    var color = ['#cc9999', '#ffff99', '#666699', '#0099cc', '#cc3999'];
-						var free = ret.total-ret.power_management-ret.performance-ret.function-ret.zebu_platform;
-						$('#container'+id).highcharts({
-							chart: {
-								plotBackgroundColor: null,
-								plotBorderWidth: null,
-								plotShadow: false
-							},
-							colors:color,
-							title: {
-								text: ''
-							},
-							tooltip: {
-								pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-							},
-							plotOptions: {
-								pie: {
-									allowPointSelect: true,
-									cursor: 'pointer',
-									dataLabels: {
-										enabled: true,
-										/* format: '<b>{point.name}</b>: {point.percentage:.1f} %', */
-										formatter: function() {
-							                   if (this.percentage > 0)
-							                       return '<b>' + this.point.name + '</b>: ' + this.percentage.toFixed(1) + '%'; //当所占百分比为0时不显示
-							               },
-										style: {
-											color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
-										}
-									}
-								}
-							},
-							series: [{
-								type: 'pie',
-								name: 'share',
-								data: [
-									['power_management',   ret.power_management],
-									['performance',       ret.performance],
-									['function',     ret.function],
-									['zebu_platform',    ret.zebu_platform],
-									['free', free]
-								]
-							}]
-						});
-					}else{
-						$('#container'+id).hide()
-						
-					}
-
-					}});
-				})
-				</script>
-		</div>
-		
+        </script>
+    </div>
+</div>
 {% endblock %}

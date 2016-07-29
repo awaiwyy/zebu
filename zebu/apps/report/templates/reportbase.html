@@ -1,30 +1,30 @@
 <!DOCTYPE html>
 <html xmlns="http:/www.w3.org/1999/xhtml">
 <head>
-<title>Zebu Request</title>
-<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
-<meta http-equiv="X-UA-Compatible" content="IE=9,chrome=1">
-<!-- Mobile Specific Metas -->
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-<!-- 导入文件 -->
-<!-- css -->
-<!--  <link href="http://apps.bdimg.com/libs/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">-->
-<link rel="stylesheet" href="/static/css/bootstrap.min.css" />
-<link href="/static/css/com.css" type="text/css" rel="stylesheet" />
-<link href="/static/report/css/report.css" type="text/css" rel="stylesheet" />
-<link href="/static/css/application.css" type="text/css" rel="stylesheet" />
-<link rel="stylesheet" href="/static/report/css/blueimp-gallery.min.css">
-<link href="/static/report/css/bootstrap-datepicker.css" type="text/css" rel="stylesheet" />
-<link href="/static/report/font-awesome/css/font-awesome.css" type="text/css" rel="stylesheet" />
+    <title>Zebu Request</title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=9,chrome=1">
+    <!-- Mobile Specific Metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+    <!-- 导入文件 -->
+    <!-- css -->
+    <!--  <link href="http://apps.bdimg.com/libs/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">-->
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css"/>
+    <link href="/static/css/com.css" type="text/css" rel="stylesheet"/>
+    <link href="/static/report/css/report.css" type="text/css" rel="stylesheet"/>
+    <link href="/static/css/application.css" type="text/css" rel="stylesheet"/>
+    <link rel="stylesheet" href="/static/report/css/blueimp-gallery.min.css">
+    <link href="/static/report/css/bootstrap-datepicker.css" type="text/css" rel="stylesheet"/>
+    <link href="/static/report/font-awesome/css/font-awesome.css" type="text/css" rel="stylesheet"/>
 
-<!-- js -->
-<script src="/static/js/jquery-1.11.1.min.js"></script>
-<script src="/static/report/js/blueimp-gallery.min.js"></script>
-<script src="/static/js/highcharts.js"></script>
-<script src="/static/report/js/bootstrap-datepicker.min.js"></script>
-<!-- <script src="http://apps.bdimg.com/libs/bootstrap/3.2.0/js/bootstrap.min.js"></script> -->
-<script src="/static/js/bootstrap.min.js"></script>
-<script type="text/javascript">
+    <!-- js -->
+    <script src="/static/js/jquery-1.11.1.min.js"></script>
+    <script src="/static/report/js/blueimp-gallery.min.js"></script>
+    <script src="/static/js/highcharts.js"></script>
+    <script src="/static/report/js/bootstrap-datepicker.min.js"></script>
+    <!-- <script src="http://apps.bdimg.com/libs/bootstrap/3.2.0/js/bootstrap.min.js"></script> -->
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
 	/mobi/i.test(navigator.userAgent) && !location.hash
 			&& setTimeout(function() {
 				if (!pageYOffset)
@@ -38,73 +38,84 @@
 			flag_browser = "ie";
 		}
 	})
-</script>
-<style>
+
+	$.ajaxSetup({
+		data: {csrfmiddlewaretoken: '{{ csrf_token }}' },
+	});
+
+
+    </script>
+    <style>
 	.menu { padding:0; margin:0; list-style-type:none;}
 	.menu li a { display:block; width:140px; text-align:center; height:34px; line-height:32px; color:#00000;text-decoration:none;}
 	.cur{ background:#87CEFF;}
-</style>
+
+
+
+    </style>
 </head>
 <body>
-	<!-- 头文件 -->
-	<div class="head">
-		<img class="imgleftright" src="/static/images/background-left.png" /> 
-		<img class="imgcenter" src="/static/images/background-middle.png" /> 
-		<img class="imgleftright" src="/static/images/background-right.png" />
-		<div class="clearfix"></div>
-		<table class="headtable">
-			<tr>
-				<td><a href="#"><img src="/static/images/zebu.png" /></a></td>
-			</tr>
-			<tr>
-				<td>
-					<ul class="select">
-						<li class="select-list">
-							<dl id="select1">
-								<dd>
-									<a href="/">Login</a>
-								</dd>
-								<dd>
-									<a href="/home/">Home</a>
-								</dd>
-								<dd>
-									<a href="/request">Request</a>
-								</dd>
-								<dd>
-									<a href="/plan">Plan</a>
-								</dd>
-								<dd class="select-all selected">
-									<a href="/report">Report</a>
-								</dd>
-							</dl>
-						</li>
-					</ul>
-				</td>
-			</tr>
-		</table>
-	</div>
-        <div class="divleft"></div>
-	<!-- 中间部分 -->
-	<div class="middle" >
-		<div class="middletitle" >
-			<p>
+<!-- 头文件 -->
+<div class="head">
+    <img class="imgleftright" src="/static/images/background-left.png"/>
+    <img class="imgcenter" src="/static/images/background-middle.png"/>
+    <img class="imgleftright" src="/static/images/background-right.png"/>
+    <div class="clearfix"></div>
+    <table class="headtable">
+        <tr>
+            <td><a href="#"><img src="/static/images/zebu.png"/></a></td>
+        </tr>
+        <tr>
+            <td>
+                <ul class="select">
+                    <li class="select-list">
+                        <dl id="select1">
+                            <dd>
+                                <a href="/">Login</a>
+                            </dd>
+                            <dd>
+                                <a href="/home/">Home</a>
+                            </dd>
+                            <dd>
+                                <a href="/request">Request</a>
+                            </dd>
+                            <dd>
+                                <a href="/plan">Plan</a>
+                            </dd>
+                            <dd class="select-all selected">
+                                <a href="/report">Report</a>
+                            </dd>
+                        </dl>
+                    </li>
+                </ul>
+            </td>
+        </tr>
+    </table>
+</div>
+<div class="divleft"></div>
+<!-- 中间部分 -->
+<div class="middle">
+    <div class="middletitle">
+        <p>
 				<span class="middletite1"> 
 				<a href="/" class="title">Login</a>&nbsp;&nbsp;-&nbsp;&nbsp;
 				</span>
-				<span class="middletite2">Report</span>
-			</p>
-		</div>
-		<!-- 左侧模块 -->
-		<div class="middleleft">
-			<div class="middleleft2" style="position: relative; top: -16px;">
-				<div class="middleleft_center">
-					<ul class="menu" id="menu">
-						<li id="middleleft_center_topli"><a href="resource_usage" style="color:#8e8e8e">Resource Usage</a></li>
-						<li><a href="schedule" style="color:#8e8e8e">Schedule</a></li>
-						<li><a href="main_tf_status" style="color:#8e8e8e">Main TF Status</a></li>
-						<li id="middleleft_center_bottomli" ><a href="daily_report" style="color:#8e8e8e">Daily Report</a></li>
-					</ul>
-					<script type="text/javascript">
+            <span class="middletite2">Report</span>
+        </p>
+    </div>
+    <!-- 左侧模块 -->
+    <div class="middleleft">
+        <div class="middleleft2" style="position: relative; top: -16px;">
+            <div class="middleleft_center">
+                <ul class="menu" id="menu">
+                    <li id="middleleft_center_topli"><a href="resource_usage" style="color:#8e8e8e">Resource Usage</a>
+                    </li>
+                    <li><a href="schedule" style="color:#8e8e8e">Schedule</a></li>
+                    <li><a href="main_tf_status" style="color:#8e8e8e">Main TF Status</a></li>
+                    <li id="middleleft_center_bottomli"><a href="daily_report" style="color:#8e8e8e">Daily Report</a>
+                    </li>
+                </ul>
+                <script type="text/javascript">
 					var urlstr = location.href;
 					//alert((urlstr + '/').indexOf($(this).attr('href')));
 					var urlstatus=false;
@@ -117,13 +128,16 @@
 					});
 					if (!urlstatus) {$("#menu a").eq(0).addClass('cur'); }
 
-					</script>
-				</div>
 
-			</div>
-		</div>
-        {% block content %}{% endblock %}
-	<script>
+
+
+                </script>
+            </div>
+
+        </div>
+    </div>
+    {% block content %}{% endblock %}
+    <script>
 $("div[aria-valuetext='sslinks']").click(function (event) {
 	event = event || window.event;
 	var target = event.target || event.srcElement,
@@ -132,7 +146,10 @@ $("div[aria-valuetext='sslinks']").click(function (event) {
 	links = this.getElementsByTagName('a');
 	blueimp.Gallery(links, options);
 	});
-</script>
-		</div>
+
+
+
+    </script>
+</div>
 </body>
 </html>
