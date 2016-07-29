@@ -499,10 +499,10 @@
 
                             //update highchart
                             if (ret.total != 0) {
-                                $('#container' + id).show()
+                                $('#container' + product_id).show()
                                 var color = ['#cc9999', '#ffff99', '#666699', '#0099cc', '#cc3999'];
                                 var free = ret.total - ret.power_management - ret.performance - ret.function - ret.zebu_platform;
-                                $('#container' + id).highcharts({
+                                $('#container' + product_id).highcharts({
                                     chart: {
                                         plotBackgroundColor: null,
                                         plotBorderWidth: null,
@@ -546,7 +546,7 @@
                                 });
                             }
                             else {
-                                $('#container' + id).hide();
+                                $('#container' + product_id).hide();
                             }
                         }
                     })
@@ -569,18 +569,77 @@
                         success: function () {
                             console.log("success");
                             //update table view
-                            $("#totalval" + product_id).text($("#totalEdit" + product_id).val()*24 + "H");
-                            $("#power_managementval" + product_id).text($("#managementhourEdit" + product_id).val() + "H");
-                            $("#performanceval" + product_id).text($("#performancehourEdit" + product_id).val() + "H");
-                            $("#functionval" + product_id).text($("#functionhourEdit" + product_id).val() + "H");
-                            $("#zebu_platformval" + product_id).text($("#zubehourEdit" + product_id).val() + "H");
+                            var total=parseInt($("#totalEdit" + product_id).val())*24;
+                            var power_management=parseInt($("#managementhourEdit" + product_id).val());
+                            var performance=parseInt($("#performancehourEdit" + product_id).val());
+                            var functionhour=parseInt($("#functionhourEdit" + product_id).val());
+                            var zebu_platform=parseInt($("#zubehourEdit" + product_id).val());
+                            $("#totalval" + product_id).text(total + "H");
+                            $("#power_managementval" + product_id).text(power_management + "H");
+                            $("#performanceval" + product_id).text(performance + "H");
+                            $("#functionval" + product_id).text(functionhour + "H");
+                            $("#zebu_platformval" + product_id).text(zebu_platform + "H");
 
                             $("#product" + product_id).val($("#productEdit" + product_id).val());
                             $("#spm" + product_id).val($("#spmEdit" + product_id).val());
                             $("#daily_reporter" + product_id).val($("#reporterEdit" + product_id).val());
 
                             //hide modal
-                            $("#editModal18"+product_id).modal('hide')
+                            if (checkFunc(product_id)){
+                                $("#editModal18"+product_id).modal('hide');
+                                }
+
+                            //update highchart
+                            if (total != 0) {
+                                $('#container' + product_id).show()
+                                var color = ['#cc9999', '#ffff99', '#666699', '#0099cc', '#cc3999'];
+                                var free = total - power_management - performance - functionhour - zebu_platform;
+                                $('#container' + product_id).highcharts({
+                                    chart: {
+                                        plotBackgroundColor: null,
+                                        plotBorderWidth: null,
+                                        plotShadow: false
+                                    },
+                                    colors: color,
+                                    title: {
+                                        text: ''
+                                    },
+                                    tooltip: {
+                                        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                                    },
+                                    plotOptions: {
+                                        pie: {
+                                            allowPointSelect: true,
+                                            cursor: 'pointer',
+                                            dataLabels: {
+                                                enabled: true,
+                                                /* format: '<b>{point.name}</b>: {point.percentage:.1f} %', */
+                                                formatter: function () {
+                                                    if (this.percentage > 0)
+                                                        return '<b>' + this.point.name + '</b>: ' + this.percentage.toFixed(1) + '%'; //当所占百分比为0时不显示
+                                                },
+                                                style: {
+                                                    color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                                                }
+                                            }
+                                        }
+                                    },
+                                    series: [{
+                                        type: 'pie',
+                                        name: 'share',
+                                        data: [
+                                            ['power_management', power_management],
+                                            ['performance', performance],
+                                            ['function', functionhour],
+                                            ['zebu_platform', zebu_platform],
+                                            ['free', free]
+                                        ]
+                                    }]
+                                });
+                            }
+                            else {
+                                $('#container' + product_id).hide();
+                            }
                         },
                     })
                 }
@@ -600,6 +659,8 @@
 				}
 				else{
 					$("#checkNum"+id).text("");
+                    $("#checkNum2"+id).text("");
+                    return true;
 				}
 				}
 
