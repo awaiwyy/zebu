@@ -118,8 +118,6 @@ def report_Resource(request):
     resource_usage_tab = ResourceUsageTable.objects.filter(is_show="true").order_by("id")
     #find first edit date of TotalTable.
     fedit="2000-01-01"
-    edit_date="2000-01-01"
-    edit_id="-1"
     try:
         first_edit=total_tab1[0]
         fedit=first_edit.change_date
@@ -200,46 +198,21 @@ def report_Resource(request):
             edittitle_tab.total= total
             edittitle_tab.usage = usage
             edittitle_tab.save()
-        elif 'productEdit' in request.POST.keys():
-            edit_id = request.POST['idEdit']
-            edit_resource = ResourceUsageTable.objects.get(id=edit_id)
-            Pro_product = edit_resource.product
-            edit_resource.product = request.POST['productEdit']
-            if Pro_product != edit_resource.product:
-                ResourceUsageTable.objects.filter(product=Pro_product).delete()
-                edit_resource.product = request.POST['productEdit']
-                edit_resource.spm = request.POST['spmEdit']
-                edit_resource.daily_reporter = request.POST['reporterEdit']
-                edit_resource.total = int(request.POST['totalEdit']) * 24
-                edit_resource.save()
-            else:
-                edit_product = request.POST['productEdit']
-                edit_date = request.POST['showchoosedate']
-                edit_resource1 = ResourceUsageTable.objects.get(is_show="true",product=edit_product,choosedate=edit_date)
-                edit_resource1.spm = request.POST['spmEdit']
-                edit_resource1.daily_reporter = request.POST['reporterEdit']
-                total1=edit_resource1.total
-                edit_resource1.total = int(request.POST['totalEdit'])*24
-                total2 = edit_resource1.total
-                if total1 != total2:
-                   edit_resource1.is_edit = "true"
-                edit_resource1.save()
         elif 'delresourceId' in request.POST.keys():
             del_id = request.POST['delresourceId']
             del_product=ResourceUsageTable.objects.get(id=del_id).product
             ResourceUsageTable.objects.filter(product=del_product).update(is_show="false")
-        date_changed =  edit_date
         resource_usage_tab = ResourceUsageTable.objects.filter(is_show="true", choosedate=fedit).order_by("id")
         
-        #return HttpResponseRedirect('resource_usage', {"date_changed": date_changed, "resource_usage_tab":  resource_usage_tab,"title_tab": title_tab,"totalitem":totalitem,"productlist":productlist,"fedit":fedit})
-        return render(request, 'report/resource_usage.html',
-                        {"product_changed": int(edit_id),
-                        "date_changed":date_changed, 
-                        "resource_usage_tab": resource_usage_tab,
-                        "title_tab": title_tab,
-                        "productlist":productlist,
-                        "totalitem":totalitem,
-                        "fedit":fedit})
+        return HttpResponseRedirect('resource_usage')
+        # return render(request, 'report/resource_usage.html',
+        #                 {"product_changed": int(edit_id),
+        #                 "date_changed":date_changed, 
+        #                 "resource_usage_tab": resource_usage_tab,
+        #                 "title_tab": title_tab,
+        #                 "productlist":productlist,
+        #                 "totalitem":totalitem,
+        #                 "fedit":fedit})
 
     else:
         #print "GET!!!!"
