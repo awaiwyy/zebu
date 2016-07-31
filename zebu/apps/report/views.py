@@ -112,7 +112,7 @@ def file_Download(request,filename):
 def report_Resource(request):
     date_changed=""
     tf_list=['Power','Performance','Fun','ZEBU']
-    plan_tab=RequestTable.objects.filter(is_plan="true",status="ongoing").order_by("id")
+    plan_tab=RequestTable.objects.filter(is_plan="true").order_by("id")
     total_tab1=TotalTable.objects.order_by("-change_date","-id")
     title_tab = ResourceUsageTitleTable.objects.all()
     resource_usage_tab = ResourceUsageTable.objects.filter(is_show="true").order_by("id")
@@ -231,7 +231,7 @@ def report_Resource(request):
                 idlist=[]
                 for tab1 in res_plan_tab:
                     idlist.append(tab1.id)
-                total_tab_all=TotalTable.objects.filter(request_id__in=idlist).order_by("-change_date","-id")
+                total_tab_all=TotalTable.objects.filter(request_id__in=idlist,status="ongoing").order_by("-change_date","-id")
                 total_tab=total_tab_all.filter(change_date=fedit)
                 totalusage=0
                 for tab in total_tab:
@@ -432,7 +432,7 @@ def ajaxget(request):
     edit_product = ResourceUsageTable.objects.get(id=getproductid).product
     #collect plan page daily duration sum which product name same as resource usage page classify by tf_case.
     tf_list=['Power','Performance','Fun','ZEBU']
-    plan_tab=RequestTable.objects.filter(is_plan="true",status="ongoing").order_by("id")
+    plan_tab=RequestTable.objects.filter(is_plan="true").order_by("id")
     resource_usage_tab = ResourceUsageTable.objects.filter(is_show="true",product=edit_product).order_by('-choosedate')
     usagelist=[]
     usage=[]
@@ -441,7 +441,7 @@ def ajaxget(request):
         idlist=[]
         for tab1 in res_plan_tab:
             idlist.append(tab1.id)
-        total_tab_all=TotalTable.objects.filter(request_id__in=idlist).order_by("-change_date","-id")
+        total_tab_all=TotalTable.objects.filter(request_id__in=idlist,status="ongoing").order_by("-change_date","-id")
         total_tab=total_tab_all.filter(change_date=getdate)
         totalusage=0
         for tab in total_tab:

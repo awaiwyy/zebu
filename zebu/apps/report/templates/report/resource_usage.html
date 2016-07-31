@@ -290,21 +290,11 @@
 								type: 'pie',
 								name: 'share',
 								data: [
-									{% ifnotequal tab.power_management 0 %}
 									['power_management',   {{tab.power_management}}],
-									{% endifnotequal %}
-									{% ifnotequal tab.performance 0 %}
 									['performance',       {{tab.performance}}],
-									{% endifnotequal %}
-									{% ifnotequal tab.function 0 %}
 									['function',     {{tab.function}}],
-									{% endifnotequal %}
-									{% ifnotequal tab.zebu_platform 0 %}
 									['zebu_platform',    {{tab.zebu_platform}}],
-									{% endifnotequal %}
-									{% ifnotequal free 0 %}
 									['free', free]
-									{% endifnotequal %}
 								]
 							}]
 						});
