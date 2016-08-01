@@ -159,7 +159,7 @@ def planPage(request, **kwargs):
     valid_dailyDura = []
     valid_dailyduration_piece = []
     valid_dailyduration_hour = []
-    for hour in range(1, 25):
+    for hour in range(0, 24):
         if hour < 10:
             hour="0"+str(hour)
         valid_dailyduration_hour.append(hour)
