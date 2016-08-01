@@ -251,9 +251,14 @@
                             <th id="zebu_platformval{{tab.id}}">{{tab.zebu_platform}}H</th>
                         </tr>
                     </table>
-                    {% ifnotequal tab.total 0 %}
-                    <div id="container{{tab.id}}" style="min-width:650px;height:300px;text-align:center;">
+                    
+                    <div id="container{{tab.id}}" style="min-width:650px;height:300px;text-align:center;"></div>
                         <script>
+                        if({{tab.total}} != 0){
+                            $('#container'+{{tab.id}}).show();
+                        }else{
+                            $('#container'+{{tab.id}}).hide();
+                        }
 					    var color = ['#cc9999', '#ffff99', '#666699', '#0099cc', '#cc3999'];
 						var free = {{tab.total}}-{{tab.power_management}}-{{tab.performance}}-{{tab.zebu_platform}}-{{tab.function}}
 						$('#container{{tab.id}}').highcharts({
@@ -298,11 +303,7 @@
 								]
 							}]
 						});
-
-
                         </script>
-                    </div>
-                    {% endifnotequal %}
                     <!--弹出模态框（Modal） -->
                     <div class="modal fade" id="editModal18{{tab.id}}" tabindex="-1" role="dialog"
                          aria-labelledby="myModalLabel" aria-hidden="true">
@@ -486,7 +487,7 @@
                             $("#performancehourEdit" + product_id).val(ret.performance);
                             $("#functionhourEdit" + product_id).val(ret.function);
                             $("#zubehourEdit" + product_id).val(ret.zebu_platform);
-
+                           
                             //update highchart
                             if (ret.total != 0) {
                                 $('#container' + product_id).show()
