@@ -537,7 +537,8 @@ def planPage(request, **kwargs):
                 durationEdit=request.POST['durationEdit'+id]
                 total_tab=TotalTable.objects.filter(request_id=edit_id).get(id=id)
                 total_tab.daily_duration=durationEdit
-                total_tab.status='ongoing'
+                if request.POST['statusEdit'] != "close":
+                    total_tab.status='ongoing'
                 total_tab.save()
 
             edit_plan.save()
