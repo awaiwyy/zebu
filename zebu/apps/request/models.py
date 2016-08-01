@@ -16,7 +16,8 @@ classification_choice = (
                     ('classify3', 'Performance'),
                     ('classify4', 'Power'),
                     ('classify5', 'Kernel'),
-                    ('classify6', 'Other'),
+                    ('classify6', 'Platform'),
+                    ('classify7', 'Other')
                 )
 
 module_choice = (
@@ -30,6 +31,8 @@ module_choice = (
                  ('module8', 'Graphics'),
                  ('module9', 'DDR'),
                  ('module10', 'WCN'),
+                 ('module11', 'GSP'),
+                 ('module12', 'Other'),
                 )
 
 environment_choice = (

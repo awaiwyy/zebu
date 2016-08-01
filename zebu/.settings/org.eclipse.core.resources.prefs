@@ -10,4 +10,5 @@ encoding//apps/request/migrations/0003_auto_20160316_1744.py=utf-8
 encoding//apps/request/migrations/0004_requesttable_is_plan.py=utf-8
 encoding//apps/request/migrations/0005_auto_20160317_1409.py=utf-8
 encoding//apps/request/migrations/0006_auto_20160317_1414.py=utf-8
+encoding//apps/request/models.py=utf-8
 encoding//apps/request/views.py=utf-8
