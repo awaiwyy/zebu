@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+	<!DOCTYPE html>
 <html xmlns="http:/www.w3.org/1999/xhtml">
 <head>
 <title>Zebu Plan</title>
@@ -78,8 +78,14 @@
 		}
 	}
 
-	function aaa(id) {
-   document.getElementById("history"+id).style.display='inline-block';
+	function showHistory(id) {
+		if($("#history"+id).attr("aria-checked") == "false"){			
+			document.getElementById("history"+id).style.display='inline-block';
+			$("#history"+id).attr("aria-checked","true");
+		}else{
+			document.getElementById("history"+id).style.display='none';
+			$("#history"+id).attr("aria-checked","false");
+		}
 }
 
 function saveChangeid(proid,id){
@@ -105,6 +111,7 @@ function validatetime(tab_id) {
 	var startminute = document.getElementById("startminuteid" + tab_id).value;
 	var startsecond = document.getElementById("startsecondid" + tab_id).value;
 	startDate.setFullYear(startyear, startmonth - 1, startday);
+	var today = new Date();
 	if (!(startyear == "" && startmonth == "" && startday == "" && starthour == "" && startminute == "" && startsecond == "")){
 		if (startyear == "" || startmonth == "" || startday == "" || starthour == "" || startminute == "" || startsecond == ""){
 			$("#starttime" + tab_id).text("请填完整Start Time");
@@ -123,6 +130,13 @@ function validatetime(tab_id) {
 		$("#closetime" + tab_id).text("");
 		}
 	}
+	if (closeDate>today) {
+		$("#checkClose1" + tab_id).text("Close time不能是未来时间");
+		return false;
+	    }
+		else{
+			$("#checkClose1"+tab_id).text("");
+		}
 	if (startyear !== "")
 	{
 		if (closeyear !== "" && closeDate < startDate) {
@@ -229,7 +243,7 @@ function validatetime(tab_id) {
 										<th scope="col" width="120px"><span>Product</span></th>
 										<th scope="col" width="120px"><span>TF case</span></th>
 										<th scope="col" width="360px"><span>Action
-												Discription</span></th>
+												Description</span></th>
 									</tr>
 									{% for tab in request_tab %}
 									<tr>
@@ -260,7 +274,7 @@ function validatetime(tab_id) {
 								</table>
 								<div class="newPlanDiv">
 									<button class="newPlanBtn" type="text"
-										style="background-color: #FB8C8C" data-dismiss="modal">cancle</button>
+										style="background-color: #FB8C8C" data-dismiss="modal">cancel</button>
 									<button class="newPlanBtn" type="submit"
 										style="background-color: #67D00B">confirm</button>
 								</div>
@@ -327,7 +341,7 @@ function validatetime(tab_id) {
 							<th scope="col" width="84px"><span>Product</span></th>
 							<th scope="col" width="84px"><span>Module</span></th>
 							<th scope="col" width="222px"><span>Action
-									Discription</span></th>
+									Description</span></th>
 							<th scope="col" width="80px"><span>Owner</span></th>
 							<th scope="col" width="120px"><span>Status</span></th>
 							<th scope="col" width="88px"><span>Start Time</span></th>
@@ -412,7 +426,7 @@ function validatetime(tab_id) {
 													<li class="borderBottom">{{tab.tf_case}}</li>
 												</ul>
 												<ul>
-													<li class="rqleft">Action Discription:</li>
+													<li class="rqleft">Action Description:</li>
 													<li class="borderBottom">{{tab.action_discription|safe}}</li>
 												</ul>
 												<ul>
@@ -497,6 +511,7 @@ function validatetime(tab_id) {
 																		<option>Power</option>
 																		<option>Thermal</option>
 																		<option>Kernel</option>
+																		<option>Platform</option>
 																		<option>Other</option>
 																</select>
 															</span></li>
@@ -516,6 +531,8 @@ function validatetime(tab_id) {
 																		<option>Graphics</option>
 																		<option>DDR</option>
 																		<option>WCN</option>
+																		<option>GSP</option>
+                                     									<option>Other</option>
 																</select>
 															</span></li>
 														</ul>
@@ -524,36 +541,42 @@ function validatetime(tab_id) {
 															<li><span> <select class="borderWidth"
 																	id="tfcaseEdit" name="tfcaseEdit">
 																		<option selected="">{{tab.tf_case}}</option>
-																		<option>Power-CHIP</option>
-																		<option>Power-DISP</option>
-																		<option>Power-MM</option>
-																		<option>Power-GPU</option>
-																		<option>Power-Modem</option>
-																		<option>Performance-DDR</option>
-																		<option>Performance-Benchmark</option>
-																		<option>Performance-GPU</option>
-																		<option>Performance-DISP</option>
-																		<option>Performance-Storage</option>
-																		<option>Performance-USB</option>
-																		<option>Fun-DISP</option>
-																		<option>Fun-CV</option>
-																		<option>Fun-Android boot</option>
-																		<option>Fun-GPU</option>
-																		<option>Fun-SEC</option>
-																		<option>Fun-DDR</option>
-																		<option>Fun-Storage</option>
-																		<option>Fun-USB/ADB</option>
-																		<option>Fun-RomCode</option>
-																		<option>Fun-SPL</option>
-																		<option>Fun-Uboot</option>
-																		<option>Fun-Kernel</option>
-																		<option>Fun-TinyAndroid</option>
-																		<option>ZEBU Platform</option>
+								                                        <option>PM</option>
+                                      									<option>Power-CHIP</option>
+                                      									<option>Power-DISP</option>
+                                      									<option>Power-MM</option>
+                                      									<option>Power-GPU</option>
+                                      									<option>Power-Modem</option>
+                                      									<option>Performance-DDR</option>
+                                      									<option>Performance-Benchmark</option>
+                                      									<option>Performance-GPU</option>
+                                      									<option>Performance-DISP</option>
+                                      									<option>Performance-Storage</option>
+                                      									<option>Performance-USB</option>
+                                      									<option>Fun-DISP</option>
+                                      									<option>Fun-DPU</option>
+                                      									<option>Fun-EMMC</option>
+                                      									<option>Fun-Modem</option>
+                                      									<option>Fun-GSP</option>
+                                      									<option>Fun-CV</option>
+                                      									<option>Fun-Android boot</option>
+                                      									<option>Fun-GPU</option>
+                                      									<option>Fun-SEC</option>
+                                     									<option>Fun-DDR</option>
+                                      									<option>Fun-Storage</option>
+                                      									<option>Fun-USB/ADB</option>
+                                      									<option>Fun-RomCode</option>
+                                      									<option>Fun-SPL</option>
+                                      									<option>Fun-Uboot</option>
+                                      									<option>Fun-Kernel</option>
+                                      									<option>Fun-TinyAndroid</option>
+                                      									<option>ZEBU Platform</option>
+                                      									<option>Other</option>
 																</select>
 															</span></li>
 														</ul>
 														<ul>
-															<li class="rqleft">Action Discription:</li>
+															<li class="rqleft">Action Description:</li>
 															<li><textarea class="borderWidth modalText"
 																	id="actionDiscriptionEdit{{tab.id}}"
 																	name="actionDiscriptionEdit" style=vertical-align:text-top>{{tab.action_discription}}</textarea>
@@ -564,7 +587,8 @@ function validatetime(tab_id) {
 															<li><span> <select class="borderWidth"
 																	name="environmentEdit" id="environmentEdit">
 																		<option selected>{{tab.environment}}</option>
-																		<option>Zebu</option>
+																		<option>Zebu-JC</option>
+                                     									<option>Zebu-SPRD</option>
 																		<option>Hybrid</option>
 																</select>
 															</span></li>
@@ -677,12 +701,12 @@ function validatetime(tab_id) {
 														<ul>
 													<li class="rqleft">Total Duration:</li>
 													<li class="borderBottom">{{tab.duration}}Hour</li>
-													<li><img style="right:16px" src="/static/images/bianji.png" onclick="aaa({{tab.id}})"></li>
+													<li><img style="right:16px" src="/static/images/bianji.png" onclick="showHistory({{tab.id}})"></li>
 												</ul>
-														<div id="history{{tab.id}}" style="height:113px;overflow-x:scroll;display:none" >
+														<div id="history{{tab.id}}" style="height:100px;overflow-x:scroll;display:none" aria-checked="false">
 														{% for tab2 in history_tab %}
 														{% ifequal tab2.request_id tab.id %}
-														<span style="width:101px; float:left">
+														<span style="width:101px; float:left;line-height:normal;">
 															<input style="width:100px;color: #A2A2A2;line-height:normal;" type="text" name="dateEdit{{tab2.id}}" id="dateEdit{{tab2.id}}" value={{tab2.change_date | date:"Y-m-d"}}  readonly>
 															<input style="width:100px;line-height:normal;" type="text" name="durationEdit{{tab2.id}}" id="durationEdit{{tab2.id}}" value={{tab2.daily_duration }} onchange="saveChangeid({{tab.id}},{{tab2.id}})">
 														</span>
@@ -728,6 +752,7 @@ function validatetime(tab_id) {
 														<p id="closetime{{tab.id}}" style="text-align:center;color:red"></p>
 														<p id="checkStart{{tab.id}}" style="text-align:center;color:red"></p>
 														<p id="checkclose{{tab.id}}" style="text-align:center;color:red"></p>
+														<p id="checkClose1{{tab.id}}" style="text-align:center;color:red"></p>
 														<ul>
 															<li class="rqleft">Next Target:</li>
 															<li><textarea class="borderWidth modalReportText"
@@ -744,7 +769,7 @@ function validatetime(tab_id) {
 													<div align="center" style="margin-bottom: 100px;">
 														<button class="requestBtn" type="button"
 															id="cancleBtn{{tab.id}}" name="cancle"
-															style="background-color: #FB8C8C" >cancle</button>
+															style="background-color: #FB8C8C" >cancel</button>
 														<button class="requestBtn" name="ok" type="submit"
 															style="background-color: #67D00B">confirm</button>
 													</div>
@@ -778,7 +803,7 @@ function validatetime(tab_id) {
 																		<button class="requestBtn" type="text"
 																			id="cancleDelBtn{{tab.id}}" name="cancle"
 																			style="background-color: #FB8C8C"
-																			data-dismiss="modal">Cancle</button>
+																			data-dismiss="modal">Cancel</button>
 																		<button class="requestBtn" name="ok" type="submit"
 																			style="background-color: #67D00B">confirm</button>
 																	</div>

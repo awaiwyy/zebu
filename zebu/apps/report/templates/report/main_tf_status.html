@@ -69,7 +69,7 @@
 					  <td width="150px"><input type="text" readonly id="zebu" class="miniForm1" value="{{tab.daily_reporter}}"/></td>
 					{% if perms.report.add_maintfstatustable %}
 					  <td width="50px"><a data-toggle="modal" data-target="#myModal18{{tab.id}}"  style="cursor:pointer" ><img style="right:16px" src="/static/images/bianji.png"></a></td>
-					  <td><a data-toggle="modal" data-target="#delPlanModal{{tab.id}}"  style="cursor:pointer"><img src="/static/images/shanchu.png"></a></td>
+					  <td><a data-toggle="modal" data-target="#delPlanModalt{{tab.id}}"  style="cursor:pointer"><img src="/static/images/shanchu.png"></a></td>
 					{% endif %}
 						</tr>
 			</table>
@@ -211,7 +211,7 @@
 									<form class="delForm" method="POST">
 										{% csrf_token %} <input type="text" name="delPlanId" value={{tabs.id}} hidden />
 										<div align="center" style="margin-bottom: 50px;">
-											<button class="requestBtn" type="text" id="cancleDelBtn{{tabs.id}}" name="cancle" style="background-color: #FB8C8C" data-dismiss="modal">Cancle</button>
+											<button class="requestBtn" type="text" id="cancleDelBtn{{tabs.id}}" name="cancle" style="background-color: #FB8C8C" data-dismiss="modal">Cancel</button>
 											<button class="requestBtn" name="ok" type="submit" style="background-color: #67D00B">confirm</button>
 										</div>
 									</form>
@@ -365,7 +365,7 @@
 									<form class="delForm" method="POST">
 										{% csrf_token %} <input type="text" name="delPlanId" value={{tabs.id}} hidden />
 										<div align="center" style="margin-bottom: 50px;">
-											<button class="requestBtn" type="text" id="cancleDelBtn{{tabs.id}}" name="cancle" style="background-color: #FB8C8C" data-dismiss="modal">Cancle</button>
+											<button class="requestBtn" type="text" id="cancleDelBtn{{tabs.id}}" name="cancle" style="background-color: #FB8C8C" data-dismiss="modal">Cancel</button>
 											<button class="requestBtn" name="ok" type="submit" style="background-color: #67D00B">confirm</button>
 										</div>
 									</form>
@@ -440,7 +440,7 @@
 		</div>
 		<!-- 添加编辑模态框（Modal）结束 -->
 		<!-- 弹出删除模态框（Modal） -->
-		<div class="modal fade" id="delPlanModal{{tab.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style='margin: -150px 0 0 -100px'>
+		<div class="modal fade" id="delPlanModalt{{tab.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style='margin: -150px 0 0 -100px'>
 			<div class="modal-dialog planDelForm">
 				<div class="modal-content">
 					<div class="modal-header">
@@ -452,7 +452,7 @@
 							{% csrf_token %}
 							<input type="text" name="delReportId" value={{tab.id}} hidden />
 							<div align="center" style="margin-bottom: 50px;">
-								<button class="requestBtn" type="text" id="cancleDelBtn" name="cancle" style="background-color: #FB8C8C" data-dismiss="modal">Cancle</button>
+								<button class="requestBtn" type="text" id="cancleDelBtn" name="cancle" style="background-color: #FB8C8C" data-dismiss="modal">Cancel</button>
 								<button class="requestBtn" name="ok" type="submit" style="background-color: #67D00B">confirm</button>
 							</div>
 						</form>
@@ -508,7 +508,7 @@
 									</script> {%endifequal%} {% endfor %}
 							</table>
 							<div class="newPlanDiv">
-								<button class="newPlanBtn" type="text" style="background-color: #FB8C8C" data-dismiss="modal">cancle</button>
+								<button class="newPlanBtn" type="text" style="background-color: #FB8C8C" data-dismiss="modal">cancel</button>
 								<button class="newPlanBtn" type="submit" style="background-color: #67D00B">confirm</button>
 							</div>
 						</form>
@@ -564,7 +564,7 @@
 									</script> {%endifequal%} {% endfor %}
 							</table>
 							<div class="newPlanDiv">
-								<button class="newPlanBtn" type="text" style="background-color: #FB8C8C" data-dismiss="modal">cancle</button>
+								<button class="newPlanBtn" type="text" style="background-color: #FB8C8C" data-dismiss="modal">cancel</button>
 								<button class="newPlanBtn" type="submit" style="background-color: #67D00B">confirm</button>
 							</div>
 						</form>

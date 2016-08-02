@@ -5,6 +5,7 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.http import HttpResponse
 from django.contrib import auth
+from common import com_def
 from models import scheduleInfo
 from models import projectInfo
 import time,datetime
@@ -192,7 +193,7 @@ def homeUser(request):
     #print request.method
     #print request.POST.keys()
     project_tab = projectInfo.objects.filter(display="true").order_by("id")
-    productlist=["iwhale2","isharkl2","Other"]
+    productlist=com_def.productlist[:]
     for tab in project_tab:
         if tab.project in productlist:
             productlist.remove(tab.project)

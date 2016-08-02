@@ -10,6 +10,7 @@ class ReportTable(models.Model):
     file_link = models.TextField()
     is_daily_report = models.CharField(max_length= 20, default="true")
 
+#Table for resource usage page: statistical data of daily duration from request_requesttable classified by tf_case based on product name
 class ResourceUsageTable(models.Model):
     product = models.CharField(max_length=50)
     spm = models.CharField(max_length=50)
@@ -20,11 +21,10 @@ class ResourceUsageTable(models.Model):
     function = models.IntegerField(null = True)
     zebu_platform = models.IntegerField(null = True)
     is_show=models.CharField(max_length= 20, default="true")
-    power_management_str = models.CharField(max_length=100, null=True)
-    performance_str = models.CharField(max_length=100, null=True)
-    function_str = models.CharField(max_length=100, null=True)
-    zebu_platform_str = models.CharField(max_length=100, null=True)
+    choosedate=models.DateField(null=True)
+    is_edit=models.CharField(max_length= 20, default="false")
 
+#Record Total and Usage date of top left corner on resource usage page.
 class ResourceUsageTitleTable(models.Model):
     total=models.IntegerField(default=0)
     usage=models.IntegerField(default=0)

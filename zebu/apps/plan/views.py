@@ -9,62 +9,105 @@ import time,datetime
 from dateutil import tz
 from common import xlwt
 import os
+import xlsxwriter
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 # Create your views here.
 temp_dir = os.path.join(BASE_DIR, "resources/tab/")
 # Create your views here.
 #temp_dir = "resources/tab/"
-plan_file = "plan_tab.xls"
+plan_file = "plan_tab.xlsx"
 
 def savePlanTab(plan_tab,file_name):
-    #set style
-    font0 = xlwt.Font()
-    font0.bold = True
-    style0 = xlwt.XFStyle()
-    style0.font = font0
-
     #creat sheet
-    wb = xlwt.Workbook(encoding = 'utf-8')
-    sheet = wb.add_sheet(u'plan_tab', cell_overwrite_ok=True)
+    wb = xlsxwriter.Workbook(file_name)
 
-    row = 0  
-    sheet.write(row, 0, 'ID', style0)
-    sheet.write(row, 1, 'Project', style0)
-    sheet.write(row, 2, 'Classification', style0)
-    sheet.write(row, 3, 'Module', style0)
-    sheet.write(row, 4, 'TF Case', style0)
-    sheet.write(row, 5, 'Action Discription', style0)
-    sheet.write(row, 6, 'Environment', style0)
-    sheet.write(row, 7, 'Duration', style0)
-    sheet.write(row, 8, 'Owner', style0)
-    sheet.write(row, 9, 'Priority', style0)
-    sheet.write(row, 10, 'Status', style0)
-    sheet.write(row, 11, 'Progress', style0)
-    sheet.write(row, 12, 'Start Time', style0)
-    sheet.write(row, 13, 'Request Duration', style0)
-    row += 1
-    
-    for tab in plan_tab:
-        sheet.write(row, 0, tab.id)
-        sheet.write(row, 1, tab.project)
-        sheet.write(row, 2, tab.classification)
-        sheet.write(row, 3, tab.module)
-        sheet.write(row, 4, tab.tf_case)
-        sheet.write(row, 5, tab.action_discription)
-        sheet.write(row, 6, tab.environment)
-        sheet.write(row, 7, tab.duration)
-        sheet.write(row, 8, tab.owner)
-        sheet.write(row, 9, tab.priority)
-        sheet.write(row, 10, tab.status)
-        sheet.write(row, 11, tab.progress)
-        if tab.start_time:
-            sheet.write(row, 12, (tab.start_time + datetime.timedelta(hours=8)).strftime("%Y-%m-%d %H:%M:%S"))
-        else:
-            sheet.write(row, 12, (tab.start_time))
-        sheet.write(row, 13, tab.request_duration)
-        row += 1
-    wb.save(file_name)
+    cell_format = wb.add_format({'bold': True,'align':'center','font':'Arial','font_size':10})
+    style= wb.add_format({'bold': True,'align':'center','font':'Arial','font_size':10})  # 定义format格式对象
+    style.set_num_format('yyyy-mm-dd')
+    cell_format1 = wb.add_format({'align': 'center', 'font': 'Arial', 'font_size': 10})
+
+    projectlist=RequestTable.objects.filter(is_plan="true")
+    daily_tab1 = TotalTable.objects.all().order_by("change_date")
+    sdate = daily_tab1[0].change_date
+    daily_tab2 = TotalTable.objects.all().order_by("-change_date")
+    cdate = daily_tab2[0].change_date
+    dates = (cdate - sdate).days+1
+    project=[]
+    for tab in projectlist:
+        project.append(tab.project)
+    project=list(set(project))
+    if len(project):
+        for pro in project:
+            sheet = wb.add_worksheet(pro)
+            row = 0
+            sheet.write(row, 0, 'ID',cell_format)
+            sheet.write(row, 1, 'Product',cell_format)
+            sheet.write(row, 2, 'Classification',cell_format)
+            sheet.write(row, 3, 'Module',cell_format)
+            sheet.write(row, 4, 'TF Case',cell_format)
+            sheet.write(row, 5, 'Action Description',cell_format)
+            sheet.write(row, 6, 'Environment',cell_format)
+            sheet.write(row, 7, 'Total Duration',cell_format)
+            sheet.write(row, 8, 'Owner',cell_format)
+            sheet.write(row, 9, 'Priority',cell_format)
+            sheet.write(row, 10, 'Status',cell_format)
+            sheet.write(row, 11, 'Progress',cell_format)
+            sheet.write(row, 12, 'Start Time',cell_format)
+            sheet.write(row, 13, 'Request Duration',cell_format)
+            sheet.write(row, 14, 'Close Time',cell_format)
+            sheet.write(row, 15, 'Next Target', cell_format)
+            sheet.write(row, 16, 'Acceptance', cell_format)
+            sheet.set_column(1,4,13)
+            sheet.set_column(5, 6, 15)
+            sheet.set_column(7, 12, 10)
+            sheet.set_column(13, 13, 18)
+            sheet.set_column(14,16,10)
+
+            for i in range(dates):
+                sheet.set_column(17 + i,17+dates,13)
+                #sdate = datetime.datetime.strptime('2016-01-01', '%Y-%m-%d').date()
+                date = sdate+datetime.timedelta(days=i)
+                sheet.write(row,17+i,date,style)
+
+            sheet.freeze_panes(1, 6)
+
+            row += 1
+
+            project_tab=RequestTable.objects.filter(is_plan="true",project=pro)
+            for tab in project_tab:
+                sheet.write(row, 0, tab.id,cell_format1)
+                sheet.write(row, 1, tab.project,cell_format1)
+                sheet.write(row, 2, tab.classification,cell_format1)
+                sheet.write(row, 3, tab.module,cell_format1)
+                sheet.write(row, 4, tab.tf_case,cell_format1)
+                sheet.write(row, 5, tab.action_discription,cell_format1)
+                sheet.write(row, 6, tab.environment,cell_format1)
+                sheet.write(row, 7, tab.duration,cell_format1)
+                sheet.write(row, 8, tab.owner,cell_format1)
+                sheet.write(row, 9, tab.priority,cell_format1)
+                sheet.write(row, 10, tab.status,cell_format1)
+                sheet.write(row, 11, tab.progress,cell_format1)
+                if tab.start_time:
+                    sheet.write(row, 12, (tab.start_time + datetime.timedelta(hours=8)).strftime("%Y-%m-%d"))
+                    daily_tab = TotalTable.objects.filter(request_id=tab.id).order_by("change_date")
+                    for i in range(dates):
+                        #sdate = datetime.datetime.strptime('2016-01-01', '%Y-%m-%d').date()
+                        date = sdate + datetime.timedelta(days=i)
+                        for tab1 in daily_tab:
+                            if tab1.change_date==date:
+                                sheet.write(row, 17+i, tab1.daily_duration,cell_format1)
+                else:
+                    sheet.write(row, 12, (tab.start_time))
+                sheet.write(row, 13, tab.request_duration,cell_format1)
+                if tab.close_time:
+                    sheet.write(row,14,(tab.close_time + datetime.timedelta(hours=8)).strftime("%Y-%m-%d"))
+                else:
+                    sheet.write(row, 14, tab.close_time)
+                sheet.write(row, 15, tab.next_target,cell_format1)
+                sheet.write(row, 16, tab.acceptance,cell_format1)
+                row += 1
+    wb.close()
 
 def exportPlanTab(request):
     plan_tab = RequestTable.objects.filter(is_plan="true")
@@ -74,7 +117,6 @@ def exportPlanTab(request):
     today = time.strftime("%Y_%m_%d", time.localtime())
     file_name = today + "_" + plan_file
     savePlanTab(plan_tab,file_name)
-
     f = open(file_name,"rb")
     data = f.read()
     f.close()
@@ -117,7 +159,7 @@ def planPage(request, **kwargs):
     valid_dailyDura = []
     valid_dailyduration_piece = []
     valid_dailyduration_hour = []
-    for hour in range(1, 25):
+    for hour in range(0, 25):
         if hour < 10:
             hour="0"+str(hour)
         valid_dailyduration_hour.append(hour)
@@ -282,18 +324,26 @@ def planPage(request, **kwargs):
                 #print duration.request_duration.split('Hour')[1].split('Day')[1].split('Piece')[0]
 
             #print "test_starttime"
-            year = request.POST['yearEdit']
-            month = request.POST['monthEdit']
-            day = request.POST['dayEdit']
-            hour = request.POST['hourEdit']
-            minute = request.POST['minuteEdit']
-            second = request.POST['secondEdit']
-            edit_stime = year+"-"+month+"-"+day+" "+hour+":"+minute+":"+second
-            if edit_stime != '-- ::' :
+            syear = request.POST['yearEdit']
+            smonth = request.POST['monthEdit']
+            sday = request.POST['dayEdit']
+            shour = request.POST['hourEdit']
+            sminute = request.POST['minuteEdit']
+            ssecond = request.POST['secondEdit']
+            edit_stime = syear+"-"+smonth+"-"+sday+" "+shour+":"+sminute+":"+ssecond
+            cyear = request.POST['closeYearEdit']
+            cmonth = request.POST['closeMonthEdit']
+            cday = request.POST['closeDayEdit']
+            chour = request.POST['closeHourEdit']
+            cminute = request.POST['closeMinuteEdit']
+            csecond = request.POST['closeSecondEdit']
+            edit_ctime = cyear+"-"+cmonth+"-"+cday+" "+chour+":"+cminute+":"+csecond
+            if edit_stime != '-- ::':
                 stime = edit_stime.encode("utf-8")
                 dtime = datetime.datetime.strptime(stime,'%Y-%m-%d %H:%M:%S')
-                ftime1 = (year+"-"+month+"-"+day).encode("utf-8")
-                ftime = datetime.datetime.strptime(ftime1,'%Y-%m-%d').date()
+                #fdate为starttime的日期
+                fdate1 = (syear+"-"+smonth+"-"+sday).encode("utf-8")
+                fdate = datetime.datetime.strptime(fdate1,'%Y-%m-%d').date()
                 utc_time = dtime.replace(tzinfo=tz.gettz('CST'))
                 edit_plan.start_time = utc_time
                 #print dtime
@@ -303,77 +353,152 @@ def planPage(request, **kwargs):
                 #print "cur_time",cur_time
                 total_tab1 = TotalTable.objects.filter(request_id=edit_plan.id).order_by("-change_date")
                 total_tab2 = TotalTable.objects.filter(request_id=edit_plan.id).order_by("change_date")
-                if cur_time > ftime:
-                    try:
-                        first_edit=total_tab2[0]
-                        fedit=first_edit.change_date
-                        if ftime < fedit:
-                            request_piece = edit_plan.request_duration.split('y')[1]
-                            diffnum=(fedit - ftime).days
-                            for j in range(diffnum):
-                                itime=ftime + datetime.timedelta(days=j)
-                                TotalTable.objects.create(change_date=itime,
-                                                        daily_duration='00Hour'+request_piece,
-                                                        status="ongoing",
-                                                        request_id=edit_plan.id)
-                        elif ftime > fedit:
-                            TotalTable.objects.filter(change_date__lt=ftime).delete()
-                    except:
-                        pass
+                total=0
+                if cur_time > fdate:
                     if not total_tab1 :
-                        total = 0
+                        #如果TotalTable里面没有数据即第一次编辑starttime时，当天的数据按照当天编辑的数据保存，之前的数据Hour为0，pieces为request_duration的pieces
+                        #total = 0
                         request_piece = edit_plan.request_duration.split('y')[1]
-                        delta = (cur_time - ftime).days
+                        delta = (cur_time - fdate).days
                         for i in range(delta):
-                            itime = ftime + datetime.timedelta(days=i)
+                            itime = fdate + datetime.timedelta(days=i)
                             TotalTable.objects.create(change_date=itime,
                                                     daily_duration='00Hour'+request_piece,
                                                     status="ongoing",
                                                     request_id=edit_plan.id)
                         daily_hour=edit_plan.daily_duration.split('H')[0]
-                        request_piece = edit_plan.request_duration.split('y')[1]
+                        daily_piece = edit_plan.daily_duration.split('r')[1]
                         TotalTable.objects.create(change_date=cur_time,
-                                                daily_duration=daily_hour +"Hour"+ request_piece,
+                                                daily_duration=daily_hour +"Hour"+ daily_piece,
                                                 status=edit_plan.status,
                                                 request_id=edit_plan.id)
+                        if edit_ctime != '-- ::':
+                            Closedate1 = (cyear + "-" + cmonth + "-" + cday).encode("utf-8")
+                            Closedate = datetime.datetime.strptime(Closedate1, '%Y-%m-%d').date()
+                            ctime = edit_ctime.encode("utf-8")
+                            dtime = datetime.datetime.strptime(ctime, '%Y-%m-%d %H:%M:%S')
+                            utc_time = dtime.replace(tzinfo=tz.gettz('CST'))
+                            edit_plan.close_time = utc_time
+                            edit_plan.status = "close"
+                            TotalTable.objects.filter(request_id=edit_plan.id,change_date__gt=Closedate).delete()
+                            closedate=TotalTable.objects.get(request_id=edit_plan.id,change_date=Closedate)
+                            closedate.status="close"
+                            closedate.save()
                     else:
-                        total = 0
-                        recent_edit=total_tab1[0]
-                        rtime=recent_edit.change_date
-                        delta = (cur_time - rtime).days
-                        totaldelta = (cur_time - ftime).days
-                        for i in range(delta):
-                            #print "i=", i
-                            itime = rtime + datetime.timedelta(days=i+1)
-                            #print itime
-                            try:
-                                lastday = total_tab1.get(change_date=(itime - datetime.timedelta(days=1)))
-                                daily_hour=edit_plan.daily_duration.split('H')[0]
-                                daily_piece=edit_plan.daily_duration.split('r')[1]
-                                if lastday.status =='ongoing':
-                                    TotalTable.objects.get_or_create(change_date=itime,
-                                                            daily_duration=daily_hour +"Hour"+ daily_piece,
-                                                            status=lastday.status,
-                                                            request_id=lastday.request_id)
-                                else:
+                        first_edit = total_tab2[0]
+                        fedit = first_edit.change_date
+                        recent_edit = total_tab1[0]
+                        rtime = recent_edit.change_date
+                        if fdate < fedit:
+                            # 如果starttime的日期在已有的最小日期之前，相差几天的数据Hour为0，pieces为request_duration的pieces,并存入TotalTable表
+                            request_piece = edit_plan.request_duration.split('y')[1]
+                            diffnum = (fedit - fdate).days
+                            for j in range(diffnum):
+                                itime = fdate + datetime.timedelta(days=j)
+                                TotalTable.objects.create(change_date=itime,
+                                                          daily_duration='00Hour' + request_piece,
+                                                          status="ongoing",
+                                                          request_id=edit_plan.id)
+                        elif fdate > fedit:
+                            # 如果starttime的日期在已有的最小日期之后，多余的几天的数据就直接从TotalTable表中删除
+                            total_tab2.filter(change_date__lt=fdate).delete()
+                        if edit_ctime == '-- ::':
+                            #TotalTable中已经有当前记录的数据时，Totaltable中最大日期到今天相差天数的数据，按照前一天的数据补入：
+                            #1.若前一天状态为ongoing，当天的daily_duration值和前一天一样；
+                            #2.若前一天状态不是ongoing，当天的daily_duration值Hour为0，pieces为前一天daily_duration的pieces；
+                            #total = 0
+                            delta = (cur_time - rtime).days
+                            totaldelta = (cur_time - fdate).days
+                            for i in range(delta):
+                                #print "i=", i
+                                itime = rtime + datetime.timedelta(days=i+1)
+                                #print itime
+                                try:
+                                    lastday = total_tab1.get(change_date=(itime - datetime.timedelta(days=1)))
+                                    daily_hour=edit_plan.daily_duration.split('H')[0]
+                                    daily_piece=edit_plan.daily_duration.split('r')[1]
+                                    if lastday.status =='ongoing':
                                         TotalTable.objects.get_or_create(change_date=itime,
-                                                            daily_duration='00Hour' + daily_piece,
-                                                            status=lastday.status,
-                                                            request_id=lastday.request_id)
-                            except:
-                                pass
-                        i=0
-                        for i in range(totaldelta+1):
-                            itime = ftime + datetime.timedelta(days=i)
-                            try:
-                                curday = total_tab1.get(change_date=itime)
-                                if curday.status == 'ongoing':
-                                    idaily_h = int(curday.daily_duration.split('H')[0])
-                                    idaily_p = int((curday.daily_duration.split('r')[1]).split('P')[0])
-                                    total = total + idaily_h * idaily_p 
-                            except:
-                                pass
-               
+                                                                daily_duration=daily_hour +"Hour"+ daily_piece,
+                                                                status=lastday.status,
+                                                                request_id=lastday.request_id)
+                                    else:
+                                            TotalTable.objects.get_or_create(change_date=itime,
+                                                                daily_duration='00Hour' + daily_piece,
+                                                                status=lastday.status,
+                                                                request_id=lastday.request_id)
+                                except:
+                                    pass
+                            i=0
+                            for i in range(totaldelta+1):
+                                #计算total的值
+                                itime = fdate + datetime.timedelta(days=i)
+                                try:
+                                    curday = total_tab1.get(change_date=itime)
+                                    if curday.status == 'ongoing':
+                                        idaily_h = int(curday.daily_duration.split('H')[0])
+                                        idaily_p = int((curday.daily_duration.split('r')[1]).split('P')[0])
+                                        total = total + idaily_h * idaily_p
+                                except:
+                                    pass
+                        else:
+                            # fdate为starttime的日期
+                            Closedate1 = (cyear + "-" + cmonth + "-" + cday).encode("utf-8")
+                            Closedate = datetime.datetime.strptime(Closedate1, '%Y-%m-%d').date()
+                            oldstatus = edit_plan.status
+                            ctime = edit_ctime.encode("utf-8")
+                            dtime = datetime.datetime.strptime(ctime, '%Y-%m-%d %H:%M:%S')
+                            utc_time = dtime.replace(tzinfo=tz.gettz('CST'))
+                            edit_plan.close_time = utc_time
+                            if Closedate < rtime:
+                                total_tab2.filter(change_date__gt=Closedate).delete()
+                                closeitem=total_tab2.get(change_date=Closedate)
+                                closeitem.status='close'
+                                closeitem.save()
+                            else:
+                                if oldstatus == 'close':
+                                    olditem = TotalTable.objects.get(request_id=edit_plan.id, status="close")
+                                    olditem.status = "ongoing"
+                                    olditem.save()
+                                delta1 = (Closedate - rtime).days
+                                for i in range(delta1):
+                                    # print "i=", i
+                                    itime = rtime + datetime.timedelta(days=i + 1)
+                                    # print itime
+                                    try:
+                                        lastday = total_tab1.get(change_date=(itime - datetime.timedelta(days=1)))
+                                        daily_hour = edit_plan.daily_duration.split('H')[0]
+                                        daily_piece = edit_plan.daily_duration.split('r')[1]
+                                        if lastday.status == 'ongoing':
+                                            TotalTable.objects.get_or_create(change_date=itime,
+                                                                                 daily_duration=daily_hour + "Hour" + daily_piece,
+                                                                                 status=lastday.status,
+                                                                                 request_id=lastday.request_id)
+                                        else:
+                                            TotalTable.objects.get_or_create(change_date=itime,
+                                                                                 daily_duration='00Hour' + daily_piece,
+                                                                                 status=lastday.status,
+                                                                                 request_id=lastday.request_id)
+                                    except:
+                                        pass
+                                closeitem=TotalTable.objects.get(request_id=edit_plan.id,change_date=Closedate)
+                                closeitem.status = 'close'
+                                closeitem.save()
+                            totaldelta1 = (Closedate - fdate).days
+                            i = 0
+                            for i in range(totaldelta1 + 1):
+                                # 计算total的值
+                                itime = fdate + datetime.timedelta(days=i)
+                                try:
+                                    curday = total_tab1.get(change_date=itime)
+                                    if curday.status == 'ongoing':
+                                        idaily_h = int(curday.daily_duration.split('H')[0])
+                                        idaily_p = int((curday.daily_duration.split('r')[1]).split('P')[0])
+                                        total = total + idaily_h * idaily_p
+                                except:
+                                    pass
+                            edit_plan.status = 'close'
+
                 edit_plan.duration = total
                 request_h = int(edit_plan.request_duration.split('H')[0])
                 request_d = int((edit_plan.request_duration.split('r')[1]).split('D')[0])
@@ -399,44 +524,11 @@ def planPage(request, **kwargs):
                         #edit_plan.status = 'delay'
                     #elif 'delay' == edit_plan.status:
                         #edit_plan.status = 'ongoing'
-            
-            #print "test_closetime"
-            close_time = request.POST['closeYearEdit']+"-"+request.POST['closeMonthEdit']+"-"+request.POST['closeDayEdit']+" "+request.POST['closeHourEdit']+":"+request.POST['closeMinuteEdit']+":"+request.POST['closeSecondEdit']
-            start_time = request.POST['yearEdit']+"-"+request.POST['monthEdit']+"-"+request.POST['dayEdit']+" "+request.POST['hourEdit']+":"+request.POST['minuteEdit']+":"+request.POST['secondEdit']
-            if close_time != '-- ::' and start_time != '-- ::':
-                cltime = close_time.encode("utf-8")
-                clotime = datetime.datetime.strptime(cltime, '%Y-%m-%d %H:%M:%S').date()
-                sttime = start_time.encode("utf-8")
-                statime = datetime.datetime.strptime(sttime, '%Y-%m-%d %H:%M:%S').date()
-                if clotime > statime:
-                    year = request.POST['closeYearEdit']
-                    month = request.POST['closeMonthEdit']
-                    day = request.POST['closeDayEdit']
-                    hour = request.POST['closeHourEdit']
-                    minute = request.POST['closeMinuteEdit']
-                    second = request.POST['closeSecondEdit']
-                    edit_ctime = year+"-"+month+"-"+day+" "+hour+":"+minute+":"+second
-                    ctime = edit_ctime.encode("utf-8")
-                    dtime = datetime.datetime.strptime(ctime,'%Y-%m-%d %H:%M:%S')
-                    utc_time = dtime.replace(tzinfo=tz.gettz('CST'))
-                    edit_plan.close_time = utc_time
-                    edit_plan.status = 'close'
-                    try:
-                        total_tab = TotalTable.objects.filter(request_id=request_id).get(change_date=change_date)
-                        total_tab.daily_duration = daily_dura
-                        total_tab.status = 'close'
-                        total_tab.save()
-                    except:
-                        #print "not exist"
-                        TotalTable.objects.create(change_date=change_date,
-                                          daily_duration=daily_duration,
-                                          status=edit_plan.status,
-                                          request_id=request_id)
-
 
             #print "next_target"
             next_target = request.POST['next_targetEdit']
             edit_plan.next_target = next_target
+            #编辑每一天的daily_duration的值
             changeId=request.POST['changeIdlist'].encode("utf-8")
             changeIdlist=changeId.split(",")
             changeIdlist.remove('')
@@ -445,7 +537,8 @@ def planPage(request, **kwargs):
                 durationEdit=request.POST['durationEdit'+id]
                 total_tab=TotalTable.objects.filter(request_id=edit_id).get(id=id)
                 total_tab.daily_duration=durationEdit
-                total_tab.status='ongoing'
+                if total_tab.status != "close":
+                    total_tab.status='ongoing'
                 total_tab.save()
 
             edit_plan.save()
@@ -475,58 +568,98 @@ def planPage(request, **kwargs):
     else:
         for tab in plan_tab:
             stime = tab.start_time
-            if stime and "close" != tab.status:
+            if stime :
                 stime = stime + datetime.timedelta(hours=8)
-                ftimestr=stime.strftime('%Y-%m-%d %H:%M:%S')
-                #print "ftimestr=",ftimestr
+                ftimestr = stime.strftime('%Y-%m-%d %H:%M:%S')
+                # print "ftimestr=",ftimestr
                 ftime1 = ftimestr.split(' ')[0]
-                ftime = datetime.datetime.strptime(ftime1,'%Y-%m-%d').date()
-                #ftime = datetime.datetime.strptime(stime.strftime('%Y-%m-%d %H:%M:%S'),'%Y-%m-%d %H:%M:%S').date()
-                #print "ftime=",ftime
+                ftime = datetime.datetime.strptime(ftime1, '%Y-%m-%d').date()
+                # ftime = datetime.datetime.strptime(stime.strftime('%Y-%m-%d %H:%M:%S'),'%Y-%m-%d %H:%M:%S').date()
+                # print "ftime=",ftime
                 cur_time = datetime.date.today()
-                #ctime = datetime.datetime.utcnow()
-                #stime = datetime.datetime.strptime(stime.strftime('%Y-%m-%d %H:%M:%S'),'%Y-%m-%d %H:%M:%S')
+                # ctime = datetime.datetime.utcnow()
+                # stime = datetime.datetime.strptime(stime.strftime('%Y-%m-%d %H:%M:%S'),'%Y-%m-%d %H:%M:%S')
                 total = 0
-                if cur_time >= ftime:
-                    total_tab1 = TotalTable.objects.filter(request_id=tab.id).order_by("-change_date")
-                    recent_edit=total_tab1[0]
-                    rtime=recent_edit.change_date
-                    delta = (cur_time - rtime).days
-                    totaldelta = (cur_time - ftime).days
-                    #print "delta=",delta
-                    #print "len(total_tab1)",len(total_tab1)
-                    for i in range(delta):
-                        #print "i=",i
-                        itime = rtime + datetime.timedelta(days=i+1)
-                        #print itime
-                        try:
-                            lastday = total_tab1.get(change_date=(itime-datetime.timedelta(days=1)))
-                            daily_hour=tab.daily_duration.split('H')[0]
-                            daily_piece=tab.daily_duration.split('r')[1]
-                            if lastday.status == 'ongoing':
-                                TotalTable.objects.get_or_create(change_date=itime,
+                if "close" != tab.status:
+                    if cur_time >= ftime:
+                        total_tab1 = TotalTable.objects.filter(request_id=tab.id).order_by("-change_date")
+                        if total_tab1:
+                            recent_edit=total_tab1[0]
+                            rtime=recent_edit.change_date
+                            delta = (cur_time - rtime).days
+                            #print "delta=",delta
+                            #print "len(total_tab1)",len(total_tab1)
+                            for i in range(delta):
+                                 # Totaltable中最大日期到今天相差天数的数据，按照前一天的数据补入：
+                                # 1.若前一天状态为ongoing，当天的daily_duration值和前一天一样；
+                                # 2.若前一天状态不是ongoing，当天的daily_duration值Hour为0，pieces为前一天daily_duration的pieces；
+                                itime = rtime + datetime.timedelta(days=i+1)
+                                #print itime
+                                try:
+                                    lastday = total_tab1.get(change_date=(itime-datetime.timedelta(days=1)))
+                                    daily_hour=tab.daily_duration.split('H')[0]
+                                    daily_piece=tab.daily_duration.split('r')[1]
+                                    if lastday.status == 'ongoing':
+                                        TotalTable.objects.get_or_create(change_date=itime,
                                                       daily_duration=daily_hour +"Hour"+ daily_piece,
                                                       status=lastday.status,
                                                       request_id=lastday.request_id)
-                            else:
-                                TotalTable.objects.get_or_create(change_date=itime,
+                                    else:
+                                        TotalTable.objects.get_or_create(change_date=itime,
                                                       daily_duration='00Hour'+daily_piece,
                                                       status=lastday.status,
                                                       request_id=lastday.request_id)
-                        except:
-                            pass
-                    i=0
-                    for i in range(totaldelta+1):
+                                except:
+                                    pass
+                        else:
+                            request_piece = tab.request_duration.split('y')[1]
+                            delta = (cur_time - ftime).days
+                            for i in range(delta):
+                                itime = ftime + datetime.timedelta(days=i)
+                                TotalTable.objects.create(change_date=itime,
+                                                          daily_duration='00Hour' + request_piece,
+                                                          status="ongoing",
+                                                          request_id=tab.id)
+                            daily_hour = tab.daily_duration.split('H')[0]
+                            daily_piece = tab.daily_duration.split('r')[1]
+                            TotalTable.objects.create(change_date=cur_time,
+                                                      daily_duration=daily_hour + "Hour" + daily_piece,
+                                                      status=tab.status,
+                                                      request_id=tab.id)
+                        i=0  
+                        totaldelta = (cur_time - ftime).days
+                        for i in range(totaldelta+1):
+                            itime = ftime + datetime.timedelta(days=i)
+                            try:
+                                curday = total_tab1.get(change_date=itime)
+                                if curday.status == 'ongoing':
+                                    idaily_h = int(curday.daily_duration.split('H')[0])
+                                    idaily_p = int((curday.daily_duration.split('r')[1]).split('P')[0])
+                                    total = total + idaily_h * idaily_p
+                            except:
+                                pass
+                else:
+                    total_tab1 = TotalTable.objects.filter(request_id=tab.id).order_by("-change_date")
+                    ctime = tab.close_time
+                    ctime = ctime + datetime.timedelta(hours=8)
+                    ctimestr = ctime.strftime('%Y-%m-%d %H:%M:%S')
+                    ctime1 = ctimestr.split(' ')[0]
+                    ctime = datetime.datetime.strptime(ctime1, '%Y-%m-%d').date()
+                    totaldelta1 = (ctime - ftime).days
+                    i = 0
+                    for i in range(totaldelta1 + 1):
+                        # 计算total的值
                         itime = ftime + datetime.timedelta(days=i)
                         try:
                             curday = total_tab1.get(change_date=itime)
                             if curday.status == 'ongoing':
                                 idaily_h = int(curday.daily_duration.split('H')[0])
                                 idaily_p = int((curday.daily_duration.split('r')[1]).split('P')[0])
-                                total = total + idaily_h * idaily_p 
+                                total = total + idaily_h * idaily_p
                         except:
                             pass
                 tab.duration = total
+                #判断total值是否超过request的值
                 request_h = int(tab.request_duration.split('H')[0])
                 request_d = int((tab.request_duration.split('r')[1]).split('D')[0])
                 request_p = int((tab.request_duration.split('y')[1]).split('P')[0])
@@ -551,7 +684,7 @@ def planPage(request, **kwargs):
                 tab.save()
             tab.action_discription = tab.action_discription.replace("\n", "<br>")
             tab.progress = tab.progress.replace("\n", "<br>")
-        return render(request, 'plan/plan.html', {
+        return render(request, 'plan/plan_test.html', {
             "request_tab": request_tab, 
             "plan_tab": projects, 
             'valid_duration': valid_duration, 

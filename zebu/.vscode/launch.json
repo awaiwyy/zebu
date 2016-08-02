@@ -29,7 +29,7 @@
             "name": "Django",
             "type": "python",
             "request": "launch",
-            "stopOnEntry": false,
+            "stopOnEntry": true,
             "program": "${workspaceRoot}/manage.py",
             "args": [
                 "runserver",
