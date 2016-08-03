@@ -14,6 +14,7 @@
 <link href="/static/plan/css/plan.css" type="text/css" rel="stylesheet" />
 <link href="/static/css/application.css" type="text/css"
 	rel="stylesheet" />
+<link href="/static/css/chosen.css" type="text/css" rel="stylesheet" />
 <style>
 	a.pagination {
 		margin: 8px;
@@ -25,7 +26,7 @@
 		background-color: rgba(255, 255, 255, .2);
 		transition: all .1s;
 		}
-		
+
 	a.pagination:hover {
 		background-color: #ebf6ff;
 		}
@@ -40,130 +41,58 @@
 </style>
 <!-- js -->
 <script src="/static/js/jquery-1.11.1.min.js"></script>
+<script src="/static/js/chosen.jquery.js"></script>
 <script src="/static/js/bootstrap.min.js"></script>
-<script type="text/javascript">
-	/mobi/i.test(navigator.userAgent) && !location.hash
-			&& setTimeout(function() {
-				if (!pageYOffset)
-					window.scrollTo(0, 1);
-			}, 1000);
 
-	function changeImage() {
-		document.getElementById("mybtn1").className = "classification1";
-		document.getElementById("mybtn2").className = "classification2";
-		if (document.getElementById("mybtn").className != "classification_down") {
-			document.getElementById("mybtn").className = "classification_down";
-		} else {
-			document.getElementById("mybtn").className = "classification_up";
-		}
-	}
 
-	function changeImage1() {
-		document.getElementById("mybtn").className = "classification";
-		document.getElementById("mybtn2").className = "classification2";
-		if (document.getElementById("mybtn1").className != "classification1_down") {
-			document.getElementById("mybtn1").className = "classification1_down";
-		} else {
-			document.getElementById("mybtn1").className = "classification1_up";
-		}
-	}
-
-	function changeImage2() {
-		document.getElementById("mybtn1").className = "classification1";
-		document.getElementById("mybtn").className = "classification";
-		if (document.getElementById("mybtn2").className != "classification2_down") {
-			document.getElementById("mybtn2").className = "classification2_down";
-		} else {
-			document.getElementById("mybtn2").className = "classification2_up";
-		}
-	}
-
-	function showHistory(id) {
-		if($("#history"+id).attr("aria-checked") == "false"){			
-			document.getElementById("history"+id).style.display='inline-block';
-			$("#history"+id).attr("aria-checked","true");
-		}else{
-			document.getElementById("history"+id).style.display='none';
-			$("#history"+id).attr("aria-checked","false");
-		}
-}
-
-function saveChangeid(proid,id){
-	var idlist=document.getElementById("changeIdlist"+proid).value;
-	idlist=idlist+id+",";
-	$("#changeIdlist"+proid).val(idlist)
-}
-
-function validatetime(tab_id) {
-	var closeDate = new Date();
-	var closeyear = document.getElementById("closeyearid" + tab_id).value;
-	var closemonth = document.getElementById("closemonthid" + tab_id).value;
-	var closeday = document.getElementById("closedayid" + tab_id).value;
-	var closehour = document.getElementById("closehourid" + tab_id).value;
-	var closeminute = document.getElementById("closeminuteid" + tab_id).value;
-	var closesecond = document.getElementById("closesecondid" + tab_id).value;
-	closeDate.setFullYear(closeyear, closemonth - 1, closeday);
-	var startDate = new Date();
-	var startyear = document.getElementById("startyearid" + tab_id).value;
-	var startmonth = document.getElementById("startmonthid" + tab_id).value;
-	var startday = document.getElementById("startdayid" + tab_id).value;
-	var starthour = document.getElementById("starthourid" + tab_id).value;
-	var startminute = document.getElementById("startminuteid" + tab_id).value;
-	var startsecond = document.getElementById("startsecondid" + tab_id).value;
-	startDate.setFullYear(startyear, startmonth - 1, startday);
-	var today = new Date();
-	if (!(startyear == "" && startmonth == "" && startday == "" && starthour == "" && startminute == "" && startsecond == "")){
-		if (startyear == "" || startmonth == "" || startday == "" || starthour == "" || startminute == "" || startsecond == ""){
-			$("#starttime" + tab_id).text("请填完整Start Time");
-			return false;
-		}
-		else {
-		$("#starttime" + tab_id).text("");
-		}
-	}
-	if (!(closeyear == "" && closemonth == "" && closeday == "" && closehour == "" && closeminute == "" && closesecond == "")){
-		if (closeyear == "" || closemonth == "" || closeday == "" || closehour == "" || closeminute == "" || closesecond == ""){
-			$("#closetime" + tab_id).text("请填完整Close Time");
-			return false;
-		}
-		else {
-		$("#closetime" + tab_id).text("");
-		}
-	}
-	if (closeDate>today) {
-		$("#checkClose1" + tab_id).text("Close time不能是未来时间");
-		return false;
-	    }
-		else{
-			$("#checkClose1"+tab_id).text("");
-		}
-	if (startyear !== "")
-	{
-		if (closeyear !== "" && closeDate < startDate) {
-		$("#checkStart" + tab_id).text("Close time不能早于Start time");
-		return false;
-		} else {
-		$("#checkStart" + tab_id).text("");
-		}
-	}else {
-		if(closeyear !== ""){
-		$("#checkclose" + tab_id).text("请先输入Start time");
-		return false;
-		}else {
-		$("#checkclose" + tab_id).text("");
-		}
-	}
-}
-	var flag_browser = "other";
-	$(document).ready(function() {
-		//判断浏览器类型
-		if (window.ActiveXObject) {
-			flag_browser = "ie";
-		}
-	})
-</script>
 </head>
 <body>
+<div class="checkbox checkbox-inline">
+    <input type="checkbox" id="inlineCheckbox1" value="option1" >
+    <label for="inlineCheckbox1"> Inline One </label>
+</div>
+<div class="form-group">
+                <label class="font-noraml">Multi select</label>
+                <div class="input-group">
+                <select id = "aa" data-placeholder="Choose a Country..." class="chosen-select" multiple style="width:350px;" tabindex="4" >
+                <option value="">Select</option>
+                <option value="United States">United States</option>
+                <option value="United Kingdom">United Kingdom</option>
+                <option value="Afghanistan">Afghanistan</option>
+                <option value="Aland Islands">Aland Islands</option>
+                <option value="Albania">Albania</option>
+                <option value="Algeria">Algeria</option>
+					      </select>
+                </div>
+                </div>
 
 </body>
+<script>
+	
+	$(document).ready(function(){
+		
+             $(".chosen-select").chosen({});
+
+             $("#inlineCheckbox1").click(function (){
+                 console.log("is checked?:    "+$("#inlineCheckbox1").is(':checked'));
+              if ($("#inlineCheckbox1").is(':checked'))
+              {
+                console.log("checked");            
+                $(".chosen-select").chosen("destroy");
+                $(".chosen-select").chosen({max_selected_options: -1});                    
+               
+              }
+              else
+              {
+                console.log("unchecked");           
+               $(".chosen-select").chosen("destroy");
+               $(".chosen-select").chosen({});
+ 
+              }
+             });
+            
+           }
+
+	);
+	</script>
 </html>
