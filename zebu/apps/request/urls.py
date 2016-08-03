@@ -20,4 +20,5 @@ import views as request_views
 urlpatterns = [
     url(r'^$', request_views.requestUser, name='request_user'),
     url(r'^exportTab$', request_views.exportRequestTab, name='export_request'),
+    url(r'^ajaxpost$', request_views.ajaxpost, name='ajaxpost$')
 ]

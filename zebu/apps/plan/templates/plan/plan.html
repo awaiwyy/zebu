@@ -1,4 +1,4 @@
-	<!DOCTYPE html>
+<!DOCTYPE html>
 <html xmlns="http:/www.w3.org/1999/xhtml">
 <head>
 <title>Zebu Plan</title>
@@ -89,12 +89,6 @@
    
 }
 
-function saveChangeid(proid,id){
-	var idlist=document.getElementById("changeIdlist"+proid).value;
-	idlist=idlist+id+",";
-	$("#changeIdlist"+proid).val(idlist)
-}
-
 function validatetime(tab_id) {
 	var closeDate = new Date();
 	var closeyear = document.getElementById("closeyearid" + tab_id).value;
@@ -154,6 +148,7 @@ function validatetime(tab_id) {
 		$("#checkclose" + tab_id).text("");
 		}
 	}
+	return true;
 }
 	var flag_browser = "other";
 	$(document).ready(function() {
@@ -162,6 +157,10 @@ function validatetime(tab_id) {
 			flag_browser = "ie";
 		}
 	})
+$.ajaxSetup({
+		data: {csrfmiddlewaretoken: '{{ csrf_token }}' },
+	});
+
 </script>
 </head>
 <body>
@@ -350,12 +349,12 @@ function validatetime(tab_id) {
 						</tr>
 						{% for tab in plan_tab %}
 						<tr id="planItem{{tab.id}}">
-							<td>{{tab.project}}</td>
-							<td>{{tab.module}}</td>
-							<td>{{tab.action_discription|safe}}</td>
-							<td>{{tab.owner}}</td>
-							<td>{{tab.status}}</td>
-							<td>{{tab.start_time | date:"Y-m-d H:i:s"}}</td>
+							<td id=project{{tab.id}}>{{tab.project}}</td>
+							<td id=module{{tab.id}}>{{tab.module}}</td>
+							<td id=action_discription{{tab.id}}>{{tab.action_discription|safe}}</td>
+							<td >{{tab.owner}}</td>
+							<td id=status{{tab.id}}>{{tab.status}}</td>
+							<td id=start_time{{tab.id}}>{{tab.start_time | date:"Y-m-d H:i:s"}}</td>
 							<td><a data-toggle="modal"
 								data-target="#planModal{{tab.id}}" style="cursor: pointer"><img
 									style="vertical-align: middle" src="/static/images/down.png" /></a></td>
@@ -481,7 +480,7 @@ function validatetime(tab_id) {
 											</div>
 											{% if perms.request.change_requesttable%}
 											<div id="editPlanForm{{tab.id}}">
-												<form class="modalForm" method="POST" onsubmit="return validatetime({{tab.id}})">
+												<form class="modalForm" method="POST" id="{{tab.id}}">
 													{% csrf_token %}
 													<div class="modalFormContent">
 														<ul>
@@ -493,7 +492,7 @@ function validatetime(tab_id) {
 														<ul>
 															<li class="rqleft">Product:</li>
 															<li><span> <select class="borderWidth"
-																	name="projectEdit" id="projectEdit">
+																	name="projectEdit" id="projectEdit{{tab.id}}">
 																		<option selected>{{tab.project}}</option>
 																		<option>iwhale2</option>
 																		<option>isharkl2</option>
@@ -504,7 +503,7 @@ function validatetime(tab_id) {
 														<ul>
 															<li class="rqleft">Classification:</li>
 															<li><span> <select class="borderWidth"
-																	name="classificationEdit" id="classificationEdit">
+																	name="classificationEdit" id="classificationEdit{{tab.id}}">
 																		<option selected>{{tab.classification}}</option>
 																		<option>Function</option>
 																		<option>Misc</option>
@@ -512,7 +511,6 @@ function validatetime(tab_id) {
 																		<option>Power</option>
 																		<option>Thermal</option>
 																		<option>Kernel</option>
-																		<option>Platform</option>
 																		<option>Other</option>
 																</select>
 															</span></li>
@@ -520,7 +518,7 @@ function validatetime(tab_id) {
 														<ul>
 															<li class="rqleft">Module:</li>
 															<li><span> <select class="borderWidth"
-																	name="moduleEdit" id="moduleEdit">
+																	name="moduleEdit" id="moduleEdit{{tab.id}}">
 																		<option selected>{{tab.module}}</option>
 																		<option>APPS</option>
 																		<option>BSP</option>
@@ -532,47 +530,39 @@ function validatetime(tab_id) {
 																		<option>Graphics</option>
 																		<option>DDR</option>
 																		<option>WCN</option>
-																		<option>GSP</option>
-                                     									<option>Other</option>
 																</select>
 															</span></li>
 														</ul>
 														<ul>
 															<li class="rqleft">TF Case:</li>
 															<li><span> <select class="borderWidth"
-																	id="tfcaseEdit" name="tfcaseEdit">
+																	id="tfcaseEdit{{tab.id}}" name="tfcaseEdit">
 																		<option selected="">{{tab.tf_case}}</option>
-								                                        <option>PM</option>
-                                      									<option>Power-CHIP</option>
-                                      									<option>Power-DISP</option>
-                                      									<option>Power-MM</option>
-                                      									<option>Power-GPU</option>
-                                      									<option>Power-Modem</option>
-                                      									<option>Performance-DDR</option>
-                                      									<option>Performance-Benchmark</option>
-                                      									<option>Performance-GPU</option>
-                                      									<option>Performance-DISP</option>
-                                      									<option>Performance-Storage</option>
-                                      									<option>Performance-USB</option>
-                                      									<option>Fun-DISP</option>
-                                      									<option>Fun-DPU</option>
-                                      									<option>Fun-EMMC</option>
-                                      									<option>Fun-Modem</option>
-                                      									<option>Fun-GSP</option>
-                                      									<option>Fun-CV</option>
-                                      									<option>Fun-Android boot</option>
-                                      									<option>Fun-GPU</option>
-                                      									<option>Fun-SEC</option>
-                                     									<option>Fun-DDR</option>
-                                      									<option>Fun-Storage</option>
-                                      									<option>Fun-USB/ADB</option>
-                                      									<option>Fun-RomCode</option>
-                                      									<option>Fun-SPL</option>
-                                      									<option>Fun-Uboot</option>
-                                      									<option>Fun-Kernel</option>
-                                      									<option>Fun-TinyAndroid</option>
-                                      									<option>ZEBU Platform</option>
-                                      									<option>Other</option>
+																		<option>Power-CHIP</option>
+																		<option>Power-DISP</option>
+																		<option>Power-MM</option>
+																		<option>Power-GPU</option>
+																		<option>Power-Modem</option>
+																		<option>Performance-DDR</option>
+																		<option>Performance-Benchmark</option>
+																		<option>Performance-GPU</option>
+																		<option>Performance-DISP</option>
+																		<option>Performance-Storage</option>
+																		<option>Performance-USB</option>
+																		<option>Fun-DISP</option>
+																		<option>Fun-CV</option>
+																		<option>Fun-Android boot</option>
+																		<option>Fun-GPU</option>
+																		<option>Fun-SEC</option>
+																		<option>Fun-DDR</option>
+																		<option>Fun-Storage</option>
+																		<option>Fun-USB/ADB</option>
+																		<option>Fun-RomCode</option>
+																		<option>Fun-SPL</option>
+																		<option>Fun-Uboot</option>
+																		<option>Fun-Kernel</option>
+																		<option>Fun-TinyAndroid</option>
+																		<option>ZEBU Platform</option>
 																</select>
 															</span></li>
 														</ul>
@@ -586,7 +576,7 @@ function validatetime(tab_id) {
 														<ul>
 															<li class="rqleft">Environment:</li>
 															<li><span> <select class="borderWidth"
-																	name="environmentEdit" id="environmentEdit">
+																	name="environmentEdit" id="environmentEdit{{tab.id}}">
 																		<option selected>{{tab.environment}}</option>
 																		<option>Zebu-JC</option>
                                      									<option>Zebu-SPRD</option>
@@ -603,7 +593,7 @@ function validatetime(tab_id) {
 														<ul>
 															<li class="rqleft">Priority:</li>
 															<li><span> <select class="borderWidth"
-																	id="priorityEdit" name="priorityEdit">
+																	id="priorityEdit{{tab.id}}" name="priorityEdit">
 																		<option selected>{{tab.priority}}</option>
 																		<option>High</option>
 																		<option>Normal</option>
@@ -614,7 +604,7 @@ function validatetime(tab_id) {
 														<ul>
 															<li class="rqleft">Status:</li>
 															<li><span> <select class="borderWidth"
-																	id="statusEdit" name="statusEdit">
+																	id="statusEdit{{tab.id}}" name="statusEdit">
 																		<option selected>{{tab.status}}</option>
 																		<option>wait for bitfile</option>
 																		<option>wait for SW</option>
@@ -669,16 +659,16 @@ function validatetime(tab_id) {
 																		<option>{{i}}</option> {% endfor %}
 																</select>
 															</span></li> -->
-															<li><select name="durationHourEdit">
+															<li><select name="durationHourEdit" id="durationHourEdit{{tab.id}}">
 
 																	<option selected>{{tab.request_duration | cut:"Hour"|cut:"Day"|cut:"Piece"| get_digit:"6" }}{{tab.request_duration | cut:"Hour"|cut:"Day"|cut:"Piece"| get_digit:"5" }}</option>
 																	{% for hour in valid_duration.0 %}
 																	<option>{{hour}}</option> {% endfor %}
-															</select>Hour<select name="durationDayEdit">
+															</select>Hour<select name="durationDayEdit" id="durationDayEdit{{tab.id}}">
 																	<option selected>{{tab.request_duration | cut:"Hour"|cut:"Day"|cut:"Piece"| get_digit:"4" }}{{tab.request_duration | cut:"Hour"|cut:"Day"|cut:"Piece"| get_digit:"3" }}</option>
 																	{% for day in valid_duration.1 %}
 																	<option>{{day}}</option> {% endfor %}
-															</select>Day<select name="durationPieceEdit">
+															</select>Day<select name="durationPieceEdit" id="durationPieceEdit{{tab.id}}">
 																	<option selected>{{tab.request_duration | cut:"Hour"|cut:"Day"|cut:"Piece"| get_digit:"2" }}{{tab.request_duration | cut:"Hour"|cut:"Day"|cut:"Piece"| get_digit:"1" }}</option>
 																	{% for piece in valid_duration.2 %}
 																	<option>{{piece}}</option> {% endfor %}
@@ -689,11 +679,11 @@ function validatetime(tab_id) {
 															<!-- <li class="borderBottom"><input id="dailyDurationEdit"
 																name="dailyDurationEdit" type="text" value="{{tab.daily_duration}}"
 																readonly></input></li> -->
-															<li><select name="dailyduraHourEdit">
+															<li><select name="dailyduraHourEdit" id="dailyduraHourEdit{{tab.id}}">
 																	<option selected>{{tab.daily_duration | cut:"None"|cut:"Hour"|cut:"Piece"| get_digit:"4" }}{{tab.daily_duration | cut:"None"|cut:"Hour"|cut:"Piece"| get_digit:"3" }}</option>
 																	{% for hour in valid_dailyDura.0 %}
 																	<option>{{hour}}</option> {% endfor %}
-															</select>Hour<select name="dailyduraPieceEdit">
+															</select>Hour<select name="dailyduraPieceEdit" id="dailyduraPieceEdit{{tab.id}}">
 																	<option selected>{{tab.daily_duration | cut:"None"|cut:"Hour"|cut:"Piece"| get_digit:"2" }}{{tab.daily_duration | cut:"None"|cut:"Hour"|cut:"Piece"| get_digit:"1" }}</option>
 																	{% for piece in valid_dailyDura.1 %}
 																	<option>{{piece}}</option> {% endfor %}
@@ -708,8 +698,8 @@ function validatetime(tab_id) {
 														{% for tab2 in history_tab %}
 														{% ifequal tab2.request_id tab.id %}
 														<span style="width:101px; float:left;line-height:normal;">
-															<input style="width:100px;color: #A2A2A2;line-height:normal;" type="text" name="dateEdit{{tab2.id}}" id="dateEdit{{tab2.id}}" value={{tab2.change_date | date:"Y-m-d"}}  readonly>
-															<input style="width:100px;line-height:normal;" type="text" name="durationEdit{{tab2.id}}" id="durationEdit{{tab2.id}}" value={{tab2.daily_duration }} onchange="saveChangeid({{tab.id}},{{tab2.id}})">
+															<input style="width:100px;color: #A2A2A2;line-height:normal;" type="text" name="dateEdit" id="dateEdit{{tab2.id}}" value={{tab2.change_date | date:"Y-m-d"}}  readonly>
+															<input style="width:100px;line-height:normal;" type="text" name="durationEdit" id="durationEdit{{tab2.id}}" value={{tab2.daily_duration}}">
 														</span>
 														{% endifequal %}
 														{% endfor %}
@@ -763,7 +753,7 @@ function validatetime(tab_id) {
 														<ul>
 									     <li class="rqleft">Acceptance:</li>
 									     <li class="borderBottom">
-                                  <input id="acceptanceEdit" type="text" name=acceptanceEdit" value={{tab.acceptance}} readonly>
+                                  <input id="acceptanceEdit{{tab.id}}" type="text" name=acceptanceEdit" value={{tab.acceptance}} readonly>
                                 </li>
 								      </ul>
 													</div>
@@ -771,7 +761,7 @@ function validatetime(tab_id) {
 														<button class="requestBtn" type="button"
 															id="cancleBtn{{tab.id}}" name="cancle"
 															style="background-color: #FB8C8C" >cancel</button>
-														<button class="requestBtn" name="ok" type="submit"
+														<button class="requestBtn" name="ok" type="button" onclick="submitModal({{tab.id}})"
 															style="background-color: #67D00B">confirm</button>
 													</div>
 												</form>
@@ -1061,5 +1051,89 @@ function validatetime(tab_id) {
 					</div>	
 		</div>
 	</div>
+	<script>
+	// Record changed durationEdit id
+	$("[name='durationEdit']").change(function(){
+		var pk = parseInt(this.id.match("\\d+"));
+		var id = this.form.id;
+		var changed = $("#changeIdlist"+id).val();
+		if (changed.indexOf(pk)<0)
+		{
+			changed += pk + ",";
+		}
+		$("#changeIdlist"+id).val(changed);
+	});
+
+	function submitModal(id) {
+		if ($("#changeIdlist"+id).val()!="")
+		{
+			var arrId = $("#changeIdlist"+id).val();
+			arrId = arrId.substring(0, arrId.length-1);
+			var arrIds = arrId.split(",");
+			var arrVals = "";
+			for (var i=0; i<arrIds.length; i++)
+			{
+				arrVals += $("#durationEdit" + arrIds[i]).val() + ",";
+			}
+			var arrVal = arrVals.substring(0, arrVals.length-1);
+		}
+		if(validatetime(id)){
+        postData(id,arrId,arrVal);
+        }
+    }
+
+	function postData(product_id,arrId,arrVal) {
+                    $.ajax({
+                        type: "POST",
+                        url: "/plan/ajaxpost",
+                        data: {
+                            'idEdit': product_id,
+							'projectEdit':$('#projectEdit' + product_id).val(),
+                            'classificationEdit': $('#classificationEdit' + product_id).val(),
+                            'moduleEdit': $('#moduleEdit' + product_id).val(),
+                            'tfcaseEdit': $("#tfcaseEdit" + product_id).val(),
+                            'actionDiscriptionEdit': $("#actionDiscriptionEdit" + product_id).val(),
+                            'environmentEdit': $("#environmentEdit" + product_id).val(),
+							'priorityEdit':$('#priorityEdit' + product_id).val(),
+							'progressEdit':$('#progressEdit' + product_id).val(),
+							'statusEdit':$('#statusEdit' + product_id).val(),
+							'durationPieceEdit':$('#durationPieceEdit' + product_id).val(),
+							'durationDayEdit':$('#durationDayEdit' + product_id).val(),
+							'durationHourEdit':$('#durationHourEdit' + product_id).val(),
+							'dailyduraPieceEdit':$('#dailyduraPieceEdit' + product_id).val(),
+							'dailyduraHourEdit':$('#dailyduraPieceEdit' + product_id).val(),
+							'yearEdit':$('#startyearid' + product_id).val(),
+							'monthEdit':$('#startmonthid' + product_id).val(),
+							'dayEdit':$('#startdayid' + product_id).val(),
+							'hourEdit':$('#starthourid' + product_id).val(),
+							'minuteEdit':$('#startminuteid' + product_id).val(),
+							'secondEdit':$('#startsecondid' + product_id).val(),
+							'closeYearEdit':$('#closeyearid' + product_id).val(),
+							'closeMonthEdit':$('#closemonthid' + product_id).val(),
+							'closeDayEdit':$('#closedayid' + product_id).val(),
+							'closeHourEdit':$('#closehourid' + product_id).val(),
+							'closeMinuteEdit':$('#closeminuteid' + product_id).val(),
+							'closeSecondEdit':$('#closesecondid' + product_id).val(),
+							'next_targetEdit':$('#next_targetEdit' + product_id).val(),
+							'arrId': arrId,
+							'arrVal':arrVal
+                        },
+
+                        dataType: "json",
+                        success: function (ret) {
+                            //update table view
+                            
+                            $("#project" + product_id).text($('#projectEdit' + product_id).val());
+							$("#module" + product_id).text($('#moduleEdit' + product_id).val());
+							$("#action_discription" + product_id).text($('#actionDiscriptionEdit' + product_id).val());
+							$("#status" + product_id).text($('#statusEdit' + product_id).val());
+							$("#start_time" + product_id).text(ret.edit_stime);
+
+                            //hide modal
+                            $("#planModal"+product_id).modal('hide');
+                        }
+                    })
+                }
+	</script>
 </body>
 </html>

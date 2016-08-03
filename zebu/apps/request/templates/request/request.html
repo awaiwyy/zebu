@@ -1,20 +1,20 @@
 <!DOCTYPE html>
 <html xmlns="http:/www.w3.org/1999/xhtml">
 <head>
-<title>Zebu Request</title>
-<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
-<meta http-equiv="X-UA-Compatible" content="IE=9,chrome=1">
-<!-- Mobile Specific Metas -->
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-<!-- 导入文件 -->
-<!-- css -->
-<!--  <link href="http://apps.bdimg.com/libs/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">-->
-<link rel="stylesheet" href="/static/css/bootstrap.min.css" />
-<link href="/static/css/com.css" type="text/css" rel="stylesheet" />
-<link href="/static/request/css/request.css" type="text/css" rel="stylesheet" />
-<link href="/static/css/application.css" type="text/css" rel="stylesheet" />
-<link href="/static/plan/css/plan.css" type="text/css" rel="stylesheet" />
-<style>
+    <title>Zebu Request</title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=9,chrome=1">
+    <!-- Mobile Specific Metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+    <!-- 导入文件 -->
+    <!-- css -->
+    <!--  <link href="http://apps.bdimg.com/libs/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">-->
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css"/>
+    <link href="/static/css/com.css" type="text/css" rel="stylesheet"/>
+    <link href="/static/request/css/request.css" type="text/css" rel="stylesheet"/>
+    <link href="/static/css/application.css" type="text/css" rel="stylesheet"/>
+    <link href="/static/plan/css/plan.css" type="text/css" rel="stylesheet"/>
+    <style>
 	a.pagination {
 		margin: 8px;
 		padding: 8px;
@@ -40,13 +40,14 @@
 	.error {
 		border: 1px solid red;
 		}
-</style>
-<!-- js -->
-<script src="/static/js/jquery-1.11.1.min.js"></script>
-<script src="/static/js/jquery.validate.min.js"></script>
-<!-- <script src="http://apps.bdimg.com/libs/bootstrap/3.2.0/js/bootstrap.min.js"></script> -->
-<script src="/static/js/bootstrap.min.js"></script>
-<script type="text/javascript">
+
+    </style>
+    <!-- js -->
+    <script src="/static/js/jquery-1.11.1.min.js"></script>
+    <script src="/static/js/jquery.validate.min.js"></script>
+    <!-- <script src="http://apps.bdimg.com/libs/bootstrap/3.2.0/js/bootstrap.min.js"></script> -->
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
 	/mobi/i.test(navigator.userAgent) && !location.hash
 			&& setTimeout(function() {
 				if (!pageYOffset)
@@ -89,98 +90,103 @@
 		if (window.ActiveXObject) {
 			flag_browser = "ie";
 		}
+	$.ajaxSetup({
+		data: {csrfmiddlewaretoken: '{{ csrf_token }}' },
+	});
 	})	
-</script>
+
+    </script>
 </head>
 <body>
-	<!-- 头文件 -->
-	<div class="head">
-		<img class="imgleftright" src="/static/images/background-left.png" /> 
-		<img class="imgcenter" src="/static/images/background-middle.png" /> 
-		<img class="imgleftright" src="/static/images/background-right.png" />
-		<div class="clearfix"></div>
-		<table class="headtable">
-			<tr>
-				<td><img src="/static/images/zebu.png" /></td>
-			</tr>
-			<tr>
-				<td>
-					<ul class="select">
-						<li class="select-list">
-							<dl id="select1">
-								<dd>
-									<a href="/">Login</a>
-								</dd>
-								<dd>
-									<a href="/home/">Home</a>
-								</dd>
-								<dd class="select-all selected">
-									<a href="/request">Request</a>
-								</dd>
-								<dd>
-									<a href="/plan">Plan</a>
-								</dd>
-								<dd>
-									<a href="/report">Report</a>
-								</dd>
-							</dl>
-						</li>
-					</ul>
-				</td>
-			</tr>
-		</table>
-	</div>
-        <div class="divleft"></div>
-	<!-- 中间部分 -->
-	<div class="middle" >
-		<div class="middletitle" >
-			<p>
+<!-- 头文件 -->
+<div class="head">
+    <img class="imgleftright" src="/static/images/background-left.png"/>
+    <img class="imgcenter" src="/static/images/background-middle.png"/>
+    <img class="imgleftright" src="/static/images/background-right.png"/>
+    <div class="clearfix"></div>
+    <table class="headtable">
+        <tr>
+            <td><img src="/static/images/zebu.png"/></td>
+        </tr>
+        <tr>
+            <td>
+                <ul class="select">
+                    <li class="select-list">
+                        <dl id="select1">
+                            <dd>
+                                <a href="/">Login</a>
+                            </dd>
+                            <dd>
+                                <a href="/home/">Home</a>
+                            </dd>
+                            <dd class="select-all selected">
+                                <a href="/request">Request</a>
+                            </dd>
+                            <dd>
+                                <a href="/plan">Plan</a>
+                            </dd>
+                            <dd>
+                                <a href="/report">Report</a>
+                            </dd>
+                        </dl>
+                    </li>
+                </ul>
+            </td>
+        </tr>
+    </table>
+</div>
+<div class="divleft"></div>
+<!-- 中间部分 -->
+<div class="middle">
+    <div class="middletitle">
+        <p>
 				<span class="middletite1"> 
 				<a href="/" class="title">Login</a>&nbsp;&nbsp;-&nbsp;&nbsp;
 				</span>
-				<span class="middletite2">Request</span>
-			</p>
-		</div>
-		<!-- 左侧模块 -->
-		<div class="middleleft">
-			<div class="middleleft2" style="position: relative; top: -16px;">
-				<div class="middleleft_center">
-					<ul>
-						<li id="middleleft_center_topli"><a href="exportTab" style="color:#8e8e8e">Export Excel</a></li>
-						<li><a href="#">&nbsp;</a></li>
-						<li><a href="#">&nbsp;</a></li>
-						<li id="middleleft_center_bottomli"><a href="#">&nbsp;</a></li>
-					</ul>
-				</div>
-			</div>
-				<!--弹出模态框（Modal） -->
-						<div class="modal fade" id="NewModal" tabindex="-1" role="dialog" aria-labelledby="NewModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" style = "width:800px">
-                      <div class="modal-content">
-                        <div class="modal-header">
-                           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                           <h4 class="modal-title" id="NewModalLabel">New Application</h4>
-                        </div>
-                        <div class="modal-body">
+            <span class="middletite2">Request</span>
+        </p>
+    </div>
+    <!-- 左侧模块 -->
+    <div class="middleleft">
+        <div class="middleleft2" style="position: relative; top: -16px;">
+            <div class="middleleft_center">
+                <ul>
+                    <li id="middleleft_center_topli"><a href="exportTab" style="color:#8e8e8e">Export Excel</a></li>
+                    <li><a href="#">&nbsp;</a></li>
+                    <li><a href="#">&nbsp;</a></li>
+                    <li id="middleleft_center_bottomli"><a href="#">&nbsp;</a></li>
+                </ul>
+            </div>
+        </div>
+        <!--弹出模态框（Modal） -->
+        <div class="modal fade" id="NewModal" tabindex="-1" role="dialog" aria-labelledby="NewModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog" style="width:800px">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="NewModalLabel">New Application</h4>
+                    </div>
+                    <div class="modal-body">
                         <form id="newapp" class="modalForm" method="POST" role="form">
-                        {% csrf_token %}
-                          <div class="modalFormContent">
-                          <ul>
-									   <li class="new_rqleft">Product:</li>
-									   <li>
+                            {% csrf_token %}
+                            <div class="modalFormContent">
+                                <ul>
+                                    <li class="new_rqleft">Product:</li>
+                                    <li>
                                   <span>
-                                  <select class="borderWidth" id="projectInfo"  name="projectInfo">
+                                  <select class="borderWidth" id="projectInfo" name="projectInfo">
 
                                      {%for i in productlist%}
                                       <option>{{i}}</option>
 									  {%endfor%}
                                   </select>
                                   </span>
-                              </li>
-								  </ul>
-								  <ul>
-									   <li class="new_rqleft">TF Case:</li>
-									   <li>
+                                    </li>
+                                </ul>
+                                <ul>
+                                    <li class="new_rqleft">TF Case:</li>
+                                    <li>
 									     <span>
                                   <select id="tfcase" class="borderWidth" name="tfcaseInfo">
                                       <option selected="selected">Power-CHIP</option>
@@ -217,13 +223,13 @@
                                       <option>Other</option>
                                   </select>
                                 </span>
-                              </li>
-								  </ul>
-								  <ul>
-									   <li class="new_rqleft" >Classification:</li>
-									   <li>
+                                    </li>
+                                </ul>
+                                <ul>
+                                    <li class="new_rqleft">Classification:</li>
+                                    <li>
                                  <span>
-                                 <select class="borderWidth" id="classificationInfo"  name="classificationInfo">
+                                 <select class="borderWidth" id="classificationInfo" name="classificationInfo">
                                      <option>Function</option>
                                      <option>Misc</option>
                                      <option selected="">Performance</option>
@@ -234,13 +240,13 @@
                                      <option>Other</option>
                                  </select>
                                  </span>
-                              </li>
-								  </ul>
-								  <ul>
-									   <li class="new_rqleft" >Module:</li>
-									   <li>
+                                    </li>
+                                </ul>
+                                <ul>
+                                    <li class="new_rqleft">Module:</li>
+                                    <li>
                                   <span>
-                                  <select class="borderWidth" id="moduleInfo"  name="moduleInfo">
+                                  <select class="borderWidth" id="moduleInfo" name="moduleInfo">
                                       <option selected="">APPS</option>
                                       <option>BSP</option>
                                       <option>MM</option>
@@ -255,242 +261,257 @@
                                       <option>Other</option>
                                   </select>
                                   </span>
-                              </li>
-								  </ul>
-								  <ul>
-									   <li class="new_rqleft">Action Description:</li>
-									   <li>
-                                  <textarea class="borderWidth modalText" id="actionDiscription" name="actionDiscriptionInfo" style=vertical-align:text-top>GFS Benchmark</textarea>
-                              </li>
-								  </ul>
-								  <ul>
-									   <li class="new_rqleft" >Environment:</li>
-									   <li>
+                                    </li>
+                                </ul>
+                                <ul>
+                                    <li class="new_rqleft">Action Description:</li>
+                                    <li>
+                                        <textarea class="borderWidth modalText" id="actionDiscription"
+                                                  name="actionDiscriptionInfo" style=vertical-align:text-top>GFS Benchmark</textarea>
+                                    </li>
+                                </ul>
+                                <ul>
+                                    <li class="new_rqleft">Environment:</li>
+                                    <li>
                                   <span>
-                                  <select class="borderWidth" id="environmentInfo"  name="environmentInfo">
+                                  <select class="borderWidth" id="environmentInfo" name="environmentInfo">
                                       <option selected="">Zebu-JC</option>
                                       <option>Zebu-SPRD</option>
                                       <option>Hybrid</option>
                                   </select>
                                   </span>
-                              </li>
-								  </ul>
-								  <ul>
-									   <li class="new_rqleft">Request Duration:</li>
-									   <!--<li>
-										   <span>
-											<select class="borderWidth" name="requestDurationInfo" id="requestDuration">
-											   {% for i in valid_duration %}
-												 <option>{{i}}</option>
-												 {% endfor %}
-											</select>
-											</span>
-										</li>-->
-                                      <li><select name="durationHourEdit">
+                                    </li>
+                                </ul>
+                                <ul>
+                                    <li class="new_rqleft">Request Duration:</li>
+                                    <!--<li>
+                                        <span>
+                                         <select class="borderWidth" name="requestDurationInfo" id="requestDuration">
+                                            {% for i in valid_duration %}
+                                              <option>{{i}}</option>
+                                              {% endfor %}
+                                         </select>
+                                         </span>
+                                     </li>-->
+                                    <li><select name="durationHourEdit">
 
-																	<option ></option>
-																	{% for hour in valid_duration.0 %}
-																	<option>{{hour}}</option> {% endfor %}
-															</select>Hour<select name="durationDayEdit">
-																	<option ></option>
-																	{% for day in valid_duration.1 %}
-																	<option>{{day}}</option> {% endfor %}
-															</select>Day<select name="durationPieceEdit">
-																	<option ></option>
-																	{% for piece in valid_duration.2 %}
-																	<option>{{piece}}</option> {% endfor %}
-															</select>Piece
-															<p id="errormsg" style="color:red"></p>
-															</li>
-								  </ul>
-								  <ul>
-								      <li class="new_rqleft">Priority:</li>
-								      <li>
+                                        <option></option>
+                                        {% for hour in valid_duration.0 %}
+                                        <option>{{hour}}</option>
+                                        {% endfor %}
+                                    </select>Hour<select name="durationDayEdit">
+                                        <option></option>
+                                        {% for day in valid_duration.1 %}
+                                        <option>{{day}}</option>
+                                        {% endfor %}
+                                    </select>Day<select name="durationPieceEdit">
+                                        <option></option>
+                                        {% for piece in valid_duration.2 %}
+                                        <option>{{piece}}</option>
+                                        {% endfor %}
+                                    </select>Piece
+                                        <p id="errormsg" style="color:red"></p>
+                                    </li>
+                                </ul>
+                                <ul>
+                                    <li class="new_rqleft">Priority:</li>
+                                    <li>
                                   <span>
-                                  <select class="borderWidth" id="priorityInfo"  name="priorityInfo">
+                                  <select class="borderWidth" id="priorityInfo" name="priorityInfo">
                                       <option>High</option>
                                       <option selected="">Normal</option>
                                       <option>Low</option>
                                   </select>
                                   </span>
-                              </li>
-								  </ul>
-								  <input type="hidden" name="ownerInfo" value={{user.username}} />
-								  <!-- <input type="hidden" name="submitUserInfo" value={{user.username}} /> -->
-								  </div>
-								  <div align="center" style="margin-bottom: 100px; ">
-									  <div name="errormsg" id="errormsg" style="color:red"></div>
-                            <button class= "requestBtn" type="text" name="cancle" style="background-color: #FB8C8C" data-dismiss="modal">cancel</button>
-                            <button class= "requestBtn" name="ok" type="submit" style="background-color:#67D00B ">confirm</button>
-                          </div>
-                          </form>
-                          </div>
-                      </div>
-                   </div>
-                 </div>
-					  <!-- 添加模态框（Modal）结束 -->
-		</div>
-		<!-- 中间模板 -->
-		<div class="divcenter">
+                                    </li>
+                                </ul>
+                                <input type="hidden" name="ownerInfo" value={{user.username}}/>
+                                <!-- <input type="hidden" name="submitUserInfo" value={{user.username}} /> -->
+                            </div>
+                            <div align="center" style="margin-bottom: 100px; ">
+                                <div name="errormsg" id="errormsg" style="color:red"></div>
+                                <button class="requestBtn" type="text" name="cancle" style="background-color: #FB8C8C"
+                                        data-dismiss="modal">cancel
+                                </button>
+                                <button class="requestBtn" name="ok" type="submit" style="background-color:#67D00B ">
+                                    confirm
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 添加模态框（Modal）结束 -->
+    </div>
+    <!-- 中间模板 -->
+    <div class="divcenter">
 
-            <div class="md_search">
-				<span class="keyword">Search Keywords：</span>
-				<form class="form1">
-					<input name="submit" type="submit" class="search_btn1" value="" />
-					<input name="text" type="text" class="textinput1" value="">
-				</form>
-			</div>
-			<div class="CText">
-				<p>
-					<span class="content">Content：</span> <a href="#">Product</a>&nbsp;&nbsp;&nbsp;
-					<a href="#">Classification</a>&nbsp;&nbsp;&nbsp;<a href="#">Module</a>&nbsp;&nbsp;&nbsp;
-					<a href="#">Environment</a>&nbsp;&nbsp;&nbsp; <a href="#">Priority</a>&nbsp;&nbsp;&nbsp;
-					<a href="#">Status</a>&nbsp;&nbsp;&nbsp;<a href="#">Request
-						time</a>&nbsp;&nbsp;&nbsp;
-				</p>
-				<p>
-					<span class="content">Department：</span> <a href="#">APPS</a>&nbsp;&nbsp;
-					<a href="#">BSP</a>&nbsp;&nbsp; <a href="#">MM</a>&nbsp;&nbsp; <a
-						href="#">Modem</a>&nbsp;&nbsp; <a href="#">Power</a>&nbsp;&nbsp; <a
-						href="#">Stability</a>&nbsp;&nbsp; <a href="#">Kernel</a>&nbsp;&nbsp;
-					<a href="#">Graphics</a>&nbsp;&nbsp; <a href="#">DDR</a>&nbsp;&nbsp;
-					<a href="#">WCN</a>
-				</p>
-			</div>
+        <div class="md_search">
+            <span class="keyword">Search Keywords：</span>
+            <form class="form1">
+                <input name="submit" type="submit" class="search_btn1" value=""/>
+                <input name="text" type="text" class="textinput1" value="">
+            </form>
+        </div>
+        <div class="CText">
+            <p>
+                <span class="content">Content：</span> <a href="#">Product</a>&nbsp;&nbsp;&nbsp;
+                <a href="#">Classification</a>&nbsp;&nbsp;&nbsp;<a href="#">Module</a>&nbsp;&nbsp;&nbsp;
+                <a href="#">Environment</a>&nbsp;&nbsp;&nbsp; <a href="#">Priority</a>&nbsp;&nbsp;&nbsp;
+                <a href="#">Status</a>&nbsp;&nbsp;&nbsp;<a href="#">Request
+                time</a>&nbsp;&nbsp;&nbsp;
+            </p>
+            <p>
+                <span class="content">Department：</span> <a href="#">APPS</a>&nbsp;&nbsp;
+                <a href="#">BSP</a>&nbsp;&nbsp; <a href="#">MM</a>&nbsp;&nbsp; <a
+                    href="#">Modem</a>&nbsp;&nbsp; <a href="#">Power</a>&nbsp;&nbsp; <a
+                    href="#">Stability</a>&nbsp;&nbsp; <a href="#">Kernel</a>&nbsp;&nbsp;
+                <a href="#">Graphics</a>&nbsp;&nbsp; <a href="#">DDR</a>&nbsp;&nbsp;
+                <a href="#">WCN</a>
+            </p>
+        </div>
 
-			<div class="classify ">
-				<a href="#">
-					<button type="button" class="classification_down" id="mybtn"
-						onclick="changeImage()" style="background-color: #F8F8F8">Request
-						time</button>
-				</a> <a href="#">
-					<button type="button" class="classification1" id="mybtn1"
-						onclick="changeImage1()" style="background-color: #F8F8F8">Product</button>
-				</a> <a href="#">
-					<button type="button" class="classification2" id="mybtn2"
-						onclick="changeImage2()" style="background-color: #F8F8F8">Status</button>
-				</a>
-			</div>
-			<div class="requestForm" style="margin-top:32px">
-			   <div data-toggle="modal" data-target="#NewModal"  style="cursor:pointer;margin-top:-10px">
-				{% if perms.request.add_requesttable %}
-				<tr>
-					<td><img src="/static/images/tianjia.png" /></td>
-					<span Style="color:#6bd5f8">Add New TF case</span>
-				</tr>
-				{% endif %}
-			</div>
-				<div id="requestTable" class="requestTableDiv" >
-					<table  class="requestTable" id="Box"  >
-						<tr>
-							<th scope="col" width="84px"><span>Product</span></th>
-							<th scope="col" width="84px"><span>Module</span></th>
-							<th scope="col" width="222px"><span>TF Case</span></th>
-							<th scope="col" width="80px"><span>Owner</span></th>
-							<th scope="col" width="120px"><span>Request Duration</span></th>
-							<th scope="col" width="88px"><span>Submit Date</span></th>
-							<th scope="col" width="74px"><span>Detail</span></th>
-						</tr>
-						{% for tab in request_tab %}
-                  <tr>
-                     <td>{{tab.project}}</td>
-                     <td>{{tab.module}}</td>
-                     <td>{{tab.tf_case}}</td>
-                     <td>{{tab.owner}}</td>
-                     <td>{{tab.request_duration}}</td>
-                     <td>{{tab.submit_date}}</td>
-                     <td><a data-toggle="modal" data-target="#myModal{{tab.id}}"  style="cursor:pointer"><img style="vertical-align:middle" src="/static/images/down.png" /></a></td>
-                  </tr>
-				  
-                  <!--弹出模态框（Modal） -->
-						<div class="modal fade" id="myModal{{tab.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" style = "width:800px">
-                      <div class="modal-content">
-                        <div class="modal-header">
-                           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                           <h4 class="modal-title" id="myModalLabel">Application Details</h4>
-                        </div>
-                        <div class="modal-body">
-                        <div class = "modalForm">
-                        <div class = "modalFormContent" id="readRqTab{{tab.id}}">
-                          <ul>
-										<li class="rqleft">ID:</li>
-										<li class="borderBottom">{{tab.id}}</li>
-								  </ul>
-                          <ul>
-									   <li class="rqleft">Product:</li>
-									   <li class="borderBottom">{{tab.project}}</li>
-								  </ul>
-								  <ul>
-									   <li class="rqleft" >Classification:</li>
-									   <li class="borderBottom">{{tab.classification}}</li>
-								  </ul>
-								  <ul>
-									   <li class="rqleft" >Module:</li>
-									   <li class="borderBottom">{{tab.module}}</li>
-								  </ul>
-								  <ul>
-									   <li class="rqleft">TF Case:</li>
-									   <li class="borderBottom">{{tab.tf_case}}</li>
-								  </ul>
-								  <ul>
-									   <li class="rqleft">Action Description:</li>
-									   <li class="borderBottom">{{tab.action_discription|safe}}</li>
-								  </ul>
-								  <ul>
-									   <li class="rqleft" >Environment:</li>
-									   <li class="borderBottom">{{tab.environment}}</li>
-								  </ul>
-								  <ul>
-									   <li class="rqleft">Request Duration:</li>
-									   <li class="borderBottom">{{tab.request_duration}}</li>
-								  </ul>
-								  <ul>
-									   <li class="rqleft">Owner:</li>
-									   <li class="borderBottom">{{tab.owner}}</li>
-								  </ul>
-								  <ul>
-								      <li class="rqleft">Priority:</li>
-								      <li class="borderBottom">{{tab.priority}}</li>
-								  </ul>
-								  <ul>
-									   <li class="rqleft" >Submit Date:</li>
-										<li class="borderBottom">{{tab.submit_date | date:"Y-m-d"}}</li>
-								  </ul>
-								  <ul>
-								      <li class="rqleft">Acceptance:</li>
-								      <li class="borderBottom">{{tab.acceptance}}</li>
-								  </ul>
-								  </div>
+        <div class="classify ">
+            <a href="#">
+                <button type="button" class="classification_down" id="mybtn"
+                        onclick="changeImage()" style="background-color: #F8F8F8">Request
+                    time
+                </button>
+            </a> <a href="#">
+            <button type="button" class="classification1" id="mybtn1"
+                    onclick="changeImage1()" style="background-color: #F8F8F8">Product
+            </button>
+        </a> <a href="#">
+            <button type="button" class="classification2" id="mybtn2"
+                    onclick="changeImage2()" style="background-color: #F8F8F8">Status
+            </button>
+        </a>
+        </div>
+        <div class="requestForm" style="margin-top:32px">
+            <div data-toggle="modal" data-target="#NewModal" style="cursor:pointer;margin-top:-10px">
+                {% if perms.request.add_requesttable %}
+                <tr>
+                    <td><img src="/static/images/tianjia.png"/></td>
+                    <span Style="color:#6bd5f8">Add New TF case</span>
+                </tr>
+                {% endif %}
+            </div>
+            <div id="requestTable" class="requestTableDiv">
+                <table class="requestTable" id="Box">
+                    <tr>
+                        <th scope="col" width="84px"><span>Product</span></th>
+                        <th scope="col" width="84px"><span>Module</span></th>
+                        <th scope="col" width="222px"><span>TF Case</span></th>
+                        <th scope="col" width="80px"><span>Owner</span></th>
+                        <th scope="col" width="120px"><span>Request Duration</span></th>
+                        <th scope="col" width="88px"><span>Submit Date</span></th>
+                        <th scope="col" width="74px"><span>Detail</span></th>
+                    </tr>
+                    {% for tab in request_tab %}
+                    <tr>
+                        <td id="project{{tab.id}}">{{tab.project}}</td>
+                        <td id="module{{tab.id}}">{{tab.module}}</td>
+                        <td id="tf_case{{tab.id}}">{{tab.tf_case}}</td>
+                        <td>{{tab.owner}}</td>
+                        <td id="request_duration{{tab.id}}">{{tab.request_duration}}</td>
+                        <td id="submit_date{{tab.id}}">{{tab.submit_date}}</td>
+                        <td><a data-toggle="modal" data-target="#myModal{{tab.id}}" style="cursor:pointer"><img
+                                style="vertical-align:middle" src="/static/images/down.png"/></a></td>
+                    </tr>
 
-						<div id="editRqTab{{tab.id}}">
-								    <form  class = "modalForm" method="POST">
-                              {% csrf_token %}
-                              <div class="modalFormContent">
-                              <ul>
-									     <li class="rqleft">ID:</li>
-									     <li class="borderBottom">
-                                  <input id="idEdit" type="text" name="idEdit" value={{tab.id}} readonly>
-                                </li>
-								      </ul>
-                              <ul>
-									     <li class="rqleft">Product:</li>
-									     <li>
+                    <!--弹出模态框（Modal） -->
+                    <div class="modal fade" id="myModal{{tab.id}}" tabindex="-1" role="dialog"
+                         aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" style="width:800px">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal"
+                                            aria-hidden="true">&times;</button>
+                                    <h4 class="modal-title" id="myModalLabel">Application Details</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="modalForm">
+                                        <div class="modalFormContent" id="readRqTab{{tab.id}}">
+                                            <ul>
+                                                <li class="rqleft">ID:</li>
+                                                <li class="borderBottom">{{tab.id}}</li>
+                                            </ul>
+                                            <ul>
+                                                <li class="rqleft">Product:</li>
+                                                <li class="borderBottom">{{tab.project}}</li>
+                                            </ul>
+                                            <ul>
+                                                <li class="rqleft">Classification:</li>
+                                                <li class="borderBottom">{{tab.classification}}</li>
+                                            </ul>
+                                            <ul>
+                                                <li class="rqleft">Module:</li>
+                                                <li class="borderBottom">{{tab.module}}</li>
+                                            </ul>
+                                            <ul>
+                                                <li class="rqleft">TF Case:</li>
+                                                <li class="borderBottom">{{tab.tf_case}}</li>
+                                            </ul>
+                                            <ul>
+                                                <li class="rqleft">Action Description:</li>
+                                                <li class="borderBottom">{{tab.action_discription|safe}}</li>
+                                            </ul>
+                                            <ul>
+                                                <li class="rqleft">Environment:</li>
+                                                <li class="borderBottom">{{tab.environment}}</li>
+                                            </ul>
+                                            <ul>
+                                                <li class="rqleft">Request Duration:</li>
+                                                <li class="borderBottom">{{tab.request_duration}}</li>
+                                            </ul>
+                                            <ul>
+                                                <li class="rqleft">Owner:</li>
+                                                <li class="borderBottom">{{tab.owner}}</li>
+                                            </ul>
+                                            <ul>
+                                                <li class="rqleft">Priority:</li>
+                                                <li class="borderBottom">{{tab.priority}}</li>
+                                            </ul>
+                                            <ul>
+                                                <li class="rqleft">Submit Date:</li>
+                                                <li class="borderBottom">{{tab.submit_date | date:"Y-m-d"}}</li>
+                                            </ul>
+                                            <ul>
+                                                <li class="rqleft">Acceptance:</li>
+                                                <li class="borderBottom">{{tab.acceptance}}</li>
+                                            </ul>
+                                        </div>
+
+                                        <div id="editRqTab{{tab.id}}">
+                                            <form class="modalForm">
+                                                {% csrf_token %}
+                                                <div class="modalFormContent">
+                                                    <ul>
+                                                        <li class="rqleft">ID:</li>
+                                                        <li class="borderBottom">
+                                                            <input id="idEdit" type="text" name="idEdit"
+                                                                   value={{tab.id}} readonly>
+                                                        </li>
+                                                    </ul>
+                                                    <ul>
+                                                        <li class="rqleft">Product:</li>
+                                                        <li>
                                   <span>
-                                  <select class="borderWidth" id="projectEdit"  name="projectEdit">
+                                  <select class="borderWidth" id="projectEdit{{tab.id}}" name="projectEdit">
                                       <option selected>{{tab.project}}</option>
 									  {%for i in productlist%}
                                       <option>{{i}}</option>
 									  {%endfor%}
                                   </select>
                                   </span>
-                                </li>
-								      </ul>
-								      <ul>
-									     <li class="rqleft" >Classification:</li>
-									     <li>
+                                                        </li>
+                                                    </ul>
+                                                    <ul>
+                                                        <li class="rqleft">Classification:</li>
+                                                        <li>
                                  <span>
-                                 <select class="borderWidth" id="classificationEdit"  name="classificationEdit">
+                                 <select class="borderWidth" id="classificationEdit{{tab.id}}" name="classificationEdit">
                                      <option selected>{{tab.classification}}</option>
                                      <option>Function</option>
                                      <option>Misc</option>
@@ -502,13 +523,13 @@
                                      <option>Other</option>
                                  </select>
                                  </span>
-                                </li>
-								      </ul>
-								      <ul>
-									     <li class="rqleft" >Module:</li>
-									     <li>
+                                                        </li>
+                                                    </ul>
+                                                    <ul>
+                                                        <li class="rqleft">Module:</li>
+                                                        <li>
                                   <span>
-                                  <select class="borderWidth" id="moduleEdit"  name="moduleEdit">
+                                  <select class="borderWidth" id="moduleEdit{{tab.id}}" name="moduleEdit">
                                       <option selected>{{tab.module}}</option>
                                       <option>APPS</option>
                                       <option>BSP</option>
@@ -524,13 +545,13 @@
                                       <option>Other</option>
                                   </select>
                                   </span>
-                                </li>
-								      </ul>
-								      <ul>
-									     <li class="rqleft">TF Case:</li>
-									     <li>
+                                                        </li>
+                                                    </ul>
+                                                    <ul>
+                                                        <li class="rqleft">TF Case:</li>
+                                                        <li>
                                   <span>
-                                  <select  class="borderWidth" id="tfcaseEdit" name="tfcaseEdit">
+                                  <select class="borderWidth" id="tfcaseEdit{{tab.id}}" name="tfcaseEdit">
                                       <option selected="selected">{{tab.tf_case}}</option>
                                       <option>PM</option>
                                       <option>Power-CHIP</option>
@@ -565,113 +586,151 @@
                                       <option>Other</option>
                                   </select>
                                   </span>
-                                </li>
-								      </ul>
-								      <ul>
-									     <li class="rqleft">Action Description:</li>
-									     <li>
-                                  <textarea class="borderWidth modalText" id="actionDiscriptionEdit{{tab.id}}" name="actionDiscriptionEdit" style=vertical-align:text-top>{{tab.action_discription}}</textarea>
-                                </li>
-								      </ul>
-								      <ul>
-									     <li class="rqleft" >Environment:</li>
-									     <li>
+                                                        </li>
+                                                    </ul>
+                                                    <ul>
+                                                        <li class="rqleft">Action Description:</li>
+                                                        <li>
+                                                            <textarea class="borderWidth modalText"
+                                                                      id="actionDiscriptionEdit{{tab.id}}"
+                                                                      name="actionDiscriptionEdit"
+                                                                      style=vertical-align:text-top>{{tab.action_discription}}</textarea>
+                                                        </li>
+                                                    </ul>
+                                                    <ul>
+                                                        <li class="rqleft">Environment:</li>
+                                                        <li>
                                   <span>
-                                  <select class="borderWidth" id="environmentEdit"  name="environmentEdit">
+                                  <select class="borderWidth" id="environmentEdit{{tab.id}}" name="environmentEdit">
                                       <option selected>{{tab.environment}}</option>
                                       <option>Zebu-JC</option>
                                       <option>Zebu-SPRD</option>
                                       <option>Hybrid</option>
                                   </select>
                                   </span>
-                                </li>
-								      </ul>
-								      <ul>
-									     <li class="rqleft">Request Duration:</li>
-									     <li><select name="durationHourEdit">
+                                                        </li>
+                                                    </ul>
+                                                    <ul>
+                                                        <li class="rqleft">Request Duration:</li>
+                                                        <li><select name="durationHourEdit" id="durationHourEdit{{tab.id}}">
 
-																	<option selected>{{tab.request_duration | cut:"Hour"|cut:"Day"|cut:"Piece"| get_digit:"6" }}{{tab.request_duration | cut:"Hour"|cut:"Day"|cut:"Piece"| get_digit:"5" }}</option>
-																	{% for hour in valid_duration.0 %}
-																	<option>{{hour}}</option> {% endfor %}
-															</select>Hour<select name="durationDayEdit">
-																	<option selected>{{tab.request_duration | cut:"Hour"|cut:"Day"|cut:"Piece"| get_digit:"4" }}{{tab.request_duration | cut:"Hour"|cut:"Day"|cut:"Piece"| get_digit:"3" }}</option>
-																	{% for day in valid_duration.1 %}
-																	<option>{{day}}</option> {% endfor %}
-															</select>Day<select name="durationPieceEdit">
-																	<option selected>{{tab.request_duration | cut:"Hour"|cut:"Day"|cut:"Piece"| get_digit:"2" }}{{tab.request_duration | cut:"Hour"|cut:"Day"|cut:"Piece"| get_digit:"1" }}</option>
-																	{% for piece in valid_duration.2 %}
-																	<option>{{piece}}</option> {% endfor %}
-															</select>Piece</li>
-								      </ul>
-								      <ul>
-									     <li class="rqleft">Owner:</li>
-									     <li class="borderBottom">
-                                  <input id="owner" type="text" name="ownerEdit" value={{tab.owner}} readonly>
-                                </li>
-								      </ul>
-								      <ul>
-								        <li class="rqleft">Priority:</li>
-								        <li>
+                                                            <option selected>{{tab.request_duration |cut:"Hour"|cut:"Day"|cut:"Piece"| get_digit:"6"}}{{tab.request_duration |cut:"Hour"|cut:"Day"|cut:"Piece"| get_digit:"5" }}
+                                                            </option>
+                                                            {% for hour in valid_duration.0 %}
+                                                            <option>{{hour}}</option>
+                                                            {% endfor %}
+                                                        </select>Hour<select name="durationDayEdit" id="durationDayEdit{{tab.id}}">
+                                                            <option selected>{{tab.request_duration |cut:"Hour"|cut:"Day"|cut:"Piece"| get_digit:"4"}}{{tab.request_duration |cut:"Hour"|cut:"Day"|cut:"Piece"| get_digit:"3" }}
+                                                            </option>
+                                                            {% for day in valid_duration.1 %}
+                                                            <option>{{day}}</option>
+                                                            {% endfor %}
+                                                        </select>Day<select name="durationPieceEdit" id="durationPieceEdit{{tab.id}}">
+                                                            <option selected>{{tab.request_duration |cut:"Hour"|cut:"Day"|cut:"Piece"| get_digit:"2"}}{{tab.request_duration |cut:"Hour"|cut:"Day"|cut:"Piece"| get_digit:"1" }}
+                                                            </option>
+                                                            {% for piece in valid_duration.2 %}
+                                                            <option>{{piece}}</option>
+                                                            {% endfor %}
+                                                        </select>Piece
+                                                        </li>
+                                                    </ul>
+                                                    <ul>
+                                                        <li class="rqleft">Owner:</li>
+                                                        <li class="borderBottom">
+                                                            <input id="owner" type="text" name="ownerEdit"
+                                                                   value={{tab.owner}} readonly>
+                                                        </li>
+                                                    </ul>
+                                                    <ul>
+                                                        <li class="rqleft">Priority:</li>
+                                                        <li>
                                   <span>
-                                  <select class="borderWidth" id="priorityEdit"  name="priorityEdit">
+                                  <select class="borderWidth" id="priorityEdit{{tab.id}}" name="priorityEdit">
                                       <option selected>{{tab.priority}}</option>
                                       <option>High</option>
                                       <option>Normal</option>
                                       <option>Low</option>
                                   </select>
                                   </span>
-                                </li>
-								      </ul>
-								  <ul>
-									     <li class="rqleft">Acceptance:</li>
-									     <li class="borderBottom">
-                                  <input id="acceptanceEdit" type="text" name=acceptanceEdit" value={{tab.acceptance}} readonly>
-                                </li>
-								      </ul>
-								      </div>
-								      <div align="center" style="margin-bottom: 100px; vertical-align:middle;">
-                                  <button class= "requestBtn" type="button" id="cancleEditBtn{{tab.id}}" style="background-color: #FB8C8C" >cancel</button>
-                                  <button class= "requestBtn" type="submit" id="saveRqEdit{{tab.id}}"  style="background-color:#67D00B ">confirm</button>
-                              </div>
-                            </form>
-                          </div>
-                          <div align="center" style="margin-bottom: 100px; ">
-							  {% if perms.request.change_requesttable %}
-                              <button class= "requestBtn" id="editBtn{{tab.id}}" type="text" style="background-color: #FB8C8C">Edit</button>
-                              <button class= "requestBtn" id ="delBtn{{tab.id}}" type="submit" style="background-color:#67D00B "
-                               data-toggle="modal" data-target="#delRqModal{{tab.id}}"  style="cursor:pointer">Delete</button>
-							  {% else %}
-							  	{% ifequal tab.owner user.username %}
-							  		<button class= "requestBtn" id="editBtn{{tab.id}}" type="text" style="background-color: #FB8C8C">Edit</button>
-                              		<button class= "requestBtn" id ="delBtn{{tab.id}}" type="submit" style="background-color:#67D00B "
-                               data-toggle="modal" data-target="#delRqModal{{tab.id}}"  style="cursor:pointer">Delete</button>
-							  	{% endifequal %}
-							  {% endif %}
-                              <!-- delete request模态框（Modal） -->
-                              <div class="modal fade" id="delRqModal{{tab.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style='margin: -150px 0 0 -100px'>
-                                <div class="modal-dialog requestDelForm">
-                                  <div class="modal-content">
-                                     <div class="modal-header">
-                                         <!-- <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> -->
-                                         <h4 class="modal-title" id="myModalLabel">Delete the request item ?</h4>
-                                     </div>
-                                     <div class="modal-body">
-                                       <form class="delForm" method="POST">
-                                           {% csrf_token %}
-                                           <input type="text" name = "delRqId" value = {{tab.id}} hidden />
-                                           <div align="center" style="margin-bottom: 50px; ">
-                                               <button class= "requestBtn" type="text" id="cancleDelBtn{{tab.id}}"name="cancleDel" style="background-color: #FB8C8C" >Cancel</button>
-                                               <button class= "requestBtn" name="okDel" type="submit" style="background-color:#67D00B ">Delete</button>
-                                           </div>
-                                       </form>
-                                     </div>
-                                  </div>
-                                </div>
-                              </div>
-                              <!-- delete request模态框（Modal） finish-->
+                                                        </li>
+                                                    </ul>
+                                                    <ul>
+                                                        <li class="rqleft">Acceptance:</li>
+                                                        <li class="borderBottom">
+                                                            <input id="acceptanceEdit{{tab.id}}" type="text" name=acceptanceEdit"
+                                                                   value={{tab.acceptance}} readonly>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <div align="center"
+                                                     style="margin-bottom: 100px; vertical-align:middle;">
+                                                    <button class="requestBtn" type="button"
+                                                            id="cancleEditBtn{{tab.id}}"
+                                                            style="background-color: #FB8C8C">cancel
+                                                    </button>
+                                                    <button class="requestBtn" type="button" id="saveRqEdit{{tab.id}}"
+                                                            onclick="submitModal({{tab.id}})" style="background-color:#67D00B ">confirm
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div align="center" style="margin-bottom: 100px; ">
+                                            {% if perms.request.change_requesttable %}
+                                            <button class="requestBtn" id="editBtn{{tab.id}}" type="text"
+                                                    style="background-color: #FB8C8C">Edit
+                                            </button>
+                                            <button class="requestBtn" id="delBtn{{tab.id}}" type="submit"
+                                                    style="background-color:#67D00B "
+                                                    data-toggle="modal" data-target="#delRqModal{{tab.id}}"
+                                                    style="cursor:pointer">Delete
+                                            </button>
+                                            {% else %}
+                                            {% ifequal tab.owner user.username %}
+                                            <button class="requestBtn" id="editBtn{{tab.id}}" type="text"
+                                                    style="background-color: #FB8C8C">Edit
+                                            </button>
+                                            <button class="requestBtn" id="delBtn{{tab.id}}" type="submit"
+                                                    style="background-color:#67D00B "
+                                                    data-toggle="modal" data-target="#delRqModal{{tab.id}}"
+                                                    style="cursor:pointer">Delete
+                                            </button>
+                                            {% endifequal %}
+                                            {% endif %}
+                                            <!-- delete request模态框（Modal） -->
+                                            <div class="modal fade" id="delRqModal{{tab.id}}" tabindex="-1"
+                                                 role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
+                                                 style='margin: -150px 0 0 -100px'>
+                                                <div class="modal-dialog requestDelForm">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <!-- <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> -->
+                                                            <h4 class="modal-title" id="myModalLabel">Delete the request
+                                                                item ?</h4>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <form class="delForm" method="POST">
+                                                                {% csrf_token %}
+                                                                <input type="text" name="delRqId" value={{tab.id}}
+                                                                       hidden/>
+                                                                <div align="center" style="margin-bottom: 50px; ">
+                                                                    <button class="requestBtn" type="text"
+                                                                            id="cancleDelBtn{{tab.id}}" name="cancleDel"
+                                                                            style="background-color: #FB8C8C">Cancel
+                                                                    </button>
+                                                                    <button class="requestBtn" name="okDel"
+                                                                            type="submit"
+                                                                            style="background-color:#67D00B ">Delete
+                                                                    </button>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- delete request模态框（Modal） finish-->
 
-                              <!-- delete request tab finish -->
-                              <script type="text/javascript" >
+                                            <!-- delete request tab finish -->
+                                            <script type="text/javascript">
                                 $(document).ready(function(){
 	                                $("#editRqTab{{tab.id}}").hide();
 	                                
@@ -690,21 +749,22 @@
                                         $("#delBtn{{tab.id}}").show();
                                     }); 
                                 });
-                            </script>
 
-								  <!-- change request tab finish -->
-								  </div>
-								  </div>
+                                            </script>
+
+                                            <!-- change request tab finish -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                      </div>
-                   </div>
-                 </div>
-					  <!-- 添加模态框（Modal）结束 -->
-					  {% endfor %}	  <!-- show request tab finish -->
-					</table>
-				</div>			
-				</div>
-				<div class="pagination">
+                    </div>
+                    <!-- 添加模态框（Modal）结束 -->
+                    {% endfor %}      <!-- show request tab finish -->
+                </table>
+            </div>
+        </div>
+        <div class="pagination">
 						<span class="step-links">
 						{% if request_tab.has_previous %}
 							<a class="pagination" href="?page=1"> << </a>							
@@ -736,38 +796,68 @@
 							<a class="pagination" href="?page={{ request_tab.paginator.num_pages }}"> >> </a>
 						{% endif %}
 						</span>
-					</div>
-			</div>
-		</div>
-	</div>
-	<script>
-		$.validator.addMethod("selectval", function(value,element){
-			if (value=="")
-			{
-				$("#errormsg").text("Duration is required");
-				return false;
-			}
-			else
-			{
-				return true;
-			}
-		},"")
+        </div>
+    </div>
+</div>
+</div>
+<script>
+function submitModal(id) {
+    postData(id);
+}
 
-		$("#newapp").validate({
-                 rules: {
-                     durationHourEdit: {
-                         selectval: true,
-                     },
-					 durationDayEdit: {
-                         selectval: true
-                     },
-					 durationPieceEdit: {
-                         selectval: true
-                     }
-             },
-			 messages:{
+function postData(product_id) {
+    $.ajax({
+        type: "POST",
+        url: "/request/ajaxpost",
+        data: {
+            "idEdit": product_id,
+            "projectEdit": $("#projectEdit" + product_id).val(),
+            "tfcaseEdit": $("#tfcaseEdit" + product_id).val(),
+            "classificationEdit": $("#classificationEdit" + product_id).val(),
+            "moduleEdit": $("#moduleEdit" + product_id).val(),
+            "actionDiscriptionEdit": $("#actionDiscriptionEdit" + product_id).val(),
+            "environmentEdit": $("#environmentEdit" + product_id).val(),
+            "durationHourEdit": $("#durationHourEdit" + product_id).val(),
+            "durationDayEdit": $("#durationDayEdit" + product_id).val(),
+            "durationPieceEdit": $("#durationPieceEdit" + product_id).val(),
+            "priorityEdit": $("#priorityEdit" + product_id).val()
+        },
+        dataType: "json",
+        success: function (ret) {
+            $('#project'+product_id).text($("#projectEdit" + product_id).val());
+            $('#module'+product_id).text($("#moduleEdit" + product_id).val());
+            $('#tf_case'+product_id).text($("#tfcaseEdit" + product_id).val());
+            $('#request_duration'+product_id).text(ret.request_duration);
+
+            $('#myModal'+product_id).modal('hide');
+        }
+    })
+}
+$.validator.addMethod("selectval", function (value, element) {
+    if (value == "") {
+        $("#errormsg").text("Duration is required");
+        return false;
+    }
+    else {
+        return true;
+    }
+}, "")
+
+$("#newapp").validate({
+    rules: {
+        durationHourEdit: {
+            selectval: true,
+        },
+        durationDayEdit: {
+            selectval: true
+        },
+        durationPieceEdit: {
+            selectval: true
+        }
+    },
+			 messages: {
 			 }
-			});
-		</script>
+});
+</script>
 </body>
 </html>

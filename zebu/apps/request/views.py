@@ -1,19 +1,29 @@
 #coding:utf-8
+from __future__ import division
+from django.http import HttpResponse
+from django.http import HttpResponseRedirect,StreamingHttpResponse
 from django.shortcuts import render
-from django.http import StreamingHttpResponse
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.http import HttpResponseRedirect
+from ..request.models import RequestTable
 from common import com_def
-from models import RequestTable
-from common import xlwt
-import time,datetime
+from ..request.models import TotalTable
+
 import os
+import math
+import datetime
+import json
+from PIL import Image
+import sys
+
+
+
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from models import RequestTable
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 # Create your views here.
 temp_dir = os.path.join(BASE_DIR, "resources/tab/")
 # Create your views here.
-#temp_dir = "resources/tab/"
+# temp_dir = "resources/tab/"
 request_file = "request_tab.xls"
 
 def saveRequestTab(request_tab,file_name):
@@ -159,20 +169,8 @@ def requestUser(request, **kwargs):
                                 daily_duration=daily_duration,
                                 owner = owner,
                                 priority = priority)
-        elif 'idEdit' in request.POST.keys():
-            #print"into edit request tab"
-            edit_id = request.POST['idEdit']
-            edit_request = RequestTable.objects.get(id = edit_id)
-            edit_request.project = request.POST['projectEdit']
-            edit_request.tf_case = request.POST['tfcaseEdit']
-            edit_request.classification = request.POST['classificationEdit']
-            edit_request.module = request.POST['moduleEdit']
-            edit_request.action_discription = request.POST['actionDiscriptionEdit']
-            edit_request.environment = request.POST['environmentEdit']
-            edit_request.request_duration = request.POST['durationHourEdit']+"Hour"+request.POST['durationDayEdit']+"Day"+request.POST['durationPieceEdit']+"Piece"
-            edit_request.owner = request.POST['ownerEdit']
-            edit_request.priority = request.POST['priorityEdit']
-            edit_request.save()
+
+
         elif 'delRqId' in request.POST.keys():
             #print "into delete request tab"
             del_id = request.POST['delRqId']
@@ -226,3 +224,20 @@ def requestUser(request, **kwargs):
             'over_range_left': over_range_left, 
             'over_range_right': over_range_right,
             "productlist": productlist})
+
+def ajaxpost(request):
+    edit_id = request.POST['idEdit']
+    edit_request = RequestTable.objects.get(id=edit_id)
+    edit_request.project = request.POST['projectEdit']
+    edit_request.tf_case = request.POST['tfcaseEdit']
+    edit_request.classification = request.POST['classificationEdit']
+    edit_request.module = request.POST['moduleEdit']
+    edit_request.action_discription = request.POST['actionDiscriptionEdit']
+    edit_request.environment = request.POST['environmentEdit']
+    request_duration = request.POST['durationHourEdit']+"Hour"+request.POST['durationDayEdit']+"Day"+request.POST['durationPieceEdit']+"Piece"
+    edit_request.request_duration = request_duration
+    edit_request.priority = request.POST['priorityEdit']
+    edit_request.save()
+    success_dict = {'request_duration': request_duration}
+    return HttpResponse(json.dumps(success_dict),
+                        content_type="application/json")

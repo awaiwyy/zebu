@@ -20,4 +20,5 @@ import views as plan_views
 urlpatterns = [
     url(r'^$', plan_views.planPage, name='plan'),
     url(r'^exportTab$', plan_views.exportPlanTab, name='export_plan'),
+    url(r'^ajaxpost$',plan_views.ajaxpost,name='ajaxpost$')
 ]
