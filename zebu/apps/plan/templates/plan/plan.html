@@ -478,27 +478,27 @@ $.ajaxSetup({
 												</ul>
 												<ul>
 													<li class="rqleft">Product:</li>
-													<li class="borderBottom">{{tab.project}}</li>
+													<li id="product{{tab.id}}" class="borderBottom" >{{tab.project}}</li>
 												</ul>
 												<ul>
 													<li class="rqleft">Classification:</li>
-													<li id="readClassification" class="borderBottom">{{tab.classification}}</li>
+													<li id="readClassification{{tab.id}}" class="borderBottom">{{tab.classification}}</li>
 												</ul>
 												<ul>
 													<li class="rqleft">Module:</li>
-													<li class="borderBottom">{{tab.module}}</li>
+													<li id="readmodule{{tab.id}}" class="borderBottom">{{tab.module}}</li>
 												</ul>
 												<ul>
 													<li class="rqleft">TF Case:</li>
-													<li class="borderBottom">{{tab.tf_case}}</li>
+													<li id="tf_case{{tab.id}}" class="borderBottom">{{tab.tf_case}}</li>
 												</ul>
 												<ul>
 													<li class="rqleft">Action Description:</li>
-													<li class="borderBottom">{{tab.action_discription|safe}}</li>
+													<li id="readaction_discription{{tab.id}}" class="borderBottom">{{tab.action_discription|safe}}</li>
 												</ul>
 												<ul>
 													<li class="rqleft">Environment:</li>
-													<li class="borderBottom">{{tab.environment}}</li>
+													<li id="environment{{tab.id}}" class="borderBottom">{{tab.environment}}</li>
 												</ul>
 												<ul>
 													<li class="rqleft">Owner:</li>
@@ -506,39 +506,39 @@ $.ajaxSetup({
 												</ul>
 												<ul>
 													<li class="rqleft">Priority:</li>
-													<li class="borderBottom">{{tab.priority}}</li>
+													<li id="priority{{tab.id}}" class="borderBottom">{{tab.priority}}</li>
 												</ul>
 												<ul id="viewStatus{tab.id}">
 													<li class="rqleft">Status:</li>
-													<li class="borderBottom">{{tab.status}}</li>
+													<li id="readstatus{{tab.id}}" class="borderBottom">{{tab.status}}</li>
 												</ul>
 												<ul id="viewProgress{{tab.id}}">
 													<li class="rqleft">Progress:</li>
-													<li class="borderBottom">{{tab.progress |safe}}</li>
+													<li id="progress{{tab.id}}" class="borderBottom">{{tab.progress |safe}}</li>
 												</ul>
 												<ul id="viewStime{{tab.id}}">
 													<li class="rqleft">Start Time:</li>
-													<li class="borderBottom">{{tab.start_time | date:"Y-m-d H:i:s"}}</li>
+													<li id="readstart_time{{tab.id}}" class="borderBottom">{{tab.start_time | date:"Y-m-d H:i:s"}}</li>
 												</ul>
 												<ul>
 													<li class="rqleft">Request Duration:</li>
-													<li class="borderBottom">{{tab.request_duration}}</li>
+													<li id="request_duration{{tab.id}}" class="borderBottom">{{tab.request_duration}}</li>
 												</ul>
 												<ul>
 													<li class="rqleft">Daily Duration:</li>
-													<li class="borderBottom">{{tab.daily_duration}}</li>
+													<li id="daily_duration{{tab.id}}" class="borderBottom">{{tab.daily_duration}}</li>
 												</ul>
 												<ul>
 													<li class="rqleft">Total Duration:</li>
-													<li class="borderBottom">{{tab.duration}}Hour</li>
+													<li id="duration{{tab.id}}" class="borderBottom">{{tab.duration}}Hour</li>
 												</ul>
 												<ul id="viewCtime{{tab.id}}">
 													<li class="rqleft">Close Time:</li>
-													<li class="borderBottom">{{tab.close_time | date:"Y-m-d H:i:s"}}</li>
+													<li id="close_time{{tab.id}}" class="borderBottom">{{tab.close_time | date:"Y-m-d H:i:s"}}</li>
 												</ul>
 												<ul >
 													<li class="rqleft">Next Target:</li>
-													<li class="borderBottom">{{tab.next_target}}</li>
+													<li id="next_target{{tab.id}}" class="borderBottom">{{tab.next_target}}</li>
 												</ul>
 												 <ul>
 								      <li class="rqleft">Acceptance:</li>
@@ -653,8 +653,8 @@ $.ajaxSetup({
 														</ul>
 														<ul>
 															<li class="rqleft">Owner:</li>
-															<li class="borderBottom"><input id="owner"
-																type="text" name="ownerEdit" value={{tab.owner}} readonly>
+															<li class="borderBottom"><input
+																type="text" name="ownerEdit" id="ownerEdit{{tab.id}}" value={{tab.owner}} readonly>
 															</li>
 														</ul>
 														<ul>
@@ -823,7 +823,7 @@ $.ajaxSetup({
                                   <input id="acceptanceEdit{{tab.id}}" type="text" name=acceptanceEdit" value={{tab.acceptance}} readonly>
                                 </li>
 								      </ul>
-								      <input id="userInfo" type="hidden" name="userInfo" value={{user.username}} />
+								      <input id="userInfo{{tab.id}}" type="hidden" name="userInfo" value={{user.username}} />
 													</div>
 													<div align="center" style="margin-bottom: 100px;">
 														<button class="requestBtn" type="button"
@@ -1183,6 +1183,8 @@ $.ajaxSetup({
 							'closeMinuteEdit':$('#closeminuteid' + product_id).val(),
 							'closeSecondEdit':$('#closesecondid' + product_id).val(),
 							'next_targetEdit':$('#next_targetEdit' + product_id).val(),
+							'ownerEdit':$('#ownerEdit' + product_id).val(),
+							'userInfo':$('#userInfo' + product_id).val(),
 							'arrId': arrId,
 							'arrVal':arrVal
                         },
@@ -1194,11 +1196,49 @@ $.ajaxSetup({
                             $("#project" + product_id).text($('#projectEdit' + product_id).val());
 							$("#module" + product_id).text($('#moduleEdit' + product_id).val());
 							$("#action_discription" + product_id).text($('#actionDiscriptionEdit' + product_id).val());
-							$("#status" + product_id).text($('#statusEdit' + product_id).val());
-							$("#start_time" + product_id).text(ret.edit_stime);
-
+							if ($('#closeyearid' + product_id).val()==""){
+								$("#status" + product_id).text($('#statusEdit' + product_id).val());}
+							else{
+								$("#status" + product_id).text('close');
+								$("#statusSelected" + product_id).text('close');
+							}
+							if(ret.edit_stime != "-- ::"){
+								$("#start_time" + product_id).text(ret.edit_stime);}
+							
+							//update modal table
+							$("#product" + product_id).text($('#projectEdit' + product_id).val());
+							$("#readClassification" + product_id).text($('#classificationEdit' + product_id).val());
+							$("#readmodule" + product_id).text($('#moduleEdit' + product_id).val());
+							$("#tf_case" + product_id).text($('#tfcaseEdit' + product_id).val());
+							$("#readaction_discription" + product_id).text($('#actionDiscriptionEdit' + product_id).val());
+							$("#environment" + product_id).text($('#environmentEdit' + product_id).val());
+							$("#priority" + product_id).text($('#priorityEdit' + product_id).val());
+							$("#readstatus" + product_id).text($('#statusEdit' + product_id).val());
+							$("#progress" + product_id).text($('#progressEdit' + product_id).val());
+							if(ret.edit_stime != "-- ::"){
+								$("#readstart_time" + product_id).text(ret.edit_stime);}
+							$("#request_duration" + product_id).text(ret.request_dura);
+							$("#daily_duration" + product_id).text(ret.daily_dura);
+							if(ret.total != null){
+								$("#duration" + product_id).text(ret.total);
+							}
+							else{
+								$("#duration" + product_id).text('');
+							}
+							if(ret.utc_time != null){
+								$("#close_time" + product_id).text(ret.utc_time);
+							}else{
+								$("#close_time" + product_id).text('');
+							}
+							$("#next_target" + product_id).text($('#next_targetEdit' + product_id).val());
+							
                             //hide modal
-                            $("#planModal"+product_id).modal('hide');
+							
+                            	$("#planModal"+product_id).modal('hide');
+								$("#editPlanForm"+product_id).hide();
+								$("#readPlanDiv"+product_id).show();
+								$("#editBtn"+product_id).show();
+								$("#delBtn"+product_id).show();
                         }
                     })
                 }

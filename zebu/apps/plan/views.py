@@ -434,6 +434,8 @@ def ajaxpost(request):
     # print "into edit plan"
     edit_id = request.POST['idEdit']
     edit_plan = RequestTable.objects.get(id=edit_id)
+    total=edit_plan.duration
+    utc_time=""
     edit_plan.project = request.POST['projectEdit']
     edit_plan.classification = request.POST['classificationEdit']
     edit_plan.module = request.POST['moduleEdit']
@@ -734,6 +736,10 @@ def ajaxpost(request):
     else:
         print"send fail"
        '''
-    success_dict = {'edit_stime':edit_stime}
+    success_dict = {'edit_stime':edit_stime,
+    'request_dura':request_dura,
+    'daily_dura':daily_dura,
+    'total':total,
+    'utc_time': str(utc_time)}
     return HttpResponse(json.dumps(success_dict),
                         content_type="application/json")
