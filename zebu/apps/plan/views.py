@@ -7,6 +7,7 @@ from ..request.models import RequestTable
 from ..request.models import TotalTable
 import time, datetime
 from dateutil import tz
+from common import com_def
 from common import xlwt
 import os
 import json
@@ -131,6 +132,7 @@ def exportPlanTab(request):
 
 
 def planPage(request, **kwargs):
+    productlist = com_def.productlist[:]
     history_tab = TotalTable.objects.all().exclude(change_date=datetime.date.today()).order_by("change_date")
     gopage = request.GET.get('page')
     if (gopage == None):
@@ -291,7 +293,7 @@ def planPage(request, **kwargs):
         return HttpResponseRedirect('/plan/',
                                     {"request_tab": request_tab, "plan_tab": plan_tab, 'valid_duration': valid_duration,
                                      'valid_time': valid_time, 'valid_dailyDura': valid_dailyDura,
-                                     "history_tab": history_tab})
+                                     "history_tab": history_tab,"productlist":productlist})
     else:
         for tab in plan_tab:
             stime = tab.start_time
@@ -421,7 +423,8 @@ def planPage(request, **kwargs):
             'range_right': range_right,
             'over_range_left': over_range_left,
             'over_range_right': over_range_right,
-            'history_tab': history_tab})
+            'history_tab': history_tab,
+            "productlist":productlist})
 
 
 def ajaxpost(request):
