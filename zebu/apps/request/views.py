@@ -9,11 +9,14 @@ from ..request.models import TotalTable
 
 import os
 import math
-import datetime
+import time, datetime
 import json
 from PIL import Image
 import sys
-
+from common import xlwt
+from common import sendEmail
+from email.mime.text import MIMEText
+from email.header import Header
 
 
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -170,7 +173,15 @@ def requestUser(request, **kwargs):
                                 owner = owner,
                                 priority = priority)
 
-
+                receivers = [owner+'@spreadtrum.com','nicole.wang@spreadtrum.com','chunsi.he@spreadtrum.com','chunji.chen@spreadtrum.com','fiona.zhang@spreadtrum.com','xinpeng.li@spreadtrum.com','guoliang.ren@spreadtrum.com']
+                #receivers = [owner+'@spreadtrum.com']
+                #TF case/申请人/申请使用开始时间/daily duration/申请使用的zebu
+                content = 'TF case:'+tf_case+'/申请人:'+owner+'/request_duration:'+request_duration
+                subject = owner+'创建了一个zebu资源申请，请处理'
+                if sendEmail.send_mail(subject,content,receivers):
+                    print "send success"
+                else:
+                    print"send fail"
         elif 'delRqId' in request.POST.keys():
             #print "into delete request tab"
             del_id = request.POST['delRqId']

@@ -12,6 +12,9 @@ from common import xlwt
 import os
 import json
 import xlsxwriter
+from common import sendEmail
+from email.mime.text import MIMEText
+from email.header import Header
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -716,6 +719,21 @@ def ajaxpost(request):
         total_tab.save()
 
     edit_plan.save()
+    #发邮件功能
+    tf_case = request.POST['tfcaseEdit']
+    owner = request.POST['ownerEdit']
+    loginUser = request.POST['userInfo']
+    #receivers = [owner+'@spreadtrum.com','nicole.wang@spreadtrum.com','chunsi.he@spreadtrum.com','chunji.chen@spreadtrum.com','fiona.zhang@spreadtrum.com','xinpeng.li@spreadtrum.com','guoliang.ren@spreadtrum.com']
+    receivers = [owner+'@spreadtrum.com']
+    #被处理的TF case/分配到的zebu/被分配使用的时间/操作者
+    content = '被处理的TF case:'+tf_case+'/被分配使用的时间:'+edit_stime+'/操作者:'+loginUser
+    subject = 'zebu资源已分配，请登录指定服务器和zebu处理'
+    '''
+    if sendEmail.send_mail(subject,content,receivers):
+        print "send success"
+    else:
+        print"send fail"
+       '''
     success_dict = {'edit_stime':edit_stime}
     return HttpResponse(json.dumps(success_dict),
                         content_type="application/json")

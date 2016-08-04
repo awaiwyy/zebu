@@ -2,6 +2,8 @@
 <html xmlns="http:/www.w3.org/1999/xhtml">
 <head>
 <title>Zebu Plan</title>
+<link rel="shortcut icon" type="image/x-icon" href="/static/images/favicon.ico" media="screen" />
+<link rel="Bookmark" href="/static/images/favicon.ico">
 <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=9,chrome=1">
 <!-- Mobile Specific Metas -->
@@ -821,6 +823,7 @@ $.ajaxSetup({
                                   <input id="acceptanceEdit{{tab.id}}" type="text" name=acceptanceEdit" value={{tab.acceptance}} readonly>
                                 </li>
 								      </ul>
+								      <input id="userInfo" type="hidden" name="userInfo" value={{user.username}} />
 													</div>
 													<div align="center" style="margin-bottom: 100px;">
 														<button class="requestBtn" type="button"
