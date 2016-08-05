@@ -508,6 +508,16 @@ def ajaxpost(request):
     cminute = request.POST['closeMinuteEdit']
     csecond = request.POST['closeSecondEdit']
     edit_ctime = cyear + "-" + cmonth + "-" + cday + " " + chour + ":" + cminute + ":" + csecond
+    # 编辑每一天的daily_duration的值
+    if 'arrId' in request.POST.keys():
+        arrId=request.POST['arrId'].split(',')
+        arrVal=request.POST['arrVal'].split(',')
+        for id in range(len(arrId)):
+            total_tab = TotalTable.objects.filter(request_id=edit_id).get(id=arrId[id])
+            total_tab.daily_duration = arrVal[id]
+        if request.POST['statusEdit'] != "close":
+            total_tab.status = 'ongoing'
+        total_tab.save()
     if edit_stime != '-- ::':
         stime = edit_stime.encode("utf-8")
         dtime = datetime.datetime.strptime(stime, '%Y-%m-%d %H:%M:%S')
@@ -698,28 +708,6 @@ def ajaxpost(request):
             # print "next_target"
     next_target = request.POST['next_targetEdit']
     edit_plan.next_target = next_target
-    # 编辑每一天的daily_duration的值
-    # changeId = request.POST['changeIdlist'].encode("utf-8")
-    # changeIdlist = changeId.split(",")
-    # changeIdlist.remove('')
-    # editIdlist = list(set(changeIdlist))
-    # for id in editIdlist:
-    #     durationEdit = request.POST['durationEdit' + id]
-    #     total_tab = TotalTable.objects.filter(request_id=edit_id).get(id=id)
-    #     total_tab.daily_duration = durationEdit
-    #     if request.POST['statusEdit'] != "close":
-    #         total_tab.status = 'ongoing'
-    #     total_tab.save()
-    if 'arrId' in request.POST.keys():
-        arrId=request.POST['arrId'].split(',')
-        arrVal=request.POST['arrVal'].split(',')
-        for id in range(len(arrId)):
-            total_tab = TotalTable.objects.filter(request_id=edit_id).get(id=arrId[id])
-            total_tab.daily_duration = arrVal[id]
-        if request.POST['statusEdit'] != "close":
-            total_tab.status = 'ongoing'
-        total_tab.save()
-
     edit_plan.save()
     #发邮件功能
     tf_case = request.POST['tfcaseEdit']

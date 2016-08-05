@@ -758,7 +758,7 @@ $.ajaxSetup({
 														</ul>
 														<ul>
 													<li class="rqleft">Total Duration:</li>
-													<li class="borderBottom">{{tab.duration}}Hour</li>
+													<li id="totalduration{{tab.id}}" class="borderBottom">{{tab.duration}}Hour</li>
 													<li><img style="right:16px" src="/static/images/bianji.png" onclick="showHistory({{tab.id}})"></li>
 												</ul>
 														<div id="history{{tab.id}}" style="height:100px;overflow-x:scroll;display:none" aria-checked="false">
@@ -1169,7 +1169,7 @@ $.ajaxSetup({
 							'durationDayEdit':$('#durationDayEdit' + product_id).val(),
 							'durationHourEdit':$('#durationHourEdit' + product_id).val(),
 							'dailyduraPieceEdit':$('#dailyduraPieceEdit' + product_id).val(),
-							'dailyduraHourEdit':$('#dailyduraPieceEdit' + product_id).val(),
+							'dailyduraHourEdit':$('#dailyduraHourEdit' + product_id).val(),
 							'yearEdit':$('#startyearid' + product_id).val(),
 							'monthEdit':$('#startmonthid' + product_id).val(),
 							'dayEdit':$('#startdayid' + product_id).val(),
@@ -1204,7 +1204,7 @@ $.ajaxSetup({
 							}
 							if(ret.edit_stime != "-- ::"){
 								$("#start_time" + product_id).text(ret.edit_stime);}
-							
+								
 							//update modal table
 							$("#product" + product_id).text($('#projectEdit' + product_id).val());
 							$("#readClassification" + product_id).text($('#classificationEdit' + product_id).val());
@@ -1220,7 +1220,7 @@ $.ajaxSetup({
 							$("#request_duration" + product_id).text(ret.request_dura);
 							$("#daily_duration" + product_id).text(ret.daily_dura);
 							if(ret.total != null){
-								$("#duration" + product_id).text(ret.total);
+								$("#duration" + product_id).text(ret.total+"Hour");
 							}
 							else{
 								$("#duration" + product_id).text('');
@@ -1231,6 +1231,7 @@ $.ajaxSetup({
 								$("#close_time" + product_id).text('');
 							}
 							$("#next_target" + product_id).text($('#next_targetEdit' + product_id).val());
+							$("#totalduration" + product_id).text(ret.total+"Hour")
 							
                             //hide modal
 							
