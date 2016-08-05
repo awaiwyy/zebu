@@ -138,6 +138,8 @@ def planPage(request, **kwargs):
     productlist = com_def.productlist[:]
     history_tab = TotalTable.objects.all().exclude(change_date=datetime.date.today()).order_by("change_date")
     gopage = request.GET.get('page')
+    xxx = request.GET.get('status')
+
     if (gopage == None):
         gopage = "1"
     # show plan table
@@ -217,7 +219,7 @@ def planPage(request, **kwargs):
     # add plan application
 
     # Pagination -CC
-    perpage = 15  # show how many items per page
+    perpage = 2  # show how many items per page
 
     objects = plan_tab
     pager = Paginator(objects, perpage)

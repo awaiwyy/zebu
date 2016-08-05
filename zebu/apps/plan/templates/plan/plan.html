@@ -337,7 +337,7 @@ $.ajaxSetup({
 					<label> <input  type="checkbox" id="checkbox1"  checked="checked" > </label>
                 <select data-placeholder="Choose Product" id="selectproduct" class="chosen-select-product" multiple style="width:200px;" tabindex="4" disabled>
                 {%for i in productlist%}
-                 <option value="i">{{i}}</option>
+                 <option value={{i}}>{{i}}</option>
 				{%endfor%}
                 </select>
 					<label style="width:20px"> </label>
@@ -389,6 +389,17 @@ $.ajaxSetup({
 								 $("#selectstatus").removeAttr("disabled");
 								 $("#selectstatus").trigger("chosen:updated");
 							  }
+						  });
+
+						  $("#searchbutton").click(function (){
+							  var productlist = $("#selectproduct").val();
+							  var statuslist =$("#selectstatus").val();
+							  console.log(productlist);
+							  console.log(statuslist);
+							  //window.location.href='?status'+'<%=statuslist%>';
+							 window.location.href='?status='+statuslist.toString();
+							 //
+
 						  });
 					 })
 				</script>
