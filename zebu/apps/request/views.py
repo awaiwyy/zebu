@@ -6,12 +6,10 @@ from django.shortcuts import render
 from ..request.models import RequestTable
 from common import com_def
 from ..request.models import TotalTable
-
 import os
 import math
 import time, datetime
 import json
-from PIL import Image
 import sys
 from common import xlwt
 from common import sendEmail

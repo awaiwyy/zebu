@@ -1,6 +1,6 @@
 # coding:utf-8
 from django.shortcuts import render
-from django.core.paginator import Page, PageNotAnInteger, Paginator
+from django.core.paginator import Page, EmptyPage, PageNotAnInteger, Paginator
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from ..request.models import RequestTable
@@ -219,7 +219,7 @@ def planPage(request, **kwargs):
     # add plan application
 
     # Pagination -CC
-    perpage = 2  # show how many items per page
+    perpage = 15  # show how many items per page
 
     objects = plan_tab
     pager = Paginator(objects, perpage)
