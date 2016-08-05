@@ -119,7 +119,7 @@ def requestUser(request, **kwargs):
         if day < 10:
             day = "0" + str(day)
         valid_requestduration_day.append(day)
-    for hour in range(1, 25):
+    for hour in range(0, 25):
         if hour < 10:
             hour = "0" + str(hour)
         valid_requestduration_hour.append(hour)
@@ -184,15 +184,17 @@ def requestUser(request, **kwargs):
                                 server_ID = server_ID,
                                 application_time =application_time)
 
-                # receivers = [owner+'@spreadtrum.com','nicole.wang@spreadtrum.com','chunsi.he@spreadtrum.com','chunji.chen@spreadtrum.com','fiona.zhang@spreadtrum.com','xinpeng.li@spreadtrum.com','guoliang.ren@spreadtrum.com']
-                # #receivers = [owner+'@spreadtrum.com']
-                # #TF case/申请人/申请使用开始时间/daily duration/申请使用的zebu
-                # content = 'TF case:'+tf_case+'/申请人:'+owner+'/request_duration:'+request_duration
-                # subject = owner+'创建了一个zebu资源申请，请处理'
-                # if sendEmail.send_mail(subject,content,receivers):
-                #     print "send success"
-                # else:
-                #     print"send fail"
+                receivers = [owner+'@spreadtrum.com','nicole.wang@spreadtrum.com','chunsi.he@spreadtrum.com','chunji.chen@spreadtrum.com','fiona.zhang@spreadtrum.com','xinpeng.li@spreadtrum.com','guoliang.ren@spreadtrum.com']
+                #receivers = [owner+'@spreadtrum.com']
+                #TF case/申请人/申请使用开始时间/daily duration/申请使用的zebu
+                content = 'TF case:'+tf_case+'/申请人:'+owner+'/request_duration:'+request_duration
+                subject = owner+'创建了一个zebu资源申请，请请登录指定服务器（http://10.5.2.62）处理'
+                '''
+                if sendEmail.send_mail(subject,content,receivers):
+                     print "send success"
+                else:
+                     print"send fail"
+                '''
         elif 'delRqId' in request.POST.keys():
             #print "into delete request tab"
             del_id = request.POST['delRqId']

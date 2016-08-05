@@ -443,6 +443,7 @@ def ajaxpost(request):
     edit_id = request.POST['idEdit']
     edit_plan = RequestTable.objects.get(id=edit_id)
     total=edit_plan.duration
+    statusBefore=edit_plan.status #编辑之前的状态
     utc_ctime=""
     edit_plan.project = request.POST['projectEdit']
     edit_plan.classification = request.POST['classificationEdit']
@@ -718,21 +719,23 @@ def ajaxpost(request):
     next_target = request.POST['next_targetEdit']
     edit_plan.next_target = next_target
     edit_plan.save()
-    #发邮件功能
-    tf_case = request.POST['tfcaseEdit']
-    owner = request.POST['ownerEdit']
-    loginUser = request.POST['userInfo']
-    #receivers = [owner+'@spreadtrum.com','nicole.wang@spreadtrum.com','chunsi.he@spreadtrum.com','chunji.chen@spreadtrum.com','fiona.zhang@spreadtrum.com','xinpeng.li@spreadtrum.com','guoliang.ren@spreadtrum.com']
-    receivers = [owner+'@spreadtrum.com']
-    #被处理的TF case/分配到的zebu/被分配使用的时间/操作者
-    content = '被处理的TF case:'+tf_case+'/被分配使用的时间:'+edit_stime+'/操作者:'+loginUser
-    subject = 'zebu资源已分配，请登录指定服务器和zebu处理'
-    '''
-    if sendEmail.send_mail(subject,content,receivers):
-        print "send success"
-    else:
-        print"send fail"
-       '''
+    #status状态改变发邮件功能
+    statusAfter=request.POST['statusEdit']
+    if statusAfter != statusBefore:
+        tf_case = request.POST['tfcaseEdit']
+        owner = request.POST['ownerEdit']
+        loginUser = request.POST['userInfo']
+        #receivers = [owner+'@spreadtrum.com','nicole.wang@spreadtrum.com','chunsi.he@spreadtrum.com','chunji.chen@spreadtrum.com','fiona.zhang@spreadtrum.com','xinpeng.li@spreadtrum.com','guoliang.ren@spreadtrum.com']
+        receivers = [owner+'@spreadtrum.com']
+        #被处理的TF case/分配到的zebu/被分配使用的时间/操作者
+        content = '被处理的TF case:'+tf_case+'/被分配使用的时间:'+edit_stime+'/status:'+statusAfter+'/操作者:'+loginUser
+        subject = 'zebu资源的使用状态已更改，请登录指定服务器（http://10.5.2.62）查看'
+        '''
+        if sendEmail.send_mail(subject,content,receivers):
+            print "send success"
+        else:
+            print"send fail"
+        '''
     success_dict = {'edit_stime':edit_stime,
     'request_dura':request_dura,
     'daily_dura':daily_dura,
