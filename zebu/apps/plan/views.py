@@ -65,17 +65,20 @@ def savePlanTab(plan_tab, file_name):
             sheet.write(row, 14, 'Close Time', cell_format)
             sheet.write(row, 15, 'Next Target', cell_format)
             sheet.write(row, 16, 'Acceptance', cell_format)
+            sheet.write(row, 17, 'Server ID', cell_format)
+            sheet.write(row, 18, 'Application Time', cell_format)
             sheet.set_column(1, 4, 13)
             sheet.set_column(5, 6, 15)
             sheet.set_column(7, 12, 10)
             sheet.set_column(13, 13, 18)
             sheet.set_column(14, 16, 10)
+            sheet.set_column(17, 18, 16)
 
             for i in range(dates):
-                sheet.set_column(17 + i, 17 + dates, 13)
+                sheet.set_column(19 + i, 19 + dates, 13)
                 # sdate = datetime.datetime.strptime('2016-01-01', '%Y-%m-%d').date()
                 date = sdate + datetime.timedelta(days=i)
-                sheet.write(row, 17 + i, date, style)
+                sheet.write(row, 19 + i, date, style)
 
             sheet.freeze_panes(1, 6)
 
@@ -103,7 +106,7 @@ def savePlanTab(plan_tab, file_name):
                         date = sdate + datetime.timedelta(days=i)
                         for tab1 in daily_tab:
                             if tab1.change_date == date:
-                                sheet.write(row, 17 + i, tab1.daily_duration, cell_format1)
+                                sheet.write(row, 19 + i, tab1.daily_duration, cell_format1)
                 else:
                     sheet.write(row, 12, (tab.start_time))
                 sheet.write(row, 13, tab.request_duration, cell_format1)
@@ -113,6 +116,9 @@ def savePlanTab(plan_tab, file_name):
                     sheet.write(row, 14, tab.close_time)
                 sheet.write(row, 15, tab.next_target, cell_format1)
                 sheet.write(row, 16, tab.acceptance, cell_format1)
+                sheet.write(row, 17, tab.server_ID, cell_format1)
+                if tab.application_time:
+                    sheet.write(row, 18, (tab.application_time + datetime.timedelta(hours=8)).strftime("%Y-%m-%d %H:%M"), cell_format1)
                 row += 1
     wb.close()
 
@@ -447,6 +453,7 @@ def ajaxpost(request):
     # edit_plan.request_duration = request.POST['requestDurationEdit']
     edit_plan.priority = request.POST['priorityEdit']
     edit_plan.progress = request.POST['progressEdit']
+    edit_plan.server_ID = request.POST['serverIdEdit']
     edit_plan.status = request.POST['statusEdit']
     # edit_stime = request.POST['startTimeEdit']
 

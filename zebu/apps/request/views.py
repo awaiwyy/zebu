@@ -36,6 +36,9 @@ def saveRequestTab(request_tab,file_name):
 
     style = xlwt.XFStyle()
     style.num_format_str = 'YYYY-MM-DD'
+
+    style1 = xlwt.XFStyle()
+    style1.num_format_str = 'YYYY-MM-DD h:mm'
     #creat sheet
     wb = xlwt.Workbook(encoding = 'utf-8')
     sheet = wb.add_sheet(u'request_tab', cell_overwrite_ok=True)
@@ -51,8 +54,11 @@ def saveRequestTab(request_tab,file_name):
     sheet.write(row, 7, 'Request Duration', style0)
     sheet.write(row, 8, 'Owner', style0)
     sheet.write(row, 9, 'Priority', style0)
-    sheet.write(row, 10, 'Submit Date', style0)
-    sheet.write(row, 11, 'Acceptance', style0)
+    sheet.write(row, 10, 'Server ID', style0)
+    sheet.write(row, 11, 'Application Time', style0)
+    sheet.write(row, 12, 'Submit Date', style0)
+    sheet.write(row, 13, 'Acceptance', style0)
+
     row += 1
     
     for tab in request_tab:
@@ -66,8 +72,11 @@ def saveRequestTab(request_tab,file_name):
         sheet.write(row, 7, tab.request_duration)
         sheet.write(row, 8, tab.owner)
         sheet.write(row, 9, tab.priority)
-        sheet.write(row, 10, tab.submit_date, style)
-        sheet.write(row, 11, tab.acceptance, style)
+        sheet.write(row, 10, tab.server_ID)
+        if tab.application_time:
+            sheet.write(row, 11, (tab.application_time+ datetime.timedelta(hours=8)).strftime("%Y-%m-%d %H:%M"))
+        sheet.write(row, 12, tab.submit_date, style)
+        sheet.write(row, 13, tab.acceptance)
         row += 1
     wb.save(file_name)
 
@@ -152,6 +161,8 @@ def requestUser(request, **kwargs):
             environment = request.POST['environmentInfo']
             owner = request.POST['ownerInfo']
             priority = request.POST['priorityInfo']
+            server_ID = request.POST['serverId']
+            application_time = request.POST['applicationTime']
             if request.POST['durationHourEdit'] and request.POST['durationDayEdit'] and request.POST[
                 'durationPieceEdit']:
                 request_duration = request.POST['durationHourEdit'] + "Hour" + request.POST['durationDayEdit'] + "Day" + \
@@ -169,17 +180,19 @@ def requestUser(request, **kwargs):
                                 request_duration = request_duration,
                                 daily_duration=daily_duration,
                                 owner = owner,
-                                priority = priority)
+                                priority = priority,
+                                server_ID = server_ID,
+                                application_time =application_time)
 
-                receivers = [owner+'@spreadtrum.com','nicole.wang@spreadtrum.com','chunsi.he@spreadtrum.com','chunji.chen@spreadtrum.com','fiona.zhang@spreadtrum.com','xinpeng.li@spreadtrum.com','guoliang.ren@spreadtrum.com']
-                #receivers = [owner+'@spreadtrum.com']
-                #TF case/申请人/申请使用开始时间/daily duration/申请使用的zebu
-                content = 'TF case:'+tf_case+'/申请人:'+owner+'/request_duration:'+request_duration
-                subject = owner+'创建了一个zebu资源申请，请处理'
-                if sendEmail.send_mail(subject,content,receivers):
-                    print "send success"
-                else:
-                    print"send fail"
+                # receivers = [owner+'@spreadtrum.com','nicole.wang@spreadtrum.com','chunsi.he@spreadtrum.com','chunji.chen@spreadtrum.com','fiona.zhang@spreadtrum.com','xinpeng.li@spreadtrum.com','guoliang.ren@spreadtrum.com']
+                # #receivers = [owner+'@spreadtrum.com']
+                # #TF case/申请人/申请使用开始时间/daily duration/申请使用的zebu
+                # content = 'TF case:'+tf_case+'/申请人:'+owner+'/request_duration:'+request_duration
+                # subject = owner+'创建了一个zebu资源申请，请处理'
+                # if sendEmail.send_mail(subject,content,receivers):
+                #     print "send success"
+                # else:
+                #     print"send fail"
         elif 'delRqId' in request.POST.keys():
             #print "into delete request tab"
             del_id = request.POST['delRqId']
@@ -246,6 +259,8 @@ def ajaxpost(request):
     request_duration = request.POST['durationHourEdit']+"Hour"+request.POST['durationDayEdit']+"Day"+request.POST['durationPieceEdit']+"Piece"
     edit_request.request_duration = request_duration
     edit_request.priority = request.POST['priorityEdit']
+    edit_request.server_ID = request.POST['serverIdEdit']
+    edit_request.application_time = request.POST['applicationTimeEdit']
     edit_request.save()
     success_dict = {'request_duration': request_duration}
     return HttpResponse(json.dumps(success_dict),

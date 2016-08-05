@@ -17,6 +17,7 @@
     <link href="/static/css/application.css" type="text/css" rel="stylesheet"/>
     <link href="/static/plan/css/plan.css" type="text/css" rel="stylesheet"/>
     <link href="/static/css/datatables.min.css" type="text/css" rel="stylesheet" />
+    <link href="/static/request/css/bootstrap-datetimepicker.css" type="text/css" rel="stylesheet"/>
     <style>
 	a.pagination {
 		margin: 8px;
@@ -46,9 +47,11 @@
 
     </style>
     <!-- js -->
+
     <script src="/static/js/jquery-1.11.1.min.js"></script>
     <script src="/static/js/jquery.validate.min.js"></script>
     <script src="/static/js/datatables.min.js"></script>
+    <script src="/static/request/js/bootstrap-datetimepicker.js"></script>
     <!-- <script src="http://apps.bdimg.com/libs/bootstrap/3.2.0/js/bootstrap.min.js"></script> -->
     <script src="/static/js/bootstrap.min.js"></script>
     <script type="text/javascript">
@@ -287,6 +290,31 @@
                                     </li>
                                 </ul>
                                 <ul>
+                                    <li class="new_rqleft">Server ID:</li>
+                                    <li>
+                                  <span>
+                                  <select class="borderWidth" id="serverId" name="serverId">
+                                      <option selected="">ZEBU01,M0&1</option>
+                                      <option>ZEBU02,M0&2</option>
+                                      <option>ZEBU03,M0&3</option>
+                                  </select>
+                                  </span>
+                                    </li>
+                                </ul>
+                                <ul>
+                                    <li class="new_rqleft">Application Time:</li>
+                                     <li>
+                                      <span>
+                                      <input size="16" type="text" value="" readonly id="datetimepicker" name="applicationTime" class="form_datetime">
+                                      </span>
+                                      </li>
+                                </ul>
+                                <script >
+                                    $("#datetimepicker").datetimepicker({
+                                        format: 'yyyy-mm-dd hh:ii',
+                                        autoclose : true});
+                                </script>
+                                <ul>
                                     <li class="new_rqleft">Request Duration:</li>
                                     <!--<li>
                                         <span>
@@ -481,6 +509,14 @@
                                                 <li class="rqleft">Priority:</li>
                                                 <li class="borderBottom">{{tab.priority}}</li>
                                             </ul>
+                                             <ul>
+                                                <li class="rqleft">Server ID:</li>
+                                                <li class="borderBottom">{{tab.server_ID}}</li>
+                                            </ul>
+                                             <ul>
+                                                <li class="rqleft">Application Time:</li>
+                                                <li class="borderBottom">{{tab.application_time | date:"Y-m-d H:i"}}</li>
+                                            </ul>
                                             <ul>
                                                 <li class="rqleft">Submit Date:</li>
                                                 <li class="borderBottom">{{tab.submit_date | date:"Y-m-d"}}</li>
@@ -617,6 +653,32 @@
                                   </select>
                                   </span>
                                                         </li>
+                                                    </ul>
+                                                    <ul>
+                                                        <li class="rqleft">Server ID:</li>
+                                                        <li>
+                                                            <span>
+                                                                <select class="borderWidth" id="serverIdEdit{{tab.id}}" name="serverIdEdit">
+                                                                    <option selected>{{tab.server_ID}}</option>
+                                                                    <option >ZEBU01,M0&1</option>
+                                                                    <option>ZEBU02,M0&2</option>
+                                                                    <option>ZEBU03,M0&3</option>
+                                                                </select>
+                                                            </span>
+                                                        </li>
+                                                    </ul>
+                                                    <ul>
+                                                        <li class="rqleft">Application Time:</li>
+                                                        <li>
+                                                            <span>
+                                                                <input size="16" type="text" value="{{tab.application_time | date:'Y-m-d H:i'}}" readonly id="applicationTimeEdit{{tab.id}}" name="applicationTimeEdit" class="form_datetime">
+                                                            </span>
+                                                        </li>
+                                                        <script >
+                                    $("#applicationTimeEdit{{tab.id}}").datetimepicker({
+                                        format: 'yyyy-mm-dd hh:ii',
+                                        autoclose : true});
+                                </script>
                                                     </ul>
                                                     <ul>
                                                         <li class="rqleft">Request Duration:</li>
@@ -828,7 +890,9 @@ function postData(product_id) {
             "durationHourEdit": $("#durationHourEdit" + product_id).val(),
             "durationDayEdit": $("#durationDayEdit" + product_id).val(),
             "durationPieceEdit": $("#durationPieceEdit" + product_id).val(),
-            "priorityEdit": $("#priorityEdit" + product_id).val()
+            "priorityEdit": $("#priorityEdit" + product_id).val(),
+            "serverIdEdit": $("#serverIdEdit" + product_id).val(),
+            "applicationTimeEdit": $("#applicationTimeEdit" + product_id).val()
         },
         dataType: "json",
         success: function (ret) {

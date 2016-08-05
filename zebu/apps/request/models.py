@@ -70,6 +70,11 @@ acceptance_choice = (
               ('accept', 'Yes'),
               )
 
+server_choice=(
+    ('server1','ZEBU01,M0&1'),
+    ('server2','ZEBU02,M0&1'),
+    ('server3','ZEBU03,M0&1'),
+)
 #is_plan标记是否在plan页显示：true是显示，false是不显示；
 #is_maintf标记是否在Report的Main TF Status页显示：true是显示，false是不显示；
 #is_high标记是否是Main TF Status页的Hightlight：true为是，false为不是；
@@ -98,6 +103,8 @@ class RequestTable(models.Model):
     is_high = models.CharField(max_length=20, default="false")
     is_low = models.CharField(max_length=20, default="false")
     next_target=models.TextField(blank=True)
+    server_ID = models.CharField(max_length=100, choices = server_choice, blank=True)
+    application_time = models.DateTimeField(null=True, blank=True)
 
 #TotalTable内容是plan页每条记录每天的daily_duration值和状态
 class TotalTable(models.Model):
