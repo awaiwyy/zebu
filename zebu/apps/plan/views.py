@@ -435,7 +435,7 @@ def ajaxpost(request):
     edit_id = request.POST['idEdit']
     edit_plan = RequestTable.objects.get(id=edit_id)
     total=edit_plan.duration
-    utc_time=""
+    utc_ctime=""
     edit_plan.project = request.POST['projectEdit']
     edit_plan.classification = request.POST['classificationEdit']
     edit_plan.module = request.POST['moduleEdit']
@@ -547,8 +547,8 @@ def ajaxpost(request):
                     Closedate = datetime.datetime.strptime(Closedate1, '%Y-%m-%d').date()
                     ctime = edit_ctime.encode("utf-8")
                     dtime = datetime.datetime.strptime(ctime, '%Y-%m-%d %H:%M:%S')
-                    utc_time = dtime.replace(tzinfo=tz.gettz('CST'))
-                    edit_plan.close_time = utc_time
+                    utc_ctime = dtime.replace(tzinfo=tz.gettz('CST'))
+                    edit_plan.close_time = utc_ctime
                     edit_plan.status = "close"
                     TotalTable.objects.filter(request_id=edit_plan.id, change_date__gt=Closedate).delete()
                     closedate = TotalTable.objects.get(request_id=edit_plan.id, change_date=Closedate)
@@ -618,8 +618,8 @@ def ajaxpost(request):
                     oldstatus = edit_plan.status
                     ctime = edit_ctime.encode("utf-8")
                     dtime = datetime.datetime.strptime(ctime, '%Y-%m-%d %H:%M:%S')
-                    utc_time = dtime.replace(tzinfo=tz.gettz('CST'))
-                    edit_plan.close_time = utc_time
+                    utc_ctime = dtime.replace(tzinfo=tz.gettz('CST'))
+                    edit_plan.close_time = utc_ctime
                     if Closedate < rtime:
                         total_tab2.filter(change_date__gt=Closedate).delete()
                         closeitem = total_tab2.get(change_date=Closedate)
@@ -740,6 +740,6 @@ def ajaxpost(request):
     'request_dura':request_dura,
     'daily_dura':daily_dura,
     'total':total,
-    'utc_time': str(utc_time)}
+    'utc_time': str(utc_ctime)}
     return HttpResponse(json.dumps(success_dict),
                         content_type="application/json")

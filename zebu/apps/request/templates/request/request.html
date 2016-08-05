@@ -16,6 +16,7 @@
     <link href="/static/request/css/request.css" type="text/css" rel="stylesheet"/>
     <link href="/static/css/application.css" type="text/css" rel="stylesheet"/>
     <link href="/static/plan/css/plan.css" type="text/css" rel="stylesheet"/>
+    <link href="/static/css/datatables.min.css" type="text/css" rel="stylesheet" />
     <style>
 	a.pagination {
 		margin: 8px;
@@ -47,6 +48,7 @@
     <!-- js -->
     <script src="/static/js/jquery-1.11.1.min.js"></script>
     <script src="/static/js/jquery.validate.min.js"></script>
+    <script src="/static/js/datatables.min.js"></script>
     <!-- <script src="http://apps.bdimg.com/libs/bootstrap/3.2.0/js/bootstrap.min.js"></script> -->
     <script src="/static/js/bootstrap.min.js"></script>
     <script type="text/javascript">
@@ -400,7 +402,8 @@
                 {% endif %}
             </div>
             <div id="requestTable" class="requestTableDiv">
-                <table class="requestTable" id="Box">
+                <table class="table display compact dataTablerequest text-center" id="Box">
+                    <thead>
                     <tr>
                         <th scope="col" width="84px"><span>Product</span></th>
                         <th scope="col" width="84px"><span>Module</span></th>
@@ -409,7 +412,9 @@
                         <th scope="col" width="120px"><span>Request Duration</span></th>
                         <th scope="col" width="88px"><span>Submit Date</span></th>
                         <th scope="col" width="74px"><span>Detail</span></th>
+                        <th scope="col" width="84px"><span>Acceptance</span></th>
                     </tr>
+                    </thead>
                     {% for tab in request_tab %}
                     <tr>
                         <td id="project{{tab.id}}">{{tab.project}}</td>
@@ -420,6 +425,7 @@
                         <td id="submit_date{{tab.id}}">{{tab.submit_date}}</td>
                         <td><a data-toggle="modal" data-target="#myModal{{tab.id}}" style="cursor:pointer"><img
                                 style="vertical-align:middle" src="/static/images/down.png"/></a></td>
+                        <td>{{tab.acceptance}}</td>
                     </tr>
 
                     <!--弹出模态框（Modal） -->
@@ -860,6 +866,24 @@ $("#newapp").validate({
 			 messages: {
 			 }
 });
+
+$(document).ready(function(){
+            $('.dataTablerequest').DataTable({
+				"columnDefs": [
+    			{ "visible": false, "targets": 7 },
+				{ "orderable": false, "targets": 1 },
+				{ "orderable": false, "targets": 2 },
+				{ "orderable": false, "targets": 3 },
+				{ "orderable": false, "targets": 4 },
+				{ "orderable": false, "targets": 5 },
+				{ "orderable": false, "targets": 6 },
+  				],
+				"order": [[ 7, "desc" ]],
+				paging: false,
+				"searching": false,
+				"info": false
+            });
+        });
 </script>
 </body>
 </html>
