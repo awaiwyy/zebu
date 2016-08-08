@@ -91,6 +91,13 @@
 		}
 	}
 
+    function checktime(){
+        var applicationtime=document.getElementById("datetimepicker").value;
+        if (!applicationtime){
+            $("#checktime").text("请输入Application Time");
+            return false;
+        }
+    }
 	var flag_browser = "other";
 	$(document).ready(function() {
 		//判断浏览器类型
@@ -175,7 +182,7 @@
                         <h4 class="modal-title" id="NewModalLabel">New Application</h4>
                     </div>
                     <div class="modal-body">
-                        <form id="newapp" class="modalForm" method="POST" role="form">
+                        <form id="newapp" class="modalForm" method="POST" role="form" onsubmit="return checktime()">
                             {% csrf_token %}
                             <div class="modalFormContent">
                                 <ul>
@@ -309,11 +316,12 @@
                                       </span>
                                       </li>
                                 </ul>
-                                <script >
+                                <script type="text/javascript">
                                     $("#datetimepicker").datetimepicker({
                                         format: 'yyyy-mm-dd hh:ii',
                                         autoclose : true});
                                 </script>
+                                <p id="checktime" style="text-align:center;color:red"></p>
                                 <ul>
                                     <li class="new_rqleft">Request Duration:</li>
                                     <!--<li>
@@ -378,7 +386,6 @@
     </div>
     <!-- 中间模板 -->
     <div class="divcenter">
-
         <div class="md_search">
             <span class="keyword">Search Keywords：</span>
             <form class="form1">
@@ -675,10 +682,10 @@
                                                             </span>
                                                         </li>
                                                         <script >
-                                    $("#applicationTimeEdit{{tab.id}}").datetimepicker({
-                                        format: 'yyyy-mm-dd hh:ii',
-                                        autoclose : true});
-                                </script>
+                                                            $("#applicationTimeEdit{{tab.id}}").datetimepicker({
+                                                                format: 'yyyy-mm-dd hh:ii',
+                                                                autoclose : true});
+                                                        </script>
                                                     </ul>
                                                     <ul>
                                                         <li class="rqleft">Request Duration:</li>
