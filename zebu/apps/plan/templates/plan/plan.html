@@ -94,6 +94,7 @@
 }
 
 function validatetime(tab_id) {
+	var status = document.getElementById("statusEdit" + tab_id).value;
 	var closeDate = new Date();
 	var closeyear = document.getElementById("closeyearid" + tab_id).value;
 	var closemonth = document.getElementById("closemonthid" + tab_id).value;
@@ -144,6 +145,12 @@ function validatetime(tab_id) {
 		} else {
 		$("#checkStart" + tab_id).text("");
 		}
+		if (closeyear == "" && status == "close") {
+			$("#checkclose" + tab_id).text("请输入Close time");
+			return false;
+			} else {
+			$("#checkclose" + tab_id).text("");
+			}
 	}else {
 		if(closeyear !== ""){
 		$("#checkclose" + tab_id).text("请先输入Start time");
