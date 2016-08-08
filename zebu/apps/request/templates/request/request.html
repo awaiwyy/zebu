@@ -475,31 +475,31 @@
                                             </ul>
                                             <ul>
                                                 <li class="rqleft">Product:</li>
-                                                <li class="borderBottom">{{tab.project}}</li>
+                                                <li id="product{{tab.id}}" class="borderBottom">{{tab.project}}</li>
                                             </ul>
                                             <ul>
                                                 <li class="rqleft">Classification:</li>
-                                                <li class="borderBottom">{{tab.classification}}</li>
+                                                <li id="classification{{tab.id}}" class="borderBottom">{{tab.classification}}</li>
                                             </ul>
                                             <ul>
                                                 <li class="rqleft">Module:</li>
-                                                <li class="borderBottom">{{tab.module}}</li>
+                                                <li id="moduleread{{tab.id}}" class="borderBottom">{{tab.module}}</li>
                                             </ul>
                                             <ul>
                                                 <li class="rqleft">TF Case:</li>
-                                                <li class="borderBottom">{{tab.tf_case}}</li>
+                                                <li id="tf_caseread{{tab.id}}" class="borderBottom">{{tab.tf_case}}</li>
                                             </ul>
                                             <ul>
                                                 <li class="rqleft">Action Description:</li>
-                                                <li class="borderBottom">{{tab.action_discription|safe}}</li>
+                                                <li id="action_discription{{tab.id}}" class="borderBottom">{{tab.action_discription|safe}}</li>
                                             </ul>
                                             <ul>
                                                 <li class="rqleft">Environment:</li>
-                                                <li class="borderBottom">{{tab.environment}}</li>
+                                                <li id="environment{{tab.id}}" class="borderBottom">{{tab.environment}}</li>
                                             </ul>
                                             <ul>
                                                 <li class="rqleft">Request Duration:</li>
-                                                <li class="borderBottom">{{tab.request_duration}}</li>
+                                                <li id="request_durationread{{tab.id}}" class="borderBottom">{{tab.request_duration}}</li>
                                             </ul>
                                             <ul>
                                                 <li class="rqleft">Owner:</li>
@@ -507,15 +507,15 @@
                                             </ul>
                                             <ul>
                                                 <li class="rqleft">Priority:</li>
-                                                <li class="borderBottom">{{tab.priority}}</li>
+                                                <li id="priority{{tab.id}}" class="borderBottom">{{tab.priority}}</li>
                                             </ul>
                                              <ul>
                                                 <li class="rqleft">Server ID:</li>
-                                                <li class="borderBottom">{{tab.server_ID}}</li>
+                                                <li id="server_ID{{tab.id}}" class="borderBottom">{{tab.server_ID}}</li>
                                             </ul>
                                              <ul>
                                                 <li class="rqleft">Application Time:</li>
-                                                <li class="borderBottom">{{tab.application_time | date:"Y-m-d H:i"}}</li>
+                                                <li id="application_time{{tab.id}}" class="borderBottom">{{tab.application_time | date:"Y-m-d H:i"}}</li>
                                             </ul>
                                             <ul>
                                                 <li class="rqleft">Submit Date:</li>
@@ -900,8 +900,24 @@ function postData(product_id) {
             $('#module'+product_id).text($("#moduleEdit" + product_id).val());
             $('#tf_case'+product_id).text($("#tfcaseEdit" + product_id).val());
             $('#request_duration'+product_id).text(ret.request_duration);
+            //update modal
+            $('#product'+product_id).text($("#projectEdit" + product_id).val());
+            $('#classification'+product_id).text($("#classificationEdit" + product_id).val());
+            $('#moduleread'+product_id).text($("#moduleEdit" + product_id).val());
+            $('#tf_caseread'+product_id).text($("#tfcaseEdit" + product_id).val());
+            $('#action_discription'+product_id).text($("#actionDiscriptionEdit" + product_id).val());
+            $('#environment'+product_id).text($("#environmentEdit" + product_id).val());
+            $('#request_durationread'+product_id).text($("#durationHourEdit" + product_id).val()+"Hour"+$("#durationDayEdit" + product_id).val()+"Day"+$("#durationPieceEdit" + product_id).val()+"Piece");
+            $('#priority'+product_id).text($("#priorityEdit" + product_id).val());
+            $('#server_ID'+product_id).text($("#serverIdEdit" + product_id).val());
+            $('#application_time'+product_id).text($("#applicationTimeEdit" + product_id).val());
 
+            //hide modal
             $('#myModal'+product_id).modal('hide');
+            $('#editRqTab'+product_id).hide();
+            $('#readRqTab'+product_id).show();
+            $('#editBtn'+product_id).show();
+            $('#delBtn'+product_id).show();
         }
     })
 }

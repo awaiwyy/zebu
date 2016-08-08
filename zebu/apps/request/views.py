@@ -262,7 +262,8 @@ def ajaxpost(request):
     edit_request.request_duration = request_duration
     edit_request.priority = request.POST['priorityEdit']
     edit_request.server_ID = request.POST['serverIdEdit']
-    edit_request.application_time = request.POST['applicationTimeEdit']
+    if request.POST['applicationTimeEdit'] != '':
+        edit_request.application_time = request.POST['applicationTimeEdit']
     edit_request.save()
     success_dict = {'request_duration': request_duration}
     return HttpResponse(json.dumps(success_dict),
