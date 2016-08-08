@@ -529,7 +529,7 @@ $.ajaxSetup({
 												</ul>
 												<ul>
                                                 <li class="rqleft">Server ID:</li>
-                                                <li class="borderBottom">{{tab.server_ID}}</li>
+                                                <li id="serverid{{tab.id}}" class="borderBottom">{{tab.server_ID}}</li>
                                             </ul>
                                              <ul>
                                                 <li class="rqleft">Application Time:</li>
@@ -1255,6 +1255,7 @@ $.ajaxSetup({
 							$("#readaction_discription" + product_id).text($('#actionDiscriptionEdit' + product_id).val());
 							$("#environment" + product_id).text($('#environmentEdit' + product_id).val());
 							$("#priority" + product_id).text($('#priorityEdit' + product_id).val());
+							$("#serverid"+product_id).text($('#serverIdEdit'+product_id).val());
 							$("#readstatus" + product_id).text($('#statusEdit' + product_id).val());
 							$("#progress" + product_id).text($('#progressEdit' + product_id).val());
 							if(ret.edit_stime != "-- ::"){
