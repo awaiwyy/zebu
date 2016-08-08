@@ -11,6 +11,7 @@ from common import com_def
 from common import xlwt
 import os
 import json
+import time
 import xlsxwriter
 from common import sendEmail
 from email.mime.text import MIMEText
@@ -144,7 +145,8 @@ def planPage(request, **kwargs):
     productlist = com_def.productlist[:]
     history_tab = TotalTable.objects.all().exclude(change_date=datetime.date.today()).order_by("change_date")
     gopage = request.GET.get('page')
-    xxx = request.GET.get('status')
+    plist = request.GET.get('productlist')
+    slist = request.GET.get('statuslist')
 
     if (gopage == None):
         gopage = "1"
@@ -440,6 +442,7 @@ def planPage(request, **kwargs):
 
 def ajaxpost(request):
     # print "into edit plan"
+    time.sleep(5)
     edit_id = request.POST['idEdit']
     edit_plan = RequestTable.objects.get(id=edit_id)
     total=edit_plan.duration

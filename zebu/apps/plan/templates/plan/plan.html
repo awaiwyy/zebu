@@ -45,6 +45,7 @@
 <script src="/static/js/jquery-1.11.1.min.js"></script>
 <script src="/static/js/bootstrap.min.js"></script>
 <script src="/static/js/chosen.jquery.js"></script>
+<script src="/static/js/jquery.blockUI.js"></script>
 <script type="text/javascript">
 	/mobi/i.test(navigator.userAgent) && !location.hash
 			&& setTimeout(function() {
@@ -392,13 +393,16 @@ $.ajaxSetup({
 						  });
 
 						  $("#searchbutton").click(function (){
-							  var productlist = $("#selectproduct").val();
-							  var statuslist =$("#selectstatus").val();
-							  console.log(productlist);
-							  console.log(statuslist);
-							  //window.location.href='?status'+'<%=statuslist%>';
-							 window.location.href='?status='+statuslist.toString();
-							 //
+							 // var productlist = $("#selectproduct").val();
+							 // var statuslist =$("#selectstatus").val();
+							 //for test
+							 productlist='p1,p2,p3';
+							 statuslist='s1,s2,s3';
+
+							 console.log(productlist);
+							 console.log(statuslist);
+							 //window.location.href='?status='+statuslist.toString();
+							 window.location.href='?plist='+productlist+'&slist='+statuslist;
 
 						  });
 					 })
@@ -870,7 +874,7 @@ $.ajaxSetup({
 														<button class="requestBtn" type="button"
 															id="cancleBtn{{tab.id}}" name="cancle"
 															style="background-color: #FB8C8C" >cancel</button>
-														<button class="requestBtn" name="ok" type="button" onclick="submitModal({{tab.id}})"
+														<button class="requestBtn" name="ok" type="button" onclick="submitModal({{tab.id}})" id="confirmBtn{{tab.id}}"
 															style="background-color: #67D00B">confirm</button>
 													</div>
 												</form>
@@ -1195,6 +1199,22 @@ $.ajaxSetup({
                     $.ajax({
                         type: "POST",
                         url: "/plan/ajaxpost",
+						beforeSend: function(){
+							//$('#warning').text('正在处理，请稍等！');
+							//$.blockUI({ message: '<h1> Just a moment...</h1>' });
+							//$("#confirmBtn" + product_id).block({ message: '<h1> Just a moment...</h1>' });
+							$("#planModal" + product_id).block({ 
+								message: '<h1> Please wait .....</h1>',
+								css: {top:'100%'},
+								border:'1px solid #aaa'
+							 });
+						},
+						complete: function () {
+        					//$("loading").hide();
+							//$.unblockUI();
+							//$("#confirmBtn" + product_id).unblock();
+							//$("#planModal" + product_id).unblock();
+    					},
                         data: {
                             'idEdit': product_id,
 							'projectEdit':$('#projectEdit' + product_id).val(),
