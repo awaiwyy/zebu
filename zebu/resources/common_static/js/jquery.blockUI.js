@@ -293,14 +293,14 @@
 			// layer3 is the message content that is displayed while blocking
 			var lyr1, lyr2, lyr3, s;
 			if (msie || opts.forceIframe)
-				lyr1 = $('<iframe class="blockUI" style="z-index:'+ (z++) +';display:none;border:none;margin:0;padding:0;position:absolute;width:100%;height:100%;top:50%;left:0" src="'+opts.iframeSrc+'"></iframe>');
+				lyr1 = $('<iframe class="blockUI" style="z-index:'+ (z++) +';display:none;border:none;margin:0;padding:0;position:absolute;width:100%;height:100%;top:0;left:0" src="'+opts.iframeSrc+'"></iframe>');
 			else
 				lyr1 = $('<div class="blockUI" style="display:none"></div>');
 
 			if (opts.theme)
 				lyr2 = $('<div class="blockUI blockOverlay ui-widget-overlay" style="z-index:'+ (z++) +';display:none"></div>');
 			else
-				lyr2 = $('<div class="blockUI blockOverlay" style="z-index:'+ (z++) +';display:none;border:none;margin:0;padding:0;width:100%;height:100%;top:50%;left:0"></div>');
+				lyr2 = $('<div class="blockUI blockOverlay" style="z-index:'+ (z++) +';display:none;border:none;margin:0;padding:0;width:100%;height:100%;top:0;left:0"></div>');
 
 			if (opts.theme && full) {
 				s = '<div class="blockUI ' + opts.blockMsgClass + ' blockPage ui-dialog ui-widget ui-corner-all" style="z-index:'+(z+10)+';display:none;position:fixed">';
@@ -322,7 +322,8 @@
 				s = '<div class="blockUI ' + opts.blockMsgClass + ' blockPage" style="z-index:'+(z+10)+';display:none;position:fixed"></div>';
 			}
 			else {
-				s = '<div class="blockUI ' + opts.blockMsgClass + ' blockElement" style="z-index:'+(z+10)+';display:none;position:absolute"></div>';
+				//s = '<div class="blockUI ' + opts.blockMsgClass + ' blockElement" style="z-index:'+(z+10)+';display:none;position:absolute"></div>';
+				s = '<div class="blockUI ' + opts.blockMsgClass + ' blockElement" style="z-index:'+(z+10)+';top:75%;display:none;position:fixed;top:75%"></div>';
 			}
 			lyr3 = $(s);
 
@@ -334,12 +335,14 @@
 				}
 				else
 					lyr3.css(css);
+					console.log(lyr3.css);
 			}
 
 			// style the overlay
 			if (!opts.theme /*&& (!opts.applyPlatformOpacityRules)*/)
 				lyr2.css(opts.overlayCSS);
-			lyr2.css('position', full ? 'fixed' : 'absolute');
+			//lyr2.css('position', full ? 'fixed' : 'absolute');
+			lyr2.css('position', 'fixed');
 
 			// make iframe layer transparent in IE
 			if (msie || opts.forceIframe)
@@ -441,6 +444,7 @@
 			}
 			else
 				center(lyr3[0], opts.centerX, opts.centerY);
+				console.log("center")
 
 			if (opts.timeout) {
 				// auto-unblock
@@ -601,7 +605,8 @@
 			var l = ((p.offsetWidth - el.offsetWidth)/2) - sz(p,'borderLeftWidth');
 			var t = ((p.offsetHeight - el.offsetHeight)/2) - sz(p,'borderTopWidth');
 			if (x) s.left = l > 0 ? (l+'px') : '0';
-			if (y) s.top  = t > 0 ? (t+'px') : '0';
+			//if (y) s.top  = t > 0 ? (t+'px') : '0';
+			if (y) s.top  = t > 0 ? '75%' : '75%';
 		}
 
 		function sz(el, p) {

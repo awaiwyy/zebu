@@ -1139,20 +1139,14 @@ $.ajaxSetup({
                         type: "POST",
                         url: "/plan/ajaxpost",
 						beforeSend: function(){
-							//$('#warning').text('正在处理，请稍等！');
-							//$.blockUI({ message: '<h1> Just a moment...</h1>' });
-							//$("#confirmBtn" + product_id).block({ message: '<h1> Just a moment...</h1>' });
 							$("#planModal" + product_id).block({ 
-								message: '<h1> Please wait .....</h1>',
+								message: '<h1 style ="font-size:14px" > Please wait .....</h1>',
 								css: {top:'100%'},
 								border:'1px solid #aaa'
 							 });
 						},
 						complete: function () {
-        					//$("loading").hide();
-							//$.unblockUI();
-							//$("#confirmBtn" + product_id).unblock();
-							//$("#planModal" + product_id).unblock();
+							$("#planModal" + product_id).unblock();
     					},
                         data: {
                             'idEdit': product_id,
