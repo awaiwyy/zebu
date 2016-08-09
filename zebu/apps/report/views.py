@@ -266,6 +266,9 @@ def report_Resource(request):
                 example_usage_tab=resource_usage_tab.filter(product=product).order_by('-choosedate')
                 spm=example_usage_tab[0].spm
                 reporter=example_usage_tab[0].daily_reporter
+                print usagetotallist[0]['data'][1]
+                print "yang"
+                print avglist[0]['data']*24
                 ResourceUsageTable.objects.get_or_create(product=product,
                                                 spm=spm,
                                                 daily_reporter=reporter,

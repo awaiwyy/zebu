@@ -316,7 +316,7 @@ $.ajaxSetup({
 					{% endfor %}
 				</p>
 				<p>
-					<span class="content">Status：</span> 
+					<span class="content" style="padding-right:12px">Status：</span> 
 					<button id="select_all_status" class="btn btn-xs" onclick="select_all('status')">ALL</button>
             		{% for tab in statuslist %}
             		<button id="s{{forloop.counter}}" name="filter-status" class="btn btn-white btn-xs" aria-checked="false">{{tab}}</button>

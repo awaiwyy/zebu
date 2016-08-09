@@ -396,7 +396,7 @@
         </div>
         <div class="CText">
             <p>
-                <span class="content">Product：</span> 
+                <span class="content" style="padding-right:25px">Product：</span> 
 				<button id="select_all_product" class="btn btn-xs" onclick="select_all('product')">ALL</button>
 				{% for tab in productlist %}
             	<button id="p{{forloop.counter}}" name="filter-product" class="btn btn-white btn-xs" aria-checked="false">{{tab}}</button>
@@ -467,8 +467,8 @@
                             $(function(){
                                 var acceptancetd = document.getElementById(
 										"requestItem{{tab.id}}").getElementsByTagName("td");
-								if ("Yes" == acceptancetd[7].innerHTML) {
-									$('#requestItem{{tab.id}}').css('background-color', 'yellow');
+								if ("No" == acceptancetd[7].innerHTML) {
+									$('#requestItem{{tab.id}}').css('background-color', '#df6b2c');
 								}
                             });
                         </script>
