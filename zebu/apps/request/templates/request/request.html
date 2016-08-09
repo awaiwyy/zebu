@@ -452,7 +452,7 @@
                     </tr>
                     </thead>
                     {% for tab in request_tab %}
-                    <tr>
+                    <tr id="requestItem{{tab.id}}">
                         <td id="project{{tab.id}}">{{tab.project}}</td>
                         <td id="module{{tab.id}}">{{tab.module}}</td>
                         <td id="tf_case{{tab.id}}">{{tab.tf_case}}</td>
@@ -461,7 +461,17 @@
                         <td id="submit_date{{tab.id}}">{{tab.submit_date}}</td>
                         <td><a data-toggle="modal" data-target="#myModal{{tab.id}}" style="cursor:pointer"><img
                                 style="vertical-align:middle" src="/static/images/down.png"/></a></td>
-                    </tr>
+                     <td style="display:none" >{{tab.acceptance}}</td>
+                        </tr>
+                        <script type="text/javascript">
+                            $(function(){
+                                var acceptancetd = document.getElementById(
+										"requestItem{{tab.id}}").getElementsByTagName("td");
+								if ("Yes" == acceptancetd[7].innerHTML) {
+									$('#requestItem{{tab.id}}').css('background-color', 'yellow');
+								}
+                            });
+                        </script>
 
                     <!--弹出模态框（Modal） -->
                     <div class="modal fade" id="myModal{{tab.id}}" tabindex="-1" role="dialog"
