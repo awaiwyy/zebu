@@ -215,7 +215,7 @@ def requestUser(request, **kwargs):
                 for item in filter_acceptance:
                     acceptlist.append(acceptancelist[int(item)-1])
                     filter += "a" + item + ","
-        request_tab = RequestTable.objects.filter(project__in=prodtlist, acceptance__in=acceptlist)
+        request_tab = RequestTable.objects.filter(project__in=prodtlist, acceptance__in=acceptlist).order_by("-id")
 
         perpage = 15 #show how many items per page
     
