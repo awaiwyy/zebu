@@ -402,13 +402,13 @@
             	<button id="p{{forloop.counter}}" name="filter-product" class="btn btn-white btn-xs" aria-checked="false">{{tab}}</button>
 				{% endfor %}
             </p>
-            <!--<p>
+            <p>
                 <span class="content">Acceptance：</span> 
 				<button id="select_all_status" class="btn btn-xs" onclick="select_all('status')">ALL</button>
             	{% for tab in acceptancelist %}
-            	<button id="s{{forloop.counter}}" name="filter-status" class="btn btn-white btn-xs" aria-checked="false">{{tab}}</button>
+            	<button id="a{{forloop.counter}}" name="filter-status" class="btn btn-white btn-xs" aria-checked="false">{{tab}}</button>
 				{% endfor %}
-            </p>-->
+            </p>
             <p><button onclick="dofilter()">Go</button></p>
 			<input style="display:none" id="filter" value="{{filter}}" />
         </div>
@@ -881,7 +881,8 @@
 <script>
 function dofilter(){
 	var getproduct = get_product();
-	window.location.href="?p="+getproduct;
+    var getacceptance = get_status();
+	window.location.href="?p="+getproduct+"&a="+getacceptance;
 	}
 function submitModal(id) {
     postData(id);

@@ -104,6 +104,7 @@ function initialize()
     filter = $("#filter").val().substr(0,$("#filter").val().length-1).split(",");
     var filter_product = [];
     var filter_status = [];
+    var filter_acceptance = [];
     for (x in filter)
     {
         if (filter[x].substr(0,1) == "p")
@@ -113,6 +114,12 @@ function initialize()
             $("#select_all_product").attr("class", "btn btn-white btn-xs");
         }
         if (filter[x].substr(0,1) == "s")
+        {
+            $("#" + filter[x]).attr("aria-checked", "true");
+            $("#" + filter[x]).addClass("filter-selected");
+            $("#select_all_status").attr("class", "btn btn-white btn-xs");
+        }
+        if (filter[x].substr(0,1) == "a")
         {
             $("#" + filter[x]).attr("aria-checked", "true");
             $("#" + filter[x]).addClass("filter-selected");

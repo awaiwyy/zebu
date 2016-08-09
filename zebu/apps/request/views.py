@@ -105,6 +105,7 @@ def exportRequestTab(request):
     return response
 
 def requestUser(request, **kwargs):
+    acceptancelist=com_def.acceptancelist[:]
     gopage = request.GET.get('page')
     if (gopage == None):
         gopage = "1"
@@ -199,6 +200,7 @@ def requestUser(request, **kwargs):
             tab.action_discription = tab.action_discription.replace("\n", "<br>")
         filter = ""
         prodtlist = productlist
+        acceptlist = acceptancelist
         if "p" in request.GET.keys():
             if  request.GET.get("p") != "":
                 prodtlist = []
@@ -206,16 +208,15 @@ def requestUser(request, **kwargs):
                 for item in filter_product:
                     prodtlist.append(productlist[int(item)-1])
                     filter += "p" + item + ","           
-        # if "s" in request.GET.keys():
-        #     if  request.GET.get("s") != "":
-        #         statlist = []
-        #         filter_status = request.GET.get("s")[1:].split(",s")
-        #         for item in filter_status:
-        #             statlist.append(statuslist[int(item)-1])
-        #             filter += "s" + item + ","
-        # request_tab = RequestTable.objects.filter(is_plan="true", project__in=prodtlist, status__in=statlist)
-        request_tab = RequestTable.objects.filter(is_plan="true", project__in=prodtlist)
-        #Pagination -CC
+        if "a" in request.GET.keys():
+            if  request.GET.get("a") != "":
+                acceptlist = []
+                filter_acceptance = request.GET.get("a")[1:].split(",a")
+                for item in filter_acceptance:
+                    acceptlist.append(acceptancelist[int(item)-1])
+                    filter += "a" + item + ","
+        request_tab = RequestTable.objects.filter(project__in=prodtlist, acceptance__in=acceptlist)
+
         perpage = 15 #show how many items per page
     
         objects = request_tab
@@ -266,6 +267,7 @@ def requestUser(request, **kwargs):
             'over_range_left': over_range_left, 
             'over_range_right': over_range_right,
             "productlist": productlist,
+            "acceptancelist":acceptancelist,
             "filter": filter})
 
 def ajaxpost(request):
