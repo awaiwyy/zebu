@@ -126,11 +126,11 @@
 				padding:	0,
 				margin:		0,
 				width:		'30%',
-				top:		'100%',
+				top:		'40%',
 				left:		'35%',
 				textAlign:	'center',
 				color:		'#000',
-				border:		'1px solid #aaa',
+				border:		'3px solid #aaa',
 				backgroundColor:'#fff',
 				cursor:		'wait'
 			},
@@ -250,7 +250,6 @@
 		function install(el, opts) {
 			var css, themedCSS;
 			var full = (el == window);
-			//var full =true
 			var msg = (opts && opts.message !== undefined ? opts.message : undefined);
 			opts = $.extend({}, $.blockUI.defaults, opts || {});
 
@@ -293,14 +292,14 @@
 			// layer3 is the message content that is displayed while blocking
 			var lyr1, lyr2, lyr3, s;
 			if (msie || opts.forceIframe)
-				lyr1 = $('<iframe class="blockUI" style="z-index:'+ (z++) +';display:none;border:none;margin:0;padding:0;position:absolute;width:100%;height:100%;top:50%;left:0" src="'+opts.iframeSrc+'"></iframe>');
+				lyr1 = $('<iframe class="blockUI" style="z-index:'+ (z++) +';display:none;border:none;margin:0;padding:0;position:absolute;width:100%;height:100%;top:0;left:0" src="'+opts.iframeSrc+'"></iframe>');
 			else
 				lyr1 = $('<div class="blockUI" style="display:none"></div>');
 
 			if (opts.theme)
 				lyr2 = $('<div class="blockUI blockOverlay ui-widget-overlay" style="z-index:'+ (z++) +';display:none"></div>');
 			else
-				lyr2 = $('<div class="blockUI blockOverlay" style="z-index:'+ (z++) +';display:none;border:none;margin:0;padding:0;width:100%;height:100%;top:50%;left:0"></div>');
+				lyr2 = $('<div class="blockUI blockOverlay" style="z-index:'+ (z++) +';display:none;border:none;margin:0;padding:0;width:100%;height:100%;top:0;left:0"></div>');
 
 			if (opts.theme && full) {
 				s = '<div class="blockUI ' + opts.blockMsgClass + ' blockPage ui-dialog ui-widget ui-corner-all" style="z-index:'+(z+10)+';display:none;position:fixed">';
