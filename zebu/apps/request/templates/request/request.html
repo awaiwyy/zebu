@@ -18,6 +18,7 @@
     <link href="/static/plan/css/plan.css" type="text/css" rel="stylesheet"/>
     <link href="/static/css/datatables.min.css" type="text/css" rel="stylesheet" />
     <link href="/static/request/css/bootstrap-datetimepicker.css" type="text/css" rel="stylesheet"/>
+    <link href="/static/css/filter.css" type="text/css" rel="stylesheet" />
     <style>
 	a.pagination {
 		margin: 8px;
@@ -91,6 +92,13 @@
 		}
 	}
 
+    function checktime(){
+        var applicationtime=document.getElementById("datetimepicker").value;
+        if (!applicationtime){
+            $("#checktime").text("请输入Application Time");
+            return false;
+        }
+    }
 	var flag_browser = "other";
 	$(document).ready(function() {
 		//判断浏览器类型
@@ -175,7 +183,7 @@
                         <h4 class="modal-title" id="NewModalLabel">New Application</h4>
                     </div>
                     <div class="modal-body">
-                        <form id="newapp" class="modalForm" method="POST" role="form">
+                        <form id="newapp" class="modalForm" method="POST" role="form" onsubmit="return checktime()">
                             {% csrf_token %}
                             <div class="modalFormContent">
                                 <ul>
@@ -309,11 +317,12 @@
                                       </span>
                                       </li>
                                 </ul>
-                                <script >
+                                <script type="text/javascript">
                                     $("#datetimepicker").datetimepicker({
                                         format: 'yyyy-mm-dd hh:ii',
                                         autoclose : true});
                                 </script>
+                                <p id="checktime" style="text-align:center;color:red"></p>
                                 <ul>
                                     <li class="new_rqleft">Request Duration:</li>
                                     <!--<li>
@@ -378,7 +387,6 @@
     </div>
     <!-- 中间模板 -->
     <div class="divcenter">
-
         <div class="md_search">
             <span class="keyword">Search Keywords：</span>
             <form class="form1">
@@ -388,20 +396,21 @@
         </div>
         <div class="CText">
             <p>
-                <span class="content">Content：</span> <a href="#">Product</a>&nbsp;&nbsp;&nbsp;
-                <a href="#">Classification</a>&nbsp;&nbsp;&nbsp;<a href="#">Module</a>&nbsp;&nbsp;&nbsp;
-                <a href="#">Environment</a>&nbsp;&nbsp;&nbsp; <a href="#">Priority</a>&nbsp;&nbsp;&nbsp;
-                <a href="#">Status</a>&nbsp;&nbsp;&nbsp;<a href="#">Request
-                time</a>&nbsp;&nbsp;&nbsp;
+                <span class="content">Product：</span> 
+				<button id="select_all_product" class="btn btn-xs" onclick="select_all('product')">ALL</button>
+				{% for tab in productlist %}
+            	<button id="p{{forloop.counter}}" name="filter-product" class="btn btn-white btn-xs" aria-checked="false">{{tab}}</button>
+				{% endfor %}
             </p>
-            <p>
-                <span class="content">Department：</span> <a href="#">APPS</a>&nbsp;&nbsp;
-                <a href="#">BSP</a>&nbsp;&nbsp; <a href="#">MM</a>&nbsp;&nbsp; <a
-                    href="#">Modem</a>&nbsp;&nbsp; <a href="#">Power</a>&nbsp;&nbsp; <a
-                    href="#">Stability</a>&nbsp;&nbsp; <a href="#">Kernel</a>&nbsp;&nbsp;
-                <a href="#">Graphics</a>&nbsp;&nbsp; <a href="#">DDR</a>&nbsp;&nbsp;
-                <a href="#">WCN</a>
-            </p>
+            <!--<p>
+                <span class="content">Acceptance：</span> 
+				<button id="select_all_status" class="btn btn-xs" onclick="select_all('status')">ALL</button>
+            	{% for tab in acceptancelist %}
+            	<button id="s{{forloop.counter}}" name="filter-status" class="btn btn-white btn-xs" aria-checked="false">{{tab}}</button>
+				{% endfor %}
+            </p>-->
+            <p><button onclick="dofilter()">Go</button></p>
+			<input style="display:none" id="filter" value="{{filter}}" />
         </div>
 
         <div class="classify ">
@@ -440,7 +449,6 @@
                         <th scope="col" width="120px"><span>Request Duration</span></th>
                         <th scope="col" width="88px"><span>Submit Date</span></th>
                         <th scope="col" width="74px"><span>Detail</span></th>
-                        <th scope="col" width="84px"><span>Acceptance</span></th>
                     </tr>
                     </thead>
                     {% for tab in request_tab %}
@@ -453,7 +461,6 @@
                         <td id="submit_date{{tab.id}}">{{tab.submit_date}}</td>
                         <td><a data-toggle="modal" data-target="#myModal{{tab.id}}" style="cursor:pointer"><img
                                 style="vertical-align:middle" src="/static/images/down.png"/></a></td>
-                        <td>{{tab.acceptance}}</td>
                     </tr>
 
                     <!--弹出模态框（Modal） -->
@@ -475,31 +482,31 @@
                                             </ul>
                                             <ul>
                                                 <li class="rqleft">Product:</li>
-                                                <li class="borderBottom">{{tab.project}}</li>
+                                                <li id="product{{tab.id}}" class="borderBottom">{{tab.project}}</li>
                                             </ul>
                                             <ul>
                                                 <li class="rqleft">Classification:</li>
-                                                <li class="borderBottom">{{tab.classification}}</li>
+                                                <li id="classification{{tab.id}}" class="borderBottom">{{tab.classification}}</li>
                                             </ul>
                                             <ul>
                                                 <li class="rqleft">Module:</li>
-                                                <li class="borderBottom">{{tab.module}}</li>
+                                                <li id="moduleread{{tab.id}}" class="borderBottom">{{tab.module}}</li>
                                             </ul>
                                             <ul>
                                                 <li class="rqleft">TF Case:</li>
-                                                <li class="borderBottom">{{tab.tf_case}}</li>
+                                                <li id="tf_caseread{{tab.id}}" class="borderBottom">{{tab.tf_case}}</li>
                                             </ul>
                                             <ul>
                                                 <li class="rqleft">Action Description:</li>
-                                                <li class="borderBottom">{{tab.action_discription|safe}}</li>
+                                                <li id="action_discription{{tab.id}}" class="borderBottom">{{tab.action_discription|safe}}</li>
                                             </ul>
                                             <ul>
                                                 <li class="rqleft">Environment:</li>
-                                                <li class="borderBottom">{{tab.environment}}</li>
+                                                <li id="environment{{tab.id}}" class="borderBottom">{{tab.environment}}</li>
                                             </ul>
                                             <ul>
                                                 <li class="rqleft">Request Duration:</li>
-                                                <li class="borderBottom">{{tab.request_duration}}</li>
+                                                <li id="request_durationread{{tab.id}}" class="borderBottom">{{tab.request_duration}}</li>
                                             </ul>
                                             <ul>
                                                 <li class="rqleft">Owner:</li>
@@ -507,15 +514,15 @@
                                             </ul>
                                             <ul>
                                                 <li class="rqleft">Priority:</li>
-                                                <li class="borderBottom">{{tab.priority}}</li>
+                                                <li id="priority{{tab.id}}" class="borderBottom">{{tab.priority}}</li>
                                             </ul>
                                              <ul>
                                                 <li class="rqleft">Server ID:</li>
-                                                <li class="borderBottom">{{tab.server_ID}}</li>
+                                                <li id="server_ID{{tab.id}}" class="borderBottom">{{tab.server_ID}}</li>
                                             </ul>
                                              <ul>
                                                 <li class="rqleft">Application Time:</li>
-                                                <li class="borderBottom">{{tab.application_time | date:"Y-m-d H:i"}}</li>
+                                                <li id="application_time{{tab.id}}" class="borderBottom">{{tab.application_time | date:"Y-m-d H:i"}}</li>
                                             </ul>
                                             <ul>
                                                 <li class="rqleft">Submit Date:</li>
@@ -675,10 +682,10 @@
                                                             </span>
                                                         </li>
                                                         <script >
-                                    $("#applicationTimeEdit{{tab.id}}").datetimepicker({
-                                        format: 'yyyy-mm-dd hh:ii',
-                                        autoclose : true});
-                                </script>
+                                                            $("#applicationTimeEdit{{tab.id}}").datetimepicker({
+                                                                format: 'yyyy-mm-dd hh:ii',
+                                                                autoclose : true});
+                                                        </script>
                                                     </ul>
                                                     <ul>
                                                         <li class="rqleft">Request Duration:</li>
@@ -870,7 +877,12 @@
     </div>
 </div>
 </div>
+<script src="/static/js/filter.js"></script>
 <script>
+function dofilter(){
+	var getproduct = get_product();
+	window.location.href="?p="+getproduct;
+	}
 function submitModal(id) {
     postData(id);
 }
@@ -900,8 +912,24 @@ function postData(product_id) {
             $('#module'+product_id).text($("#moduleEdit" + product_id).val());
             $('#tf_case'+product_id).text($("#tfcaseEdit" + product_id).val());
             $('#request_duration'+product_id).text(ret.request_duration);
+            //update modal
+            $('#product'+product_id).text($("#projectEdit" + product_id).val());
+            $('#classification'+product_id).text($("#classificationEdit" + product_id).val());
+            $('#moduleread'+product_id).text($("#moduleEdit" + product_id).val());
+            $('#tf_caseread'+product_id).text($("#tfcaseEdit" + product_id).val());
+            $('#action_discription'+product_id).text($("#actionDiscriptionEdit" + product_id).val());
+            $('#environment'+product_id).text($("#environmentEdit" + product_id).val());
+            $('#request_durationread'+product_id).text($("#durationHourEdit" + product_id).val()+"Hour"+$("#durationDayEdit" + product_id).val()+"Day"+$("#durationPieceEdit" + product_id).val()+"Piece");
+            $('#priority'+product_id).text($("#priorityEdit" + product_id).val());
+            $('#server_ID'+product_id).text($("#serverIdEdit" + product_id).val());
+            $('#application_time'+product_id).text($("#applicationTimeEdit" + product_id).val());
 
+            //hide modal
             $('#myModal'+product_id).modal('hide');
+            $('#editRqTab'+product_id).hide();
+            $('#readRqTab'+product_id).show();
+            $('#editBtn'+product_id).show();
+            $('#delBtn'+product_id).show();
         }
     })
 }
@@ -934,7 +962,6 @@ $("#newapp").validate({
 $(document).ready(function(){
             $('.dataTablerequest').DataTable({
 				"columnDefs": [
-    			{ "visible": false, "targets": 7 },
 				{ "orderable": false, "targets": 1 },
 				{ "orderable": false, "targets": 2 },
 				{ "orderable": false, "targets": 3 },
@@ -942,7 +969,7 @@ $(document).ready(function(){
 				{ "orderable": false, "targets": 5 },
 				{ "orderable": false, "targets": 6 },
   				],
-				"order": [[ 7, "desc" ]],
+				"order": [],
 				paging: false,
 				"searching": false,
 				"info": false

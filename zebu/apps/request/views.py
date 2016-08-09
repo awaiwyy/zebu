@@ -133,20 +133,6 @@ def requestUser(request, **kwargs):
     valid_duration.append(valid_requestduration_day)
     valid_duration.append(valid_requestduration_piece)
 
-    #Pagination -CC
-    perpage = 15 #show how many items per page
-    
-    objects = request_tab
-    pager = Paginator(objects,perpage)
-    num_pages = pager.num_pages
-    try:
-        projects = pager.page(gopage)
-
-    except PageNotAnInteger:
-        projects = pager.page(1)
-    except EmptyPage:
-        projects = pager.page(pager.num_pages)
-
     productlist = com_def.productlist[:]
     #deal with application
     if request.method == 'POST':
@@ -209,6 +195,40 @@ def requestUser(request, **kwargs):
             tab.action_discription = tab.action_discription.replace("\n", "<br>")
         return HttpResponseRedirect('/request/', {"request_tab": request_tab, 'valid_duration': valid_duration,"productlist":productlist}) #avoid submit twice when entering"F5"
     else:
+        for tab in request_tab:
+            tab.action_discription = tab.action_discription.replace("\n", "<br>")
+        filter = ""
+        prodtlist = productlist
+        if "p" in request.GET.keys():
+            if  request.GET.get("p") != "":
+                prodtlist = []
+                filter_product = request.GET.get("p")[1:].split(",p")
+                for item in filter_product:
+                    prodtlist.append(productlist[int(item)-1])
+                    filter += "p" + item + ","           
+        # if "s" in request.GET.keys():
+        #     if  request.GET.get("s") != "":
+        #         statlist = []
+        #         filter_status = request.GET.get("s")[1:].split(",s")
+        #         for item in filter_status:
+        #             statlist.append(statuslist[int(item)-1])
+        #             filter += "s" + item + ","
+        # request_tab = RequestTable.objects.filter(is_plan="true", project__in=prodtlist, status__in=statlist)
+        request_tab = RequestTable.objects.filter(is_plan="true", project__in=prodtlist)
+        #Pagination -CC
+        perpage = 15 #show how many items per page
+    
+        objects = request_tab
+        pager = Paginator(objects,perpage)
+        num_pages = pager.num_pages
+        try:
+            projects = pager.page(gopage)
+
+        except PageNotAnInteger:
+            projects = pager.page(1)
+        except EmptyPage:
+            projects = pager.page(pager.num_pages)
+        
         # Pagination range
         # pages_left: how many page numbers show on left of current page at most
         # pages_right: how many page numbers show on right of current page at most
@@ -238,8 +258,6 @@ def requestUser(request, **kwargs):
         if (int(gopage) > pager.num_pages - pages_right):
             range_right = range(int(gopage) + 1, pager.num_pages + 1)
         
-        for tab in request_tab:
-            tab.action_discription = tab.action_discription.replace("\n", "<br>")
         return render(request, 'request/request.html', {
             "request_tab": projects, 
             'valid_duration': valid_duration, 
@@ -247,7 +265,8 @@ def requestUser(request, **kwargs):
             'range_right': range_right, 
             'over_range_left': over_range_left, 
             'over_range_right': over_range_right,
-            "productlist": productlist})
+            "productlist": productlist,
+            "filter": filter})
 
 def ajaxpost(request):
     edit_id = request.POST['idEdit']
@@ -262,7 +281,8 @@ def ajaxpost(request):
     edit_request.request_duration = request_duration
     edit_request.priority = request.POST['priorityEdit']
     edit_request.server_ID = request.POST['serverIdEdit']
-    edit_request.application_time = request.POST['applicationTimeEdit']
+    if request.POST['applicationTimeEdit'] != '':
+        edit_request.application_time = request.POST['applicationTimeEdit']
     edit_request.save()
     success_dict = {'request_duration': request_duration}
     return HttpResponse(json.dumps(success_dict),

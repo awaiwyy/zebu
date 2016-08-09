@@ -143,10 +143,9 @@ def exportPlanTab(request):
 
 def planPage(request, **kwargs):
     productlist = com_def.productlist[:]
+    statuslist = com_def.statuslist[:]
     history_tab = TotalTable.objects.all().exclude(change_date=datetime.date.today()).order_by("change_date")
     gopage = request.GET.get('page')
-    plist = request.GET.get('productlist')
-    slist = request.GET.get('statuslist')
 
     if (gopage == None):
         gopage = "1"
@@ -226,49 +225,6 @@ def planPage(request, **kwargs):
     # print valid_time
     # add plan application
 
-    # Pagination -CC
-    perpage = 15  # show how many items per page
-
-    objects = plan_tab
-    pager = Paginator(objects, perpage)
-
-    try:
-        projects = pager.page(gopage)
-
-    except PageNotAnInteger:
-        projects = pager.page(1)
-    except EmptyPage:
-        projects = pager.page(pager.num_pages)
-
-    # Pagination range
-    # pages_left: how many page numbers show on left of current page at most
-    # pages_right: how many page numbers show on right of current page at most
-    pages_left = 4
-    pages_right = 4
-    current_page = gopage
-    range_left = "norange"
-    range_right = "norange"
-    over_range_left = "false"
-    over_range_right = "false"
-
-    # Range Left
-    if (int(gopage) - 1 > pages_left):
-        over_range_left = "true"
-        range_left = range(int(gopage) - pages_left, int(gopage))
-    if (int(gopage) - 1 == pages_left):
-        range_left = range(1, int(gopage))
-    if (int(gopage) - 1 < pages_left):
-        range_left = range(1, int(gopage))
-
-    # Range Right
-    if (int(gopage) < pager.num_pages - pages_right):
-        over_range_right = "true"
-        range_right = range(int(gopage) + 1, int(gopage) + 1 + pages_right)
-    if (int(gopage) == pager.num_pages - pages_right):
-        range_right = range(int(gopage) + 1, int(gopage) + 1 + pages_right)
-    if (int(gopage) > pager.num_pages - pages_right):
-        range_right = range(int(gopage) + 1, pager.num_pages + 1)
-
     if request.method == 'POST':
         # 获得表单数据
         # print request.POST.keys()
@@ -309,6 +265,7 @@ def planPage(request, **kwargs):
                                      "history_tab": history_tab,"productlist":productlist})
     else:
         for tab in plan_tab:
+
             stime = tab.start_time
             if stime:
                 stime = stime + datetime.timedelta(hours=8)
@@ -425,8 +382,70 @@ def planPage(request, **kwargs):
                     # tab.status = 'ongoing'
                 tab.save()
             tab.action_discription = tab.action_discription.replace("\n", "<br>")
-            tab.progress = tab.progress.replace("\n", "<br>")
-        return render(request, 'plan/plan.html', {
+            tab.progress = tab.progress.replace("\n", "<br>")  
+        
+        filter = ""
+        prodtlist = productlist
+        statlist = statuslist
+        if "p" in request.GET.keys():
+            if  request.GET.get("p") != "":
+                prodtlist = []
+                filter_product = request.GET.get("p")[1:].split(",p")
+                for item in filter_product:
+                    prodtlist.append(productlist[int(item)-1])
+                    filter += "p" + item + ","           
+        if "s" in request.GET.keys():
+            if  request.GET.get("s") != "":
+                statlist = []
+                filter_status = request.GET.get("s")[1:].split(",s")
+                for item in filter_status:
+                    statlist.append(statuslist[int(item)-1])
+                    filter += "s" + item + ","
+        plan_tab = RequestTable.objects.filter(is_plan="true", project__in=prodtlist, status__in=statlist)
+
+    # Pagination -CC
+    perpage = 15  # show how many items per page
+
+    objects = plan_tab
+    pager = Paginator(objects, perpage)
+
+    try:
+        projects = pager.page(gopage)
+
+    except PageNotAnInteger:
+        projects = pager.page(1)
+    except EmptyPage:
+        projects = pager.page(pager.num_pages)
+
+    # Pagination range
+    # pages_left: how many page numbers show on left of current page at most
+    # pages_right: how many page numbers show on right of current page at most
+    pages_left = 4
+    pages_right = 4
+    current_page = gopage
+    range_left = "norange"
+    range_right = "norange"
+    over_range_left = "false"
+    over_range_right = "false"
+
+    # Range Left
+    if (int(gopage) - 1 > pages_left):
+        over_range_left = "true"
+        range_left = range(int(gopage) - pages_left, int(gopage))
+    if (int(gopage) - 1 == pages_left):
+        range_left = range(1, int(gopage))
+    if (int(gopage) - 1 < pages_left):
+        range_left = range(1, int(gopage))
+
+    # Range Right
+    if (int(gopage) < pager.num_pages - pages_right):
+        over_range_right = "true"
+        range_right = range(int(gopage) + 1, int(gopage) + 1 + pages_right)
+    if (int(gopage) == pager.num_pages - pages_right):
+        range_right = range(int(gopage) + 1, int(gopage) + 1 + pages_right)
+    if (int(gopage) > pager.num_pages - pages_right):
+        range_right = range(int(gopage) + 1, pager.num_pages + 1)
+    return render(request, 'plan/plan.html', {
             "request_tab": request_tab,
             "plan_tab": projects,
             'valid_duration': valid_duration,
@@ -437,7 +456,10 @@ def planPage(request, **kwargs):
             'over_range_left': over_range_left,
             'over_range_right': over_range_right,
             'history_tab': history_tab,
-            "productlist":productlist})
+            "productlist":productlist,
+            "statuslist":statuslist,
+            "filter": filter
+            })
 
 
 def ajaxpost(request):
