@@ -18,6 +18,7 @@
     <link href="/static/plan/css/plan.css" type="text/css" rel="stylesheet"/>
     <link href="/static/css/datatables.min.css" type="text/css" rel="stylesheet" />
     <link href="/static/request/css/bootstrap-datetimepicker.css" type="text/css" rel="stylesheet"/>
+    <link href="/static/css/filter.css" type="text/css" rel="stylesheet" />
     <style>
 	a.pagination {
 		margin: 8px;
@@ -395,20 +396,21 @@
         </div>
         <div class="CText">
             <p>
-                <span class="content">Content：</span> <a href="#">Product</a>&nbsp;&nbsp;&nbsp;
-                <a href="#">Classification</a>&nbsp;&nbsp;&nbsp;<a href="#">Module</a>&nbsp;&nbsp;&nbsp;
-                <a href="#">Environment</a>&nbsp;&nbsp;&nbsp; <a href="#">Priority</a>&nbsp;&nbsp;&nbsp;
-                <a href="#">Status</a>&nbsp;&nbsp;&nbsp;<a href="#">Request
-                time</a>&nbsp;&nbsp;&nbsp;
+                <span class="content">Product：</span> 
+				<button id="select_all_product" class="btn btn-xs" onclick="select_all('product')">ALL</button>
+				{% for tab in productlist %}
+            	<button id="p{{forloop.counter}}" name="filter-product" class="btn btn-white btn-xs" aria-checked="false">{{tab}}</button>
+				{% endfor %}
             </p>
-            <p>
-                <span class="content">Department：</span> <a href="#">APPS</a>&nbsp;&nbsp;
-                <a href="#">BSP</a>&nbsp;&nbsp; <a href="#">MM</a>&nbsp;&nbsp; <a
-                    href="#">Modem</a>&nbsp;&nbsp; <a href="#">Power</a>&nbsp;&nbsp; <a
-                    href="#">Stability</a>&nbsp;&nbsp; <a href="#">Kernel</a>&nbsp;&nbsp;
-                <a href="#">Graphics</a>&nbsp;&nbsp; <a href="#">DDR</a>&nbsp;&nbsp;
-                <a href="#">WCN</a>
-            </p>
+            <!--<p>
+                <span class="content">Acceptance：</span> 
+				<button id="select_all_status" class="btn btn-xs" onclick="select_all('status')">ALL</button>
+            	{% for tab in acceptancelist %}
+            	<button id="s{{forloop.counter}}" name="filter-status" class="btn btn-white btn-xs" aria-checked="false">{{tab}}</button>
+				{% endfor %}
+            </p>-->
+            <p><button onclick="dofilter()">Go</button></p>
+			<input style="display:none" id="filter" value="{{filter}}" />
         </div>
 
         <div class="classify ">
@@ -447,7 +449,6 @@
                         <th scope="col" width="120px"><span>Request Duration</span></th>
                         <th scope="col" width="88px"><span>Submit Date</span></th>
                         <th scope="col" width="74px"><span>Detail</span></th>
-                        <th scope="col" width="84px"><span>Acceptance</span></th>
                     </tr>
                     </thead>
                     {% for tab in request_tab %}
@@ -460,7 +461,6 @@
                         <td id="submit_date{{tab.id}}">{{tab.submit_date}}</td>
                         <td><a data-toggle="modal" data-target="#myModal{{tab.id}}" style="cursor:pointer"><img
                                 style="vertical-align:middle" src="/static/images/down.png"/></a></td>
-                        <td>{{tab.acceptance}}</td>
                     </tr>
 
                     <!--弹出模态框（Modal） -->
@@ -877,7 +877,12 @@
     </div>
 </div>
 </div>
+<script src="/static/js/filter.js"></script>
 <script>
+function dofilter(){
+	var getproduct = get_product();
+	window.location.href="?p="+getproduct;
+	}
 function submitModal(id) {
     postData(id);
 }
@@ -957,7 +962,6 @@ $("#newapp").validate({
 $(document).ready(function(){
             $('.dataTablerequest').DataTable({
 				"columnDefs": [
-    			{ "visible": false, "targets": 7 },
 				{ "orderable": false, "targets": 1 },
 				{ "orderable": false, "targets": 2 },
 				{ "orderable": false, "targets": 3 },
@@ -965,7 +969,7 @@ $(document).ready(function(){
 				{ "orderable": false, "targets": 5 },
 				{ "orderable": false, "targets": 6 },
   				],
-				"order": [[ 7, "desc" ]],
+				"order": [],
 				paging: false,
 				"searching": false,
 				"info": false
