@@ -464,7 +464,10 @@ def planPage(request, **kwargs):
 
 def ajaxpost(request):
     # print "into edit plan"
-    time.sleep(5)
+
+    #uncomment sleep() for loaidng remainder test
+    #time.sleep(5)
+
     edit_id = request.POST['idEdit']
     edit_plan = RequestTable.objects.get(id=edit_id)
     total=edit_plan.duration

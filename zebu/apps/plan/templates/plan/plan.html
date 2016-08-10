@@ -1156,15 +1156,9 @@ function hidediv() {
                         type: "POST",
                         url: "/plan/ajaxpost",
 						beforeSend: function(){
-							// $("#planModal" + product_id).block({ 
-							// 	message: '<h1 style ="font-size:14px" > Please wait .....</h1>',
-							// 	css: {top:'100%'},
-							// 	border:'1px solid #aaa'
-							//  });
 							showdiv();
 						},
 						complete: function () {
-							//$("#planModal" + product_id).unblock();
 							hidediv();
     					},
                         data: {
