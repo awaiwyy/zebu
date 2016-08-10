@@ -253,7 +253,7 @@ def planPage(request, **kwargs):
             # print "there is something wrong"
         # update plan table
         request_tab = RequestTable.objects.filter(is_plan="false")
-        plan_tab = RequestTable.objects.filter(is_plan="true").order_by("id")
+        plan_tab = RequestTable.objects.filter(is_plan="true").order_by("-id")
         # print plan_tab
 
         for tab in plan_tab:
@@ -401,7 +401,7 @@ def planPage(request, **kwargs):
                 for item in filter_status:
                     statlist.append(statuslist[int(item)-1])
                     filter += "s" + item + ","
-        plan_tab = RequestTable.objects.filter(is_plan="true", project__in=prodtlist, status__in=statlist)
+        plan_tab = RequestTable.objects.filter(is_plan="true", project__in=prodtlist, status__in=statlist).order_by("-id")
 
     # Pagination -CC
     perpage = 15  # show how many items per page
