@@ -14,7 +14,7 @@
 <link rel="stylesheet" href="/static/css/bootstrap.min.css" />
 <link href="/static/css/chosen.css" type="text/css" rel="stylesheet" />
 <link href="/static/css/com.css" type="text/css" rel="stylesheet" />
-<link href="/static/css/com.css" type="text/css" rel="stylesheet" />
+<link href="/static/css/datatables.min.css" type="text/css" rel="stylesheet" />
 <link href="/static/plan/css/plan.css" type="text/css" rel="stylesheet" />
 <link href="/static/css/application.css" type="text/css" rel="stylesheet" />
 <link href="/static/css/filter.css" type="text/css" rel="stylesheet" />
@@ -49,6 +49,7 @@
 <!-- js -->
 <script src="/static/js/jquery-1.11.1.min.js"></script>
 <script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/datatables.min.js"></script>
 <script src="/static/js/chosen.jquery.js"></script>
 <script src="/static/js/jquery.blockUI.js"></script>
 <script type="text/javascript">
@@ -363,7 +364,8 @@ function hidediv() {
 				{% endif %}
 				</div>
 				<div id="planTable" class="planTableDiv">
-					<table class="planTable" id="Box">
+					<table class="table display compact dataTablerequest " id="Box">
+						<thead>
 						<tr>
 							<th scope="col" width="84px"><span>Product</span></th>
 							<th scope="col" width="84px"><span>Module</span></th>
@@ -374,6 +376,7 @@ function hidediv() {
 							<th scope="col" width="88px"><span>Start Time</span></th>
 							<th scope="col" width="74px"><span>Detail</span></th>
 						</tr>
+						</thead>
 						{% for tab in plan_tab %}
 						<tr id="planItem{{tab.id}}">
 							<td id=project{{tab.id}}>{{tab.project}}</td>
@@ -1252,6 +1255,22 @@ function hidediv() {
                         }
                     })
                 }
+		$(document).ready(function(){
+            $('.dataTablerequest').DataTable({
+				"columnDefs": [
+				{ "orderable": false, "targets": 1 },
+				{ "orderable": false, "targets": 2 },
+				{ "orderable": false, "targets": 3 },
+				{ "orderable": false, "targets": 5 },
+				{ "orderable": false, "targets": 6 },
+				{ "orderable": false, "targets": 7 },
+  				],
+				"order": [],
+				paging: false,
+				"searching": false,
+				"info": false
+            });
+        });
 	</script>
 </body>
 </html>
