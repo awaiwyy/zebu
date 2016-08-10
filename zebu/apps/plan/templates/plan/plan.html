@@ -18,6 +18,10 @@
 <link href="/static/plan/css/plan.css" type="text/css" rel="stylesheet" />
 <link href="/static/css/application.css" type="text/css" rel="stylesheet" />
 <link href="/static/css/filter.css" type="text/css" rel="stylesheet" />
+<style type="text/css">
+        #bg{ display: none;  position: absolute;  top: 0%;  left: 0%;  width: 100%;  height: 100%;  background-color: black;  z-index:1001;  -moz-opacity: 0.7;  opacity:.70;  filter: alpha(opacity=70);}
+        #show{display: none;  position: absolute;  top: 75%;  left: 30%; height: 80px; width: 30%; line-height:80px; border: 1px solid #E8E9F7;  background-color: white;  z-index:1002;text-align:center;font-size:14px}
+</style>
 <style>
 	a.pagination {
 		margin: 8px;
@@ -46,6 +50,7 @@
 <script src="/static/js/jquery-1.11.1.min.js"></script>
 <script src="/static/js/bootstrap.min.js"></script>
 <script src="/static/js/chosen.jquery.js"></script>
+<script src="/static/js/jquery.blockUI.js"></script>
 <script type="text/javascript">
 	/mobi/i.test(navigator.userAgent) && !location.hash
 			&& setTimeout(function() {
@@ -173,7 +178,16 @@ $.ajaxSetup({
 		data: {csrfmiddlewaretoken: '{{ csrf_token }}' },
 	});
 
+function showdiv() {              
+            document.getElementById("bg").style.display ="block";  
+            document.getElementById("show").style.display ="block";  
+        }  
+function hidediv() {  
+            document.getElementById("bg").style.display ='none';  
+            document.getElementById("show").style.display ='none';  
+        }  
 </script>
+
 </head>
 <body>
 	<!-- 头文件 -->
@@ -408,6 +422,9 @@ $.ajaxSetup({
 							role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 							<div class="modal-dialog" style="width: 800px">
 								<div class="modal-content">
+									<div id="bg"></div>
+									<div id="show"> Please wait ...
+									</div>
 									<div class="modal-header">
 										<button type="button" class="close" data-dismiss="modal"
 											aria-hidden="true">&times;</button>
@@ -805,7 +822,7 @@ $.ajaxSetup({
 														<button class="requestBtn" type="button"
 															id="cancleBtn{{tab.id}}" name="cancle"
 															style="background-color: #FB8C8C" >cancel</button>
-														<button class="requestBtn" name="ok" type="button" onclick="submitModal({{tab.id}})"
+														<button class="requestBtn" name="ok" type="button" onclick="submitModal({{tab.id}})" id="confirmBtn{{tab.id}}"
 															style="background-color: #67D00B">confirm</button>
 													</div>
 												</form>
@@ -915,6 +932,7 @@ $.ajaxSetup({
 																	});
 												</script>
 											</div>
+
 											<!-- admin user edit table :finish-->
 											<!-- common user edit progress :start -->
 											<!--{% elif user.username == tab.owner %}-->
@@ -1137,6 +1155,18 @@ $.ajaxSetup({
                     $.ajax({
                         type: "POST",
                         url: "/plan/ajaxpost",
+						beforeSend: function(){
+							// $("#planModal" + product_id).block({ 
+							// 	message: '<h1 style ="font-size:14px" > Please wait .....</h1>',
+							// 	css: {top:'100%'},
+							// 	border:'1px solid #aaa'
+							//  });
+							showdiv();
+						},
+						complete: function () {
+							//$("#planModal" + product_id).unblock();
+							hidediv();
+    					},
                         data: {
                             'idEdit': product_id,
 							'projectEdit':$('#projectEdit' + product_id).val(),
