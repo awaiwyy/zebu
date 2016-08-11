@@ -1,7 +1,7 @@
 is_all_selected();
 initialize();
 
-$("a,input,button").focus(function(){this.blur()});
+$("button").focus(function(){this.blur()});
 function is_all_selected() {
     var select_product_count = $("button[name='filter-product'][aria-checked='true']").length;
     var select_status_count = $("button[name='filter-status'][aria-checked='true']").length;
