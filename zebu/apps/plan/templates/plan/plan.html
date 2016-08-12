@@ -759,7 +759,7 @@ function hidediv(tab_id) {
 														{% for tab2 in history_tab %}
 														{% ifequal tab2.request_id tab.id %}
 														<span style="width:101px; float:left;line-height:normal;">
-															<input style="width:100px;color: #A2A2A2;line-height:normal;" type="text" name="dateEdit" id="dateEdit{{tab2.id}}" value={{tab2.change_date | date:"Y-m-d"}}  readonly>
+															<input aria-current="{{tab.id}}" style="width:100px;color: #A2A2A2;line-height:normal;" type="text" name="dateEdit" id="dateEdit{{tab2.id}}" value={{tab2.change_date | date:"Y-m-d"}}  readonly>
 															<input style="width:100px;line-height:normal;" type="text" name="durationEdit" id="durationEdit{{tab2.id}}" value={{tab2.daily_duration}}">
 														</span>
 														{% endifequal %}
@@ -1226,7 +1226,25 @@ function hidediv(tab_id) {
 							$("#readstatus" + product_id).text($('#statusEdit' + product_id).val());
 							$("#progress" + product_id).text($('#progressEdit' + product_id).val());
 							if(ret.edit_stime != "-- ::"){
-								$("#readstart_time" + product_id).text(ret.edit_stime);}
+								old_start_time=$("#readstart_time" + product_id).text().substr(0,10)
+								new_start_time=ret.edit_stime.substr(0,10)
+								$("#readstart_time" + product_id).text(ret.edit_stime);
+								if(new_start_time > old_start_time){
+									$("input[name='dateEdit'][aria-current="+product_id+"]").each(function(i,o){
+										if($(o).val() < new_start_time){
+											history_id = $(o).attr('id').substr(8);
+											$('#dateEdit' + history_id).remove();
+											$('#durationEdit' + history_id).remove();
+											document.getElementById("history"+product_id).style.display='none';
+											$("#history"+product_id).attr("aria-checked","false");
+										}
+									});
+								}else if(new_start_time < old_start_time){
+									document.getElementById("history"+product_id).style.display='none';
+									$("#history"+product_id).attr("aria-checked","false");
+								}
+							
+						}
 							$("#request_duration" + product_id).text(ret.request_dura);
 							$("#daily_duration" + product_id).text(ret.daily_dura);
 							if(ret.total != null){
