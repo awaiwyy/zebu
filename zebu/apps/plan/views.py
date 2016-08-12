@@ -467,7 +467,7 @@ def ajaxpost(request):
 
     #uncomment sleep() for loaidng remainder test
     #time.sleep(5)
-
+    newaddidlist=[]
     edit_id = request.POST['idEdit']
     edit_plan = RequestTable.objects.get(id=edit_id)
     total=edit_plan.duration
@@ -553,9 +553,10 @@ def ajaxpost(request):
         for id in range(len(arrId)):
             total_tab = TotalTable.objects.filter(request_id=edit_id).get(id=arrId[id])
             total_tab.daily_duration = arrVal[id]
-        if request.POST['statusEdit'] != "close":
-            total_tab.status = 'ongoing'
-        total_tab.save()
+            total_tab.save()
+            if request.POST['statusEdit'] != "close":
+                total_tab.status = 'ongoing'
+                total_tab.save()
     if edit_stime != '-- ::':
         stime = edit_stime.encode("utf-8")
         dtime = datetime.datetime.strptime(stime, '%Y-%m-%d %H:%M:%S')
@@ -612,11 +613,13 @@ def ajaxpost(request):
                     request_piece = edit_plan.request_duration.split('y')[1]
                     diffnum = (fedit - fdate).days
                     for j in range(diffnum):
-                        itime = fdate + datetime.timedelta(days=j)
-                        TotalTable.objects.create(change_date=itime,
+                        additime = fdate + datetime.timedelta(days=j)
+                        TotalTable.objects.create(change_date=additime,
                                                   daily_duration='00Hour' + request_piece,
                                                   status="ongoing",
-                                                  request_id=edit_plan.id)
+                                                  request_id=edit_plan.id)  
+                        id=TotalTable.objects.get(change_date=additime,request_id=edit_plan.id).id
+                        newaddidlist.append([id,str(additime),'00Hour' + request_piece])
                 elif fdate > fedit:
                     # 如果starttime的日期在已有的最小日期之后，多余的几天的数据就直接从TotalTable表中删除
                     total_tab2.filter(change_date__lt=fdate).delete()
@@ -768,6 +771,7 @@ def ajaxpost(request):
     'request_dura':request_dura,
     'daily_dura':daily_dura,
     'total':total,
-    'utc_time': str(utc_ctime)}
+    'utc_time': str(utc_ctime),
+    'newaddidlist':newaddidlist}
     return HttpResponse(json.dumps(success_dict),
                         content_type="application/json")

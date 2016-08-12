@@ -756,11 +756,12 @@ function hidediv(tab_id) {
 													<li><img style="right:16px" src="/static/images/bianji.png" onclick="showHistory({{tab.id}})"></li>
 												</ul>
 														<div id="history{{tab.id}}" style="height:100px;overflow-x:scroll;display:none" aria-checked="false">
+														<span id="historyspan{{tab.id}}">	</span>
 														{% for tab2 in history_tab %}
 														{% ifequal tab2.request_id tab.id %}
 														<span style="width:101px; float:left;line-height:normal;">
 															<input aria-current="{{tab.id}}" style="width:100px;color: #A2A2A2;line-height:normal;" type="text" name="dateEdit" id="dateEdit{{tab2.id}}" value={{tab2.change_date | date:"Y-m-d"}}  readonly>
-															<input style="width:100px;line-height:normal;" type="text" name="durationEdit" id="durationEdit{{tab2.id}}" value={{tab2.daily_duration}}">
+															<input style="width:100px;line-height:normal;" type="text" name="durationEdit" id="durationEdit{{tab2.id}}" value="{{tab2.daily_duration}}">
 														</span>
 														{% endifequal %}
 														{% endfor %}
@@ -1124,7 +1125,7 @@ function hidediv(tab_id) {
 	
 	// Record changed durationEdit id
 	$("[name='durationEdit']").change(function(){
-		var pk = parseInt(this.id.match("\\d+"));
+		var pk = parseInt(this.id.match("\\d+"));	
 		var id = this.form.id;
 		var changed = $("#changeIdlist"+id).val();
 		if (changed.indexOf(pk)<0)
@@ -1240,10 +1241,16 @@ function hidediv(tab_id) {
 										}
 									});
 								}else if(new_start_time < old_start_time){
+									console.log(ret.newaddidlist)
+									for(var i=0;i<ret.newaddidlist.length;i++){
+									$("<span style='width:101px; float:left;line-height:normal;'><input aria-current="+product_id+" style='width:100px;color: #A2A2A2;line-height:normal;' type='text' name='dateEdit' id='dateEdit"+ret.newaddidlist[i][0] +"'value="+ret.newaddidlist[i][1] +"  readonly><input style='width:100px;line-height:normal;' type='text' name='durationEdit'  id='durationEdit"+ret.newaddidlist[i][0] +"' value="+ret.newaddidlist[i][2]+"></span>").appendTo('#historyspan'+product_id)
+									var ori = $("#changeIdlist" + product_id).val();
+									ori += ret.newaddidlist[i][0] + ",";
+									$("#changeIdlist"+product_id).val(ori);
+									}
 									document.getElementById("history"+product_id).style.display='none';
 									$("#history"+product_id).attr("aria-checked","false");
 								}
-							
 						}
 							$("#request_duration" + product_id).text(ret.request_dura);
 							$("#daily_duration" + product_id).text(ret.daily_dura);
