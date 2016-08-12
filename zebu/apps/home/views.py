@@ -1,4 +1,5 @@
 #coding:utf-8
+from django.contrib.auth.models import User,Group, Permission
 from django.shortcuts import render
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render
@@ -11,7 +12,12 @@ from models import projectInfo
 import time,datetime
 import os
 from common import xlwt
+import requests
+import re
+from urlparse import urljoin
+import os.path
 import sys
+from django.db.backends.oracle.creation import PASSWORD
 reload(sys)
 sys.setdefaultencoding( "utf-8" )
 import os
@@ -22,7 +28,29 @@ temp_dir = os.path.join(BASE_DIR, "resources/tab/")
 # Create your views here.
 #temp_dir = "resources/tab/"
 schedule_file = "schedule_tab.xls"
+#username = "tjsdelab"
+#password = "456@abAB"
+bzurl = "http://bugzilla.spreadtrum.com/bugzilla/rest/"
 
+def configure( bzurl, username, password):
+    bzurl = bzurl
+    if not bzurl.endswith("/"):
+        bzurl += "/"
+    username = username
+    password = password
+def request(method, path, username, password):
+    url = urljoin(bzurl, path)
+    if method in ("GET", "HEAD"):
+        params = {"Bugzilla_login": username,"Bugzilla_password": password,}
+    headers = { "Accept": "application/json","Content-Type": "application/json",}
+    try:
+        r = requests.request(method, url, params=params,headers=headers)
+        r.raise_for_status()
+    except requests.RequestException as e:
+        print(e)
+    return r.status_code
+def loginBugzilla(username, password):
+    return request("GET","login",username, password)
 
 def homePageData(request,project_tab):
     #gopage = request.GET.get('page')
@@ -189,6 +217,17 @@ def homePageData(request,project_tab):
         }
     return schedule_dict
 
+def userIntoZebuDB(zebuUser):  
+    email=zebuUser+"@spreadtrum.com"
+    #将表单写入数据库
+    user = User()
+    user.username = zebuUser
+    user.set_password(zebuUser) #更改密码，并自动处理hash值
+    user.email = email
+    user.save()
+    
+    com_group = Group.objects.get(name="com user")
+    user.groups=[com_group]
 def homeUser(request):
     #print request.method
     #print request.POST.keys()
@@ -202,21 +241,35 @@ def homeUser(request):
         #if 'userName' in request.POST.keys():
         #login to home
         #print "login to home"
-        username = request.POST['userName']
-        password = request.POST['password']
-        #print "input0"
-        #print username
-        #print password
-        user = auth.authenticate(username=username, password=password)
-        #print user
-        if user is not None and user.is_active:
+        bugzilla_username = request.POST['userName']
+        bugzilla_password = request.POST['password']
+        zebuUser=""
+        try:
+            user = User.objects.get(username=bugzilla_username)
+            zebuUser = user.username
+        except:  
+            print "该用户不存在zebu数据库" 
+        configure(bzurl, bugzilla_username, bugzilla_password)
+        result = loginBugzilla(bugzilla_username, bugzilla_password)
+        if result == 200:
+            print "验证通过"
+            if zebuUser == "":
+                zebuUser=bugzilla_username.lower()
+                userIntoZebuDB(zebuUser)
+                print zebuUser
+            #用户登录zebu数据库，以使用用户权限管理系统
+            zebuUser = zebuUser.lower()
+            user = auth.authenticate(username=zebuUser, password=zebuUser)
             auth.login(request, user)
+            
             schedule_dict = homePageData(request,project_tab)
             schedule_dict.update(productlist=productlist)
             return HttpResponseRedirect('/home/', schedule_dict)
         else:
-            #return render(request, 'login/login.html', {'password_is_wrong': True}) 
+            print "验证未通过,请修改用户名或密码"
             return HttpResponse('Failed: username or password is error!')
+        #判断数据库中是否有相应用户，并判断是否是管理员账户
+        
     elif request.method == 'POST' and "projectInfo" in request.POST.keys():
         #print"into new home project "
         project = request.POST["projectInfo"]
