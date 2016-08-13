@@ -761,12 +761,12 @@ def ajaxpost(request):
         #被处理的TF case/分配到的zebu/被分配使用的时间/操作者
         content = '被处理的TF case:'+tf_case+'/被分配使用的时间:'+edit_stime+'/status:'+statusAfter+'/操作者:'+loginUser
         subject = 'zebu资源的使用状态已更改，请登录指定服务器（http://10.5.2.62）查看'
-        '''
+        
         if sendEmail.send_mail(subject,content,receivers):
             print "send success"
         else:
             print"send fail"
-        '''
+        
     success_dict = {'edit_stime':edit_stime,
     'request_dura':request_dura,
     'daily_dura':daily_dura,
