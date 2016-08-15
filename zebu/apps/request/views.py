@@ -201,6 +201,7 @@ def requestUser(request, **kwargs):
         filter = ""
         prodtlist = productlist
         acceptlist = acceptancelist
+        order = "-id";
         if "p" in request.GET.keys():
             if  request.GET.get("p") != "":
                 prodtlist = []
@@ -215,7 +216,13 @@ def requestUser(request, **kwargs):
                 for item in filter_acceptance:
                     acceptlist.append(acceptancelist[int(item)-1])
                     filter += "a" + item + ","
-        request_tab = RequestTable.objects.filter(project__in=prodtlist, acceptance__in=acceptlist).order_by("-id")
+        if "order" in request.GET.keys():
+            if request.GET.get("order") == "up":
+                order = "project"
+            if request.GET.get("order") == "down":
+                order = "-project"
+
+        request_tab = RequestTable.objects.filter(project__in=prodtlist, acceptance__in=acceptlist).order_by(order)
 
         perpage = 15 #show how many items per page
     
@@ -268,7 +275,8 @@ def requestUser(request, **kwargs):
             'over_range_right': over_range_right,
             "productlist": productlist,
             "acceptancelist":acceptancelist,
-            "filter": filter})
+            "filter": filter,
+            "order": order})
 
 def ajaxpost(request):
     edit_id = request.POST['idEdit']

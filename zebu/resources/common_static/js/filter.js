@@ -1,6 +1,21 @@
 is_all_selected();
 initialize();
 
+$("#mybtn").click(function () {
+    if ($("#mybtn").attr("aria-current") == "normal") {
+        $("#mybtn").attr("aria-current","up");
+    }
+    else {
+        if ($("#mybtn").attr("aria-current") == "up"){
+        $("#mybtn").attr("aria-current", "down");
+        }else{
+        $("#mybtn").attr("aria-current", "up");
+        }
+    }
+    
+    dofilter();
+});
+
 $("button").focus(function(){this.blur()});
 function is_all_selected() {
     var select_product_count = $("button[name='filter-product'][aria-checked='true']").length;

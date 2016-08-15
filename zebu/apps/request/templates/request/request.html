@@ -16,7 +16,6 @@
     <link href="/static/request/css/request.css" type="text/css" rel="stylesheet"/>
     <link href="/static/css/application.css" type="text/css" rel="stylesheet"/>
     <link href="/static/plan/css/plan.css" type="text/css" rel="stylesheet"/>
-    <link href="/static/css/datatables.min.css" type="text/css" rel="stylesheet" />
     <link href="/static/request/css/bootstrap-datetimepicker.css" type="text/css" rel="stylesheet"/>
     <link href="/static/css/filter.css" type="text/css" rel="stylesheet" />
     <style>
@@ -51,9 +50,7 @@
 
     <script src="/static/js/jquery-1.11.1.min.js"></script>
     <script src="/static/js/jquery.validate.min.js"></script>
-    <script src="/static/js/datatables.min.js"></script>
     <script src="/static/request/js/bootstrap-datetimepicker.js"></script>
-    <!-- <script src="http://apps.bdimg.com/libs/bootstrap/3.2.0/js/bootstrap.min.js"></script> -->
     <script src="/static/js/bootstrap.min.js"></script>
     <script type="text/javascript">
 	/mobi/i.test(navigator.userAgent) && !location.hash
@@ -62,35 +59,6 @@
 					window.scrollTo(0, 1);
 			}, 1000);
 
-		function changeImage() {
-		document.getElementById("mybtn1").className = "classification1";
-		document.getElementById("mybtn2").className = "classification2";
-		if (document.getElementById("mybtn").className != "classification_down") {
-			document.getElementById("mybtn").className = "classification_down";
-		} else {
-			document.getElementById("mybtn").className = "classification_up";
-		}
-	}
-
-	function changeImage1() {
-		document.getElementById("mybtn").className = "classification";
-		document.getElementById("mybtn2").className = "classification2";
-		if (document.getElementById("mybtn1").className != "classification1_down") {
-			document.getElementById("mybtn1").className = "classification1_down";
-		} else {
-			document.getElementById("mybtn1").className = "classification1_up";
-		}
-	}
-
-	function changeImage2() {
-		document.getElementById("mybtn1").className = "classification1";
-		document.getElementById("mybtn").className = "classification";
-		if (document.getElementById("mybtn2").className != "classification2_down") {
-			document.getElementById("mybtn2").className = "classification2_down";
-		} else {
-			document.getElementById("mybtn2").className = "classification2_up";
-		}
-	}
 
     function checktime(){
         var applicationtime=document.getElementById("datetimepicker").value;
@@ -415,19 +383,19 @@
 
         <div class="classify ">
             <a href="#">
-                <button type="button" class="classification_down" id="mybtn"
-                        onclick="changeImage()" style="background-color: #F8F8F8">Request
-                    time
-                </button>
-            </a> <a href="#">
-            <button type="button" class="classification1" id="mybtn1"
-                    onclick="changeImage1()" style="background-color: #F8F8F8">Product
-            </button>
-        </a> <a href="#">
-            <button type="button" class="classification2" id="mybtn2"
-                    onclick="changeImage2()" style="background-color: #F8F8F8">Status
-            </button>
-        </a>
+                {% ifequal order "-id" %}
+                <button type="button" class="classification" id="mybtn" style="background-color: #F8F8F8" aria-current="normal">Product</button>
+                {% endifequal %}
+
+                {% ifequal order "project" %}
+                <button type="button" class="classification_up" id="mybtn" style="background-color: #F8F8F8" aria-current="up">Product</button>
+                {% endifequal %}
+
+                {% ifequal order "-project" %}
+                <button type="button" class="classification_down" id="mybtn" style="background-color: #F8F8F8" aria-current="down">Product</button>
+                {% endifequal %}
+
+            </a> 
         </div>
         <div class="requestForm" style="margin-top:32px">
             <div data-toggle="modal" data-target="#NewModal" style="cursor:pointer;margin-top:-10px">
@@ -439,7 +407,7 @@
                 {% endif %}
             </div>
             <div id="requestTable" class="requestTableDiv">
-                <table class="table display compact dataTablerequest " id="Box">
+                <table class="requestTable " id="Box">
                     <thead>
                     <tr>
                         <th scope="col" width="84px"><span>Product</span></th>
@@ -892,7 +860,8 @@
 function dofilter(){
 	var getproduct = get_product();
     var getacceptance = get_status();
-	window.location.href="?p="+getproduct+"&a="+getacceptance;
+    var getorder = $("#mybtn").attr("aria-current");
+	window.location.href="?p="+getproduct+"&a="+getacceptance+"&order="+getorder;
 	}
 function submitModal(id) {
     postData(id);
@@ -970,23 +939,6 @@ $("#newapp").validate({
 			 }
 });
 
-$(document).ready(function(){
-            $('.dataTablerequest').DataTable({
-				"columnDefs": [
-				{ "orderable": false, "targets": 1 },
-				{ "orderable": false, "targets": 2 },
-				{ "orderable": false, "targets": 3 },
-				{ "orderable": false, "targets": 4 },
-				{ "orderable": false, "targets": 5 },
-				{ "orderable": false, "targets": 6 },
-                { "orderable": false, "targets": 7 },
-  				],
-				"order": [],
-				paging: false,
-				"searching": false,
-				"info": false
-            });
-        });
 </script>
 </body>
 </html>
