@@ -202,13 +202,15 @@ def requestUser(request, **kwargs):
         prodtlist = productlist
         acceptlist = acceptancelist
         order = "-id";
+        otherpara = "";
         if "p" in request.GET.keys():
             if  request.GET.get("p") != "":
                 prodtlist = []
                 filter_product = request.GET.get("p")[1:].split(",p")
                 for item in filter_product:
                     prodtlist.append(productlist[int(item)-1])
-                    filter += "p" + item + ","           
+                    filter += "p" + item + ","
+            otherpara += "&p=" + request.GET.get("p")
         if "a" in request.GET.keys():
             if  request.GET.get("a") != "":
                 acceptlist = []
@@ -216,11 +218,13 @@ def requestUser(request, **kwargs):
                 for item in filter_acceptance:
                     acceptlist.append(acceptancelist[int(item)-1])
                     filter += "a" + item + ","
+            otherpara += "&a=" + request.GET.get("a")
         if "order" in request.GET.keys():
             if request.GET.get("order") == "up":
                 order = "project"
             if request.GET.get("order") == "down":
                 order = "-project"
+            otherpara += "&order=" + request.GET.get("order")
 
         request_tab = RequestTable.objects.filter(project__in=prodtlist, acceptance__in=acceptlist).order_by(order)
 
@@ -276,7 +280,8 @@ def requestUser(request, **kwargs):
             "productlist": productlist,
             "acceptancelist":acceptancelist,
             "filter": filter,
-            "order": order})
+            "order": order,
+            "otherpara": otherpara})
 
 def ajaxpost(request):
     edit_id = request.POST['idEdit']

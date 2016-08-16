@@ -821,7 +821,7 @@
         </div>
         <div class="pagination">
 						<span class="step-links">
-						{% if request_tab.has_previous %}
+						{% if request_tab.has_previous %} 
 							<a class="pagination" href="?page=1"> << </a>							
 						{% endif %}
 
@@ -831,7 +831,7 @@
 						
 						{% ifnotequal range_left "norange" %}
 							{% for i in range_left %}
-							<a class="pagination" href="?page={{ i }}">{{ i }}</a>
+							<a class="pagination" href="?page={{ i }}{{ otherpara }}">{{ i }}</a>
 							{% endfor %}
 						{% endifnotequal %}
 						
@@ -839,7 +839,7 @@
 
 						{% ifnotequal range_right "norange" %}
 							{% for i in range_right %}
-							<a class="pagination" href="?page={{ i }}">{{ i }}</a>
+							<a class="pagination" href="?page={{ i }}{{ otherpara }}">{{ i }}</a>
 							{% endfor %}											
 						{% endifnotequal %}
 
@@ -848,7 +848,7 @@
 						{% endifequal %}
 
 						{% if request_tab.has_next %}
-							<a class="pagination" href="?page={{ request_tab.paginator.num_pages }}"> >> </a>
+							<a class="pagination" href="?page={{ request_tab.paginator.num_pages }}{{ otherpara }}"> >> </a>
 						{% endif %}
 						</span>
         </div>
