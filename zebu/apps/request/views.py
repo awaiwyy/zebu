@@ -201,8 +201,8 @@ def requestUser(request, **kwargs):
         filter = ""
         prodtlist = productlist
         acceptlist = acceptancelist
-        order = "-id";
-        otherpara = "";
+        order = "-id"
+        otherpara = ""
         if "p" in request.GET.keys():
             if  request.GET.get("p") != "":
                 prodtlist = []

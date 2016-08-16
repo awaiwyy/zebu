@@ -70,7 +70,12 @@
 	height: 36px;
 	border: 1px solid #cbcbcb;
 	border-top-left-radius: 8px;
+	border-top-right-radius: 8px;
 	border-bottom-left-radius: 8px;
+	border-bottom-right-radius: 8px;
+	background-image: url(../../images/normal.png);
+	background-position: 92%;
+	background-repeat: no-repeat;
 }
 
 .classification_down {
@@ -78,7 +83,9 @@
 	height: 36px;
 	border: 1px solid #cbcbcb;
 	border-top-left-radius: 8px;
+	border-top-right-radius: 8px;
 	border-bottom-left-radius: 8px;
+	border-bottom-right-radius: 8px;
 	background-image: url(../images/down.png);
 	background-position: 92%;
 	background-repeat: no-repeat;
@@ -89,68 +96,10 @@
 	height: 36px;
 	border: 1px solid #cbcbcb;
 	border-top-left-radius: 8px;
+	border-top-right-radius: 8px;
 	border-bottom-left-radius: 8px;
+	border-bottom-right-radius: 8px;
 	outline: none;
-	background-image: url(../images/up.png);
-	background-position: 92%;
-	background-repeat: no-repeat;
-}
-
-.classification1 {
-	margin-left: -10px;
-	width: 200px;
-	height: 36px;
-	border: 1px solid #cbcbcb;
-}
-
-.classification1_down {
-	margin-left: -10px;
-	width: 200px;
-	height: 36px;
-	border: 1px solid #cbcbcb;
-	background-image: url(../images/down.png);
-	background-position: 92%;
-	background-repeat: no-repeat;
-}
-
-.classification1_up {
-	margin-left: -10px;
-	width: 200px;
-	height: 36px;
-	border: 1px solid #cbcbcb;
-	background-image: url(../images/up.png);
-	background-position: 92%;
-	background-repeat: no-repeat;
-}
-
-.classification2 {
-	margin-left: -10px;
-	width: 200px;
-	height: 36px;
-	border: 1px solid #cbcbcb;
-	border-top-right-radius: 8px;
-	border-bottom-right-radius: 8px;
-}
-
-.classification2_down {
-	margin-left: -10px;
-	width: 200px;
-	height: 36px;
-	border: 1px solid #cbcbcb;
-	border-top-right-radius: 8px;
-	border-bottom-right-radius: 8px;
-	background-image: url(../images/down.png);
-	background-position: 92%;
-	background-repeat: no-repeat;
-}
-
-.classification2_up {
-	margin-left: -10px;
-	width: 200px;
-	height: 36px;
-	border: 1px solid #cbcbcb;
-	border-top-right-radius: 8px;
-	border-bottom-right-radius: 8px;
 	background-image: url(../images/up.png);
 	background-position: 92%;
 	background-repeat: no-repeat;

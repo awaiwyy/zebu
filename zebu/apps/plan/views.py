@@ -387,13 +387,16 @@ def planPage(request, **kwargs):
         filter = ""
         prodtlist = productlist
         statlist = statuslist
+        order="-id"
+        otherpara = ""
         if "p" in request.GET.keys():
             if  request.GET.get("p") != "":
                 prodtlist = []
                 filter_product = request.GET.get("p")[1:].split(",p")
                 for item in filter_product:
                     prodtlist.append(productlist[int(item)-1])
-                    filter += "p" + item + ","           
+                    filter += "p" + item + ","  
+            otherpara += "&p=" + request.GET.get("p")         
         if "s" in request.GET.keys():
             if  request.GET.get("s") != "":
                 statlist = []
@@ -401,7 +404,22 @@ def planPage(request, **kwargs):
                 for item in filter_status:
                     statlist.append(statuslist[int(item)-1])
                     filter += "s" + item + ","
-        plan_tab = RequestTable.objects.filter(is_plan="true", project__in=prodtlist, status__in=statlist).order_by("-id")
+            otherpara += "&a=" + request.GET.get("s")
+        if "order" in request.GET.keys():
+            if request.GET.get("order") != "":
+                if request.GET.get("order") == "up":
+                    order = "project"
+                if request.GET.get("order") == "down":
+                    order = "-project"
+            otherpara += "&order=" + request.GET.get("order")
+        if "sorder" in request.GET.keys():
+            if request.GET.get("sorder") != "":
+                if request.GET.get("sorder") == "up":
+                    order = "status"
+                if request.GET.get("sorder") == "down":
+                    order = "-status"
+            otherpara += "&sorder=" + request.GET.get("sorder")
+        plan_tab = RequestTable.objects.filter(is_plan="true", project__in=prodtlist, status__in=statlist).order_by(order)
 
     # Pagination -CC
     perpage = 15  # show how many items per page
@@ -458,7 +476,9 @@ def planPage(request, **kwargs):
             'history_tab': history_tab,
             "productlist":productlist,
             "statuslist":statuslist,
-            "filter": filter
+            "filter": filter,
+            "order":order,
+            "otherpara": otherpara
             })
 
 

@@ -14,7 +14,6 @@
 <link rel="stylesheet" href="/static/css/bootstrap.min.css" />
 <link href="/static/css/chosen.css" type="text/css" rel="stylesheet" />
 <link href="/static/css/com.css" type="text/css" rel="stylesheet" />
-<link href="/static/css/datatables.min.css" type="text/css" rel="stylesheet" />
 <link href="/static/plan/css/plan.css" type="text/css" rel="stylesheet" />
 <link href="/static/css/application.css" type="text/css" rel="stylesheet" />
 <link href="/static/css/filter.css" type="text/css" rel="stylesheet" />
@@ -49,7 +48,6 @@
 <!-- js -->
 <script src="/static/js/jquery-1.11.1.min.js"></script>
 <script src="/static/js/bootstrap.min.js"></script>
-<script src="/static/js/datatables.min.js"></script>
 <script src="/static/js/chosen.jquery.js"></script>
 <script type="text/javascript">
 	/mobi/i.test(navigator.userAgent) && !location.hash
@@ -58,35 +56,6 @@
 					window.scrollTo(0, 1);
 			}, 1000);
 
-	function changeImage() {
-		document.getElementById("mybtn1").className = "classification1";
-		document.getElementById("mybtn2").className = "classification2";
-		if (document.getElementById("mybtn").className != "classification_down") {
-			document.getElementById("mybtn").className = "classification_down";
-		} else {
-			document.getElementById("mybtn").className = "classification_up";
-		}
-	}
-
-	function changeImage1() {
-		document.getElementById("mybtn").className = "classification";
-		document.getElementById("mybtn2").className = "classification2";
-		if (document.getElementById("mybtn1").className != "classification1_down") {
-			document.getElementById("mybtn1").className = "classification1_down";
-		} else {
-			document.getElementById("mybtn1").className = "classification1_up";
-		}
-	}
-
-	function changeImage2() {
-		document.getElementById("mybtn1").className = "classification1";
-		document.getElementById("mybtn").className = "classification";
-		if (document.getElementById("mybtn2").className != "classification2_down") {
-			document.getElementById("mybtn2").className = "classification2_down";
-		} else {
-			document.getElementById("mybtn2").className = "classification2_up";
-		}
-	}
 
 	function showHistory(id) {
 		if($("#history"+id).attr("aria-checked") == "false"){			
@@ -357,17 +326,31 @@ function hidediv(tab_id) {
 			</div>
 
 			<div class="classify ">
-				<a href="#">
-					<button type="button" class="classification_down" id="mybtn"
-						onclick="changeImage()" style="background-color: #F8F8F8">Request
-						time</button>
-				</a> <a href="#">
-					<button type="button" class="classification1" id="mybtn1"
-						onclick="changeImage1()" style="background-color: #F8F8F8">Product</button>
-				</a> <a href="#">
-					<button type="button" class="classification2" id="mybtn2"
-						onclick="changeImage2()" style="background-color: #F8F8F8">Status</button>
-				</a>
+				
+					{% ifnotequal order "project" %}
+					{% ifnotequal order "-project" %}
+					<button type="button" class="classification" id="mybtn" style="background-color: #F8F8F8" aria-current="normal">Product</button>
+					{% endifnotequal %}
+					{% endifnotequal %}
+					{% ifequal order "project" %}
+					<button type="button" class="classification_up" id="mybtn" style="background-color: #F8F8F8" aria-current="up">Product</button>
+					{% endifequal %}
+					{% ifequal order "-project" %}
+					<button type="button" class="classification_down" id="mybtn" style="background-color: #F8F8F8" aria-current="down">Product</button>
+					{% endifequal %}
+			
+					{% ifnotequal order "status" %}
+					{% ifnotequal order "-status" %}
+					<button type="button" class="classification" id="mybtn1" style="background-color: #F8F8F8" aria-current="normal">Status</button>
+					{% endifnotequal %}
+					{% endifnotequal %}
+					{% ifequal order "status" %}
+					<button type="button" class="classification_up" id="mybtn1" style="background-color: #F8F8F8" aria-current="up">Status</button>
+					{% endifequal %}
+					{% ifequal order "-status" %}
+					<button type="button" class="classification_down" id="mybtn1" style="background-color: #F8F8F8" aria-current="down">Status</button>
+					{% endifequal %}
+				
 			</div>
 			<div class="planForm">
 				<div data-toggle="modal" data-target="#NewPlanModal"  style="cursor:pointer;margin-top:-10px">
@@ -379,7 +362,7 @@ function hidediv(tab_id) {
 				{% endif %}
 				</div>
 				<div id="planTable" class="planTableDiv">
-					<table class="table display compact dataTablerequest " id="Box">
+					<table class="planTable" id="Box">
 						<thead>
 						<tr>
 							<th scope="col" width="84px"><span>Product</span></th>
@@ -1108,7 +1091,7 @@ function hidediv(tab_id) {
 
 						{% ifnotequal range_left "norange" %}
 							{% for i in range_left %}
-							<a class="pagination" href="?page={{ i }}">{{ i }}</a>
+							<a class="pagination" href="?page={{ i }}{{ otherpara }}">{{ i }}</a>
 							{% endfor %}
 						{% endifnotequal %}
 
@@ -1116,7 +1099,7 @@ function hidediv(tab_id) {
 						
 						{% ifnotequal range_right "norange" %}
 							{% for i in range_right %}
-							<a class="pagination" href="?page={{ i }}">{{ i }}</a>
+							<a class="pagination" href="?page={{ i }}{{ otherpara }}">{{ i }}</a>
 							{% endfor %}											
 						{% endifnotequal %}
 
@@ -1125,7 +1108,7 @@ function hidediv(tab_id) {
 						{% endifequal %}
 
 						{% if plan_tab.has_next %}
-							<a class="pagination" href="?page={{ plan_tab.paginator.num_pages }}"> >> </a>
+							<a class="pagination" href="?page={{ plan_tab.paginator.num_pages }}{{ otherpara }}"> >> </a>
 						{% endif %}
 						</span>
 					</div>	
@@ -1136,7 +1119,9 @@ function hidediv(tab_id) {
 	function dofilter(){
 		var getproduct = get_product();
 		var getstatus = get_status();
-		window.location.href="?p="+getproduct+"&s="+getstatus;
+		var getproductorder = $("#mybtn").attr("aria-current");
+		var getstatusorder = $("#mybtn1").attr("aria-current");
+		window.location.href="?p="+getproduct+"&s="+getstatus+"&order="+getproductorder+"&sorder="+getstatusorder;
 	}
 	
 	// Record changed durationEdit id
@@ -1294,22 +1279,6 @@ function hidediv(tab_id) {
                         }
                     })
                 }
-		$(document).ready(function(){
-            $('.dataTablerequest').DataTable({
-				"columnDefs": [
-				{ "orderable": false, "targets": 1 },
-				{ "orderable": false, "targets": 2 },
-				{ "orderable": false, "targets": 3 },
-				{ "orderable": false, "targets": 5 },
-				{ "orderable": false, "targets": 6 },
-				{ "orderable": false, "targets": 7 },
-  				],
-				"order": [],
-				paging: false,
-				"searching": false,
-				"info": false
-            });
-        });
 	</script>
 </body>
 </html>

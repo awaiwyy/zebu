@@ -148,7 +148,9 @@
 	height: 36px;
 	border: 1px solid #cbcbcb;
 	border-top-left-radius: 8px;
+	border-top-right-radius: 8px;
 	border-bottom-left-radius: 8px;
+	border-bottom-right-radius: 8px;
 	background-image: url(../../images/normal.png);
 	background-position: 92%;
 	background-repeat: no-repeat;
@@ -159,7 +161,9 @@
 	height: 36px;
 	border: 1px solid #cbcbcb;
 	border-top-left-radius: 8px;
+	border-top-right-radius: 8px;
 	border-bottom-left-radius: 8px;
+	border-bottom-right-radius: 8px;
 	background-image: url(../../images/down.png);
 	background-position: 92%;
 	background-repeat: no-repeat;
@@ -170,7 +174,9 @@
 	height: 36px;
 	border: 1px solid #cbcbcb;
 	border-top-left-radius: 8px;
+	border-top-right-radius: 8px;
 	border-bottom-left-radius: 8px;
+	border-bottom-right-radius: 8px;
 	outline: none;
 	background-image: url(../../images/up.png);
 	background-position: 92%;

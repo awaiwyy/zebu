@@ -2,6 +2,7 @@ is_all_selected();
 initialize();
 
 $("#mybtn").click(function () {
+    $("#mybtn1").attr("aria-current","normal");
     if ($("#mybtn").attr("aria-current") == "normal") {
         $("#mybtn").attr("aria-current","up");
     }
@@ -10,6 +11,22 @@ $("#mybtn").click(function () {
         $("#mybtn").attr("aria-current", "down");
         }else{
         $("#mybtn").attr("aria-current", "up");
+        }
+    }
+    
+    dofilter();
+});
+
+$("#mybtn1").click(function () {
+    $("#mybtn").attr("aria-current","normal");
+    if ($("#mybtn1").attr("aria-current") == "normal") {
+        $("#mybtn1").attr("aria-current","up");
+    }
+    else {
+        if ($("#mybtn1").attr("aria-current") == "up"){
+        $("#mybtn1").attr("aria-current", "down");
+        }else{
+        $("#mybtn1").attr("aria-current", "up");
         }
     }
     
