@@ -72,9 +72,9 @@
                 <ul class="select">
                     <li class="select-list">
                         <dl id="select1">
-                            <dd>
-                                <a href="/">Login</a>
-                            </dd>
+                            <!--<dd>-->
+                                <!--<a href="/">Login</a>-->
+                            <!--</dd>-->
                             <dd>
                                 <a href="/home/">Home</a>
                             </dd>
@@ -84,9 +84,25 @@
                             <dd>
                                 <a href="/plan">Plan</a>
                             </dd>
-                            <dd class="select-all selected">
-                                <a href="/report">Report</a>
-                            </dd>
+                            {%if user.is_authenticated%}
+								<dd class="select-all selected" style="width:350px">
+									<a href="/report">Report</a>
+								</dd>
+
+								<dd >
+									<a><img src="/static/images/default-avatar.png">{{user.username}}</a>
+								</dd>
+								<dd >
+									<a href="/">Logout</a>
+								</dd>
+								{%else%}
+								<dd class="select-all selected" style="width:570px">
+									<a href="/report">Report</a>
+								</dd>
+								<dd >
+									<a href="/login">Login</a>
+								</dd>
+								{%endif%}
                         </dl>
                     </li>
                 </ul>
