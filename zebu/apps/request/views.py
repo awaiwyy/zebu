@@ -10,6 +10,7 @@ import os
 import math
 import time, datetime
 import json
+import thread
 import sys
 from common import xlwt
 from common import sendEmail
@@ -176,11 +177,14 @@ def requestUser(request, **kwargs):
                 #TF case/申请人/申请使用开始时间/daily duration/申请使用的zebu
                 content = 'TF case:'+tf_case+'/申请人:'+owner+'/request_duration:'+request_duration
                 subject = owner+'创建了一个zebu资源申请，请请登录指定服务器（http://10.5.2.62）处理'
-                
-                if sendEmail.send_mail(subject,content,receivers):
-                    print "send success"
-                else:
-                    print"send fail"
+                try:
+                    thread.start_new_thread(sendEmail.send_mail, (subject, content, receivers,))
+                except:
+                    print "Error: unable to start thread"
+                # if sendEmail.send_mail(subject,content,receivers):
+                #     print "send success"
+                # else:
+                #     print"send fail"
                 
         elif 'delRqId' in request.POST.keys():
             #print "into delete request tab"

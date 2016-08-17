@@ -3,10 +3,10 @@ import smtplib
 from email.mime.text import MIMEText
 from email.header import Header
 
-# 第三方 SMTP 服务
+#第三方 SMTP 服务
 mail_host="SMTP.spreadtrum.com"  #设置服务器
 mail_user="zebu"    #用户名
-mail_pass="ZBzb@0804"   #口令 
+mail_pass="ZBzb@0804"   #口令
 sender = 'zebu@spreadtrum.com'
 '''
 receivers = ['ellen.yang@spreadtrum.com']
@@ -28,5 +28,9 @@ def send_mail(sub,content,to_list):
         smtpObj.login(mail_user,mail_pass)
         smtpObj.sendmail(sender, to_list, msg.as_string())
         return True
-    except smtplib.SMTPException:
+
+    # except smtplib.SMTPException:
+    #     return False
+    except Exception,ex:
+        print 'Exception',':',ex
         return False
