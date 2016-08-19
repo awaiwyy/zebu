@@ -1230,7 +1230,7 @@ function hidediv(tab_id) {
 							if(ret.edit_stime != "-- ::"){
 								old_start_time=$("#readstart_time" + product_id).text().substr(0,10)
 								new_start_time=ret.edit_stime.substr(0,10)
-								$("#readstart_time" + product_id).text(ret.edit_stime);
+								if(old_start_time != ""){
 								if(new_start_time > old_start_time){
 									$("input[name='dateEdit'][aria-current="+product_id+"]").each(function(i,o){
 										if($(o).val() < new_start_time){
@@ -1242,7 +1242,16 @@ function hidediv(tab_id) {
 										}
 									});
 								}else if(new_start_time < old_start_time){
-									console.log(ret.newaddidlist)
+									for(var i=0;i<ret.newaddidlist.length;i++){
+									$("<span style='width:101px; float:left;line-height:normal;'><input aria-current="+product_id+" style='width:100px;color: #A2A2A2;line-height:normal;' type='text' name='dateEdit' id='dateEdit"+ret.newaddidlist[i][0] +"'value="+ret.newaddidlist[i][1] +"  readonly><input style='width:100px;line-height:normal;' type='text' name='durationEdit'  id='durationEdit"+ret.newaddidlist[i][0] +"' value="+ret.newaddidlist[i][2]+"></span>").appendTo('#historyspan'+product_id)
+									var ori = $("#changeIdlist" + product_id).val();
+									ori += ret.newaddidlist[i][0] + ",";
+									$("#changeIdlist"+product_id).val(ori);
+									}
+									document.getElementById("history"+product_id).style.display='none';
+									$("#history"+product_id).attr("aria-checked","false");
+								}
+								}else{
 									for(var i=0;i<ret.newaddidlist.length;i++){
 									$("<span style='width:101px; float:left;line-height:normal;'><input aria-current="+product_id+" style='width:100px;color: #A2A2A2;line-height:normal;' type='text' name='dateEdit' id='dateEdit"+ret.newaddidlist[i][0] +"'value="+ret.newaddidlist[i][1] +"  readonly><input style='width:100px;line-height:normal;' type='text' name='durationEdit'  id='durationEdit"+ret.newaddidlist[i][0] +"' value="+ret.newaddidlist[i][2]+"></span>").appendTo('#historyspan'+product_id)
 									var ori = $("#changeIdlist" + product_id).val();
@@ -1253,6 +1262,7 @@ function hidediv(tab_id) {
 									$("#history"+product_id).attr("aria-checked","false");
 								}
 						}
+							$("#readstart_time" + product_id).text(ret.edit_stime);
 							$("#request_duration" + product_id).text(ret.request_dura);
 							$("#daily_duration" + product_id).text(ret.daily_dura);
 							if(ret.total != null){

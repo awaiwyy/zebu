@@ -600,11 +600,13 @@ def ajaxpost(request):
                 request_piece = edit_plan.request_duration.split('y')[1]
                 delta = (cur_time - fdate).days
                 for i in range(delta):
-                    itime = fdate + datetime.timedelta(days=i)
-                    TotalTable.objects.create(change_date=itime,
+                    additime = fdate + datetime.timedelta(days=i)
+                    TotalTable.objects.create(change_date=additime,
                                               daily_duration='00Hour' + request_piece,
                                               status="ongoing",
                                               request_id=edit_plan.id)
+                    id=TotalTable.objects.get(change_date=additime,request_id=edit_plan.id).id
+                    newaddidlist.append([id,str(additime),'00Hour' + request_piece])
                 daily_hour = edit_plan.daily_duration.split('H')[0]
                 daily_piece = edit_plan.daily_duration.split('r')[1]
                 TotalTable.objects.create(change_date=cur_time,
