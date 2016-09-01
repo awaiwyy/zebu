@@ -1,0 +1,15 @@
+.newhomeForm {
+	width:768px;
+	min-height: 864px;
+	height:auto;
+	margin-top: 16px;
+	margin-right:16px;
+	border-radius: 8px;
+	margin-bottom: 24px;
+	border-top: 1px solid #cbcbcb;
+	border-bottom: 1px solid #cbcbcb;
+	border-left: 1px solid #cbcbcb;
+	border-right: 1px solid #cbcbcb;
+	font-size: 14px;
+	padding:16px 16px 80px 16px;
+}

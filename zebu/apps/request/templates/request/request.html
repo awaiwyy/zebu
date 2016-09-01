@@ -16,7 +16,7 @@
     <link href="/static/request/css/request.css" type="text/css" rel="stylesheet"/>
     <link href="/static/css/application.css" type="text/css" rel="stylesheet"/>
     <link href="/static/plan/css/plan.css" type="text/css" rel="stylesheet"/>
-    <link href="/static/request/css/bootstrap-datetimepicker.css" type="text/css" rel="stylesheet"/>
+    <link href="/static/css/bootstrap-datetimepicker.css" type="text/css" rel="stylesheet"/>
     <link href="/static/css/filter.css" type="text/css" rel="stylesheet" />
     <style>
 	a.pagination {
@@ -50,7 +50,7 @@
 
     <script src="/static/js/jquery-1.11.1.min.js"></script>
     <script src="/static/js/jquery.validate.min.js"></script>
-    <script src="/static/request/js/bootstrap-datetimepicker.js"></script>
+    <script src="/static/js/bootstrap-datetimepicker.js"></script>
     <script src="/static/js/bootstrap.min.js"></script>
     <script type="text/javascript">
 	/mobi/i.test(navigator.userAgent) && !location.hash
@@ -102,6 +102,9 @@
                             <dd>
                                 <a href="/home/">Home</a>
                             </dd>
+                            <dd>
+									<a href="/newhome">New Home</a>
+								</dd>
                             <dd class="select-all selected">
                                 <a href="/request">Request</a>
                             </dd>
@@ -109,7 +112,7 @@
                                 <a href="/plan">Plan</a>
                             </dd>
                            {%if user.is_authenticated%}
-								<dd style="width:350px">
+								<dd style="width:250px">
 									<a href="/report">Report</a>
 								</dd>
 
@@ -120,7 +123,7 @@
 									<a href="/">Logout</a>
 								</dd>
 								{%else%}
-								<dd style="width:570px">
+								<dd style="width:470px">
 									<a href="/report">Report</a>
 								</dd>
 								<dd >

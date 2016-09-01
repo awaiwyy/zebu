@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'apps.request',
     'apps.plan',
     'apps.report',
+    'apps.newhome',
 
     
     

@@ -79,13 +79,16 @@
                                 <a href="/home/">Home</a>
                             </dd>
                             <dd>
+									<a href="/newhome">New Home</a>
+								</dd>
+                            <dd>
                                 <a href="/request">Request</a>
                             </dd>
                             <dd>
                                 <a href="/plan">Plan</a>
                             </dd>
                             {%if user.is_authenticated%}
-								<dd class="select-all selected" style="width:350px">
+								<dd class="select-all selected" style="width:250px">
 									<a href="/report">Report</a>
 								</dd>
 
@@ -96,7 +99,7 @@
 									<a href="/">Logout</a>
 								</dd>
 								{%else%}
-								<dd class="select-all selected" style="width:570px">
+								<dd class="select-all selected" style="width:470px">
 									<a href="/report">Report</a>
 								</dd>
 								<dd >

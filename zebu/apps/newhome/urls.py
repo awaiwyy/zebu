@@ -14,16 +14,9 @@ Including another URLconf
     2. Import the include() function: from django.conf.urls import url, include
     3. Add a URL to urlpatterns:  url(r'^blog/', include(blog_urls))
 """
-from django.conf.urls import url, include
-from django.contrib import admin
+from django.conf.urls import url
+import views as newhome_views
 
 urlpatterns = [
-    url(r'^', include('apps.login.urls')),
-    url(r'^home/', include('apps.home.urls')),
-    url(r'^request/', include('apps.request.urls')),
-    url(r'^plan/', include('apps.plan.urls')),
-    url(r'^report/', include('apps.report.urls')),
-    url(r'^admin/', admin.site.urls),
-    url(r'^newhome/', include('apps.newhome.urls')),
+    url(r'^$', newhome_views.newHomePage, name='newhome'),
 ]
-

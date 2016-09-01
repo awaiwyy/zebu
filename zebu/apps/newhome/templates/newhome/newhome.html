@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html xmlns="http:/www.w3.org/1999/xhtml">
+<head>
+<meta charset="UTF-8">
+<link rel="shortcut icon" type="image/x-icon" href="/static/images/favicon.ico" media="screen" />
+<link rel="Bookmark" href="/static/images/favicon.ico">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=9,chrome=1">
+<!-- Mobile Specific Metas -->
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+<title>Zebu Schedule</title>
+<!-- CSS -->
+<!-- <link href="http://libs.baidu.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet"> -->
+<!--  <link href="http://apps.bdimg.com/libs/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">-->
+<link rel="stylesheet" href="/static/css/bootstrap.min.css" />
+<link rel="stylesheet" href="/static/css/com.css" />
+<link rel="stylesheet" href="/static/newhome/css/newhome.css"/>
+<link href="/static/css/bootstrap-datetimepicker.css" type="text/css" rel="stylesheet"/>
+<link href="/static/css/jquery.dataTables.css" type="text/css" rel="stylesheet"/>
+<link href="/static/css/application.css" type="text/css" rel="stylesheet" />
+<!--  <link rel="stylesheet" href="/static/home/css/jquery.webui-popover.min.css">-->
+<style>
+	.error {
+		border: 1px solid red;
+		}
+</style>
+<!-- js -->
+<script src="/static/js/jquery-1.11.1.min.js"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/bootstrap-datetimepicker.js"></script>
+<script src="/static/js/jquery.dataTables.js"></script>
+</head>
+<body>
+
+	<!-- 头文件 -->
+	<div class="head">
+		<img class="imgleftright" src="/static/images/background-left.png" />
+		<img class="imgcenter" src="/static/images/background-middle.png" />
+		<img class="imgleftright" src="/static/images/background-right.png" />
+		<div class="clearfix"></div>
+		<table class="headtable">
+			<tr>
+				<td><a href="#"><img src="/static/images/zebu.png" /></a></td>
+			</tr>
+			<tr>
+				<td>
+					<ul class="select">
+						<li class="select-list">
+							<dl id="select1">
+								<!--<dd>-->
+									<!--<a href="/">Login</a>-->
+								<!--</dd>-->
+								<dd >
+									<a href="/home">Home</a>
+								</dd>
+								<dd class="select-all selected">
+									<a href="/newhome">New Home</a>
+								</dd>
+								<dd>
+									<a href="/request">Request</a>
+								</dd>
+								<dd>
+									<a href="/plan">Plan</a>
+								</dd>
+								{%if user.is_authenticated%}
+								<dd style="width:250px">
+									<a href="/report">Report</a>
+								</dd>
+
+								<dd >
+									<a><img src="/static/images/default-avatar.png">{{user.username}}</a>
+								</dd>
+								<dd >
+									<a href="/">Logout</a>
+								</dd>
+								{%else%}
+								<dd style="width:470px">
+									<a href="/report">Report</a>
+								</dd>
+								<dd >
+									<a href="/login">Login</a>
+								</dd>
+								{%endif%}
+							</dl>
+						</li>
+					</ul>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<div class="divleft"></div>
+	<!-- 中间部分 -->
+	<div class="middle">
+		<div class="middletitle">
+			<p>
+				<span class="middletite1"> <a href="/" class="title">Login</a>&nbsp;&nbsp;-&nbsp;&nbsp;
+				</span>
+				<span class="middletite2">New Home</span>
+			</p>
+		</div>
+			<!-- 左侧模块 -->
+		<div class="middleleft">
+			<div class="middleleft2" style="position: relative; top: -16px;">
+				<div class="middleleft_center">
+					<ul>
+						<li id="middleleft_center_topli"><a href="exportTab" style="color:#8e8e8e">Export Excel</a></li>
+						<li><a href="#">&nbsp;</a></li>
+						<li><a href="#">&nbsp;</a></li>
+						<li id="middleleft_center_bottomli"><a href="#">&nbsp;</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="divcenter">
+			<div class="newhomeForm">
+				<div data-toggle="modal" data-target="#NewModal" style="cursor:pointer;margin-top:-10px">
+                {% if perms.request.add_requesttable %}
+                <tr>
+                    <td><img src="/static/images/tianjia.png"/></td>
+                    <span Style="color:#6bd5f8">Add New TF case</span>
+                </tr>
+                {% endif %}
+				</div>
+				        <!--弹出模态框（Modal） -->
+				<div class="modal fade" id="NewModal" tabindex="-1" role="dialog" aria-labelledby="NewModalLabel" aria-hidden="true">
+					<div class="modal-dialog" style="width:800px">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+								<h4 class="modal-title" id="NewModalLabel">New Application</h4>
+							</div>
+							<div class="modal-body">
+								<form id="newapp" class="modalForm" method="POST" role="form" onsubmit="return checktime()">
+									{% csrf_token %}
+									<div class="modalFormContent">
+										<ul>
+											<li class="new_rqleft">Product:</li>
+											<li>
+												<span>
+													<select class="borderWidth" id="projectInfo" name="projectInfo">
+														{%for i in productlist%}
+														<option>{{i}}</option>
+														{%endfor%}
+													</select>
+												</span>
+											</li>
+										</ul>
+										<ul>
+											<li class="new_rqleft">TF Case:</li>
+											<li>
+												<span>
+													<select id="tfcase" class="borderWidth" name="tfcaseInfo">
+														<option selected="selected">Power-CHIP</option>
+														<option>PM</option>
+														<option>Power-CHIP</option>
+														<option>Power-DISP</option>
+														<option>Power-MM</option>
+														<option>Power-GPU</option>
+														<option>Power-Modem</option>
+														<option>Performance-DDR</option>
+														<option>Performance-Benchmark</option>
+														<option>Performance-GPU</option>
+														<option>Performance-DISP</option>
+														<option>Performance-Storage</option>
+														<option>Performance-USB</option>
+														<option>Fun-DISP</option>
+														<option>Fun-DPU</option>
+														<option>Fun-EMMC</option>
+														<option>Fun-Modem</option>
+														<option>Fun-GSP</option>
+														<option>Fun-CV</option>
+														<option>Fun-Android boot</option>
+														<option>Fun-GPU</option>
+														<option>Fun-SEC</option>
+														<option>Fun-DDR</option>
+														<option>Fun-Storage</option>
+														<option>Fun-USB/ADB</option>
+														<option>Fun-RomCode</option>
+														<option>Fun-SPL</option>
+														<option>Fun-Uboot</option>
+														<option>Fun-Kernel</option>
+														<option>Fun-TinyAndroid</option>
+														<option>ZEBU Platform</option>
+														<option>Other</option>
+													</select>
+												</span>
+											</li>
+										</ul>
+										<ul>
+											<li class="new_rqleft">Classification:</li>
+											<li>
+												<span>
+													<select class="borderWidth" id="classificationInfo" name="classificationInfo">
+														<option>Function</option>
+														<option>Misc</option>
+														<option selected="">Performance</option>
+														<option>Power</option>
+														<option>Thermal</option>
+														<option>Kernel</option>
+														<option>Platform</option>
+														<option>Other</option>
+													</select>
+												</span>
+											</li>
+										</ul>
+										<ul>
+											<li class="new_rqleft">Module:</li>
+											<li>
+												<span>
+													<select class="borderWidth" id="moduleInfo" name="moduleInfo">
+														<option selected="">APPS</option>
+														<option>BSP</option>
+														<option>MM</option>
+														<option>Modem</option>
+														<option>Power</option>
+														<option>Stability</option>
+														<option>Kernel</option>
+														<option>Graphics</option>
+														<option>DDR</option>
+														<option>WCN</option>
+														<option>GSP</option>
+														<option>Other</option>
+													</select>
+												</span>
+											</li>
+										</ul>
+										<ul>
+											<li class="new_rqleft">Action Description:</li>
+											<li>
+												<textarea class="borderWidth modalText" id="actionDiscription" name="actionDiscriptionInfo" style=vertical-align:text-top>GFS Benchmark</textarea>
+											</li>
+										</ul>
+										<ul>
+											<li class="new_rqleft">Environment:</li>
+											<li>
+												<span>
+													<select class="borderWidth" id="environmentInfo" name="environmentInfo">
+														<option selected="">Zebu-JC</option>
+														<option>Zebu-SPRD</option>
+														<option>Hybrid</option>
+													</select>
+												</span>
+											</li>
+										</ul>
+										<ul>
+											<li class="new_rqleft">Server ID:</li>
+											<li>
+												<span>
+													<select class="borderWidth" id="serverId" name="serverId">
+														<option selected="">ZEBU01,M0&1</option>
+														<option>ZEBU02,M0&2</option>
+														<option>ZEBU03,M0&3</option>
+													</select>
+												</span>
+											</li>
+										</ul>
+										<ul>
+											<li class="new_rqleft">Application Time:</li>
+											<li>
+												<span>
+													<input size="16" type="text" value="" readonly id="datetimepicker" name="applicationTime" class="form_datetime">
+												</span>
+											</li>
+										</ul>
+										<script type="text/javascript">
+											$("#datetimepicker").datetimepicker({
+												format: 'yyyy-mm-dd hh:ii',
+												autoclose : true});
+										</script>
+										<p id="checktime" style="text-align:center;color:red"></p>
+										<ul>
+											<li class="new_rqleft">Request Duration:</li>
+											<li><select name="durationHourEdit">
+												<option></option>
+												{% for hour in valid_duration.0 %}
+												<option>{{hour}}</option>
+												{% endfor %}
+											</select>Hour<select name="durationDayEdit">
+												<option></option>
+												{% for day in valid_duration.1 %}
+												<option>{{day}}</option>
+												{% endfor %}
+											</select>Day<select name="durationPieceEdit">
+												<option></option>
+												{% for piece in valid_duration.2 %}
+												<option>{{piece}}</option>
+												{% endfor %}
+											</select>Piece
+												<p id="errormsg" style="color:red"></p>
+											</li>
+										</ul>
+										<ul>
+											<li class="new_rqleft">Priority:</li>
+											<li>
+												<span>
+													<select class="borderWidth" id="priorityInfo" name="priorityInfo">
+														<option>High</option>
+														<option selected="">Normal</option>
+														<option>Low</option>
+													</select>
+												</span>
+											</li>
+										</ul>
+										<input id="ownerInfo" type="hidden" name="ownerInfo" value={{user.username}} />
+									</div>
+									<div align="center" style="margin-bottom: 100px; ">
+										<div name="errormsg" id="errormsg" style="color:red"></div>
+										<button class="requestBtn" type="text" name="cancle" style="background-color: #FB8C8C" data-dismiss="modal">cancel</button>
+										<button class="requestBtn" name="ok" type="submit" style="background-color:#67D00B ">confirm</button>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- 添加模态框（Modal）结束 -->
+				<div style="margin-top:16px" >
+					<table id="resourcetable" class="display" cellspacing="0" width="100%" >
+						<thead>
+						<tr>
+							<th>Number</th>
+							<th>Resource Name</th>
+							<th>Status</th>
+							<th>Current Left Time</th>
+							<th>Total Left Time</th>
+							<th>User</th>
+							<th>Task Num</th>
+						</tr>
+						</thead>
+						<tbody>
+						<tr>
+							<td>1</td>
+							<td>1</td>
+							<td>1</td>
+							<td>1</td>
+							<td>1</td>
+							<td>1</td>
+							<td>1</td>
+						</tr>
+						<tr>
+							<td>2</td>
+							<td>2</td>
+							<td>2</td>
+							<td>2</td>
+							<td>2</td>
+							<td>2</td>
+							<td>2</td>
+						</tr>
+						<tr>
+							<td>3</td>
+							<td>3</td>
+							<td>2</td>
+							<td>2</td>
+							<td>2</td>
+							<td>2</td>
+							<td>2</td>
+						</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+<script>
+	$(document).ready(function(){
+		$('#resourcetable').dataTable({
+			"pagingType":   "full_numbers"
+		});
+	});
+</script>
+</body>
+</html>
