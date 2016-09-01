@@ -104,7 +104,10 @@ class RequestTable(models.Model):
     is_low = models.CharField(max_length=20, default="false")
     next_target=models.TextField(blank=True)
     server_ID = models.CharField(max_length=100, choices = server_choice, blank=True)
+    assign_ID = models.CharField(max_length=100, choices = server_choice, blank=True)
     application_time = models.DateTimeField(null=True, blank=True)
+    assign_starttime = models.DateTimeField(null=True, blank=True)
+    assign_endtime = models.DateTimeField(null=True, blank=True)
 
 #TotalTable内容是plan页每条记录每天的daily_duration值和状态
 class TotalTable(models.Model):

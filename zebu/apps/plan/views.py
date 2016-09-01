@@ -503,6 +503,11 @@ def ajaxpost(request):
     edit_plan.priority = request.POST['priorityEdit']
     edit_plan.progress = request.POST['progressEdit']
     edit_plan.server_ID = request.POST['serverIdEdit']
+    edit_plan.assign_ID = request.POST['assignIdEdit']
+    if request.POST['assign_starttimeEdit'] != '':
+        edit_plan.assign_starttime = request.POST['assign_starttimeEdit']
+    if request.POST['assign_endtimeEdit'] != '':
+        edit_plan.assign_endtime = request.POST['assign_endtimeEdit']
     edit_plan.status = request.POST['statusEdit']
     # edit_stime = request.POST['startTimeEdit']
 

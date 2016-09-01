@@ -17,6 +17,7 @@
 <link href="/static/plan/css/plan.css" type="text/css" rel="stylesheet" />
 <link href="/static/css/application.css" type="text/css" rel="stylesheet" />
 <link href="/static/css/filter.css" type="text/css" rel="stylesheet" />
+<link href="/static/css/bootstrap-datetimepicker.css" type="text/css" rel="stylesheet"/>
 <style type="text/css">
         .bg{ display: none;  position: absolute;  top: 0%;  left: 0%;  width: 100%;  height: 100%;  background-color: black;  z-index:1001;  -moz-opacity: 0.7;  opacity:.70;  filter: alpha(opacity=70);}
         .shownote{ display: none;  position: absolute;  top: 75%;  left: 30%; height: 80px; width: 30%; line-height:80px; border: 1px solid #E8E9F7;  background-color: white;  z-index:1002;text-align:center;font-size:14px}
@@ -49,6 +50,7 @@
 <script src="/static/js/jquery-1.11.1.min.js"></script>
 <script src="/static/js/bootstrap.min.js"></script>
 <script src="/static/js/chosen.jquery.js"></script>
+<script src="/static/js/bootstrap-datetimepicker.js"></script>
 <script type="text/javascript">
 	/mobi/i.test(navigator.userAgent) && !location.hash
 			&& setTimeout(function() {
@@ -490,6 +492,14 @@ function hidediv(tab_id) {
                                                 <li class="rqleft">Application Time:</li>
                                                 <li class="borderBottom">{{tab.application_time | date:"Y-m-d H:i"}}</li>
                                             </ul>
+											<ul>
+                                                <li class="rqleft">Assign ID:</li>
+                                                <li id="assignid{{tab.id}}" class="borderBottom">{{tab.assign_ID}}</li>
+                                            </ul>
+                                             <ul>
+                                                <li class="rqleft">Assign Time:</li>
+                                                <li class="borderBottom"><span id="assign_starttime{{tab.id}}">{{tab.assign_starttime | date:"Y-m-d H:i"}}</span> <span id="assign_endtime{{tab.id}}">{{tab.assign_endtime | date:"Y-m-d H:i"}}</span></li>
+                                            </ul>
 												<ul id="viewStime{{tab.id}}">
 													<li class="rqleft">Start Time:</li>
 													<li id="readstart_time{{tab.id}}" class="borderBottom">{{tab.start_time | date:"Y-m-d H:i:s"}}</li>
@@ -683,7 +693,29 @@ function hidediv(tab_id) {
                                                             </span>
                                                         </li>
 														</ul>
-
+														
+														<ul>
+                                                        <li class="rqleft">Assign ID:</li>
+                                                        <li>
+                                                            <span>
+                                                                <select class="borderWidth" id="assignIdEdit{{tab.id}}" name="assignIdEdit">
+                                                                    <option selected>{{tab.assign_ID}}</option>
+                                                                    <option >ZEBU01,M0&1</option>
+                                                                    <option>ZEBU02,M0&2</option>
+                                                                    <option>ZEBU03,M0&3</option>
+                                                                </select>
+                                                            </span>
+                                                        </li>
+                                                    </ul>
+                                                    <ul>
+                                                        <li class="rqleft">Assign Time:</li>
+                                                        <li>
+                                                            <span>
+                                                                <input size="16" type="text" value="{{tab.assign_starttime | date:'Y-m-d H:i'}}" id="assign_starttimeEdit{{tab.id}}" name="assign_starttimeEdit" class="form_datetime">
+																<input size="16" type="text" value="{{tab.assign_endtime | date:'Y-m-d H:i'}}" id="assign_endtimeEdit{{tab.id}}" name="assign_endtimeEdit" class="form_datetime">
+                                                            </span>
+                                                        </li>
+														</ul>
 														<ul>
 															<li class="rqleft">Start Time:</li>
 															<li><select name="yearEdit" id ="startyearid{{tab.id}}">
@@ -1119,6 +1151,9 @@ function hidediv(tab_id) {
 	</div>
 	<script src="/static/js/filter.js"></script>
 	<script>
+		$(".form_datetime").datetimepicker({
+		format: 'yyyy-mm-dd hh:ii',
+		autoclose : true});
 	function dofilter(){
 		var getproduct = get_product();
 		var getstatus = get_status();
@@ -1178,6 +1213,9 @@ function hidediv(tab_id) {
 							'priorityEdit':$('#priorityEdit' + product_id).val(),
 							'progressEdit':$('#progressEdit' + product_id).val(),
 							'serverIdEdit':$('#serverIdEdit' + product_id).val(),
+							'assignIdEdit':$('#assignIdEdit' + product_id).val(),
+							'assign_starttimeEdit':$('#assign_starttimeEdit' + product_id).val(),
+							'assign_endtimeEdit':$('#assign_endtimeEdit' + product_id).val(),
 							'statusEdit':$('#statusEdit' + product_id).val(),
 							'durationPieceEdit':$('#durationPieceEdit' + product_id).val(),
 							'durationDayEdit':$('#durationDayEdit' + product_id).val(),
@@ -1280,8 +1318,11 @@ function hidediv(tab_id) {
 								$("#close_time" + product_id).text('');
 							}
 							$("#next_target" + product_id).text($('#next_targetEdit' + product_id).val());
-							$("#totalduration" + product_id).text(ret.total+"Hour")
-							
+							$("#totalduration" + product_id).text(ret.total+"Hour");
+							$("#assignid" + product_id).text($('#assignIdEdit' + product_id).val());
+							$("#assign_starttime" + product_id).text($('#assign_starttimeEdit' + product_id).val());
+							$("#assign_endtime" + product_id).text($('#assign_endtimeEdit' + product_id).val());
+
                             //hide modal
 							
                             	$("#planModal"+product_id).modal('hide');
