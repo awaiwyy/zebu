@@ -18,6 +18,7 @@
 <link href="/static/css/bootstrap-datetimepicker.css" type="text/css" rel="stylesheet"/>
 <link href="/static/css/jquery.dataTables.css" type="text/css" rel="stylesheet"/>
 <link href="/static/css/application.css" type="text/css" rel="stylesheet" />
+<link href="/static/css/chosen.css" type="text/css" rel="stylesheet" />
 <!--  <link rel="stylesheet" href="/static/home/css/jquery.webui-popover.min.css">-->
 <style>
 	.error {
@@ -29,6 +30,7 @@
 <script src="/static/js/bootstrap.min.js"></script>
 <script src="/static/js/bootstrap-datetimepicker.js"></script>
 <script src="/static/js/jquery.dataTables.js"></script>
+<script src="/static/js/chosen.jquery.js"></script>
 </head>
 <body>
 
@@ -130,7 +132,7 @@
 								<h4 class="modal-title" id="NewModalLabel">New Application</h4>
 							</div>
 							<div class="modal-body">
-								<form id="newapp" class="modalForm" method="POST" role="form" onsubmit="return checktime()">
+								<form id="newapp" class="modalForm" method="POST" role="form" >
 									{% csrf_token %}
 									<div class="modalFormContent">
 										<ul>
@@ -244,15 +246,15 @@
 										</ul>
 										<ul>
 											<li class="new_rqleft">Server ID:</li>
-											<li>
-												<span>
-													<select class="borderWidth" id="serverId" name="serverId">
-														<option selected="">ZEBU01,M0&1</option>
-														<option>ZEBU02,M0&2</option>
-														<option>ZEBU03,M0&3</option>
-													</select>
-												</span>
-											</li>
+											<li>                               
+                                  			<div class="input-group">
+												<select data-placeholder=" " class="chosen-select" multiple tabindex="4" id="serverId" name="serverId">
+													<option value="ZEBU01,M0&1">ZEBU01,M0&1</option>
+													<option value="ZEBU02,M0&2">ZEBU02,M0&2</option>
+													<option value="ZEBU03,M0&3">ZEBU03,M0&3</option>
+												</select>
+											</div>
+                                    		</li>
 										</ul>
 										<ul>
 											<li class="new_rqleft">Application Time:</li>
@@ -362,6 +364,7 @@
 		</div>
 	</div>
 <script>
+	$(".chosen-select").chosen();
 	$(document).ready(function(){
 		$('#resourcetable').dataTable({
 			"pagingType":   "full_numbers"

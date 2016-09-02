@@ -39,7 +39,10 @@ def newHomePage(request, **kwargs):
             environment = request.POST['environmentInfo']
             owner = request.POST['ownerInfo']
             priority = request.POST['priorityInfo']
-            server_ID = request.POST['serverId']
+            server_ID=""
+            for i in request.POST.getlist('serverId'):
+                server_ID += i + ","
+            server_ID = server_ID[:-1]
             application_time = request.POST['applicationTime']
             if request.POST['durationHourEdit'] and request.POST['durationDayEdit'] and request.POST['durationPieceEdit']:
                 request_duration = request.POST['durationHourEdit'] + "Hour" + request.POST['durationDayEdit'] + "Day" + \
