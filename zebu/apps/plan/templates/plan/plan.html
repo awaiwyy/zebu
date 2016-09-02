@@ -485,21 +485,23 @@ function hidediv(tab_id) {
 													<li id="progress{{tab.id}}" class="borderBottom">{{tab.progress |safe}}</li>
 												</ul>
 												<ul>
-                                                <li class="rqleft">Server ID:</li>
+                                                <li class="rqleft">Request Resource ID:</li>
                                                 <li id="serverid{{tab.id}}" class="borderBottom">{{tab.server_ID}}</li>
                                             </ul>
                                              <ul>
-                                                <li class="rqleft">Application Time:</li>
+                                                <li class="rqleft">Request Use Time:</li>
                                                 <li class="borderBottom">{{tab.application_time | date:"Y-m-d H:i"}}</li>
                                             </ul>
 											<ul>
-                                                <li class="rqleft">Assign ID:</li>
+                                                <li class="rqleft">Assigned Resource ID:</li>
                                                 <li id="assignid{{tab.id}}" class="borderBottom">{{tab.assign_ID}}</li>
                                             </ul>
                                              <ul>
-                                                <li class="rqleft">Assign Time:</li>
-                                                <li class="borderBottom"><span id="assign_starttime{{tab.id}}">{{tab.assign_starttime | date:"Y-m-d H:i"}}</span> <span id="assign_endtime{{tab.id}}">{{tab.assign_endtime | date:"Y-m-d H:i"}}</span></li>
-                                            </ul>
+                                                <li class="rqleft">Assigned Time:</li>
+                                                <li class="borderBottom">
+													From:<span id="assign_starttime{{tab.id}}">{{tab.assign_starttime | date:"Y-m-d H:i"}}</span> To:<span id="assign_endtime{{tab.id}}">{{tab.assign_endtime | date:"Y-m-d H:i"}}</span>
+												 </li>
+											 </ul>
 												<ul id="viewStime{{tab.id}}">
 													<li class="rqleft">Start Time:</li>
 													<li id="readstart_time{{tab.id}}" class="borderBottom">{{tab.start_time | date:"Y-m-d H:i:s"}}</li>
@@ -673,7 +675,7 @@ function hidediv(tab_id) {
 															</li>
 														</ul>
 														<ul>
-                                                        <li class="rqleft">Server ID:</li>
+                                                        <li class="rqleft">Request Resource ID:</li>
                                                         <li>
                                                             <span>
                                                                 <select class="borderWidth" id="serverIdEdit{{tab.id}}" name="serverIdEdit">
@@ -686,16 +688,16 @@ function hidediv(tab_id) {
                                                         </li>
                                                     </ul>
                                                     <ul>
-                                                        <li class="rqleft">Application Time:</li>
+                                                        <li class="rqleft">Request Use Time:</li>
                                                         <li class="borderBottom">
                                                             <span>
-                                                                <input size="16" type="text" value="{{tab.application_time | date:'Y-m-d H:i'}}" readonly id="applicationTimeEdit{{tab.id}}" name="applicationTimeEdit" class="form_datetime">
+                                                                <input size="16" type="text" value="{{tab.application_time | date:'Y-m-d H:i'}}" readonly id="applicationTimeEdit{{tab.id}}" name="applicationTimeEdit" >
                                                             </span>
                                                         </li>
 														</ul>
 														
 														<ul>
-                                                        <li class="rqleft">Assign ID:</li>
+                                                        <li class="rqleft">Assigned Resource ID:</li>
                                                         <li>
                                                             <span>
                                                                 <select class="borderWidth" id="assignIdEdit{{tab.id}}" name="assignIdEdit">
@@ -708,11 +710,11 @@ function hidediv(tab_id) {
                                                         </li>
                                                     </ul>
                                                     <ul>
-                                                        <li class="rqleft">Assign Time:</li>
+                                                        <li class="rqleft">Assigned Time:</li>
                                                         <li>
                                                             <span>
-                                                                <input size="16" type="text" value="{{tab.assign_starttime | date:'Y-m-d H:i'}}" id="assign_starttimeEdit{{tab.id}}" name="assign_starttimeEdit" class="form_datetime">
-																<input size="16" type="text" value="{{tab.assign_endtime | date:'Y-m-d H:i'}}" id="assign_endtimeEdit{{tab.id}}" name="assign_endtimeEdit" class="form_datetime">
+                                                                From:<input size="16" type="text" value="{{tab.assign_starttime | date:'Y-m-d H:i'}}" id="assign_starttimeEdit{{tab.id}}" name="assign_starttimeEdit" class="form_datetime">
+																To:<input size="16" type="text" value="{{tab.assign_endtime | date:'Y-m-d H:i'}}" id="assign_endtimeEdit{{tab.id}}" name="assign_endtimeEdit" class="form_datetime">
                                                             </span>
                                                         </li>
 														</ul>

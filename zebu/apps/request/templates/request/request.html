@@ -63,7 +63,7 @@
     function checktime(){
         var applicationtime=document.getElementById("datetimepicker").value;
         if (!applicationtime){
-            $("#checktime").text("请输入Application Time");
+            $("#checktime").text("请输入Request Use Time");
             return false;
         }
     }
@@ -285,7 +285,7 @@
                                     </li>
                                 </ul>
                                 <ul>
-                                    <li class="new_rqleft">Server ID:</li>
+                                    <li class="new_rqleft">Request Resource ID:</li>
                                     <li>
                                   <span>
                                   <select class="borderWidth" id="serverId" name="serverId">
@@ -297,7 +297,7 @@
                                     </li>
                                 </ul>
                                 <ul>
-                                    <li class="new_rqleft">Application Time:</li>
+                                    <li class="new_rqleft">Request Use Time:</li>
                                      <li>
                                       <span>
                                       <input size="16" type="text" value="" readonly id="datetimepicker" name="applicationTime" class="form_datetime">
@@ -514,11 +514,11 @@
                                                 <li id="priority{{tab.id}}" class="borderBottom">{{tab.priority}}</li>
                                             </ul>
                                              <ul>
-                                                <li class="rqleft">Server ID:</li>
+                                                <li class="rqleft">Request Resource ID:</li>
                                                 <li id="server_ID{{tab.id}}" class="borderBottom">{{tab.server_ID}}</li>
                                             </ul>
                                              <ul>
-                                                <li class="rqleft">Application Time:</li>
+                                                <li class="rqleft">Request Use Time:</li>
                                                 <li id="application_time{{tab.id}}" class="borderBottom">{{tab.application_time | date:"Y-m-d H:i"}}</li>
                                             </ul>
                                             <ul>
@@ -659,7 +659,7 @@
                                                         </li>
                                                     </ul>
                                                     <ul>
-                                                        <li class="rqleft">Server ID:</li>
+                                                        <li class="rqleft">Request Resource ID:</li>
                                                         <li>
                                                             <span>
                                                                 <select class="borderWidth" id="serverIdEdit{{tab.id}}" name="serverIdEdit">
@@ -672,7 +672,7 @@
                                                         </li>
                                                     </ul>
                                                     <ul>
-                                                        <li class="rqleft">Application Time:</li>
+                                                        <li class="rqleft">Request Use Time:</li>
                                                         <li>
                                                             <span>
                                                                 <input size="16" type="text" value="{{tab.application_time | date:'Y-m-d H:i'}}" readonly id="applicationTimeEdit{{tab.id}}" name="applicationTimeEdit" class="form_datetime">
