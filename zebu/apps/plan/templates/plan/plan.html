@@ -696,7 +696,6 @@ function hidediv(tab_id) {
 															<select data-placeholder=" " class="chosen-select" multiple tabindex="4" id="assignIdEdit{{tab.id}}" name="assignIdEdit">
 																{% for key,value in assignid_list.items %}
 																{% ifequal key tab.id %}
-																resourceid_list
 																{% for index in value.0%}
 																<option selected value={{index}}>{{index}}</option>
 																{% endfor%}

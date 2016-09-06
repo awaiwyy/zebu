@@ -4,6 +4,7 @@ from django.http import HttpResponse
 from django.http import HttpResponseRedirect,StreamingHttpResponse
 from django.shortcuts import render
 from ..request.models import RequestTable
+from ..newhome.models import ResourceTable
 from common import com_def
 from ..request.models import TotalTable
 import os
@@ -15,6 +16,7 @@ from common import xlwt
 from common import sendEmail
 from email.mime.text import MIMEText
 from email.header import Header
+import copy
 
 
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -105,6 +107,10 @@ def exportRequestTab(request):
     return response
 
 def requestUser(request, **kwargs):
+    resource_tab = ResourceTable.objects.all().order_by("id")
+    resourceid_list=[]
+    for tab in resource_tab:
+        resourceid_list.append(tab.resource_id)
     acceptancelist=com_def.acceptancelist[:]
     gopage = request.GET.get('page')
     if (gopage == None):
@@ -194,10 +200,17 @@ def requestUser(request, **kwargs):
 
         for tab in request_tab:
             tab.action_discription = tab.action_discription.replace("\n", "<br>")
-        return HttpResponseRedirect('/request/', {"request_tab": request_tab, 'valid_duration': valid_duration,"productlist":productlist}) #avoid submit twice when entering"F5"
+        return HttpResponseRedirect('/request/', {"request_tab": request_tab, 'valid_duration': valid_duration,"productlist":productlist,"resourceid_list":resourceid_list}) #avoid submit twice when entering"F5"
     else:
+        serverid_list={}
         for tab in request_tab:
             tab.action_discription = tab.action_discription.replace("\n", "<br>")
+            serverid=tab.server_ID.split(",")
+            serverid_unselected=copy.deepcopy(resourceid_list)
+            if serverid != ['']:
+                for id in serverid:
+                    serverid_unselected.remove(id)
+            serverid_list[tab.id]=[serverid,serverid_unselected]
         filter = ""
         prodtlist = productlist
         acceptlist = acceptancelist
@@ -281,7 +294,9 @@ def requestUser(request, **kwargs):
             "acceptancelist":acceptancelist,
             "filter": filter,
             "order": order,
-            "otherpara": otherpara})
+            "otherpara": otherpara,
+            "resourceid_list":resourceid_list,
+            "serverid_list":serverid_list})
 
 def ajaxpost(request):
     edit_id = request.POST['idEdit']
@@ -295,7 +310,11 @@ def ajaxpost(request):
     request_duration = request.POST['durationHourEdit']+"Hour"+request.POST['durationDayEdit']+"Day"+request.POST['durationPieceEdit']+"Piece"
     edit_request.request_duration = request_duration
     edit_request.priority = request.POST['priorityEdit']
-    edit_request.server_ID = request.POST['serverIdEdit']
+    server_ID=""
+    for i in request.POST.getlist('serverIdEdit[]'):
+        if i != "":
+            server_ID += i + ","
+    edit_request.server_ID = server_ID[:-1] 
     if request.POST['applicationTimeEdit'] != '':
         edit_request.application_time = request.POST['applicationTimeEdit']
     edit_request.save()

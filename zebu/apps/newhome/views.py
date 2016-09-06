@@ -3,8 +3,13 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect,StreamingHttpResponse
 from common import com_def
 from ..request.models import RequestTable
+from ..newhome.models import ResourceTable
 # Create your views here.
 def newHomePage(request, **kwargs):
+    resource_tab = ResourceTable.objects.all().order_by("id")
+    resourceid_list=[]
+    for tab in resource_tab:
+        resourceid_list.append(tab.resource_id)
     valid_duration = []
     valid_requestduration_piece = []
     valid_requestduration_day = []
@@ -61,8 +66,8 @@ def newHomePage(request, **kwargs):
                                             priority=priority,
                                             server_ID=server_ID,
                                             application_time=application_time)
-        return HttpResponseRedirect('/newhome/', {'valid_duration': valid_duration, "productlist": productlist})
+        return HttpResponseRedirect('/newhome/', {'valid_duration': valid_duration, "productlist": productlist,"resourceid_list":resourceid_list})
     else:
-        return render(request, 'newhome/newhome.html', {'valid_duration': valid_duration, "productlist": productlist})
+        return render(request, 'newhome/newhome.html', {'valid_duration': valid_duration, "productlist": productlist,"resourceid_list":resourceid_list})
 
 

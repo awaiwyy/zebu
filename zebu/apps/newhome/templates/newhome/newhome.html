@@ -249,9 +249,9 @@
 											<li>                               
                                   			<div class="input-group">
 												<select data-placeholder=" " class="chosen-select" multiple tabindex="4" id="serverId" name="serverId">
-													<option value="ZEBU01,M0&1">ZEBU01,M0&1</option>
-													<option value="ZEBU02,M0&2">ZEBU02,M0&2</option>
-													<option value="ZEBU03,M0&3">ZEBU03,M0&3</option>
+													{% for index in resourceid_list%}
+													<option value={{index}}>{{index}}</option>
+													{% endfor%}
 												</select>
 											</div>
                                     		</li>

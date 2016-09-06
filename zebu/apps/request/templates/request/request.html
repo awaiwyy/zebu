@@ -293,9 +293,9 @@
                                     <li>                               
                                   <div class="input-group">
                                   <select data-placeholder=" " class="chosen-select" multiple tabindex="4" id="serverId" name="serverId">
-                                      <option value="ZEBU01,M0&1">ZEBU01,M0&1</option>
-                                      <option value="ZEBU02,M0&2">ZEBU02,M0&2</option>
-                                      <option value="ZEBU03,M0&3">ZEBU03,M0&3</option>
+                                    {% for index in resourceid_list%}
+									<option value={{index}}>{{index}}</option>
+									{% endfor%}
                                   </select>
                                   </div>
                                     </li>
@@ -665,14 +665,21 @@
                                                     <ul>
                                                         <li class="rqleft">Request Resource ID:</li>
                                                         <li>
-                                                            <span>
-                                                                <select class="borderWidth" id="serverIdEdit{{tab.id}}" name="serverIdEdit">
-                                                                    <option selected>{{tab.server_ID}}</option>
-                                                                    <option >ZEBU01,M0&1</option>
-                                                                    <option>ZEBU02,M0&2</option>
-                                                                    <option>ZEBU03,M0&3</option>
+                                                        <div class="input-group">
+                                                            
+                                                                <select data-placeholder=" " class="chosen-select" multiple tabindex="4" id="serverIdEdit{{tab.id}}" name="serverIdEdit">
+                                                                {% for key,value in serverid_list.items %}
+																{% ifequal key tab.id %}
+																{% for index in value.0%}
+																<option selected value={{index}}>{{index}}</option>
+																{% endfor%}
+																{% for index in value.1%}
+																<option value={{index}}>{{index}}</option>
+																{% endfor%}
+																{% endifequal%}
+																{% endfor%}
                                                                 </select>
-                                                            </span>
+                                                        </div>    
                                                         </li>
                                                     </ul>
                                                     <ul>
