@@ -18,6 +18,7 @@
 <link href="/static/css/application.css" type="text/css" rel="stylesheet" />
 <link href="/static/css/filter.css" type="text/css" rel="stylesheet" />
 <link href="/static/css/bootstrap-datetimepicker.css" type="text/css" rel="stylesheet"/>
+<link href="/static/css/chosen.css" type="text/css" rel="stylesheet" />
 <style type="text/css">
         .bg{ display: none;  position: absolute;  top: 0%;  left: 0%;  width: 100%;  height: 100%;  background-color: black;  z-index:1001;  -moz-opacity: 0.7;  opacity:.70;  filter: alpha(opacity=70);}
         .shownote{ display: none;  position: absolute;  top: 75%;  left: 30%; height: 80px; width: 30%; line-height:80px; border: 1px solid #E8E9F7;  background-color: white;  z-index:1002;text-align:center;font-size:14px}
@@ -51,6 +52,7 @@
 <script src="/static/js/bootstrap.min.js"></script>
 <script src="/static/js/chosen.jquery.js"></script>
 <script src="/static/js/bootstrap-datetimepicker.js"></script>
+<script src="/static/js/chosen.jquery.js"></script>
 <script type="text/javascript">
 	/mobi/i.test(navigator.userAgent) && !location.hash
 			&& setTimeout(function() {
@@ -699,15 +701,18 @@ function hidediv(tab_id) {
 														<ul>
                                                         <li class="rqleft">Assigned Resource ID:</li>
                                                         <li>
-                                                            <span>
-                                                                <select class="borderWidth" id="assignIdEdit{{tab.id}}" name="assignIdEdit">
-                                                                    <option selected>{{tab.assign_ID}}</option>
-                                                                    <option >ZEBU01,M0&1</option>
-                                                                    <option>ZEBU02,M0&2</option>
-                                                                    <option>ZEBU03,M0&3</option>
-                                                                </select>
-                                                            </span>
-                                                        </li>
+														<div class="input-group">
+															<select data-placeholder=" " class="chosen-select" multiple tabindex="4" id="assignIdEdit{{tab.id}}" name="assignIdEdit">
+																{% for key,value in assignid_list.items %}
+																{% ifequal key tab.id %}
+																{% for index in value%}
+																<option selected value={{key}}>{{index}}</option>
+																{% endfor%}
+																{% endifequal%}
+																{% endfor%}
+															</select>
+														</div>
+                                                        </li>		
                                                     </ul>
                                                     <ul>
                                                         <li class="rqleft">Assigned Time:</li>
@@ -1153,6 +1158,7 @@ function hidediv(tab_id) {
 	</div>
 	<script src="/static/js/filter.js"></script>
 	<script>
+		$(".chosen-select").chosen();
 		$(".form_datetime").datetimepicker({
 		format: 'yyyy-mm-dd hh:ii',
 		autoclose : true});

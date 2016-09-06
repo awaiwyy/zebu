@@ -264,6 +264,7 @@ def planPage(request, **kwargs):
                                      'valid_time': valid_time, 'valid_dailyDura': valid_dailyDura,
                                      "history_tab": history_tab,"productlist":productlist})
     else:
+        assignid_list={}
         for tab in plan_tab:
 
             stime = tab.start_time
@@ -383,7 +384,9 @@ def planPage(request, **kwargs):
                 tab.save()
             tab.action_discription = tab.action_discription.replace("\n", "<br>")
             tab.progress = tab.progress.replace("\n", "<br>")  
-        
+            
+            assignid=tab.assign_ID.split(",")
+            assignid_list[tab.id]=assignid
         filter = ""
         prodtlist = productlist
         statlist = statuslist
@@ -478,7 +481,8 @@ def planPage(request, **kwargs):
             "statuslist":statuslist,
             "filter": filter,
             "order":order,
-            "otherpara": otherpara
+            "otherpara": otherpara,
+            "assignid_list":assignid_list
             })
 
 
@@ -503,7 +507,10 @@ def ajaxpost(request):
     edit_plan.priority = request.POST['priorityEdit']
     edit_plan.progress = request.POST['progressEdit']
     edit_plan.server_ID = request.POST['serverIdEdit']
-    edit_plan.assign_ID = request.POST['assignIdEdit']
+    assign_ID=""
+    for i in request.POST.getlist('assignIdEdit[]'):
+        assign_ID += i + ","
+    edit_plan.assign_ID = assign_ID[:-1] 
     if request.POST['assign_starttimeEdit'] != '':
         edit_plan.assign_starttime = request.POST['assign_starttimeEdit']
     if request.POST['assign_endtimeEdit'] != '':
