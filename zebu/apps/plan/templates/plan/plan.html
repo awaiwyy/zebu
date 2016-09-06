@@ -678,16 +678,7 @@ function hidediv(tab_id) {
 														</ul>
 														<ul>
                                                         <li class="rqleft">Request Resource ID:</li>
-                                                        <li>
-                                                            <span>
-                                                                <select class="borderWidth" id="serverIdEdit{{tab.id}}" name="serverIdEdit">
-                                                                    <option selected>{{tab.server_ID}}</option>
-                                                                    <option >ZEBU01,M0&1</option>
-                                                                    <option>ZEBU02,M0&2</option>
-                                                                    <option>ZEBU03,M0&3</option>
-                                                                </select>
-                                                            </span>
-                                                        </li>
+														<li  class="borderBottom">{{tab.server_ID}}</li>
                                                     </ul>
                                                     <ul>
                                                         <li class="rqleft">Request Use Time:</li>
@@ -705,8 +696,12 @@ function hidediv(tab_id) {
 															<select data-placeholder=" " class="chosen-select" multiple tabindex="4" id="assignIdEdit{{tab.id}}" name="assignIdEdit">
 																{% for key,value in assignid_list.items %}
 																{% ifequal key tab.id %}
-																{% for index in value%}
-																<option selected value={{key}}>{{index}}</option>
+																resourceid_list
+																{% for index in value.0%}
+																<option selected value={{index}}>{{index}}</option>
+																{% endfor%}
+																{% for index in value.1%}
+																<option value={{index}}>{{index}}</option>
 																{% endfor%}
 																{% endifequal%}
 																{% endfor%}
@@ -1220,7 +1215,7 @@ function hidediv(tab_id) {
                             'environmentEdit': $("#environmentEdit" + product_id).val(),
 							'priorityEdit':$('#priorityEdit' + product_id).val(),
 							'progressEdit':$('#progressEdit' + product_id).val(),
-							'serverIdEdit':$('#serverIdEdit' + product_id).val(),
+							
 							'assignIdEdit':$('#assignIdEdit' + product_id).val(),
 							'assign_starttimeEdit':$('#assign_starttimeEdit' + product_id).val(),
 							'assign_endtimeEdit':$('#assign_endtimeEdit' + product_id).val(),
@@ -1273,7 +1268,7 @@ function hidediv(tab_id) {
 							$("#readaction_discription" + product_id).text($('#actionDiscriptionEdit' + product_id).val());
 							$("#environment" + product_id).text($('#environmentEdit' + product_id).val());
 							$("#priority" + product_id).text($('#priorityEdit' + product_id).val());
-							$("#serverid"+product_id).text($('#serverIdEdit'+product_id).val());
+							
 							$("#readstatus" + product_id).text($('#statusEdit' + product_id).val());
 							$("#progress" + product_id).text($('#progressEdit' + product_id).val());
 							if(ret.edit_stime != "-- ::"){
@@ -1327,7 +1322,7 @@ function hidediv(tab_id) {
 							}
 							$("#next_target" + product_id).text($('#next_targetEdit' + product_id).val());
 							$("#totalduration" + product_id).text(ret.total+"Hour");
-							$("#assignid" + product_id).text($('#assignIdEdit' + product_id).val());
+							$("#assignid" + product_id).text(ret.assign_ID);
 							$("#assign_starttime" + product_id).text($('#assign_starttimeEdit' + product_id).val());
 							$("#assign_endtime" + product_id).text($('#assign_endtimeEdit' + product_id).val());
 

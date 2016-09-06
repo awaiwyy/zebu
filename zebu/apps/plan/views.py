@@ -5,6 +5,7 @@ from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from ..request.models import RequestTable
 from ..request.models import TotalTable
+from ..newhome.models import ResourceTable
 import time, datetime
 from dateutil import tz
 from common import com_def
@@ -16,6 +17,7 @@ import xlsxwriter
 from common import sendEmail
 from email.mime.text import MIMEText
 from email.header import Header
+import copy
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -142,6 +144,10 @@ def exportPlanTab(request):
 
 
 def planPage(request, **kwargs):
+    resource_tab = ResourceTable.objects.all().order_by("id")
+    resourceid_list=[]
+    for tab in resource_tab:
+        resourceid_list.append(tab.resource_id)
     productlist = com_def.productlist[:]
     statuslist = com_def.statuslist[:]
     history_tab = TotalTable.objects.all().exclude(change_date=datetime.date.today()).order_by("change_date")
@@ -386,7 +392,11 @@ def planPage(request, **kwargs):
             tab.progress = tab.progress.replace("\n", "<br>")  
             
             assignid=tab.assign_ID.split(",")
-            assignid_list[tab.id]=assignid
+            assignid_unselected=copy.deepcopy(resourceid_list)
+            if assignid != ['']:
+                for id in assignid:
+                    assignid_unselected.remove(id)
+            assignid_list[tab.id]=[assignid,assignid_unselected]
         filter = ""
         prodtlist = productlist
         statlist = statuslist
@@ -506,10 +516,10 @@ def ajaxpost(request):
     # edit_plan.request_duration = request.POST['requestDurationEdit']
     edit_plan.priority = request.POST['priorityEdit']
     edit_plan.progress = request.POST['progressEdit']
-    edit_plan.server_ID = request.POST['serverIdEdit']
     assign_ID=""
     for i in request.POST.getlist('assignIdEdit[]'):
-        assign_ID += i + ","
+        if i != "":
+            assign_ID += i + ","
     edit_plan.assign_ID = assign_ID[:-1] 
     if request.POST['assign_starttimeEdit'] != '':
         edit_plan.assign_starttime = request.POST['assign_starttimeEdit']
@@ -806,6 +816,7 @@ def ajaxpost(request):
     'daily_dura':daily_dura,
     'total':total,
     'utc_time': str(utc_ctime),
-    'newaddidlist':newaddidlist}
+    'newaddidlist':newaddidlist,
+    'assign_ID':edit_plan.assign_ID}
     return HttpResponse(json.dumps(success_dict),
                         content_type="application/json")
