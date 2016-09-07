@@ -72,6 +72,40 @@
    
 }
 
+
+function checknull(tab_id){
+	checkid=checkassignid(tab_id);
+	checktime=checkassigntime(tab_id);
+	if (checkid && checktime){
+		return true;
+	}else{
+		return false;
+	}
+}
+
+function checkassignid(tab_id){
+	var assignid = $("#assignIdEdit" + tab_id).val();
+	if(assignid == '' || assignid == null){
+		$("#checkassignid"+tab_id).text("请选择Assigned Resource ID.");
+		return false;
+	}else{
+		$("#checkassignid"+tab_id).text("");
+		return true;
+	}
+}
+
+function checkassigntime(tab_id){
+	var assignstarttime =$("#assign_starttimeEdit" + tab_id).val();
+	var assignendtime =$("#assign_endtimeEdit" + tab_id).val();
+	if(assignstarttime == '' || assignendtime == ''){
+		$("#checkassigntime"+tab_id).text("请填完整Assigned Time.");
+		return false;
+	}else{
+		$("#checkassigntime"+tab_id).text("");
+		return true;
+	}
+}
+
 function validatetime(tab_id) {
 	var status = document.getElementById("statusEdit" + tab_id).value;
 	var closeDate = new Date();
@@ -706,6 +740,7 @@ function hidediv(tab_id) {
 																{% endfor%}
 															</select>
 														</div>
+														<p id="checkassignid{{tab.id}}" style="text-align:left;color:red"></p>
                                                         </li>		
                                                     </ul>
                                                     <ul>
@@ -715,6 +750,7 @@ function hidediv(tab_id) {
                                                                 From:<input size="16" type="text" value="{{tab.assign_starttime | date:'Y-m-d H:i'}}" id="assign_starttimeEdit{{tab.id}}" name="assign_starttimeEdit" class="form_datetime">
 																To:<input size="16" type="text" value="{{tab.assign_endtime | date:'Y-m-d H:i'}}" id="assign_endtimeEdit{{tab.id}}" name="assign_endtimeEdit" class="form_datetime">
                                                             </span>
+															<p id="checkassigntime{{tab.id}}" style="text-align:left;color:red"></p>
                                                         </li>
 														</ul>
 														<ul>
@@ -1189,7 +1225,7 @@ function hidediv(tab_id) {
 			}
 			var arrVal = arrVals.substring(0, arrVals.length-1);
 		}
-		if(validatetime(id)){
+		if(validatetime(id) && checknull(id)){
         postData(id,arrId,arrVal);
         }
     }

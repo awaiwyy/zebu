@@ -27,6 +27,7 @@
 </style>
 <!-- js -->
 <script src="/static/js/jquery-1.11.1.min.js"></script>
+<script src="/static/js/jquery.validate.min.js"></script>
 <script src="/static/js/bootstrap.min.js"></script>
 <script src="/static/js/bootstrap-datetimepicker.js"></script>
 <script src="/static/js/jquery.dataTables.js"></script>
@@ -132,7 +133,7 @@
 								<h4 class="modal-title" id="NewModalLabel">New Application</h4>
 							</div>
 							<div class="modal-body">
-								<form id="newapp" class="modalForm" method="POST" role="form" >
+								<form id="newapp" class="modalForm" method="POST" role="form" onsubmit="return checknull()">
 									{% csrf_token %}
 									<div class="modalFormContent">
 										<ul>
@@ -254,6 +255,7 @@
 													{% endfor%}
 												</select>
 											</div>
+											<p id="checkserverid" style="text-align:left;color:red"></p>
                                     		</li>
 										</ul>
 										<ul>
@@ -262,6 +264,7 @@
 												<span>
 													<input size="16" type="text" value="" readonly id="datetimepicker" name="applicationTime" class="form_datetime">
 												</span>
+												<p id="checktime" style="text-align:center;color:red"></p>
 											</li>
 										</ul>
 										<script type="text/javascript">
@@ -269,7 +272,6 @@
 												format: 'yyyy-mm-dd hh:ii',
 												autoclose : true});
 										</script>
-										<p id="checktime" style="text-align:center;color:red"></p>
 										<ul>
 											<li class="new_rqleft">Request Duration:</li>
 											<li><select name="durationHourEdit">
@@ -398,6 +400,64 @@
 		$('#resourcetable').dataTable({
 		});
 	});
+
+	function checkserverid(){
+		var serverid = $("#serverId").val();
+		if (serverid == null){
+			$("#checkserverid").text("请输入Server ID");
+            return false;
+		}
+		else{
+			$("#checkserverid").text("");
+            return true;
+		}
+	}
+	function checktime(){
+        var applicationtime=document.getElementById("datetimepicker").value;
+        if (!applicationtime){
+            $("#checktime").text("请输入Application Time");
+            return false;
+        }
+		else{
+			$("#checktime").text("");
+            return true;
+		}
+    }
+	function checknull(){
+		checkt=checktime();
+		checkid=checkserverid();
+		if(checkt && checkid){
+			return true;
+		}else{
+			return false;
+		}
+	}
+
+$.validator.addMethod("selectval", function (value, element) {
+    if (value == "") {
+        $("#errormsg").text("Duration is required");
+        return false;
+    }
+    else {
+        return true;
+    }
+}, "")
+
+$("#newapp").validate({
+    rules: {
+        durationHourEdit: {
+            selectval: true,
+        },
+        durationDayEdit: {
+            selectval: true
+        },
+        durationPieceEdit: {
+            selectval: true
+        }
+    },
+			 messages: {
+			 }
+});
 </script>
 </body>
 </html>

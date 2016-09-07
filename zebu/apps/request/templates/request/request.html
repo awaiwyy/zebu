@@ -61,12 +61,47 @@
 					window.scrollTo(0, 1);
 			}, 1000);
 
+    function checknulledit(tab_id){
+        var serverid = $("#serverIdEdit"+tab_id).val();
+        if (serverid == '' || serverid == null){
+            $("#checknulledit"+tab_id).text("请选择Request Resource ID.");
+		    return false;
+        }else{
+            $("#checknulledit"+tab_id).text("");
+		    return true;
+        }
+    }
+
+    function checknull(){
+		checkt=checktime();
+		checkid=checkserverid();
+		if(checkt && checkid){
+			return true;
+		}else{
+			return false;
+		}
+	} 
+
+    function checkserverid(){
+		var serverid = $("#serverId").val();
+		if (serverid == null){
+			$("#checkserverid").text("请输入Server ID");
+            return false;
+		}
+		else{
+			$("#checkserverid").text("");
+            return true;
+		}
+	}        
 
     function checktime(){
         var applicationtime=document.getElementById("datetimepicker").value;
         if (!applicationtime){
             $("#checktime").text("请输入Request Use Time");
             return false;
+        }else{
+            $("#checktime").text("");
+            return true;
         }
     }
 	var flag_browser = "other";
@@ -174,7 +209,7 @@
                         <h4 class="modal-title" id="NewModalLabel">New Application</h4>
                     </div>
                     <div class="modal-body">
-                        <form id="newapp" class="modalForm" method="POST" role="form" onsubmit="return checktime()">
+                        <form id="newapp" class="modalForm" method="POST" role="form" onsubmit="return checknull()">
                             {% csrf_token %}
                             <div class="modalFormContent">
                                 <ul>
@@ -298,6 +333,7 @@
 									{% endfor%}
                                   </select>
                                   </div>
+                                  <p id="checkserverid" style="text-align:left;color:red"></p>
                                     </li>
                                 </ul>
                                 <ul>
@@ -306,6 +342,7 @@
                                       <span>
                                       <input size="16" type="text" value="" readonly id="datetimepicker" name="applicationTime" class="form_datetime">
                                       </span>
+                                      <p id="checktime" style="text-align:center;color:red"></p>
                                       </li>
                                 </ul>
                                 <script type="text/javascript">
@@ -313,7 +350,6 @@
                                         format: 'yyyy-mm-dd hh:ii',
                                         autoclose : true});
                                 </script>
-                                <p id="checktime" style="text-align:center;color:red"></p>
                                 <ul>
                                     <li class="new_rqleft">Request Duration:</li>
                                     <!--<li>
@@ -679,7 +715,8 @@
 																{% endifequal%}
 																{% endfor%}
                                                                 </select>
-                                                        </div>    
+                                                        </div>  
+                                                        <p id="checknulledit{{tab.id}}" style="text-align:left;color:red"></p>  
                                                         </li>
                                                     </ul>
                                                     <ul>
@@ -897,7 +934,9 @@ function dofilter(){
 	window.location.href="?p="+getproduct+"&a="+getacceptance+"&order="+getorder;
 	}
 function submitModal(id) {
+    if (checknulledit(id)){
     postData(id);
+    }
 }
 
 function postData(product_id) {
