@@ -28,5 +28,6 @@ def send_mail(sub,content,to_list):
         smtpObj.login(mail_user,mail_pass)
         smtpObj.sendmail(sender, to_list, msg.as_string())
         return True
-    except smtplib.SMTPException:
+    except Exception,ex:
+        print 'Exception', ':', ex
         return False
