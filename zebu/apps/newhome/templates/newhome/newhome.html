@@ -123,7 +123,7 @@
                 </tr>
                 {% endif %}
 				</div>
-				        <!--弹出模态框（Modal） -->
+				<!--弹出模态框（Modal） -->
 				<div class="modal fade" id="NewModal" tabindex="-1" role="dialog" aria-labelledby="NewModalLabel" aria-hidden="true">
 					<div class="modal-dialog" style="width:800px">
 						<div class="modal-content">
@@ -316,9 +316,9 @@
 					</div>
 				</div>
 				<!-- 添加模态框（Modal）结束 -->
-				<div style="margin-top:16px" >
+				<div style="margin-top:16px"  >
 					<table id="resourcetable" class="display" cellspacing="0" width="100%" >
-						<thead>
+						<thead >
 						<tr>
 							<th>Number</th>
 							<th>Resource Name</th>
@@ -330,36 +330,65 @@
 						</tr>
 						</thead>
 						<tbody>
+						{% for item in resource_list %}
 						<tr>
-							<td>1</td>
-							<td>1</td>
-							<td>1</td>
-							<td>1</td>
-							<td>1</td>
-							<td>1</td>
-							<td>1</td>
+							<td>{{item.number}}</td>
+							<td>{{item.resource}}</td>
+							<td>{{item.status}}</td>
+							<td>{{item.current_left}}</td>
+							<td>{{item.total_left}}</td>
+							<td>{{item.user}}</td>
+							<td ><a data-toggle="modal" data-target="#taskListModal{{item.number}}"  style="cursor:pointer">{{item.task_num}}</a></td>
 						</tr>
-						<tr>
-							<td>2</td>
-							<td>2</td>
-							<td>2</td>
-							<td>2</td>
-							<td>2</td>
-							<td>2</td>
-							<td>2</td>
-						</tr>
-						<tr>
-							<td>3</td>
-							<td>3</td>
-							<td>2</td>
-							<td>2</td>
-							<td>2</td>
-							<td>2</td>
-							<td>2</td>
-						</tr>
+						{% endfor %}
 						</tbody>
 					</table>
 				</div>
+				<!--弹出模态框（Modal） -->
+					{% for item in resource_list %}
+					<div class="modal fade" id="taskListModal{{item.number}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+						<div class="modal-dialog" style = "width:800px">
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+									<h4 class="modal-title">Task List</h4>
+								</div>
+								<div class="modal-body">
+									<table id="taskList" class="taskListTable">
+										<thead>
+										<tr>
+											<th style="width: 35px">ID</th>
+											<th style="width: 75px">Product</th>
+											<th>Description</th>
+											<th style="width: 75px">Priority</th>
+											<th>Assigned Time</th>
+											<th>Request Time</th>
+											<th style="width: 80px">Status</th>
+											<th>User</th>
+										</tr>
+										</thead>
+										<tbody>
+										{% for list in item.task_item%}
+										<tr>
+											<td>{{list.Num}}</td>
+											<td>{{list.product}}</td>
+											<td>{{list.description}}</td>
+											<td>{{list.priority}}</td>
+											<td>{{list.ass_starttime |  date:"Y-m-d H:i"}}<br>{{list.ass_endtime |  date:"Y-m-d H:i"}}</td>
+											<td>{{list.req_starttime  | date:"Y-m-d H:i"}}<br>{{list.req_endtime  | date:"Y-m-d H:i"}}</td>
+											<td>{{list.item_status}}</td>
+											<td>{{list.item_user}}</td>
+										</tr>
+										{% endfor%}
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+
+					</div>
+				{% endfor %}
+				<!--弹出模态框(Modal)结束-->
 			</div>
 		</div>
 	</div>
@@ -367,7 +396,6 @@
 	$(".chosen-select").chosen();
 	$(document).ready(function(){
 		$('#resourcetable').dataTable({
-			"pagingType":   "full_numbers"
 		});
 	});
 </script>
