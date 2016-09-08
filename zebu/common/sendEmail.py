@@ -16,7 +16,7 @@ message['Subject'] = Header(subject, 'utf-8')
 '''
 
 def send_mail(sub,content,to_list):
-    msg = MIMEText(content,_subtype='plain',_charset='utf-8')  
+    msg = MIMEText(content,_subtype='html',_charset='utf-8')  
     msg['Subject'] = Header(sub, 'utf-8')  
     msg['From'] = sender  
     msg['To'] = ";".join(to_list)
