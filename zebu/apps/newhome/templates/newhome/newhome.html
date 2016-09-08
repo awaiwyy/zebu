@@ -19,6 +19,7 @@
 <link href="/static/css/jquery.dataTables.css" type="text/css" rel="stylesheet"/>
 <link href="/static/css/application.css" type="text/css" rel="stylesheet" />
 <link href="/static/css/chosen.css" type="text/css" rel="stylesheet" />
+<link href="/static/css/filter.css" type="text/css" rel="stylesheet" />
 <!--  <link rel="stylesheet" href="/static/home/css/jquery.webui-popover.min.css">-->
 <style>
 	.error {
@@ -115,6 +116,25 @@
 			</div>
 		</div>
 		<div class="divcenter">
+			<div class="CText">
+            <p>
+                <span class="content" style="padding-right:25px">City：</span> 
+				<button id="select_all_product" class="btn btn-xs" onclick="select_all('product')">ALL</button>
+				{% for tab in city_list %}
+            	<button id="c{{forloop.counter}}" name="filter-product" class="btn btn-white btn-xs" aria-checked="false">{{tab}}</button>
+				{% endfor %}
+            </p>
+            <p>
+                <span class="content">Environment：</span> 
+				<button id="select_all_status" class="btn btn-xs" onclick="select_all('status')">ALL</button>
+            	{% for tab in environment_list %}
+            	<button id="e{{forloop.counter}}" name="filter-status" class="btn btn-white btn-xs" aria-checked="false">{{tab}}</button>
+				{% endfor %}
+            </p>
+            <p><button onclick="dofilter()">Go</button></p>
+			<input style="display:none" id="filter" value="{{filter}}" />
+        </div>
+
 			<div class="newhomeForm">
 				<div data-toggle="modal" data-target="#NewModal" style="cursor:pointer;margin-top:-10px">
                 {% if perms.request.add_requesttable %}
@@ -394,13 +414,18 @@
 			</div>
 		</div>
 	</div>
+<script src="/static/js/filter.js"></script>
 <script>
 	$(".chosen-select").chosen();
 	$(document).ready(function(){
 		$('#resourcetable').dataTable({
 		});
 	});
-
+	function dofilter(){
+	var getcity = get_product();
+    var getenvironment = get_status();
+	window.location.href="?c="+getcity+"&e="+getenvironment;
+	}
 	function checkserverid(){
 		var serverid = $("#serverId").val();
 		if (serverid == null){

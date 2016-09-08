@@ -157,5 +157,17 @@ function initialize()
             $("#" + filter[x]).addClass("filter-selected");
             $("#select_all_status").attr("class", "btn btn-white btn-xs");
         }
+        if (filter[x].substr(0,1) == "c")
+        {
+            $("#" + filter[x]).attr("aria-checked", "true");
+            $("#" + filter[x]).addClass("filter-selected");
+            $("#select_all_product").attr("class", "btn btn-white btn-xs");
+        }
+        if (filter[x].substr(0,1) == "e")
+        {
+            $("#" + filter[x]).attr("aria-checked", "true");
+            $("#" + filter[x]).addClass("filter-selected");
+            $("#select_all_status").attr("class", "btn btn-white btn-xs");
+        }
     }
 }

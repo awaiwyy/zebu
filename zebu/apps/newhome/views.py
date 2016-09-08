@@ -10,8 +10,7 @@ from ..request.models import RequestTable
 from models import ResourceTable
 # Create your views here.
 
-def getHomeData():
-    resourcetable = ResourceTable.objects.all()
+def getHomeData(resourcetable,requesttable_all): 
     resource_list = []
     n = 0
     for tab in resourcetable:
@@ -26,13 +25,13 @@ def getHomeData():
         user = ''
         # 获取当前时间（+0:00时区）
         current_time = datetime.datetime.now(tzutc())
-        assignedtable = RequestTable.objects.filter(assign_ID__contains=resource, assign_starttime__isnull=False,
+        assignedtable = requesttable_all.filter(assign_ID__contains=resource, assign_starttime__isnull=False,
                                                     assign_endtime__gt=current_time).order_by("assign_starttime")
-        requesttable = RequestTable.objects.filter(server_ID__contains=resource,
+        requesttable = requesttable_all.filter(server_ID__contains=resource,
                                                    assign_starttime__isnull=True).order_by("application_time")
-        assign_num = RequestTable.objects.filter(assign_ID__contains=resource, assign_starttime__isnull=False,
+        assign_num = requesttable_all.filter(assign_ID__contains=resource, assign_starttime__isnull=False,
                                                  assign_endtime__gt=current_time).count()
-        request_num = RequestTable.objects.filter(server_ID__contains=resource, assign_starttime__isnull=True).count()
+        request_num = requesttable_all.filter(server_ID__contains=resource, assign_starttime__isnull=True).count()
         if assignedtable:
             assigned_starttime = assignedtable[0].assign_starttime  # 队列第一个任务的assign_starttime
             assigned_endtime = assignedtable[0].assign_endtime  # 队列第一个任务的assign_endtime
@@ -126,7 +125,9 @@ def newHomePage(request, **kwargs):
     resourceid_list=[]
     for tab in resource_tab:
         resourceid_list.append(tab.resource_id)
-    resource_list = getHomeData()
+    resourcetable = ResourceTable.objects.all()
+    requesttable_all=RequestTable.objects.all()
+    resource_list = getHomeData(resourcetable,requesttable_all)
     valid_duration = []
     valid_requestduration_piece = []
     valid_requestduration_day = []
@@ -148,7 +149,8 @@ def newHomePage(request, **kwargs):
     valid_duration.append(valid_requestduration_hour)
     valid_duration.append(valid_requestduration_day)
     valid_duration.append(valid_requestduration_piece)
-    productlist = com_def.productlist[:]
+    city_list = com_def.city_list[:]
+    environment_list = com_def.environment_list[:]
     if request.method == 'POST':
         if 'projectInfo' in request.POST.keys():
             print "into new request from home"
@@ -183,8 +185,28 @@ def newHomePage(request, **kwargs):
                                             server_ID=server_ID,
                                             application_time=application_time)
 
-        return HttpResponseRedirect('/newhome/', {'valid_duration': valid_duration, "productlist": productlist,"resourceid_list":resourceid_list,"resource_list":resource_list})
+        return HttpResponseRedirect('/newhome/', {'valid_duration': valid_duration, "city_list": city_list,"environment_list":environment_list,"resourceid_list":resourceid_list,"resource_list":resource_list})
     else:
-        return render(request, 'newhome/newhome.html', {'valid_duration': valid_duration, "productlist": productlist,"resourceid_list":resourceid_list,"resource_list":resource_list})
+        filter = ""
+        citylist = city_list
+        environmentlist = environment_list
+        if "c" in request.GET.keys():
+            if  request.GET.get("c") != "":
+                citylist = []
+                filter_city = request.GET.get("c")[1:].split(",c")
+                for item in filter_city:
+                    citylist.append(city_list[int(item)-1])
+                    filter += "c" + item + ","
+        if "e" in request.GET.keys():
+            if  request.GET.get("e") != "":
+                environmentlist = []
+                filter_environment = request.GET.get("e")[1:].split(",e")
+                for item in filter_environment:
+                    environmentlist.append(environment_list[int(item)-1])
+                    filter += "e" + item + ","
+        resourcetable = ResourceTable.objects.filter(city__in=citylist)
+        requesttable_all=RequestTable.objects.filter(environment__in=environmentlist)
+        resource_list = getHomeData(resourcetable,requesttable_all)
+        return render(request, 'newhome/newhome.html', {'valid_duration': valid_duration, "city_list": city_list,"environment_list":environment_list,"filter":filter,"resourceid_list":resourceid_list,"resource_list":resource_list})
 
 
