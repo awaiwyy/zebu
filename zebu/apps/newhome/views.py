@@ -9,25 +9,7 @@ from datetime import timedelta,tzinfo
 from ..request.models import RequestTable
 from models import ResourceTable
 # Create your views here.
-ZERO_TIME_DELTA = timedelta(0)
-LOCAL_TIME_DELTA = timedelta(hours=8)  # 本地时区偏差
 
-class UTC(tzinfo):
-    def utcoffset(self, dt):
-        return ZERO_TIME_DELTA
-
-    def dst(self, dt):
-        return ZERO_TIME_DELTA
-
-# class LocalTimezone(tzinfo):
-#     def utcoffset(self, dt):
-#         return LOCAL_TIME_DELTA
-#
-#     def dst(self, dt):
-#         return ZERO_TIME_DELTA
-#
-#     def tzname(self, dt):
-#         return '+08:00'
 def getHomeData():
     resourcetable = ResourceTable.objects.all()
     resource_list = []

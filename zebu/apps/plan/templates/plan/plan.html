@@ -525,7 +525,7 @@ function hidediv(tab_id) {
                                                 <li id="serverid{{tab.id}}" class="borderBottom">{{tab.server_ID}}</li>
                                             </ul>
                                              <ul>
-                                                <li class="rqleft">Request Use Time:</li>
+                                                <li class="rqleft">Request Start Time:</li>
                                                 <li class="borderBottom">{{tab.application_time | date:"Y-m-d H:i"}}</li>
                                             </ul>
 											<ul>
@@ -715,7 +715,7 @@ function hidediv(tab_id) {
 														<li  class="borderBottom">{{tab.server_ID}}</li>
                                                     </ul>
                                                     <ul>
-                                                        <li class="rqleft">Request Use Time:</li>
+                                                        <li class="rqleft">Request Start Time:</li>
                                                         <li class="borderBottom">
                                                             <span>
                                                                 <input size="16" type="text" value="{{tab.application_time | date:'Y-m-d H:i'}}" readonly id="applicationTimeEdit{{tab.id}}" name="applicationTimeEdit" >
@@ -747,8 +747,8 @@ function hidediv(tab_id) {
                                                         <li class="rqleft">Assigned Time:</li>
                                                         <li>
                                                             <span>
-                                                                From:<input size="16" type="text" value="{{tab.assign_starttime | date:'Y-m-d H:i'}}" id="assign_starttimeEdit{{tab.id}}" name="assign_starttimeEdit" class="form_datetime">
-																To:<input size="16" type="text" value="{{tab.assign_endtime | date:'Y-m-d H:i'}}" id="assign_endtimeEdit{{tab.id}}" name="assign_endtimeEdit" class="form_datetime">
+                                                                From:<input style="line-height:normal" size="16" type="text" value="{{tab.assign_starttime | date:'Y-m-d H:i'}}" id="assign_starttimeEdit{{tab.id}}" name="assign_starttimeEdit" class="form_datetime">
+																To:<input style="line-height:normal" size="16" type="text" value="{{tab.assign_endtime | date:'Y-m-d H:i'}}" id="assign_endtimeEdit{{tab.id}}" name="assign_endtimeEdit" class="form_datetime">
                                                             </span>
 															<p id="checkassigntime{{tab.id}}" style="text-align:left;color:red"></p>
                                                         </li>
