@@ -18,12 +18,13 @@ if django.VERSION >= (1, 7):#自动判断版本
 
 def main():
     from apps.newhome.models import ResourceTable
-    f = open('resource_list.txt')
+    f = open('resource_list.txt','r')
 
-    for line in f:
+    for line1 in f.readlines():
+        line = line1.strip('\n')
         name,city = line.split(',')
         #print '#####################'
-        #print name,city
+        #print name,city,len(city)
         ResourceTable.objects.get_or_create(resource_id=name,city=city)
 
     f.close()
