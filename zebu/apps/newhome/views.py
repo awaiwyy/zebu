@@ -152,6 +152,7 @@ def newHomePage(request, **kwargs):
     valid_duration.append(valid_requestduration_hour)
     valid_duration.append(valid_requestduration_day)
     valid_duration.append(valid_requestduration_piece)
+    productlist=com_def.productlist[:]
     city_list = com_def.city_list[:]
     environment_list = com_def.environment_list[:]
     if request.method == 'POST':
@@ -188,7 +189,7 @@ def newHomePage(request, **kwargs):
                                             server_ID=server_ID,
                                             application_time=application_time)
 
-        return HttpResponseRedirect('/newhome/', {'valid_duration': valid_duration, "city_list": city_list,"environment_list":environment_list,"resourceid_list":resourceid_list,"resource_list":resource_list})
+        return HttpResponseRedirect('/newhome/', {'valid_duration': valid_duration, "city_list": city_list,"environment_list":environment_list,"productlist":productlist,"resourceid_list":resourceid_list,"resource_list":resource_list})
     else:
         filter = ""
         citylist = city_list
@@ -210,6 +211,6 @@ def newHomePage(request, **kwargs):
         resourcetable = ResourceTable.objects.filter(city__in=citylist)
         requesttable_all=RequestTable.objects.filter(environment__in=environmentlist)
         resource_list = getHomeData(resourcetable,requesttable_all)
-        return render(request, 'newhome/newhome.html', {'valid_duration': valid_duration, "city_list": city_list,"environment_list":environment_list,"filter":filter,"resourceid_list":resourceid_list,"resource_list":resource_list})
+        return render(request, 'newhome/newhome.html', {'valid_duration': valid_duration, "city_list": city_list,"environment_list":environment_list,"productlist":productlist,"filter":filter,"resourceid_list":resourceid_list,"resource_list":resource_list})
 
 
