@@ -31,21 +31,21 @@ def main():
     newtime4 = current + datetime.timedelta(days=7)
     record=[]
     #CN_ZEBU_M0 assign_starttime在未来newtime1
-    item0=["iwhale","Performance","APPS","Power-CHIP","GFS Benchmark","Zebu-JC","15Hour02Day01Piece","gaijy0309","Normal","2016-09-07","ongoing","true","Yes",oldtime1,"CN_ZEBU_M0","CN_ZEBU_M0",newtime1,newtime2]
+    item0=["iwhale2","Performance","APPS","Power-CHIP","GFS Benchmark","Zebu-JC","15Hour02Day01Piece","gaijy0309@spreadst.com","Normal","2016-09-07","ongoing","true","Yes",oldtime1,"CN_ZEBU_M0","CN_ZEBU_M0",newtime1,newtime2]
     #CN_ZEBU_M1 没有assign，申请时间oldtime1
-    item1=["iwhale","Performance","APPS","Power-CHIP","GFS Benchmark","Zebu-JC","15Hour02Day01Piece","gaijy0309","Normal","2016-09-07","ongoing","false","No",oldtime1,"CN_ZEBU_M1","",None,None]
+    item1=["iwhale2","Performance","APPS","Power-CHIP","GFS Benchmark","Zebu-JC","15Hour02Day01Piece","gaijy0309@spreadst.com","Normal","2016-09-07","ongoing","false","No",oldtime1,"CN_ZEBU_M1","",None,None]
     #CN_ZEBU_M1 没有assign，newtime1
-    item2=["iwhale","Performance","APPS","Power-CHIP","GFS Benchmark","Zebu-JC","15Hour02Day01Piece","gaijy0309","Normal","2016-09-07","ongoing","true","Yes",newtime1,"CN_ZEBU_M1","",None,None]
+    item2=["iwhale2","Performance","APPS","Power-CHIP","GFS Benchmark","Zebu-JC","15Hour02Day01Piece","gaijy0309@spreadst.com","Normal","2016-09-07","ongoing","true","Yes",newtime1,"CN_ZEBU_M1","",None,None]
     #CN_ZEBU_M1 assign_endtime在过去，不应列在队列中
-    item3=["iwhale","Performance","APPS","Power-CHIP","GFS Benchmark","Zebu-JC","15Hour02Day01Piece","gaijy0309","Normal","2016-09-07","ongoing","true","Yes",oldtime1,"CN_ZEBU_M1","CN_ZEBU_M1",oldtime1,oldtime2]
+    item3=["iwhale2","Performance","APPS","Power-CHIP","GFS Benchmark","Zebu-JC","15Hour02Day01Piece","gaijy0309@spreadst.com","Normal","2016-09-07","ongoing","true","Yes",oldtime1,"CN_ZEBU_M1","CN_ZEBU_M1",oldtime1,oldtime2]
     #CN_ZEBU_M1 currenttime在assign_starttime和assign_endtime之间
-    item4=["iwhale","Performance","APPS","Power-CHIP","GFS Benchmark","Zebu-JC","15Hour02Day01Piece","gaijy0309","Normal","2016-09-07","ongoing","true","Yes",oldtime1,"CN_ZEBU_M1","CN_ZEBU_M1",oldtime1,newtime1]
+    item4=["iwhale2","Performance","APPS","Power-CHIP","GFS Benchmark","Zebu-JC","15Hour02Day01Piece","gaijy0309@spreadst.com","Normal","2016-09-07","ongoing","true","Yes",oldtime1,"CN_ZEBU_M1","CN_ZEBU_M1",oldtime1,newtime1]
     # CN_ZEBU_M1 assign_starttime等于上一条的assign_endtime，totalleft 应该算上该时间
-    item5=["iwhale","Performance","APPS","Power-CHIP","GFS Benchmark","Zebu-JC","15Hour02Day01Piece","gaijy0309","Normal","2016-09-07","ongoing","true","Yes",oldtime1,"CN_ZEBU_M1,CN_ZEBU_M2","CN_ZEBU_M1,CN_ZEBU_M2",newtime1,newtime2]
+    item5=["iwhale2","Performance","APPS","Power-CHIP","GFS Benchmark","Zebu-JC","15Hour02Day01Piece","gaijy0309@spreadst.com","Normal","2016-09-07","ongoing","true","Yes",oldtime1,"CN_ZEBU_M1,CN_ZEBU_M2","CN_ZEBU_M1,CN_ZEBU_M2",newtime1,newtime2]
     # CN_ZEBU_M1 assign_starttime不等于上一条的assign_endtime，totalleft 不会算上该时间
-    item6=["iwhale","Performance","APPS","Power-CHIP","GFS Benchmark","Zebu-JC","15Hour02Day01Piece","gaijy0309","Normal","2016-09-07","ongoing","true","Yes",oldtime1,"CN_ZEBU_M1","CN_ZEBU_M1",newtime3,newtime4]
+    item6=["iwhale2","Performance","APPS","Power-CHIP","GFS Benchmark","Zebu-JC","15Hour02Day01Piece","gaijy0309@spreadst.com","Normal","2016-09-07","ongoing","true","Yes",oldtime1,"CN_ZEBU_M1","CN_ZEBU_M1",newtime3,newtime4]
     #CN_ZEBU_M2 没有assign
-    item7=["iwhale","Performance","APPS","Power-CHIP","GFS Benchmark","Zebu-JC","15Hour02Day01Piece","gaijy0309","Normal","2016-09-07","ongoing","true","Yes",oldtime2,"CN_ZEBU_M2","",None,None]
+    item7=["iwhale2","Performance","APPS","Power-CHIP","GFS Benchmark","Zebu-JC","15Hour02Day01Piece","gaijy0309@spreadst.com","Normal","2016-09-07","ongoing","true","Yes",oldtime2,"CN_ZEBU_M2","",None,None]
     record.append(item0)
     record.append(item1)
     record.append(item2)
