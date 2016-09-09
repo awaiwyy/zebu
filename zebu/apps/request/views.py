@@ -15,6 +15,7 @@ import thread
 import sys
 from common import xlwt
 from common import sendEmail
+from common import sendEmailTest
 from email.mime.text import MIMEText
 from email.header import Header
 import copy
@@ -187,7 +188,9 @@ def requestUser(request, **kwargs):
                 content = "Dear Managers:<br><br>新增一个zebu资源申请，请知悉并及时处理，申请信息如下，<br>申请人："+owner+"<br>Description："+action_discription+"<br>TF case："+tf_case+"<br>Request_duration:"+request_duration+"<br>Application Time:"+application_time+"<br>Request Zebu Resource ID:"+server_ID+"<br><br>管理系统地址：<a href='http://10.5.2.62'>http://10.5.2.62;</a><br>登录方式为外网域帐号。"
                 subject = owner+'创建了一个zebu资源申请，请登录指定服务器处理'
                 
-                if sendEmail.send_mail(subject,content,receivers):
+                #use sendEmailTest.send_mail() at Nanjing thundersoft site, use sendEmail.send_mail() at spreadtrum site
+                if sendEmail.send_mail(subject, content, receivers):
+                #if sendEmailTest.send_mail(subject,content,receivers):
                     print "send success"
                 else:
                     print"send fail"
