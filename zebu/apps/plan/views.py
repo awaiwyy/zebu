@@ -802,7 +802,7 @@ def ajaxpost(request):
         tf_case = request.POST['tfcaseEdit']
         owner = request.POST['ownerEdit']
         loginUser = request.POST['userInfo']
-        receivers = [owner+'@spreadtrum.com','nicole.wang@spreadtrum.com','chunsi.he@spreadtrum.com','chunji.chen@spreadtrum.com','fiona.zhang@spreadtrum.com','xinpeng.li@spreadtrum.com','guoliang.ren@spreadtrum.com']
+        receivers = [owner+'@spreadtrum.com','nicole.wang@spreadtrum.com','chunsi.he@spreadtrum.com','chunji.chen@spreadtrum.com','fiona.zhang@spreadtrum.com','xinpeng.li@spreadtrum.com','guoliang.ren@spreadtrum.com','ellen.yang@spreadtrum.com']
         #receivers = [owner+'@spreadtrum.com']
         content = "Dear Owner:<br><br>zebu资源使用状态已更改，请知悉并及时处理，信息如下，<br>申请人："+owner+"<br>操作者："+loginUser+"<br>TF case："+tf_case+"Request Zebu Assign ID:"+assign_ID+"<br><br>管理系统地址：<a href='http://10.5.2.62'>http://10.5.2.62;</a><br>登录方式为外网域帐号。"
         #content = '被处理的TF case:'+tf_case+'/被分配使用的时间:'+edit_stime+'/status:'+statusAfter+'/操作者:'+loginUser
