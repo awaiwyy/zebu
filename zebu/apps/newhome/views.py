@@ -8,6 +8,10 @@ from dateutil.tz import *
 from datetime import timedelta,tzinfo
 from ..request.models import RequestTable
 from models import ResourceTable
+from common import sendEmail
+from common import sendEmailTest
+from email.mime.text import MIMEText
+from email.header import Header
 # Create your views here.
 
 def getHomeData(resourcetable): 
@@ -184,6 +188,18 @@ def newHomePage(request, **kwargs):
                                             priority=priority,
                                             server_ID=server_ID,
                                             application_time=application_time)
+                # receivers = [owner+'@spreadtrum.com','nicole.wang@spreadtrum.com','chunsi.he@spreadtrum.com','chunji.chen@spreadtrum.com','fiona.zhang@spreadtrum.com','xinpeng.li@spreadtrum.com','guoliang.ren@spreadtrum.com','ellen.yang@spreadtrum.com']
+                receivers = [owner + '@spreadtrum.com']
+                # TF case/申请人/申请使用开始时间/daily duration/申请使用的zebu
+                content = "Dear Managers:<br><br>新增一个zebu资源申请，请知悉并及时处理，申请信息如下，<br>申请人：" + owner + "<br>Description：" + action_discription + "<br>TF case：" + tf_case + "<br>Request_duration:" + request_duration + "<br>Application Time:" + application_time + "<br>Request Zebu Resource ID:" + server_ID + "<br><br>管理系统地址：<a href='http://10.5.2.62'>http://10.5.2.62;</a><br>登录方式为外网域帐号。"
+                subject = owner + '创建了一个zebu资源申请，请登录指定服务器处理'
+
+                # use sendEmailTest.send_mail() at Nanjing thundersoft site, use sendEmail.send_mail() at spreadtrum site
+                if sendEmail.send_mail(subject, content, receivers):
+                    # if sendEmailTest.send_mail(subject,content,receivers):
+                    print "send success"
+                else:
+                    print"send fail"
 
         return HttpResponseRedirect('/newhome/', {'valid_duration': valid_duration, "city_list": city_list,"environment_list":environment_list,"productlist":productlist,"resourceid_list":resourceid_list,"resource_list":resource_list})
     else:

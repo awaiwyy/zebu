@@ -102,8 +102,14 @@ function checkassigntime(tab_id){
 		return false;
 	}else{
 		$("#checkassigntime"+tab_id).text("");
-		return true;
 	}
+	if(assignstarttime > assignendtime){
+		$("#checkassigntime1"+tab_id).text("Assign EndTime不能早于Assign StartTime");
+		return false;
+	}else{
+		$("#checkassigntime1"+tab_id).text("");
+	}
+	return true;
 }
 
 function validatetime(tab_id) {
@@ -751,6 +757,7 @@ function hidediv(tab_id) {
 																To:<input style="line-height:normal" size="16" type="text" value="{{tab.assign_endtime | date:'Y-m-d H:i'}}" id="assign_endtimeEdit{{tab.id}}" name="assign_endtimeEdit" class="form_datetime">
                                                             </span>
 															<p id="checkassigntime{{tab.id}}" style="text-align:left;color:red"></p>
+															<p id="checkassigntime1{{tab.id}}" style="text-align:left;color:red"></p>
                                                         </li>
 														</ul>
 														<ul>
