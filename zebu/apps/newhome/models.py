@@ -6,3 +6,4 @@ from django.db import models
 class ResourceTable(models.Model):
     resource_id = models.CharField(max_length=50)
     city = models.CharField(max_length=50)
+    environment = models.CharField(max_length=50)

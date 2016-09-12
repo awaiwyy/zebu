@@ -10,7 +10,7 @@ from ..request.models import RequestTable
 from models import ResourceTable
 # Create your views here.
 
-def getHomeData(resourcetable,requesttable_all): 
+def getHomeData(resourcetable): 
     resource_list = []
     n = 0
     for tab in resourcetable:
@@ -25,61 +25,58 @@ def getHomeData(resourcetable,requesttable_all):
         user = ''
         # 获取当前时间（+0:00时区）
         current_time = datetime.datetime.now(tzutc())
-        assignedtable_all = RequestTable.objects.filter(assign_ID__contains=resource, assign_starttime__isnull=False,
+        assignedtable = RequestTable.objects.filter(assign_ID__contains=resource, assign_starttime__isnull=False,
                                                     assign_endtime__gt=current_time).order_by("assign_starttime")
-        assignedtable = requesttable_all.filter(assign_ID__contains=resource, assign_starttime__isnull=False,
-                                                    assign_endtime__gt=current_time).order_by("assign_starttime")
-        requesttable = requesttable_all.filter(server_ID__contains=resource,
+        requesttable = RequestTable.objects.filter(server_ID__contains=resource,
                                                    assign_starttime__isnull=True).order_by("application_time")
-        assign_num = requesttable_all.filter(assign_ID__contains=resource, assign_starttime__isnull=False,
+        assign_num = RequestTable.objects.filter(assign_ID__contains=resource, assign_starttime__isnull=False,
                                                  assign_endtime__gt=current_time).count()
-        request_num = requesttable_all.filter(server_ID__contains=resource, assign_starttime__isnull=True).count()
-        if assignedtable_all:
-            assigned_starttime = assignedtable_all[0].assign_starttime  # 队列第一个任务的assign_starttime
-            assigned_endtime = assignedtable_all[0].assign_endtime  # 队列第一个任务的assign_endtime
+        request_num = RequestTable.objects.filter(server_ID__contains=resource, assign_starttime__isnull=True).count()
+        if assignedtable:
+            assigned_starttime = assignedtable[0].assign_starttime  # 队列第一个任务的assign_starttime
+            assigned_endtime = assignedtable[0].assign_endtime  # 队列第一个任务的assign_endtime
             if assigned_starttime < current_time:
                 status = "Busy"
-                if assignedtable:
-                    user = assignedtable[0].owner
-                    current_delta = assigned_endtime - current_time  # 相差的时间
-                    current_left = current_delta.days * 24 + round(current_delta.seconds / 3600, 1)  # 换成小时为单位,小数点后一位
-                    total_endtime = assigned_endtime  # total_left的结束时间
-                    for i in range(assign_num - 1):
-                        if assignedtable[i].assign_endtime == assignedtable[i + 1].assign_starttime:
-                            total_endtime = assignedtable[i + 1].assign_endtime
-                        else:
-                            break
-                    total_delta = total_endtime - current_time
-                    total_left = total_delta.days * 24 + round(total_delta.seconds / 3600, 1)  # 换成小时为单位
-                    for item in assignedtable:
-                        j = j + 1
-                        task_row = {}
-                        # print "j=" ,j
-                        product = item.project
-                        description = item.action_discription
-                        priority = item.priority
-                        ass_starttime = item.assign_starttime
-                        ass_endtime = item.assign_endtime
-                        req_starttime = item.application_time
-                        delta_days = int((item.request_duration.split('r')[1]).split('D')[0])
-                        req_endtime = req_starttime + datetime.timedelta(days=delta_days)
-                        item_status = "Wait"
-                        if ass_starttime < current_time:
-                            item_status = "Inprogress"
-                        item_user = item.owner
-                        task_row['Num'] = j
-                        task_row['product'] = product
-                        task_row['description'] = description
-                        task_row['priority'] = priority
-                        task_row['ass_starttime'] = ass_starttime
-                        task_row['ass_endtime'] = ass_endtime
-                        task_row['req_starttime'] = req_starttime
-                        task_row['req_endtime'] = req_endtime
-                        task_row['item_status'] = item_status
-                        task_row['item_user'] = item_user
-                        task_item.append(task_row)
-                        # print "num",task_row['Num']
-                        # print "itemqqq",task_item
+                user = assignedtable[0].owner
+                current_delta = assigned_endtime - current_time  # 相差的时间
+                current_left = current_delta.days * 24 + round(current_delta.seconds / 3600, 1)  # 换成小时为单位,小数点后一位
+                total_endtime = assigned_endtime  # total_left的结束时间
+                for i in range(assign_num - 1):
+                    if assignedtable[i].assign_endtime == assignedtable[i + 1].assign_starttime:
+                        total_endtime = assignedtable[i + 1].assign_endtime
+                    else:
+                        break
+                total_delta = total_endtime - current_time
+                total_left = total_delta.days * 24 + round(total_delta.seconds / 3600, 1)  # 换成小时为单位
+            for item in assignedtable:
+                j = j + 1
+                task_row = {}
+                # print "j=" ,j
+                product = item.project
+                description = item.action_discription
+                priority = item.priority
+                ass_starttime = item.assign_starttime
+                ass_endtime = item.assign_endtime
+                req_starttime = item.application_time
+                delta_days = int((item.request_duration.split('r')[1]).split('D')[0])
+                req_endtime = req_starttime + datetime.timedelta(days=delta_days)
+                item_status = "Wait"
+                if ass_starttime < current_time:
+                    item_status = "Inprogress"
+                item_user = item.owner
+                task_row['Num'] = j
+                task_row['product'] = product
+                task_row['description'] = description
+                task_row['priority'] = priority
+                task_row['ass_starttime'] = ass_starttime
+                task_row['ass_endtime'] = ass_endtime
+                task_row['req_starttime'] = req_starttime
+                task_row['req_endtime'] = req_endtime
+                task_row['item_status'] = item_status
+                task_row['item_user'] = item_user
+                task_item.append(task_row)
+                # print "num",task_row['Num']
+                # print "itemqqq",task_item
         if requesttable:
             for item in requesttable:
                 j = j + 1
@@ -129,8 +126,7 @@ def newHomePage(request, **kwargs):
     for tab in resource_tab:
         resourceid_list.append(tab.resource_id)
     resourcetable = ResourceTable.objects.all()
-    requesttable_all=RequestTable.objects.all()
-    resource_list = getHomeData(resourcetable,requesttable_all)
+    resource_list = getHomeData(resourcetable)
     valid_duration = []
     valid_requestduration_piece = []
     valid_requestduration_day = []
@@ -208,9 +204,8 @@ def newHomePage(request, **kwargs):
                 for item in filter_environment:
                     environmentlist.append(environment_list[int(item)-1])
                     filter += "e" + item + ","
-        resourcetable = ResourceTable.objects.filter(city__in=citylist)
-        requesttable_all=RequestTable.objects.filter(environment__in=environmentlist)
-        resource_list = getHomeData(resourcetable,requesttable_all)
+        resourcetable = ResourceTable.objects.filter(city__in=citylist,environment__in=environmentlist)
+        resource_list = getHomeData(resourcetable)
         return render(request, 'newhome/newhome.html', {'valid_duration': valid_duration, "city_list": city_list,"environment_list":environment_list,"productlist":productlist,"filter":filter,"resourceid_list":resourceid_list,"resource_list":resource_list})
 
 

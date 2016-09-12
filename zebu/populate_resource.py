@@ -22,10 +22,10 @@ def main():
 
     for line1 in f.readlines():
         line = line1.strip('\n')
-        name,city = line.split(',')
-        #print '#####################'
-        #print name,city,len(city)
-        ResourceTable.objects.get_or_create(resource_id=name,city=city)
+        name,city,environment = line.split(',')
+        # print '#####################'
+        # print name,city,environment,len(city),len(environment)
+        ResourceTable.objects.get_or_create(resource_id=name,city=city,environment=environment)
 
     f.close()
 
