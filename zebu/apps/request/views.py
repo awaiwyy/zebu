@@ -58,8 +58,8 @@ def saveRequestTab(request_tab,file_name):
     sheet.write(row, 7, 'Request Duration', style0)
     sheet.write(row, 8, 'Owner', style0)
     sheet.write(row, 9, 'Priority', style0)
-    sheet.write(row, 10, 'Server ID', style0)
-    sheet.write(row, 11, 'Application Time', style0)
+    sheet.write(row, 10, 'Request Resource ID', style0)
+    sheet.write(row, 11, 'Request Start Time', style0)
     sheet.write(row, 12, 'Submit Date', style0)
     sheet.write(row, 13, 'Acceptance', style0)
 

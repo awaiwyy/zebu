@@ -40,10 +40,12 @@ def savePlanTab(plan_tab, file_name):
 
     projectlist = RequestTable.objects.filter(is_plan="true")
     daily_tab1 = TotalTable.objects.all().order_by("change_date")
-    sdate = daily_tab1[0].change_date
-    daily_tab2 = TotalTable.objects.all().order_by("-change_date")
-    cdate = daily_tab2[0].change_date
-    dates = (cdate - sdate).days + 1
+    dates=0
+    if daily_tab1:
+        sdate = daily_tab1[0].change_date
+        daily_tab2 = TotalTable.objects.all().order_by("-change_date")
+        cdate = daily_tab2[0].change_date
+        dates = (cdate - sdate).days + 1
     project = []
     for tab in projectlist:
         project.append(tab.project)
@@ -69,20 +71,23 @@ def savePlanTab(plan_tab, file_name):
             sheet.write(row, 14, 'Close Time', cell_format)
             sheet.write(row, 15, 'Next Target', cell_format)
             sheet.write(row, 16, 'Acceptance', cell_format)
-            sheet.write(row, 17, 'Server ID', cell_format)
-            sheet.write(row, 18, 'Application Time', cell_format)
+            sheet.write(row, 17, 'Request Resource ID', cell_format)
+            sheet.write(row, 18, 'Request Start Time', cell_format)
+            sheet.write(row, 19, 'Assign Resource ID', cell_format)
+            sheet.write(row, 20, 'Assign Start Time', cell_format)
+            sheet.write(row, 21, 'Assign End Time', cell_format)
             sheet.set_column(1, 4, 13)
             sheet.set_column(5, 6, 15)
             sheet.set_column(7, 12, 10)
             sheet.set_column(13, 13, 18)
             sheet.set_column(14, 16, 10)
-            sheet.set_column(17, 18, 16)
+            sheet.set_column(17, 21, 16)
 
             for i in range(dates):
-                sheet.set_column(19 + i, 19 + dates, 13)
+                sheet.set_column(22 + i, 22 + dates, 13)
                 # sdate = datetime.datetime.strptime('2016-01-01', '%Y-%m-%d').date()
                 date = sdate + datetime.timedelta(days=i)
-                sheet.write(row, 19 + i, date, style)
+                sheet.write(row, 22 + i, date, style)
 
             sheet.freeze_panes(1, 6)
 
@@ -123,6 +128,10 @@ def savePlanTab(plan_tab, file_name):
                 sheet.write(row, 17, tab.server_ID, cell_format1)
                 if tab.application_time:
                     sheet.write(row, 18, (tab.application_time + datetime.timedelta(hours=8)).strftime("%Y-%m-%d %H:%M"), cell_format1)
+                if tab.assign_ID:
+                    sheet.write(row, 19, tab.assign_ID,cell_format1)
+                    sheet.write(row, 20,(tab.assign_starttime + datetime.timedelta(hours=8)).strftime("%Y-%m-%d %H:%M"),cell_format1)
+                    sheet.write(row, 21,(tab.assign_endtime + datetime.timedelta(hours=8)).strftime("%Y-%m-%d %H:%M"),cell_format1)
                 row += 1
     wb.close()
 
@@ -196,9 +205,9 @@ def planPage(request, **kwargs):
             piece = i
         valid_dailyduration_piece.append(piece)
     valid_dailyDura.append(valid_dailyduration_hour)
-    valid_dailyDura.append(valid_dailyduration_piece)
     # print valid_dailyDura
 
+    valid_dailyDura.append(valid_dailyduration_piece)
     valid_time = []
     valid_year = []
     valid_month = []
