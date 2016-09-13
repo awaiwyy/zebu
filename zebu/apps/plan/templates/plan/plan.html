@@ -1322,9 +1322,7 @@ function hidediv(tab_id) {
 										if($(o).val() < new_start_time){
 											history_id = $(o).attr('id').substr(8);
 											$('#dateEdit' + history_id).remove();
-											$('#durationEdit' + history_id).remove();
-											document.getElementById("history"+product_id).style.display='none';
-											$("#history"+product_id).attr("aria-checked","false");
+											$('#durationEdit' + history_id).remove();	
 										}
 									});
 								}else if(new_start_time < old_start_time){
@@ -1334,8 +1332,6 @@ function hidediv(tab_id) {
 									ori += ret.newaddidlist[i][0] + ",";
 									$("#changeIdlist"+product_id).val(ori);
 									}
-									document.getElementById("history"+product_id).style.display='none';
-									$("#history"+product_id).attr("aria-checked","false");
 								}
 								}else{
 									for(var i=0;i<ret.newaddidlist.length;i++){
@@ -1344,10 +1340,10 @@ function hidediv(tab_id) {
 									ori += ret.newaddidlist[i][0] + ",";
 									$("#changeIdlist"+product_id).val(ori);
 									}
-									document.getElementById("history"+product_id).style.display='none';
-									$("#history"+product_id).attr("aria-checked","false");
 								}
 						}
+							document.getElementById("history"+product_id).style.display='none';
+							$("#history"+product_id).attr("aria-checked","false");
 							$("#readstart_time" + product_id).text(ret.edit_stime);
 							$("#request_duration" + product_id).text(ret.request_dura);
 							$("#daily_duration" + product_id).text(ret.daily_dura);
