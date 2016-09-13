@@ -541,7 +541,11 @@ function hidediv(tab_id) {
                                              <ul>
                                                 <li class="rqleft">Assigned Time:</li>
                                                 <li class="borderBottom">
-													From:<span id="assign_starttime{{tab.id}}">{{tab.assign_starttime | date:"Y-m-d H:i"}}</span> To:<span id="assign_endtime{{tab.id}}">{{tab.assign_endtime | date:"Y-m-d H:i"}}</span>
+													{% if tab.assign_starttime%}From:{%else%}{% endif%}
+													<span id="assign_starttime{{tab.id}}">{{tab.assign_starttime | date:"Y-m-d H:i"}}</span> 
+													{% if tab.assign_starttime%}To:{%else%}{% endif%}
+													<span id="assign_endtime{{tab.id}}">{{tab.assign_endtime | date:"Y-m-d H:i"}}</span>
+													
 												 </li>
 											 </ul>
 												<ul id="viewStime{{tab.id}}">
@@ -1362,8 +1366,8 @@ function hidediv(tab_id) {
 							}
 							$("#next_target" + product_id).text($('#next_targetEdit' + product_id).val());
 							$("#assignid" + product_id).text(ret.assign_ID);
-							$("#assign_starttime" + product_id).text($('#assign_starttimeEdit' + product_id).val());
-							$("#assign_endtime" + product_id).text($('#assign_endtimeEdit' + product_id).val());
+							$("#assign_starttime" + product_id).text("From:"+$('#assign_starttimeEdit' + product_id).val());
+							$("#assign_endtime" + product_id).text("To:"+$('#assign_endtimeEdit' + product_id).val());
 
                             //hide modal
 							
