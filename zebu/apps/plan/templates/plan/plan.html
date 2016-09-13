@@ -1353,9 +1353,11 @@ function hidediv(tab_id) {
 							$("#daily_duration" + product_id).text(ret.daily_dura);
 							if(ret.total != null){
 								$("#duration" + product_id).text(ret.total+"Hour");
+								$("#totalduration" + product_id).text(ret.total+"Hour");
 							}
 							else{
-								$("#duration" + product_id).text('');
+								$("#duration" + product_id).text('0Hour');
+								$("#totalduration" + product_id).text('0Hour');
 							}
 							if(ret.utc_time != null){
 								$("#close_time" + product_id).text(ret.utc_time);
@@ -1363,7 +1365,6 @@ function hidediv(tab_id) {
 								$("#close_time" + product_id).text('');
 							}
 							$("#next_target" + product_id).text($('#next_targetEdit' + product_id).val());
-							$("#totalduration" + product_id).text(ret.total+"Hour");
 							$("#assignid" + product_id).text(ret.assign_ID);
 							$("#assign_starttime" + product_id).text($('#assign_starttimeEdit' + product_id).val());
 							$("#assign_endtime" + product_id).text($('#assign_endtimeEdit' + product_id).val());

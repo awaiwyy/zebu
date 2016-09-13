@@ -18,6 +18,7 @@ if django.VERSION >= (1, 7):#自动判断版本
 
 def main():
     from apps.newhome.models import ResourceTable
+    ResourceTable.objects.all().delete() #清空表中原来的数据
     f = open('resource_list.txt','r')
 
     for line1 in f.readlines():
