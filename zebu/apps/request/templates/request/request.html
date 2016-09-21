@@ -17,41 +17,15 @@
     <link href="/static/css/application.css" type="text/css" rel="stylesheet"/>
     <link href="/static/plan/css/plan.css" type="text/css" rel="stylesheet"/>
     <link href="/static/css/bootstrap-datetimepicker.css" type="text/css" rel="stylesheet"/>
+    <link href="/static/css/jquery.dataTables.css" type="text/css" rel="stylesheet"/>
     <link href="/static/css/filter.css" type="text/css" rel="stylesheet" />
     <link href="/static/css/chosen.css" type="text/css" rel="stylesheet" />
-    <style>
-	a.pagination {
-		margin: 8px;
-		padding: 8px;
-		border: solid 2px rgba(193, 216, 230, .2);
-		text-decoration: none;
-		text-align: center;
-		color: #428bca;
-		background-color: rgba(255, 255, 255, .2);
-		transition: all .1s;
-		}
-
-	a.pagination:hover {
-  		background-color: #ebf6ff;
-		  }
-	a.pagination-current{
-		margin: 8px;
-		padding: 8px;
-		text-decoration: 500;
-		text-align: center;
-		color: black;
-		transition: all .1s;
-	}
-	.error {
-		border: 1px solid red;
-		}
-
-    </style>
     <!-- js -->
 
     <script src="/static/js/jquery-1.11.1.min.js"></script>
     <script src="/static/js/jquery.validate.min.js"></script>
     <script src="/static/js/bootstrap-datetimepicker.js"></script>
+    <script src="/static/js/jquery.dataTables.js"></script>
     <script src="/static/js/bootstrap.min.js"></script>
     <script src="/static/js/chosen.jquery.js"></script>
     <script type="text/javascript">
@@ -414,13 +388,6 @@
     </div>
     <!-- 中间模板 -->
     <div class="divcenter">
-        <div class="md_search">
-            <span class="keyword">Search Keywords：</span>
-            <form class="form1">
-                <input name="submit" type="submit" class="search_btn1" value=""/>
-                <input name="text" type="text" class="textinput1" value="">
-            </form>
-        </div>
         <div class="CText">
             <p>
                 <span class="content" style="padding-right:25px">Product：</span> 
@@ -439,23 +406,6 @@
             <p><button onclick="dofilter()">Go</button></p>
 			<input style="display:none" id="filter" value="{{filter}}" />
         </div>
-
-        <div class="classify ">
-            <a href="#">
-                {% ifequal order "-id" %}
-                <button type="button" class="classification" id="mybtn" style="background-color: #F8F8F8" aria-current="normal">Product</button>
-                {% endifequal %}
-
-                {% ifequal order "project" %}
-                <button type="button" class="classification_up" id="mybtn" style="background-color: #F8F8F8" aria-current="up">Product</button>
-                {% endifequal %}
-
-                {% ifequal order "-project" %}
-                <button type="button" class="classification_down" id="mybtn" style="background-color: #F8F8F8" aria-current="down">Product</button>
-                {% endifequal %}
-
-            </a> 
-        </div>
         <div class="requestForm" style="margin-top:32px">
             <div data-toggle="modal" data-target="#NewModal" style="cursor:pointer;margin-top:-10px">
                 {% if perms.request.add_requesttable %}
@@ -465,19 +415,21 @@
                 </tr>
                 {% endif %}
             </div>
-            <div id="requestTable" class="requestTableDiv">
-                <table class="requestTable " id="Box">
+            <div style="margin-top:16px"  >
+                <table class="display" id="requestTable" cellspacing="0" width="100%">
                     <thead>
                     <tr>
-                        <th scope="col" width="84px"><span>Product</span></th>
-                        <th scope="col" width="84px"><span>Module</span></th>
-                        <th scope="col" width="222px"><span>TF Case</span></th>
-                        <th scope="col" width="80px"><span>Owner</span></th>
-                        <th scope="col" width="120px"><span>Request Duration</span></th>
-                        <th scope="col" width="88px"><span>Submit Date</span></th>
-                        <th scope="col" width="74px"><span>Detail</span></th>
+                        <th width="84px"><span>Product</span></th>
+                        <th width="84px"><span>Module</span></th>
+                        <th width="222px"><span>TF Case</span></th>
+                        <th width="80px"><span>Owner</span></th>
+                        <th width="120px"><span>Request Duration</span></th>
+                        <th width="88px"><span>Submit Date</span></th>
+                        <th width="74px"><span>Detail</span></th>
+                        <th style="display:none" ></th>
                     </tr>
                     </thead>
+                    <tbody>
                     {% for tab in request_tab %}
                     <tr id="requestItem{{tab.id}}">
                         <td id="project{{tab.id}}">{{tab.project}}</td>
@@ -490,6 +442,7 @@
                                 style="vertical-align:middle" src="/static/images/down.png"/></a></td>
                      <td style="display:none" >{{tab.acceptance}}</td>
                         </tr>
+
                         <script type="text/javascript">
                             $(function(){
                                 var acceptancetd = document.getElementById(
@@ -499,7 +452,12 @@
 								}
                             });
                         </script>
-
+                    {% endfor %}
+                    </tbody>
+                    </table>
+                </div>
+                <div>
+                {% for tab in request_tab %}
                     <!--弹出模态框（Modal） -->
                     <div class="modal fade" id="myModal{{tab.id}}" tabindex="-1" role="dialog"
                          aria-labelledby="myModalLabel" aria-hidden="true">
@@ -883,55 +841,28 @@
                     </div>
                     <!-- 添加模态框（Modal）结束 -->
                     {% endfor %}      <!-- show request tab finish -->
-                </table>
-            </div>
-        </div>
-        <div class="pagination">
-						<span class="step-links">
-						{% if request_tab.has_previous %} 
-							<a class="pagination" href="?page=1{{ otherpara }}"> << </a>							
-						{% endif %}
-
-						{% ifequal over_range_left "true" %}
-						. . .
-						{% endifequal %}
-						
-						{% ifnotequal range_left "norange" %}
-							{% for i in range_left %}
-							<a class="pagination" href="?page={{ i }}{{ otherpara }}">{{ i }}</a>
-							{% endfor %}
-						{% endifnotequal %}
-						
-							<a class="pagination-current">{{request_tab.number}}</a>
-
-						{% ifnotequal range_right "norange" %}
-							{% for i in range_right %}
-							<a class="pagination" href="?page={{ i }}{{ otherpara }}">{{ i }}</a>
-							{% endfor %}											
-						{% endifnotequal %}
-
-						{% ifequal over_range_right "true" %}
-						. . .
-						{% endifequal %}
-
-						{% if request_tab.has_next %}
-							<a class="pagination" href="?page={{ request_tab.paginator.num_pages }}{{ otherpara }}"> >> </a>
-						{% endif %}
-						</span>
+                </div>
         </div>
     </div>
-</div>
 </div>
 <script src="/static/js/filter.js"></script>
 <script>
 
 $(".chosen-select").chosen();
+$(document).ready(function(){
+		$('#requestTable').dataTable({
+            "processing": true
+//            columnDefs:[{
+//                 orderable:false,//禁用排序
+//                 targets:[1,2,3,4,5,6]}
+//            ]
+		});
+	});
 
 function dofilter(){
 	var getproduct = get_product();
     var getacceptance = get_status();
-    var getorder = $("#mybtn").attr("aria-current");
-	window.location.href="?p="+getproduct+"&a="+getacceptance+"&order="+getorder;
+	window.location.href="?p="+getproduct+"&a="+getacceptance;
 	}
 function submitModal(id) {
     if (checknulledit(id)){

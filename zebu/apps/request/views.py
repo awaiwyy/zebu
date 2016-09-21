@@ -114,9 +114,6 @@ def requestUser(request, **kwargs):
     for tab in resource_tab:
         resourceid_list.append(tab.resource_id)
     acceptancelist=com_def.acceptancelist[:]
-    gopage = request.GET.get('page')
-    if (gopage == None):
-        gopage = "1"
     #show request table
     request_tab = RequestTable.objects.all().order_by("-id")
     #for request duration
@@ -244,64 +241,11 @@ def requestUser(request, **kwargs):
                     acceptlist.append(acceptancelist[int(item)-1])
                     filter += "a" + item + ","
             otherpara += "&a=" + request.GET.get("a")
-        if "order" in request.GET.keys():
-            if request.GET.get("order") == "up":
-                order = "project"
-            if request.GET.get("order") == "down":
-                order = "-project"
-            otherpara += "&order=" + request.GET.get("order")
-
         request_tab = RequestTable.objects.filter(project__in=prodtlist, acceptance__in=acceptlist).order_by(order)
 
-        perpage = 15 #show how many items per page
-    
-        objects = request_tab
-        pager = Paginator(objects,perpage)
-        num_pages = pager.num_pages
-        try:
-            projects = pager.page(gopage)
-
-        except PageNotAnInteger:
-            projects = pager.page(1)
-        except EmptyPage:
-            projects = pager.page(pager.num_pages)
-        
-        # Pagination range
-        # pages_left: how many page numbers show on left of current page at most
-        # pages_right: how many page numbers show on right of current page at most
-        pages_left = 4
-        pages_right = 4
-        current_page = gopage
-        range_left = "norange"
-        range_right = "norange"
-        over_range_left = "false"
-        over_range_right = "false"
-
-        #Range Left
-        if (int(gopage)-1 > pages_left):
-            over_range_left = "true"
-            range_left = range(int(gopage) - pages_left, int(gopage))
-        if (int(gopage)-1 == pages_left):
-            range_left = range(1, int(gopage))
-        if (int(gopage)-1 < pages_left):
-            range_left = range(1, int(gopage))
-        
-        #Range Right
-        if (int(gopage) < pager.num_pages - pages_right):
-            over_range_right = "true"
-            range_right = range(int(gopage) + 1, int(gopage) + 1 + pages_right)
-        if (int(gopage) == pager.num_pages - pages_right):
-            range_right = range(int(gopage) + 1, int(gopage) + 1 + pages_right)
-        if (int(gopage) > pager.num_pages - pages_right):
-            range_right = range(int(gopage) + 1, pager.num_pages + 1)
-        
         return render(request, 'request/request.html', {
-            "request_tab": projects, 
-            'valid_duration': valid_duration, 
-            'range_left': range_left, 
-            'range_right': range_right, 
-            'over_range_left': over_range_left, 
-            'over_range_right': over_range_right,
+            "request_tab": request_tab,
+            'valid_duration': valid_duration,
             "productlist": productlist,
             "acceptancelist":acceptancelist,
             "filter": filter,
