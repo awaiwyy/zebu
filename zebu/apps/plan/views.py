@@ -289,7 +289,8 @@ def planPage(request, **kwargs):
             assignid_unselected=copy.deepcopy(resourceid_list)
             if assignid != ['']:
                 for id in assignid:
-                    assignid_unselected.remove(id)
+                    if id in assignid_unselected:
+                        assignid_unselected.remove(id)
             assignid_list[tab.id]=[assignid,assignid_unselected]
         filter = ""
         prodtlist = productlist
