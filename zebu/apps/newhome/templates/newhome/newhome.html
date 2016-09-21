@@ -1,120 +1,15 @@
-<!DOCTYPE html>
-<html xmlns="http:/www.w3.org/1999/xhtml">
-<head>
-<meta charset="UTF-8">
-<link rel="shortcut icon" type="image/x-icon" href="/static/images/favicon.ico" media="screen" />
-<link rel="Bookmark" href="/static/images/favicon.ico">
-<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
-<meta http-equiv="X-UA-Compatible" content="IE=9,chrome=1">
-<!-- Mobile Specific Metas -->
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-<title>Zebu Schedule</title>
-<!-- CSS -->
-<!-- <link href="http://libs.baidu.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet"> -->
-<!--  <link href="http://apps.bdimg.com/libs/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">-->
-<link rel="stylesheet" href="/static/css/bootstrap.min.css" />
-<link rel="stylesheet" href="/static/css/com.css" />
-<link rel="stylesheet" href="/static/newhome/css/newhome.css"/>
+{% extends "base.html" %} {% block content %}
+<!--<link rel="stylesheet" href="/static/css/com.css" />
+<link rel="stylesheet" href="/static/newhome/css/newhome.css"/>-->
 <link href="/static/css/bootstrap-datetimepicker.css" type="text/css" rel="stylesheet"/>
 <link href="/static/css/jquery.dataTables.css" type="text/css" rel="stylesheet"/>
 <link href="/static/css/application.css" type="text/css" rel="stylesheet" />
 <link href="/static/css/chosen.css" type="text/css" rel="stylesheet" />
 <link href="/static/css/filter.css" type="text/css" rel="stylesheet" />
-<!--  <link rel="stylesheet" href="/static/home/css/jquery.webui-popover.min.css">-->
-<style>
-	.error {
-		border: 1px solid red;
-		}
-</style>
-<!-- js -->
-<script src="/static/js/jquery-1.11.1.min.js"></script>
-<script src="/static/js/jquery.validate.min.js"></script>
-<script src="/static/js/bootstrap.min.js"></script>
-<script src="/static/js/bootstrap-datetimepicker.js"></script>
-<script src="/static/js/jquery.dataTables.js"></script>
-<script src="/static/js/chosen.jquery.js"></script>
-</head>
-<body>
 
-	<!-- 头文件 -->
-	<div class="head">
-		<img class="imgleftright" src="/static/images/background-left.png" />
-		<img class="imgcenter" src="/static/images/background-middle.png" />
-		<img class="imgleftright" src="/static/images/background-right.png" />
-		<div class="clearfix"></div>
-		<table class="headtable">
-			<tr>
-				<td><a href="#"><img src="/static/images/zebu.png" /></a></td>
-			</tr>
-			<tr>
-				<td>
-					<ul class="select">
-						<li class="select-list">
-							<dl id="select1">
-								<!--<dd>-->
-									<!--<a href="/">Login</a>-->
-								<!--</dd>-->
-								<dd >
-									<a href="/home">Home</a>
-								</dd>
-								<dd class="select-all selected">
-									<a href="/newhome">New Home</a>
-								</dd>
-								<dd>
-									<a href="/request">Request</a>
-								</dd>
-								<dd>
-									<a href="/plan">Plan</a>
-								</dd>
-								{%if user.is_authenticated%}
-								<dd style="width:250px">
-									<a href="/report">Report</a>
-								</dd>
 
-								<dd >
-									<a><img src="/static/images/default-avatar.png">{{user.username}}</a>
-								</dd>
-								<dd >
-									<a href="/">Logout</a>
-								</dd>
-								{%else%}
-								<dd style="width:470px">
-									<a href="/report">Report</a>
-								</dd>
-								<dd >
-									<a href="/login">Login</a>
-								</dd>
-								{%endif%}
-							</dl>
-						</li>
-					</ul>
-				</td>
-			</tr>
-		</table>
-	</div>
-	<div class="divleft"></div>
 	<!-- 中间部分 -->
-	<div class="middle">
-		<div class="middletitle">
-			<p>
-				<span class="middletite1"> <a href="/" class="title">Login</a>&nbsp;&nbsp;-&nbsp;&nbsp;
-				</span>
-				<span class="middletite2">New Home</span>
-			</p>
-		</div>
-			<!-- 左侧模块 -->
-		<div class="middleleft">
-			<div class="middleleft2" style="position: relative; top: -16px;">
-				<div class="middleleft_center">
-					<ul>
-						<li id="middleleft_center_topli"><a href="exportTab" style="color:#8e8e8e">Export Excel</a></li>
-						<li><a href="#">&nbsp;</a></li>
-						<li><a href="#">&nbsp;</a></li>
-						<li id="middleleft_center_bottomli"><a href="#">&nbsp;</a></li>
-					</ul>
-				</div>
-			</div>
-		</div>
+	<div class="middle" style="padding:20px">	
 		<div class="divcenter">
 			<div class="CText">
             <p>
@@ -287,11 +182,6 @@
 												<p id="checktime" style="text-align:center;color:red"></p>
 											</li>
 										</ul>
-										<script type="text/javascript">
-											$("#datetimepicker").datetimepicker({
-												format: 'yyyy-mm-dd hh:ii',
-												autoclose : true});
-										</script>
 										<ul>
 											<li class="new_rqleft">Request Duration:</li>
 											<li><select name="durationHourEdit">
@@ -414,8 +304,17 @@
 			</div>
 		</div>
 	</div>
+{% endblock %}
+{% block scripts %}
 <script src="/static/js/filter.js"></script>
+<script src="/static/js/jquery.validate.min.js"></script>
+<script src="/static/js/bootstrap-datetimepicker.js"></script>
+<script src="/static/js/jquery.dataTables.js"></script>
+<script src="/static/js/chosen.jquery.js"></script>
 <script>
+	$("#datetimepicker").datetimepicker({
+		format: 'yyyy-mm-dd hh:ii',
+		autoclose : true});
 	$(".chosen-select").chosen();
 	$(document).ready(function(){
 		$('#resourcetable').dataTable({
@@ -484,5 +383,5 @@ $("#newapp").validate({
 			 }
 });
 </script>
-</body>
-</html>
+
+{% endblock %}
