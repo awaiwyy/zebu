@@ -1,19 +1,8 @@
-<!DOCTYPE html>
-<html xmlns="http:/www.w3.org/1999/xhtml">
-<head>
-<title>Zebu Plan</title>
-<link rel="shortcut icon" type="image/x-icon" href="/static/images/favicon.ico" media="screen" />
-<link rel="Bookmark" href="/static/images/favicon.ico">
-<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
-<meta http-equiv="X-UA-Compatible" content="IE=9,chrome=1">
-<!-- Mobile Specific Metas -->
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, maximum-scale=1" />
-<!-- 导入文件 -->
-<!-- css -->
+{% extends "base.html" %} 
+{% block csslink %}
 <link rel="stylesheet" href="/static/css/bootstrap.min.css" />
 <link href="/static/css/chosen.css" type="text/css" rel="stylesheet" />
-<link href="/static/css/com.css" type="text/css" rel="stylesheet" />
+<!--<link href="/static/css/com.css" type="text/css" rel="stylesheet" />-->
 <link href="/static/plan/css/plan.css" type="text/css" rel="stylesheet" />
 <link href="/static/css/application.css" type="text/css" rel="stylesheet" />
 <link href="/static/css/filter.css" type="text/css" rel="stylesheet" />
@@ -47,237 +36,18 @@
 		color: black;
 		transition: all .1s;
 </style>
-<!-- js -->
-<script src="/static/js/jquery-1.11.1.min.js"></script>
-<script src="/static/js/bootstrap.min.js"></script>
-<script src="/static/js/chosen.jquery.js"></script>
-<script src="/static/js/bootstrap-datetimepicker.js"></script>
-<script src="/static/js/chosen.jquery.js"></script>
-<script type="text/javascript">
-	/mobi/i.test(navigator.userAgent) && !location.hash
-			&& setTimeout(function() {
-				if (!pageYOffset)
-					window.scrollTo(0, 1);
-			}, 1000);
-
-
-	function showHistory(id) {
-		if($("#history"+id).attr("aria-checked") == "false"){			
-			document.getElementById("history"+id).style.display='inline-block';
-			$("#history"+id).attr("aria-checked","true");
-		}else{
-			document.getElementById("history"+id).style.display='none';
-			$("#history"+id).attr("aria-checked","false");
-		}
-   
-}
-
-
-function checknull(tab_id){
-	checkid=checkassignid(tab_id);
-	checktime=checkassigntime(tab_id);
-	if (checkid && checktime){
-		return true;
-	}else{
-		return false;
-	}
-}
-
-function checkassignid(tab_id){
-	var assignid = $("#assignIdEdit" + tab_id).val();
-	if(assignid == '' || assignid == null){
-		$("#checkassignid"+tab_id).text("请选择Assigned Resource ID.");
-		return false;
-	}else{
-		$("#checkassignid"+tab_id).text("");
-		return true;
-	}
-}
-
-function checkassigntime(tab_id){
-	var assignstarttime =$("#assign_starttimeEdit" + tab_id).val();
-	var assignendtime =$("#assign_endtimeEdit" + tab_id).val();
-	if(assignstarttime == '' || assignendtime == ''){
-		$("#checkassigntime"+tab_id).text("请填完整Assigned Time.");
-		return false;
-	}else{
-		$("#checkassigntime"+tab_id).text("");
-	}
-	if(assignstarttime > assignendtime){
-		$("#checkassigntime1"+tab_id).text("Assign EndTime不能早于Assign StartTime");
-		return false;
-	}else{
-		$("#checkassigntime1"+tab_id).text("");
-	}
-	return true;
-}
-
-function validatetime(tab_id) {
-	var status = document.getElementById("statusEdit" + tab_id).value;
-	var closeDate = new Date();
-	var closeyear = document.getElementById("closeyearid" + tab_id).value;
-	var closemonth = document.getElementById("closemonthid" + tab_id).value;
-	var closeday = document.getElementById("closedayid" + tab_id).value;
-	var closehour = document.getElementById("closehourid" + tab_id).value;
-	var closeminute = document.getElementById("closeminuteid" + tab_id).value;
-	var closesecond = document.getElementById("closesecondid" + tab_id).value;
-	closeDate.setFullYear(closeyear, closemonth - 1, closeday);
-	var startDate = new Date();
-	var startyear = document.getElementById("startyearid" + tab_id).value;
-	var startmonth = document.getElementById("startmonthid" + tab_id).value;
-	var startday = document.getElementById("startdayid" + tab_id).value;
-	var starthour = document.getElementById("starthourid" + tab_id).value;
-	var startminute = document.getElementById("startminuteid" + tab_id).value;
-	var startsecond = document.getElementById("startsecondid" + tab_id).value;
-	startDate.setFullYear(startyear, startmonth - 1, startday);
-	var today = new Date();
-	if (!(startyear == "" && startmonth == "" && startday == "" && starthour == "" && startminute == "" && startsecond == "")){
-		if (startyear == "" || startmonth == "" || startday == "" || starthour == "" || startminute == "" || startsecond == ""){
-			$("#starttime" + tab_id).text("请填完整Start Time");
-			return false;
-		}
-		else {
-		$("#starttime" + tab_id).text("");
-		}
-	}
-	if (!(closeyear == "" && closemonth == "" && closeday == "" && closehour == "" && closeminute == "" && closesecond == "")){
-		if (closeyear == "" || closemonth == "" || closeday == "" || closehour == "" || closeminute == "" || closesecond == ""){
-			$("#closetime" + tab_id).text("请填完整Close Time");
-			return false;
-		}
-		else {
-		$("#closetime" + tab_id).text("");
-		}
-	}
-	if (closeDate>today) {
-		$("#checkClose1" + tab_id).text("Close time不能是未来时间");
-		return false;
-	    }
-		else{
-			$("#checkClose1"+tab_id).text("");
-		}
-	if (startyear !== "")
-	{
-		if (closeyear !== "" && closeDate < startDate) {
-		$("#checkStart" + tab_id).text("Close time不能早于Start time");
-		return false;
-		} else {
-		$("#checkStart" + tab_id).text("");
-		}
-		if (closeyear == "" && status == "close") {
-			$("#checkclose" + tab_id).text("请输入Close time");
-			return false;
-			} else {
-			$("#checkclose" + tab_id).text("");
-			}
-	}else {
-		if(closeyear !== ""){
-		$("#checkclose" + tab_id).text("请先输入Start time");
-		return false;
-		}else {
-		$("#checkclose" + tab_id).text("");
-		}
-	}
-	return true;
-}
-	var flag_browser = "other";
-	$(document).ready(function() {
-		//判断浏览器类型
-		if (window.ActiveXObject) {
-			flag_browser = "ie";
-		}
-	})
-$.ajaxSetup({
-		data: {csrfmiddlewaretoken: '{{ csrf_token }}' },
-	});
-
-function showdiv(tab_id) {
-            document.getElementById("bg"+tab_id).style.display ="block";
-            document.getElementById("shownote"+tab_id).style.display ="block";
-        }  
-function hidediv(tab_id) {
-            document.getElementById("bg"+tab_id).style.display ='none';
-            document.getElementById("shownote"+tab_id).style.display ='none';
-        }  
-</script>
-
-</head>
-<body>
-	<!-- 头文件 -->
-	<div class="head">
-		<img class="imgleftright" src="/static/images/background-left.png" />
-		<img class="imgcenter" src="/static/images/background-middle.png" />
-		<img class="imgleftright" src="/static/images/background-right.png" />
-		<div class="clearfix"></div>
-		<table class="headtable">
-			<tr>
-				<td><img src="/static/images/zebu.png" /></td>
-			</tr>
-			<tr>
-				<td>
-					<ul class="select">
-						<li class="select-list">
-							<dl id="select1">
-								<!--<dd>-->
-									<!--<a href="/">Login</a>-->
-								<!--</dd>-->
-								<dd>
-									<a href="/home">Home</a>
-								</dd>
-								<dd>
-									<a href="/newhome">New Home</a>
-								</dd>
-								<dd>
-									<a href="/request">Request</a>
-								</dd>
-								<dd class="select-all selected">
-									<a href="/plan">Plan</a>
-								</dd>
-								{%if user.is_authenticated%}
-								<dd style="width:250px">
-									<a href="/report">Report</a>
-								</dd>
-
-								<dd >
-									<a><img src="/static/images/default-avatar.png">{{user.username}}</a>
-								</dd>
-								<dd >
-									<a href="/">Logout</a>
-								</dd>
-								{%else%}
-								<dd style="width:470px">
-									<a href="/report">Report</a>
-								</dd>
-								<dd >
-									<a href="/login">Login</a>
-								</dd>
-								{%endif%}
-							</dl>
-						</li>
-					</ul>
-				</td>
-			</tr>
-		</table>
-	</div>
-        <div class="divleft"></div>
+{% endblock %}
+{% block content %}
 	<!-- 中间部分 -->
 	<div class="middle">
-		<div class="middletitle">
-			<p>
-				<span class="middletite1"> <a href="#" class="title">Login</a>&nbsp;&nbsp;-&nbsp;&nbsp;
-				</span> <span class="middletite2">Plan</span>
-			</p>
-		</div>
+		
 		<!-- 左侧模块 -->
-		<div class="middleleft">
+		<div >
 			<div class="middleleft2" style="position: relative; top: -16px;">
 				<div class="middleleft_center">
 					<ul>
 						<li id="middleleft_center_topli"><a href="exportTab" style="color:#8e8e8e">Export
 								Excel</a></li>
-						<li><a href="#">&nbsp;</a></li>
-						<li><a href="#">&nbsp;</a></li>
-						<li id="middleleft_center_bottomli"><a href="#">&nbsp;</a></li>
 					</ul>
 				</div>
 			</div>
@@ -345,14 +115,6 @@ function hidediv(tab_id) {
 		</div>
 		<!-- 中间模板 -->
 		<div class="divcenter">
-
-			<div class="md_search">
-				<span class="keyword">Search Keywords：</span>
-				<form class="form1">
-					<input name="submit" type="submit" class="search_btn1" value="" />
-					<input name="text" type="text" class="textinput1" value="">
-				</form>
-			</div>
 			<div class="CText">
 				<p>
 					<span class="content">Product：</span> 
@@ -1196,14 +958,166 @@ function hidediv(tab_id) {
 						</span>
 					</div>	
 		</div>
-	</div>
-	<script src="/static/js/filter.js"></script>
-	<script>
-		$(".chosen-select").chosen();
-		$(".form_datetime").datetimepicker({
-		format: 'yyyy-mm-dd hh:ii',
-		autoclose : true});
-	function dofilter(){
+{% endblock %}
+{% block scripts %}
+<script src="/static/js/jquery-1.11.1.min.js"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/chosen.jquery.js"></script>
+<script src="/static/js/bootstrap-datetimepicker.js"></script>
+<script src="/static/js/chosen.jquery.js"></script>
+<script src="/static/js/filter.js"></script>
+<script type="text/javascript">
+	/mobi/i.test(navigator.userAgent) && !location.hash
+			&& setTimeout(function() {
+				if (!pageYOffset)
+					window.scrollTo(0, 1);
+			}, 1000);
+
+
+	function showHistory(id) {
+		if($("#history"+id).attr("aria-checked") == "false"){			
+			document.getElementById("history"+id).style.display='inline-block';
+			$("#history"+id).attr("aria-checked","true");
+		}else{
+			document.getElementById("history"+id).style.display='none';
+			$("#history"+id).attr("aria-checked","false");
+		}
+   
+}
+
+
+function checknull(tab_id){
+	checkid=checkassignid(tab_id);
+	checktime=checkassigntime(tab_id);
+	if (checkid && checktime){
+		return true;
+	}else{
+		return false;
+	}
+}
+
+function checkassignid(tab_id){
+	var assignid = $("#assignIdEdit" + tab_id).val();
+	if(assignid == '' || assignid == null){
+		$("#checkassignid"+tab_id).text("请选择Assigned Resource ID.");
+		return false;
+	}else{
+		$("#checkassignid"+tab_id).text("");
+		return true;
+	}
+}
+
+function checkassigntime(tab_id){
+	var assignstarttime =$("#assign_starttimeEdit" + tab_id).val();
+	var assignendtime =$("#assign_endtimeEdit" + tab_id).val();
+	if(assignstarttime == '' || assignendtime == ''){
+		$("#checkassigntime"+tab_id).text("请填完整Assigned Time.");
+		return false;
+	}else{
+		$("#checkassigntime"+tab_id).text("");
+	}
+	if(assignstarttime > assignendtime){
+		$("#checkassigntime1"+tab_id).text("Assign EndTime不能早于Assign StartTime");
+		return false;
+	}else{
+		$("#checkassigntime1"+tab_id).text("");
+	}
+	return true;
+}
+
+function validatetime(tab_id) {
+	var status = document.getElementById("statusEdit" + tab_id).value;
+	var closeDate = new Date();
+	var closeyear = document.getElementById("closeyearid" + tab_id).value;
+	var closemonth = document.getElementById("closemonthid" + tab_id).value;
+	var closeday = document.getElementById("closedayid" + tab_id).value;
+	var closehour = document.getElementById("closehourid" + tab_id).value;
+	var closeminute = document.getElementById("closeminuteid" + tab_id).value;
+	var closesecond = document.getElementById("closesecondid" + tab_id).value;
+	closeDate.setFullYear(closeyear, closemonth - 1, closeday);
+	var startDate = new Date();
+	var startyear = document.getElementById("startyearid" + tab_id).value;
+	var startmonth = document.getElementById("startmonthid" + tab_id).value;
+	var startday = document.getElementById("startdayid" + tab_id).value;
+	var starthour = document.getElementById("starthourid" + tab_id).value;
+	var startminute = document.getElementById("startminuteid" + tab_id).value;
+	var startsecond = document.getElementById("startsecondid" + tab_id).value;
+	startDate.setFullYear(startyear, startmonth - 1, startday);
+	var today = new Date();
+	if (!(startyear == "" && startmonth == "" && startday == "" && starthour == "" && startminute == "" && startsecond == "")){
+		if (startyear == "" || startmonth == "" || startday == "" || starthour == "" || startminute == "" || startsecond == ""){
+			$("#starttime" + tab_id).text("请填完整Start Time");
+			return false;
+		}
+		else {
+		$("#starttime" + tab_id).text("");
+		}
+	}
+	if (!(closeyear == "" && closemonth == "" && closeday == "" && closehour == "" && closeminute == "" && closesecond == "")){
+		if (closeyear == "" || closemonth == "" || closeday == "" || closehour == "" || closeminute == "" || closesecond == ""){
+			$("#closetime" + tab_id).text("请填完整Close Time");
+			return false;
+		}
+		else {
+		$("#closetime" + tab_id).text("");
+		}
+	}
+	if (closeDate>today) {
+		$("#checkClose1" + tab_id).text("Close time不能是未来时间");
+		return false;
+	    }
+		else{
+			$("#checkClose1"+tab_id).text("");
+		}
+	if (startyear !== "")
+	{
+		if (closeyear !== "" && closeDate < startDate) {
+		$("#checkStart" + tab_id).text("Close time不能早于Start time");
+		return false;
+		} else {
+		$("#checkStart" + tab_id).text("");
+		}
+		if (closeyear == "" && status == "close") {
+			$("#checkclose" + tab_id).text("请输入Close time");
+			return false;
+			} else {
+			$("#checkclose" + tab_id).text("");
+			}
+	}else {
+		if(closeyear !== ""){
+		$("#checkclose" + tab_id).text("请先输入Start time");
+		return false;
+		}else {
+		$("#checkclose" + tab_id).text("");
+		}
+	}
+	return true;
+}
+	var flag_browser = "other";
+	$(document).ready(function() {
+		//判断浏览器类型
+		if (window.ActiveXObject) {
+			flag_browser = "ie";
+		}
+	})
+$.ajaxSetup({
+		data: {csrfmiddlewaretoken: '{{ csrf_token }}' },
+	});
+
+function showdiv(tab_id) {
+            document.getElementById("bg"+tab_id).style.display ="block";
+            document.getElementById("shownote"+tab_id).style.display ="block";
+        }  
+function hidediv(tab_id) {
+            document.getElementById("bg"+tab_id).style.display ='none';
+            document.getElementById("shownote"+tab_id).style.display ='none';
+        }  
+
+$(".chosen-select").chosen();
+$(".form_datetime").datetimepicker({
+	format: 'yyyy-mm-dd hh:ii',
+	autoclose : true});
+function dofilter(){
 		var getproduct = get_product();
 		var getstatus = get_status();
 		var getproductorder = $("#mybtn").attr("aria-current");
@@ -1212,7 +1126,7 @@ function hidediv(tab_id) {
 	}
 	
 	// Record changed durationEdit id
-	$("[name='durationEdit']").change(function(){
+$("[name='durationEdit']").change(function(){
 		var pk = parseInt(this.id.match("\\d+"));	
 		var id = this.form.id;
 		var changed = $("#changeIdlist"+id).val();
@@ -1223,7 +1137,7 @@ function hidediv(tab_id) {
 		$("#changeIdlist"+id).val(changed);
 	});
 
-	function submitModal(id) {
+function submitModal(id) {
 		if ($("#changeIdlist"+id).val()!="")
 		{
 			var arrId = $("#changeIdlist"+id).val();
@@ -1241,7 +1155,7 @@ function hidediv(tab_id) {
         }
     }
 
-	function postData(product_id,arrId,arrVal) {
+function postData(product_id,arrId,arrVal) {
                     $.ajax({
                         type: "POST",
                         url: "/plan/ajaxpost",
@@ -1384,5 +1298,4 @@ function hidediv(tab_id) {
                     })
                 }
 	</script>
-</body>
-</html>
+{% endblock %}

@@ -1,13 +1,12 @@
-{% extends "base.html" %} {% block content %}
-<!--<link rel="stylesheet" href="/static/css/com.css" />
-<link rel="stylesheet" href="/static/newhome/css/newhome.css"/>-->
+{% extends "base.html" %} 
+{% block csslink %}
 <link href="/static/css/bootstrap-datetimepicker.css" type="text/css" rel="stylesheet"/>
 <link href="/static/css/jquery.dataTables.css" type="text/css" rel="stylesheet"/>
 <link href="/static/css/application.css" type="text/css" rel="stylesheet" />
 <link href="/static/css/chosen.css" type="text/css" rel="stylesheet" />
 <link href="/static/css/filter.css" type="text/css" rel="stylesheet" />
-
-
+{% endblock %}
+{% block content %}
 	<!-- 中间部分 -->
 	<div class="middle" style="padding:20px">	
 		<div class="divcenter">

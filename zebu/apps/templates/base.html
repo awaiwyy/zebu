@@ -13,6 +13,7 @@
     <link href="/static/css/bootstrap.min.css" rel="stylesheet" />
     <link href="/static/css/light-bootstrap-dashboard.css" rel="stylesheet"/>
     <link href="/static/css/pe-icon-7-stroke.css" rel="stylesheet" />
+    {% block csslink %}{% endblock %}
 </head>
 <body> 
 
@@ -48,19 +49,19 @@
             <ul class="nav">
         
                 <li>                   
-                    <a href="newhome/templates/newhome/newhome.html">
+                    <a href="../newhome">
                         <p>Home</p>
                     </a>                
                 </li>
                
                 <li>
-                    <a href="request/templates/request/request.html">
+                    <a href="../request">
                         <p>Request</p>
                     </a>        
                 </li>
                  
                 <li>
-                    <a href="plan/templates/plan/plan.html">
+                    <a href="../plan">
                         <p>Plan</p>
                     </a>        
                 </li>
@@ -73,10 +74,10 @@
                     </a>                
                     <div class="collapse" id="pagesExamples">
                         <ul class="nav">
-                            <li><a href="report/templates/report/resource_usage.html">Resource Usage</a></li>
-                            <li><a href="report/templates/report/schedule.html">Schedule</a></li>
-                            <li><a href="report/templates/report/main_tf_status.html">Main TF Status</a></li>
-                            <li><a href="report/templates/report/report.html">Daily Report</a></li>
+                            <li><a href="../report/resource_usage">Resource Usage</a></li>
+                            <li><a href="../report/schedule">Schedule</a></li>
+                            <li><a href="../report/main_tf_status">Main TF Status</a></li>
+                            <li><a href="../report/report">Daily Report</a></li>
                         </ul>
                     </div>
                 </li>
