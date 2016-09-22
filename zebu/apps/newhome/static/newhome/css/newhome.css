@@ -1,4 +1,5 @@
 .newhomeForm {
+	background-color: white;
 	width:768px;
 	min-height: 864px;
 	height:auto;
@@ -70,7 +71,7 @@
 	line-height:32px;
 }
 
-.content {
+.content1 {
 	color: #4AADCE;
 	margin-top: 24px;
 }

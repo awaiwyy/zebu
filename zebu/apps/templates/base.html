@@ -83,10 +83,10 @@
                     </a>                
                     <div class="collapse" id="pagesExamples">
                         <ul class="nav">
-                            <li><a href="../report/resource_usage"><img src="/static/images/leftarrow.png">Resource Usage</a></li>
-                            <li><a href="../report/schedule"><img src="/static/images/leftarrow.png">Schedule</a></li>
-                            <li><a href="../report/main_tf_status"><img src="/static/images/leftarrow.png">Main TF Status</a></li>
-                            <li><a href="../report/daily_report"><img src="/static/images/leftarrow.png">Daily Report</a></li>
+                            <li style="font-size: 16px"><a href="../report/resource_usage"><img src="/static/images/leftarrow.png">Resource Usage</a></li>
+                            <li style="font-size: 16px"><a href="../report/schedule"><img src="/static/images/leftarrow.png">Schedule</a></li>
+                            <li style="font-size: 16px"><a href="../report/main_tf_status"><img src="/static/images/leftarrow.png">Main TF Status</a></li>
+                            <li style="font-size: 16px"><a href="../report/daily_report"><img src="/static/images/leftarrow.png">Daily Report</a></li>
                         </ul>
                     </div>
                 </li>
@@ -95,7 +95,7 @@
     </div>
     
     <div class="main-panel">  
-        <nav class="navbar navbar-default">
+        <nav class="navbar navbar-default" style="background-color: #F5F5F5">
             <div class="container-fluid">
                 <div class="navbar-header">
                     <p class="navbar-brand" href="#">Home</p>
@@ -115,6 +115,14 @@
             </div>
         </nav>
         {% block content %}{% endblock %}
+        <footer class="footer">
+            <div class="container-fluid">
+
+                <p class="copyright pull-right">
+                    &copy; 2016 copyright spreadtrum
+                </p>
+            </div>
+        </footer>
     </div>
     
 </div>

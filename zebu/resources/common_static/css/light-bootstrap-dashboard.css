@@ -3705,7 +3705,8 @@ td,
 button.close {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
-  font-family: "Roboto","Helvetica Neue",Arial,sans-serif;
+  /*font-family: "Roboto","Helvetica Neue",Arial,sans-serif;*/
+  font-family:Segoe UI, "Microsoft YaHei" ,"微软雅黑","微软雅黑";
   font-weight: 400;
 }
 
@@ -3966,7 +3967,8 @@ legend {
 .sidebar .nav p {
   margin: 0;
   line-height: 30px;
-  font-size: 12px;
+  /*font-size: 12px;*/
+  font-size: 16px;
   font-weight: 600;
   text-transform: uppercase;
 }
@@ -4156,7 +4158,8 @@ legend {
 }
 
 .main-panel {
-  background: #F5F5F5;
+  /*background: #F5F5F5;*/
+  background: white;
   position: relative;
   /*z-index: 2;*/
   float: right;
@@ -4327,7 +4330,8 @@ legend {
 }
 .btn-info.btn-fill {
   color: #FFFFFF;
-  background-color: #23CCEF;
+  /*background-color: #23CCEF;*/
+  background-color:limegreen;
   opacity: 1;
   filter: alpha(opacity=100);
 }
@@ -5857,7 +5861,8 @@ star {
   font-weight: 400;
   margin: 5px 0px;
   padding: 15px 15px;
-  font-size: 20px;
+  /*font-size: 20px;*/
+  font-size: 18px;
 }
 .navbar .navbar-nav > li > a {
   padding: 10px 15px;
