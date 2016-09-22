@@ -4192,7 +4192,7 @@ legend {
 
 .sidebar .sidebar-wrapper,
 .main-panel {
-  overflow: hidden;
+  overflow: auto;
 }
 
 .mac-os .sidebar .sidebar-wrapper,
