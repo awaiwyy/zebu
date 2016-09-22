@@ -39,16 +39,7 @@
 {% endblock %}
 {% block content %}
 		
-		<!-- 左侧模块 -->
-		<div>
-			<div class="middleleft2" style="position: relative; top: -16px;">
-				<div class="middleleft_center">
-					<ul>
-						<li id="middleleft_center_topli"><a href="exportTab" style="color:#8e8e8e">Export
-								Excel</a></li>
-					</ul>
-				</div>
-			</div>
+
 			<!--弹出模态框（Modal） -->
 			<div class="modal fade" id="NewPlanModal" tabindex="-1" role="dialog"
 				aria-labelledby="NewPlanModalLabel" aria-hidden="true">
@@ -108,10 +99,15 @@
 						</div>
 					</div>
 				</div>
-			</div>
-		</div>		
+			</div>	
 			<div class="content">
             <div class="container-fluid">
+				<div class="row">
+				<div class="col-lg-12">
+				<button class="btn btn-fill btn-info" style="margin-bottom: 10px" href="exportTab" >Export
+								Excel</button>
+				</div>
+				</div>
 				<div class="row">
 					<div class="col-lg-12">
 					<div class="CText">
@@ -129,7 +125,7 @@
             		<button id="s{{forloop.counter}}" name="filter-status" class="btn btn-white btn-xs" aria-checked="false">{{tab}}</button>
 					{% endfor %}
 				</p>
-				<p><button onclick="dofilter()">Go</button></p>
+				<p><button onclick="dofilter()" class="btn btn-fill btn-info">Go</button></p>
 				<input style="display:none" id="filter" value="{{filter}}" />
 			</div>
 				</div>
@@ -169,7 +165,7 @@
 				{% if perms.request.change_requesttable %}
 				<tr>
 					<td><img src="/static/images/tianjia.png" /></td>
-					<span Style="color:#6bd5f8">Add New TF case</span>
+					<span Style="color:#6bd5f8;font-size: 16px">Add New TF case</span>
 				</tr>
 				{% endif %}
 				</div>
