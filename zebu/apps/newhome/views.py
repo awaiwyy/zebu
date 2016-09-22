@@ -29,13 +29,10 @@ def getHomeData(resourcetable):
         user = ''
         # 获取当前时间（+0:00时区）
         current_time = datetime.datetime.now(tzutc())
-        assignedtable = RequestTable.objects.filter(assign_ID__contains=resource, assign_starttime__isnull=False,
-                                                    assign_endtime__gt=current_time).order_by("assign_starttime")
-        requesttable = RequestTable.objects.filter(server_ID__contains=resource,
-                                                   assign_starttime__isnull=True).order_by("application_time")
-        assign_num = RequestTable.objects.filter(assign_ID__contains=resource, assign_starttime__isnull=False,
-                                                 assign_endtime__gt=current_time).count()
-        request_num = RequestTable.objects.filter(server_ID__contains=resource, assign_starttime__isnull=True).count()
+        assignedtable = RequestTable.objects.filter(assign_ID__contains=resource, assign_starttime__isnull=False,assign_endtime__gt=current_time).order_by("assign_starttime")
+        requesttable = RequestTable.objects.filter(server_ID__contains=resource,application_time__isnull=False,assign_starttime__isnull=True).order_by("application_time")
+        assign_num = RequestTable.objects.filter(assign_ID__contains=resource, assign_starttime__isnull=False,assign_endtime__gt=current_time).count()
+        request_num = RequestTable.objects.filter(server_ID__contains=resource,application_time__isnull=False, assign_starttime__isnull=True).count()
         if assignedtable:
             assigned_starttime = assignedtable[0].assign_starttime  # 队列第一个任务的assign_starttime
             assigned_endtime = assignedtable[0].assign_endtime  # 队列第一个任务的assign_endtime
@@ -63,7 +60,10 @@ def getHomeData(resourcetable):
                 ass_endtime = item.assign_endtime
                 req_starttime = item.application_time
                 delta_days = int((item.request_duration.split('r')[1]).split('D')[0])
-                req_endtime = req_starttime + datetime.timedelta(days=delta_days)
+                if req_starttime:
+                    req_endtime = req_starttime + datetime.timedelta(days=delta_days)
+                else:
+                    req_endtime = None
                 item_status = "Wait"
                 if ass_starttime < current_time:
                     item_status = "Inprogress"

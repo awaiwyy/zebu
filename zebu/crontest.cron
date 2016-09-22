@@ -1,0 +1,2 @@
+05,10,15,20,25,30,35,40,45,50,55,00 * * * * python /home/likewise-open/SPREADTRUM/ellen.yang/workspace/zebu/zebu/alertEmail.py
+00 00 * * * python /home/likewise-open/SPREADTRUM/ellen.yang/workspace/zebu/zebu/plan.py 

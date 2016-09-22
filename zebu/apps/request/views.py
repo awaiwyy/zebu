@@ -221,7 +221,8 @@ def requestUser(request, **kwargs):
             serverid_unselected=copy.deepcopy(resourceid_list)
             if serverid != ['']:
                 for id in serverid:
-                    serverid_unselected.remove(id)
+                    if id in serverid_unselected:
+                        serverid_unselected.remove(id)
             serverid_list[tab.id]=[serverid,serverid_unselected]
         filter = ""
         prodtlist = productlist
