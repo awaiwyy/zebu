@@ -5107,7 +5107,7 @@ star {
 .table > thead > tr > td,
 .table > tbody > tr > td,
 .table > tfoot > tr > td {
-  padding: 12px 8px;
+  padding: 12px 15px !important;
   vertical-align: middle;
   border-color: #E3E3E3;
 }

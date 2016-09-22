@@ -38,11 +38,9 @@
 </style>
 {% endblock %}
 {% block content %}
-	<!-- 中间部分 -->
-	<div class="middle">
 		
 		<!-- 左侧模块 -->
-		<div >
+		<div>
 			<div class="middleleft2" style="position: relative; top: -16px;">
 				<div class="middleleft_center">
 					<ul>
@@ -111,20 +109,21 @@
 					</div>
 				</div>
 			</div>
-			<!-- 添加模态框（Modal）结束 -->
-		</div>
-		<!-- 中间模板 -->
-		<div class="divcenter">
-			<div class="CText">
+		</div>		
+			<div class="content">
+            <div class="container-fluid">
+				<div class="row">
+					<div class="col-lg-12">
+					<div class="CText">
 				<p>
-					<span class="content">Product：</span> 
+					<span class="contents">Product：</span> 
 					<button id="select_all_product" class="btn btn-xs" onclick="select_all('product')">ALL</button>
 					{% for tab in productlist %}
             		<button id="p{{forloop.counter}}" name="filter-product" class="btn btn-white btn-xs" aria-checked="false">{{tab}}</button>
 					{% endfor %}
 				</p>
 				<p>
-					<span class="content" style="padding-right:12px">Status：</span> 
+					<span class="contents" style="padding-right:12px">Status：</span> 
 					<button id="select_all_status" class="btn btn-xs" onclick="select_all('status')">ALL</button>
             		{% for tab in statuslist %}
             		<button id="s{{forloop.counter}}" name="filter-status" class="btn btn-white btn-xs" aria-checked="false">{{tab}}</button>
@@ -133,9 +132,11 @@
 				<p><button onclick="dofilter()">Go</button></p>
 				<input style="display:none" id="filter" value="{{filter}}" />
 			</div>
-
-			<div class="classify ">
-				
+				</div>
+				</div>
+				<div class="row">
+					<div class="col-lg-12">
+					<div class="classify pull-right">				
 					{% ifnotequal order "project" %}
 					{% ifnotequal order "-project" %}
 					<button type="button" class="classification" id="mybtn" style="background-color: #F8F8F8" aria-current="normal">Product</button>
@@ -159,10 +160,12 @@
 					{% ifequal order "-status" %}
 					<button type="button" class="classification_down" id="mybtn1" style="background-color: #F8F8F8" aria-current="down">Status</button>
 					{% endifequal %}
-				
-			</div>
-			<div class="planForm">
-				<div data-toggle="modal" data-target="#NewPlanModal"  style="cursor:pointer;margin-top:-10px">
+					</div>
+					</div>
+				</div>
+            <div class="row">                   
+            <div class="col-md-12">
+				<div data-toggle="modal" data-target="#NewPlanModal"  style="cursor:pointer;margin-bottom: 10px">
 				{% if perms.request.change_requesttable %}
 				<tr>
 					<td><img src="/static/images/tianjia.png" /></td>
@@ -170,18 +173,19 @@
 				</tr>
 				{% endif %}
 				</div>
-				<div id="planTable" class="planTableDiv">
-					<table class="planTable" id="Box">
+			<div class="card">
+				<div id="planTable" class="content table-responsive table-full-width">
+					<table class="table table-hover table-striped" id="Box">
 						<thead>
 						<tr>
-							<th scope="col" width="84px"><span>Product</span></th>
-							<th scope="col" width="84px"><span>Module</span></th>
-							<th scope="col" width="222px"><span>Action
+							<th scope="col" ><span>Product</span></th>
+							<th scope="col" ><span>Module</span></th>
+							<th scope="col" ><span>Action
 									Description</span></th>
-							<th scope="col" width="80px"><span>Owner</span></th>
-							<th scope="col" width="120px"><span>Status</span></th>
-							<th scope="col" width="88px"><span>Start Time</span></th>
-							<th scope="col" width="74px"><span>Detail</span></th>
+							<th scope="col" ><span>Owner</span></th>
+							<th scope="col" ><span>Status</span></th>
+							<th scope="col"><span>Start Time</span></th>
+							<th scope="col" ><span>Detail</span></th>
 						</tr>
 						</thead>
 						{% for tab in plan_tab %}
@@ -199,25 +203,6 @@
 						</tr>
 						<script type="text/javascript">
 							$(function() {
-								/* if none, donot show*/
-								/*var pglis = document.getElementById(
-										"viewProgress{{tab.id}}")
-										.getElementsByTagName("li");
-								var stimelis = document.getElementById(
-										"viewStime{{tab.id}}")
-										.getElementsByTagName("li");
-								if (pglis[1].innerHTML) {
-									$('#viewProgress{{tab.id}}').show();
-								} else {
-									$('#viewProgress{{tab.id}}').hide();
-								}
-
-								if (stimelis[1].innerHTML) {
-									$('#viewStime{{tab.id}}').show();
-								} else {
-									$('#viewStime{{tab.id}}').hide();
-								}*/
-								/* highlight delay item */
 								var statustd = document.getElementById(
 										"planItem{{tab.id}}")
 										.getElementsByTagName("td");
@@ -923,6 +908,10 @@
 						{% endfor %}
 					</table>
 				</div>
+            </div>
+			</div>
+			</div>
+			</div>
 			</div>
 			<div class="pagination">
 						<span class="step-links">
@@ -957,8 +946,6 @@
 						{% endif %}
 						</span>
 					</div>	
-		</div>
-	</div>
 {% endblock %}
 {% block scripts %}
 <script src="/static/js/jquery-1.11.1.min.js"></script>
