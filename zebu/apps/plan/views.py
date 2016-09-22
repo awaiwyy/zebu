@@ -401,6 +401,11 @@ def ajaxpost(request):
     edit_plan = RequestTable.objects.get(id=edit_id)
     total=edit_plan.duration
     statusBefore=edit_plan.status #编辑之前的状态
+    assignStartBefore=edit_plan.assign_starttime+datetime.timedelta(hours=8)
+    assignStartBefore=assignStartBefore.strftime('%Y-%m-%d %H:%M')
+    assignEndBefore = edit_plan.assign_endtime+datetime.timedelta(hours=8)
+    assignEndBefore = assignEndBefore.strftime('%Y-%m-%d %H:%M')
+    assign_IDBefore = edit_plan.assign_ID
     utc_ctime=""
     edit_plan.project = request.POST['projectEdit']
     edit_plan.classification = request.POST['classificationEdit']
@@ -691,23 +696,32 @@ def ajaxpost(request):
     edit_plan.save()
     #status状态改变发邮件功能
     statusAfter=request.POST['statusEdit']
-    if statusAfter != statusBefore:
+    assignStartAfter = request.POST['assign_starttimeEdit']
+    assignEndAfter = request.POST['assign_endtimeEdit']
+    assign_IDAfter0 = ""
+    for i in request.POST.getlist('assignIdEdit[]'):
+        if i != "":
+            assign_IDAfter0 += i + ","
+    assign_IDAfter= assign_IDAfter0[:-1]
+    if statusAfter != statusBefore or assignStartAfter != assignStartBefore or assignEndAfter != assignEndBefore or assign_IDAfter != assign_IDBefore:
         tf_case = request.POST['tfcaseEdit']
         owner = request.POST['ownerEdit']
         loginUser = request.POST['userInfo']
-        receivers = [owner+'@spreadtrum.com','nicole.wang@spreadtrum.com','chunsi.he@spreadtrum.com','chunji.chen@spreadtrum.com','fiona.zhang@spreadtrum.com','xinpeng.li@spreadtrum.com','guoliang.ren@spreadtrum.com','ellen.yang@spreadtrum.com']
-        #receivers = [owner+'@spreadtrum.com']
-        content = "Dear Owner:<br><br>zebu资源使用状态已更改，请知悉并及时处理，信息如下，<br>操作者："+loginUser+"<br>TF case："+tf_case+"Request Zebu Assign ID:"+assign_ID+"<br><br>管理系统地址：<a href='http://10.5.2.62'>http://10.5.2.62;</a><br>登录方式为外网域帐号。"
-        #content = '被处理的TF case:'+tf_case+'/被分配使用的时间:'+edit_stime+'/status:'+statusAfter+'/操作者:'+loginUser
-        subject = 'zebu资源的使用状态已更改，请登录指定服务器查看'
-        '''
-        #use sendEmailTest.send_mail() at Nanjing thundersoft site, use sendEmail.send_mail() at spreadtrum site
-        if sendEmail.send_mail(subject, content, receivers):
-        #if sendEmailTest.send_mail(subject,content,receivers):
+        content = "Dear Owner:<br><br>zebu资源使用情况已更改，请知悉并及时处理，信息如下，<br>操作者："+loginUser+"<br>TF case："+tf_case+"<br>Status:"+statusAfter+"<br>Request Zebu Assign ID:"+assign_ID+"<br>Assign StartTime:"+assignStartAfter+"<br>Assign EndTime:"+assignEndAfter+"<br><br>管理系统地址：<a href='http://10.5.2.62'>http://10.5.2.62;</a><br>登录方式为外网域帐号。"
+        subject = 'zebu资源的使用情况已更改，请登录指定服务器查看'
+        if "@spreadst.com" in owner:
+            receivers = [owner]
+            result = sendEmailTest.send_mail(subject, content, receivers)
+        else:
+            receivers = [owner + '@spreadtrum.com', 'nicole.wang@spreadtrum.com', 'chunsi.he@spreadtrum.com',
+                         'chunji.chen@spreadtrum.com', 'fiona.zhang@spreadtrum.com', 'xinpeng.li@spreadtrum.com',
+                         'guoliang.ren@spreadtrum.com', 'ellen.yang@spreadtrum.com']
+            result = sendEmail.send_mail(subject, content, receivers)
+        if result:
             print "send success"
         else:
             print"send fail"
-        '''
+
     success_dict = {'edit_stime':edit_stime,
     'request_dura':request_dura,
     'daily_dura':daily_dura,
