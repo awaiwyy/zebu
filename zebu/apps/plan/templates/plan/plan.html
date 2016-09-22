@@ -1000,8 +1000,8 @@ function checkassigntime(tab_id){
 	}else{
 		$("#checkassigntime"+tab_id).text("");
 	}
-	if(assignstarttime > assignendtime){
-		$("#checkassigntime1"+tab_id).text("Assign EndTime不能早于Assign StartTime");
+	if(assignstarttime >= assignendtime){
+		$("#checkassigntime1"+tab_id).text("Assign EndTime应晚于Assign StartTime");
 		return false;
 	}else{
 		$("#checkassigntime1"+tab_id).text("");
