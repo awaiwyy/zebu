@@ -344,46 +344,39 @@ def planPage(request, **kwargs):
         projects = pager.page(pager.num_pages)
 
     # Pagination range
-    # pages_left: how many page numbers show on left of current page at most
-    # pages_right: how many page numbers show on right of current page at most
-    pages_left = 4
-    pages_right = 4
-    current_page = gopage
-    range_left = "norange"
-    range_right = "norange"
-    over_range_left = "false"
-    over_range_right = "false"
+    page_show = 4
+    current_page = int(gopage)
+    page_count = pager.num_pages
+    page_status =  ""
 
-    # Range Left
-    if (int(gopage) - 1 > pages_left):
-        over_range_left = "true"
-        range_left = range(int(gopage) - pages_left, int(gopage))
-    if (int(gopage) - 1 == pages_left):
-        range_left = range(1, int(gopage))
-    if (int(gopage) - 1 < pages_left):
-        range_left = range(1, int(gopage))
+    if page_count <= page_show + 1:
+        page_status = ""
+    else:
+        if current_page > 0 and current_page <= page_show:
+            page_status = "Left"
 
-    # Range Right
-    if (int(gopage) < pager.num_pages - pages_right):
-        over_range_right = "true"
-        range_right = range(int(gopage) + 1, int(gopage) + 1 + pages_right)
-    if (int(gopage) == pager.num_pages - pages_right):
-        range_right = range(int(gopage) + 1, int(gopage) + 1 + pages_right)
-    if (int(gopage) > pager.num_pages - pages_right):
-        range_right = range(int(gopage) + 1, pager.num_pages + 1)
+        elif current_page > page_show  and page_count - current_page > page_show -1:
+            page_status = "Mid"
+
+        else:
+            page_status = "Right"
+    print "page_status %s" % page_status
+
+    print "page_count %d" % page_count
     return render(request, 'plan/plan.html', {
             "request_tab": request_tab,
             "plan_tab": projects,
             'valid_duration': valid_duration,
             'valid_time': valid_time,
             'valid_dailyDura': valid_dailyDura,
-            'range_left': range_left,
-            'range_right': range_right,
-            'over_range_left': over_range_left,
-            'over_range_right': over_range_right,
             'history_tab': history_tab,
             "productlist":productlist,
             "statuslist":statuslist,
+            "page_count": page_count,
+            "page_show_range": range(page_show+1),
+            "page_range": range(page_count),
+            "page_status": page_status,
+            "page_right_range": range(page_count-page_show, page_count+1),
             "filter": filter,
             "order":order,
             "otherpara": otherpara,

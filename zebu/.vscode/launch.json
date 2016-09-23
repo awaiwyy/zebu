@@ -32,8 +32,7 @@
             "stopOnEntry": false,
             "program": "${workspaceRoot}/manage.py",
             "args": [
-                "runserver",
-                "--noreload"
+                "runserver"
             ],
             "debugOptions": [
                 "WaitOnAbnormalExit",
