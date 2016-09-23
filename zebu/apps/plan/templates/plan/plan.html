@@ -1,13 +1,10 @@
 {% extends "base.html" %} 
 {% block csslink %}
-<link rel="stylesheet" href="/static/css/bootstrap.min.css" />
 <link href="/static/css/chosen.css" type="text/css" rel="stylesheet" />
-<!--<link href="/static/css/com.css" type="text/css" rel="stylesheet" />-->
 <link href="/static/plan/css/plan.css" type="text/css" rel="stylesheet" />
 <link href="/static/css/application.css" type="text/css" rel="stylesheet" />
 <link href="/static/css/filter.css" type="text/css" rel="stylesheet" />
 <link href="/static/css/bootstrap-datetimepicker.css" type="text/css" rel="stylesheet"/>
-<link href="/static/css/chosen.css" type="text/css" rel="stylesheet" />
 <style type="text/css">
         .bg{ display: none;  position: absolute;  top: 0%;  left: 0%;  width: 100%;  height: 100%;  background-color: black;  z-index:1001;  -moz-opacity: 0.7;  opacity:.70;  filter: alpha(opacity=70);}
         .shownote{ display: none;  position: absolute;  top: 75%;  left: 30%; height: 80px; width: 30%; line-height:80px; border: 1px solid #E8E9F7;  background-color: white;  z-index:1002;text-align:center;font-size:14px}
@@ -104,7 +101,7 @@
             <div class="container-fluid">
 				<div class="row">
 				<div class="col-lg-12">
-				<button class="btn btn-fill btn-info" style="margin-bottom: 10px" href="exportTab" >Export
+				<button class="btn btn-fill btn-info" style="margin-bottom: 10px" onclick="location.href='exportTab'" >Export
 								Excel</button>
 				</div>
 				</div>
@@ -161,15 +158,16 @@
 				</div>
             <div class="row">                   
             <div class="col-md-12">
-				<div data-toggle="modal" data-target="#NewPlanModal"  style="cursor:pointer;margin-bottom: 10px">
+				<div class="card">
+				<div class="header" data-toggle="modal" data-target="#NewPlanModal"  style="cursor:pointer;margin-bottom: 10px">
 				{% if perms.request.change_requesttable %}
-				<tr>
+				<tr class="title">
 					<td><img src="/static/images/tianjia.png" /></td>
 					<span Style="color:#6bd5f8;font-size: 16px">Add New TF case</span>
 				</tr>
 				{% endif %}
 				</div>
-			<div class="card">
+			
 				<div id="planTable" class="content table-responsive table-full-width">
 					<table class="table table-hover table-striped" id="Box">
 						<thead>
