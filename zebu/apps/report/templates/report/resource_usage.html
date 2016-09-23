@@ -12,7 +12,7 @@
         <div>
             <div data-toggle="modal" data-target="#NewModal" style="cursor:pointer;"><img
                     src="/static/images/tianjia.png"/>
-                <span Style="color:#6bd5f8">Add New Product</span>
+                <span Style="color:#6bd5f8;font-size: 16px">Add New Product</span>
             </div>
         </div>
         {% endif %}
@@ -224,7 +224,7 @@
                     <table class="table">
                         <tbody style="background-color: #f0f0f0">
                         <tr>
-                            <td width="250px"><b>Product: </b>
+                            <td width="250px" align="center"><b>Product: </b>
                             <input type="text" readonly id="product{{tab.id}}" class="miniForm1" value="{{tab.product}}"/></td>
                             <td width="250px" align="center"><b>SPM: </b>
                             <input type="text" readonly id="spm{{tab.id}}" class="miniForm1" value="{{tab.spm}}"/></td>
@@ -415,7 +415,6 @@
     </div>
 {% endblock %}
 {% block scripts %}
-<script src="/static/report/js/blueimp-gallery.min.js"></script>
     <script src="/static/js/highcharts.js"></script>
     <script src="/static/report/js/bootstrap-datepicker.min.js"></script>
 {%for tab in resource_usage_tab%}

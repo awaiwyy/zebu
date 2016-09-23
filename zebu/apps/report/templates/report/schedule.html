@@ -1,31 +1,22 @@
-{% extends "reportbase.html" %}
+{% extends "base.html"%}
+{% block csslink%}
+    <link href="/static/report/css/report.css" type="text/css" rel="stylesheet"/>
+    <link href="/static/css/application.css" type="text/css" rel="stylesheet"/>
+    <link rel="stylesheet" href="/static/report/css/blueimp-gallery.min.css">
+    <link href="/static/report/font-awesome/css/font-awesome.css" type="text/css" rel="stylesheet"/>
+{% endblock %}
 {% block content %}
- <!-- 中间模板 -->
-<script>
-	function delattachment(tab_id)
-	{
-		document.getElementById("deletefile"+tab_id).value = "true";
-		document.getElementById("showfile"+tab_id).style.display ='none';
-		document.getElementById("deleteicon"+tab_id).style.display ='none';
-	}
-	function canceldeit(tab_id,tab_file_link)
-	{
-		if (tab_file_link !== "")
-		{
-			document.getElementById("showfile"+tab_id).style.display ='inline';
-		    document.getElementById("deleteicon"+tab_id).style.display ='inline';
-		}
-	}
-</script>
 <div id="blueimp-gallery" class="blueimp-gallery">
     <div class="slides"></div>
-</div>	
-		<div class="divcenter">
-			<div class="reportForm">
-			{% if perms.report.add_scheduletable %}
+</div>
+    <div class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        {% if perms.report.add_scheduletable %}
 			   <div>
-			   <div data-toggle="modal" data-target="#NewModal"  style="cursor:pointer;"><img src="/static/images/tianjia.png" />
-				   <span Style="color:#6bd5f8">Add New Product</span>
+			   <div data-toggle="modal" data-target="#NewModal"  style="cursor:pointer;margin-bottom: 15px" ><img src="/static/images/tianjia.png" />
+				   <span Style="color:#6bd5f8;font-size: 16px">Add New Product</span>
 			   </div>
 			 </div>
 			{% endif %}
@@ -82,41 +73,39 @@
                    </div>
                  		</div>
 					  <!-- 添加模态框（Modal）结束 -->
-				<div id="reportTable" class="reportTableDiv">
-					{% for tab in schedule_tab %}
-					<div class="scheduleForm">
-					<table  class="reportTable" id="Box"  >
-						<tbody>
+						{% for tab in schedule_tab %}
+                        <div class="card" >
+
+							<table  class="table" id="Box"  >
+						<tbody style="background-color: #f0f0f0">
 						<tr>
-					  <td width="16px"></td>
-					 <td width="70px" ><b>Product: </b></td>
-					<td width="120px"><input type="text"  readonly id="product" class="miniForm1" value="{{tab.product}}"/></td>
-				  	 <td width="60px" align="center"><b>SPM: </b></td>
-					<td width="120px"><input type="text" readonly id="spm" class="miniForm1" value="{{tab.spm}}"/></td>
-				  	 <td width="110px" align="center"><b>Daily Reporter: </b></td>
-					  <td width="150px"><input type="text" readonly id="zebu" class="miniForm1" value="{{tab.daily_reporter}}"/></td>
-					{% if perms.report.add_scheduletable %}
-					  <td width="50px"><a data-toggle="modal" data-target="#editmodal{{tab.id}}"  style="cursor:pointer" ><img style="right:16px" src="/static/images/bianji.png"></a></td>
-					  <td><a data-toggle="modal" data-target="#delPlanModal{{tab.id}}"  style="cursor:pointer"><img src="/static/images/shanchu.png"></a></td>
-					{% endif %}
+							<td width="250px" align="center"><b>Product: </b>
+							<input type="text"  readonly id="product" class="miniForm1" value="{{tab.product}}"/></td>
+							<td width="250px" align="center"><b>SPM: </b>
+							<input type="text" readonly id="spm" class="miniForm1" value="{{tab.spm}}"/></td>
+							<td width="300px" align="center"><b>Daily Reporter: </b>
+							<input type="text" readonly id="zebu" class="miniForm1" value="{{tab.daily_reporter}}"/></td>
+							{% if perms.report.add_scheduletable %}
+							<td width="50px"><a data-toggle="modal" data-target="#editmodal{{tab.id}}"  style="cursor:pointer" ><img style="right:16px" src="/static/images/bianji.png"></a></td>
+							<td width="100px"><a data-toggle="modal" data-target="#delPlanModal{{tab.id}}"  style="cursor:pointer"><img src="/static/images/shanchu.png"></a></td>
+							{% endif %}
 						</tr>
 						</tbody>
-						</table>
-						<table>
+							</table>
+						<table class="table">
 							<tbody>
-                  <tr>
-                  <td width="16px"></td>
-					  {%ifequal tab.is_picture "True" %}
-					  <td width="300px" >
-						  <div aria-valuetext="sslinks" ><a href="downloadfile/{{tab.file_link}}"><img src="downloadfile/mini{{tab.file_link}}" ></a></div>
-						  <a href="downloadfile/{{tab.file_link}}">{{tab.file_link}}</a>
-					  </td>
-					  {%else%}
-					 <td ><a href="downloadfile/{{tab.file_link}}">{{tab.file_link}}</a></td>
-					  {%endifequal%}
-				  </tr>
-						</tbody>
-						 </table>
+							<tr>
+								{%ifequal tab.is_picture "True" %}
+								<td width="300px" >
+									<div aria-valuetext="sslinks" ><a href="downloadfile/{{tab.file_link}}"><img src="downloadfile/mini{{tab.file_link}}" ></a></div>
+									<a href="downloadfile/{{tab.file_link}}">{{tab.file_link}}</a>
+								</td>
+								{%else%}
+								<td ><a href="downloadfile/{{tab.file_link}}">{{tab.file_link}}</a></td>
+								{%endifequal%}
+							</tr>
+							</tbody>
+						</table>
 				 <!-- 弹出edit模态框（Modal） -->
 						<div class="modal fade" id="editmodal{{tab.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                     <div class="modal-dialog" style = "width:800px">
@@ -211,11 +200,38 @@
 									</div>
 								</div>
 						<!-- delete plan table modal finish-->
-					</div>
-						{%endfor%}
-				</div>
+						</div>
+						{% endfor %}
+			 		</div>
+			    </div>
+			</div>
+	</div>
 
-			 </div>
-			 </div>
-				
+{% endblock%}
+{% block scripts %}
+ <script src="/static/report/js/blueimp-gallery.min.js"></script>
+  <script>
+$("div[aria-valuetext='sslinks']").click(function (event) {
+	event = event || window.event;
+	var target = event.target || event.srcElement,
+	link = target.src ? target.parentNode : target,
+	options = {index: link, event: event},
+	links = this.getElementsByTagName('a');
+	blueimp.Gallery(links, options);
+	});
+	function delattachment(tab_id)
+	{
+		document.getElementById("deletefile"+tab_id).value = "true";
+		document.getElementById("showfile"+tab_id).style.display ='none';
+		document.getElementById("deleteicon"+tab_id).style.display ='none';
+	}
+	function canceldeit(tab_id,tab_file_link)
+	{
+		if (tab_file_link !== "")
+		{
+			document.getElementById("showfile"+tab_id).style.display ='inline';
+		    document.getElementById("deleteicon"+tab_id).style.display ='inline';
+		}
+	}
+</script>
 {% endblock %}
