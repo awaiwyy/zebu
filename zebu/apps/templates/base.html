@@ -58,7 +58,7 @@
             <ul class="nav">
         
                 <li>                   
-                    <a href="../newhome">
+                    <a href="../home">
                         <p>Home</p>
                     </a>                
                 </li>
@@ -98,7 +98,16 @@
         <nav class="navbar navbar-default" style="background-color: #F5F5F5">
             <div class="container-fluid">
                 <div class="navbar-header">
-                    <p class="navbar-brand" href="#">Home</p>
+                    <p class="navbar-brand" id="pagetitle" href="#"></p>
+                    <script>
+                        var urlpath = location.pathname;
+                        //var urlpath = "/report/resource_usage"
+                        //var urlpath = "/home/"
+                        //console.log(urlpath);
+                        var strlist=urlpath.substr(1).split("/");
+                        console.log(strlist);
+                        $("#pagetitle").text(strlist[0].replace(/^\S/,strlist[0][0].toUpperCase()));
+                    </script>
                 </div>
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-right">

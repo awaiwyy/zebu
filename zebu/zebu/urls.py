@@ -19,11 +19,11 @@ from django.contrib import admin
 
 urlpatterns = [
     url(r'^', include('apps.login.urls')),
-    url(r'^home/', include('apps.home.urls')),
+    url(r'^oldhome/', include('apps.home.urls')),
     url(r'^request/', include('apps.request.urls')),
     url(r'^plan/', include('apps.plan.urls')),
     url(r'^report/', include('apps.report.urls')),
     url(r'^admin/', admin.site.urls),
-    url(r'^newhome/', include('apps.newhome.urls')),
+    url(r'^home/', include('apps.newhome.urls')),
 ]
 

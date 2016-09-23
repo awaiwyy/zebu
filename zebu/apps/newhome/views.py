@@ -219,7 +219,7 @@ def newHomePage(request, **kwargs):
             zebuUser = zebuUser.lower()
             user = auth.authenticate(username=zebuUser, password=zebuUser)
             auth.login(request, user)
-            return HttpResponseRedirect('/newhome/', {'valid_duration': valid_duration, "city_list": city_list,"environment_list":environment_list,"productlist":productlist,"resourceid_list":resourceid_list,"resource_list":resource_list} )
+            return HttpResponseRedirect('/home/', {'valid_duration': valid_duration, "city_list": city_list,"environment_list":environment_list,"productlist":productlist,"resourceid_list":resourceid_list,"resource_list":resource_list} )
         else:
             print "验证未通过,请修改用户名或密码"
             return HttpResponse('Failed: username or password is error!')
