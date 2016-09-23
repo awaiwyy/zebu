@@ -1,16 +1,18 @@
-{% extends "reportbase.html" %}
+{% extends "base.html"%}
+{% block csslink%}
+    <link href="/static/report/css/report.css" type="text/css" rel="stylesheet"/>
+    <link href="/static/css/application.css" type="text/css" rel="stylesheet"/>
+    <link rel="stylesheet" href="/static/report/css/blueimp-gallery.min.css">
+    <link href="/static/report/css/bootstrap-datepicker.css" type="text/css" rel="stylesheet"/>
+    <link href="/static/report/font-awesome/css/font-awesome.css" type="text/css" rel="stylesheet"/>
+{% endblock %}
 {% block content %}
-<!-- 中间模板 -->
-
-<div class="divcenter">
-
-    <div class="reportForm">
+    <div style="margin: 16px 0 0  30px">
         {% if perms.report.add_resourceusagetable %}
         <div>
             <div data-toggle="modal" data-target="#NewModal" style="cursor:pointer;"><img
                     src="/static/images/tianjia.png"/>
                 <span Style="color:#6bd5f8">Add New Product</span>
-
             </div>
         </div>
         {% endif %}
@@ -190,12 +192,17 @@
             </div>
             {% endfor%}
             <!-- 弹出模态框结束-->
-            <div id="requestTable" class="reportTableDiv">
+        </div>
+    </div>
 
-                {% for tab in resource_usage_tab%}
-                <div class="scheduleForm">
-                    <div class="form-group">
-                        <div class="input-group date col-xs-3 pull-right" name="showcalendar">
+    <div class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        {% for tab in resource_usage_tab%}
+                        <div class="card" >
+                    <div class="header" >
+                        <div class="input-group date col-xs-3 pull-right" name="showcalendar" style="margin-bottom: 10px">
                             {% ifnotequal product_changed "notcheck" %}
                             {% ifequal tab.id product_changed %}
                             <span class="input-group-addon"><i class="fa fa-calendar"></i></span><input
@@ -211,99 +218,49 @@
                                 id=choosedate{{tab.id}} name="datepicker" type="text" value="{{fedit|date:'Y-m-d'}}"
                                 class="form-control">
                             {% endifnotequal %}
-
                         </div>
                     </div>
-                    <table class="reportTable" id="Box">
+                    <div class="content table-responsive table-full-width">
+                    <table class="table">
+                        <tbody style="background-color: #f0f0f0">
                         <tr>
-                            <td width="16px"></td>
-                            <td width="70px"><b>Product: </b></td>
-                            <td width="120px"><input type="text" readonly id="product{{tab.id}}" class="miniForm1"
-                                                     value="{{tab.product}}"/></td>
-                            <td width="60px" align="center"><b>SPM: </b></td>
-                            <td width="120px"><input type="text" readonly id="spm{{tab.id}}" class="miniForm1"
-                                                     value="{{tab.spm}}"/></td>
-                            <td width="110px" align="center"><b>Daily Reporter: </b></td>
-                            <td width="150px"><input type="text" readonly id="daily_reporter{{tab.id}}"
-                                                     class="miniForm1" value="{{tab.daily_reporter}}"/></td>
+                            <td width="250px"><b>Product: </b>
+                            <input type="text" readonly id="product{{tab.id}}" class="miniForm1" value="{{tab.product}}"/></td>
+                            <td width="250px" align="center"><b>SPM: </b>
+                            <input type="text" readonly id="spm{{tab.id}}" class="miniForm1" value="{{tab.spm}}"/></td>
+                            <td width="300px" align="center"><b>Daily Reporter: </b>
+                            <input type="text" readonly id="daily_reporter{{tab.id}}" class="miniForm1" value="{{tab.daily_reporter}}"/></td>
                             {% if perms.report.add_resourceusagetable %}
-                            <td width="50px"><a data-toggle="modal" data-target="#editModal18{{tab.id}}"
-                                                style="cursor:pointer"><img style="right:16px"
-                                                                            src="/static/images/bianji.png"></a></td>
-                            <td><a data-toggle="modal" data-target="#delresourceModal{{tab.id}}" style="cursor:pointer"><img
-                                    src="/static/images/shanchu.png"></a></td>
+                            <td  ><a data-toggle="modal" data-target="#editModal18{{tab.id}}" style="cursor:pointer"><img style="right:16px" src="/static/images/bianji.png"></a>
+                            <a data-toggle="modal" data-target="#delresourceModal{{tab.id}}" style="cursor:pointer"><img src="/static/images/shanchu.png"></a></td>
                             {% endif %}
                         </tr>
+                        </tbody>
                     </table>
-                    <table class="reportTable">
+                    <table class="table" style="text-align: center">
+                        <thead >
                         <tr>
-                            <th scope="col" width="90px"><span>Total</span></th>
-                            <th scope="col" width="175px"><span>Power Management</span></th>
-                            <th scope="col" width="180px"><span>Performance</span></th>
-                            <th scope="col" width="95px"><span>Function</span></th>
-                            <th scope="col" width="175px"><span>zebu platform</span></th>
+                            <td scope="col" ><span><b>Total</b></span></td>
+                            <td scope="col" ><span><b>Power Management</b></span></td>
+                            <td scope="col" ><span><b>Performance</b></span></td>
+                            <td scope="col" ><span><b>Function</b></span></td>
+                            <td scope="col" ><span><b>zebu platform</b></span></td>
                         </tr>
+                        </thead>
+                        <tbody >
                         <tr>
-                            <th id="totalval{{tab.id}}">{{tab.total}}H</th>
-                            <th id="power_managementval{{tab.id}}">{{tab.power_management}}H</th>
-                            <th id="performanceval{{tab.id}}">{{tab.performance}}H</th>
-                            <th id="functionval{{tab.id}}">{{tab.function}}H</th>
-                            <th id="zebu_platformval{{tab.id}}">{{tab.zebu_platform}}H</th>
+                            <td id="totalval{{tab.id}}">{{tab.total}}H</td>
+                            <td id="power_managementval{{tab.id}}">{{tab.power_management}}H</td>
+                            <td id="performanceval{{tab.id}}">{{tab.performance}}H</td>
+                            <td id="functionval{{tab.id}}">{{tab.function}}H</td>
+                            <td id="zebu_platformval{{tab.id}}">{{tab.zebu_platform}}H</td>
                         </tr>
+                        </tbody>
                     </table>
-                    
+                     </div>
                     <div id="container{{tab.id}}" style="min-width:650px;height:300px;text-align:center;"></div>
-                        <script>
-                        if({{tab.total}} != 0){
-                            $('#container'+{{tab.id}}).show();
-                        }else{
-                            $('#container'+{{tab.id}}).hide();
-                        }
-					    var color = ['#cc9999', '#ffff99', '#666699', '#0099cc', '#cc3999'];
-						var free = {{tab.total}}-{{tab.power_management}}-{{tab.performance}}-{{tab.zebu_platform}}-{{tab.function}}
-						$('#container{{tab.id}}').highcharts({
-							chart: {
-								plotBackgroundColor: null,
-								plotBorderWidth: null,
-								plotShadow: false
-							},
-							colors:color,
-							title: {
-								text: ''
-							},
-							tooltip: {
-								pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-							},
-							plotOptions: {
-								pie: {
-									allowPointSelect: true,
-									cursor: 'pointer',
-									dataLabels: {
-										enabled: true,
-										/* format: '<b>{point.name}</b>: {point.percentage:.1f} %', */
-										formatter: function() {
-							                   if (this.percentage > 0)
-							                       return '<b>' + this.point.name + '</b>: ' + this.percentage.toFixed(1) + '%'; //当所占百分比为0时不显示
-							               },
-										style: {
-											color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
-										}
-									}
-								}
-							},
-							series: [{
-								type: 'pie',
-								name: 'share',
-								data: [
-									['power_management',   {{tab.power_management}}],
-									['performance',       {{tab.performance}}],
-									['function',     {{tab.function}}],
-									['zebu_platform',    {{tab.zebu_platform}}],
-									['free', free]
-								]
-							}]
-						});
-                        </script>
+
+
                     <!--弹出模态框（Modal） -->
                     <div class="modal fade" id="editModal18{{tab.id}}" tabindex="-1" role="dialog"
                          aria-labelledby="myModalLabel" aria-hidden="true">
@@ -449,13 +406,72 @@
                             </div>
                         </div>
                     </div>
+
+                    </div>
+                        {%endfor%}
                 </div>
-                {%endfor%}
             </div>
         </div>
-
-
-        <script>
+    </div>
+{% endblock %}
+{% block scripts %}
+<script src="/static/report/js/blueimp-gallery.min.js"></script>
+    <script src="/static/js/highcharts.js"></script>
+    <script src="/static/report/js/bootstrap-datepicker.min.js"></script>
+{%for tab in resource_usage_tab%}
+<script>
+                        if({{tab.total}} != 0){
+                            $('#container'+{{tab.id}}).show();
+                        }else{
+                            $('#container'+{{tab.id}}).hide();
+                        }
+					    var color = ['#cc9999', '#ffff99', '#666699', '#0099cc', '#cc3999'];
+						var free = {{tab.total}}-{{tab.power_management}}-{{tab.performance}}-{{tab.zebu_platform}}-{{tab.function}}
+						$('#container{{tab.id}}').highcharts({
+							chart: {
+								plotBackgroundColor: null,
+								plotBorderWidth: null,
+								plotShadow: false
+							},
+							colors:color,
+							title: {
+								text: ''
+							},
+							tooltip: {
+								pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+							},
+							plotOptions: {
+								pie: {
+									allowPointSelect: true,
+									cursor: 'pointer',
+									dataLabels: {
+										enabled: true,
+										/* format: '<b>{point.name}</b>: {point.percentage:.1f} %', */
+										formatter: function() {
+							                   if (this.percentage > 0)
+							                       return '<b>' + this.point.name + '</b>: ' + this.percentage.toFixed(1) + '%'; //当所占百分比为0时不显示
+							               },
+										style: {
+											color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+										}
+									}
+								}
+							},
+							series: [{
+								type: 'pie',
+								name: 'share',
+								data: [
+									['power_management',   {{tab.power_management}}],
+									['performance',       {{tab.performance}}],
+									['function',     {{tab.function}}],
+									['zebu_platform',    {{tab.zebu_platform}}],
+									['free', free]
+								]
+							}]
+						});
+                        </script>
+{%endfor%}
+<script>
                 function submitModal(id) {
                     var date = $("#showchoosedate" + id).val();
                     postData(id, date);
@@ -487,7 +503,7 @@
                             $("#performancehourEdit" + product_id).val(ret.performance);
                             $("#functionhourEdit" + product_id).val(ret.function);
                             $("#zubehourEdit" + product_id).val(ret.zebu_platform);
-                           
+
                             //update highchart
                             if (ret.total != 0) {
                                 $('#container' + product_id).show()
@@ -636,7 +652,7 @@
                 }
 
 				function checkFunc(id){
-				var total=$("#totalEdit"+id).val();				
+				var total=$("#totalEdit"+id).val();
 				var a2=$("#managementhourEdit"+id).val();
 				var b2=$("#performancehourEdit"+id).val();
 				var c2=$("#functionhourEdit"+id).val();
@@ -676,6 +692,4 @@
 
 
         </script>
-    </div>
-</div>
 {% endblock %}

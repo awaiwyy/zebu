@@ -401,10 +401,14 @@ def ajaxpost(request):
     edit_plan = RequestTable.objects.get(id=edit_id)
     total=edit_plan.duration
     statusBefore=edit_plan.status #编辑之前的状态
-    assignStartBefore=edit_plan.assign_starttime+datetime.timedelta(hours=8)
-    assignStartBefore=assignStartBefore.strftime('%Y-%m-%d %H:%M')
-    assignEndBefore = edit_plan.assign_endtime+datetime.timedelta(hours=8)
-    assignEndBefore = assignEndBefore.strftime('%Y-%m-%d %H:%M')
+    if edit_plan.assign_starttime is None:
+        assignStartBefore = edit_plan.assign_starttime
+        assignEndBefore = edit_plan.assign_endtime
+    else:
+        assignStartBefore = edit_plan.assign_starttime + datetime.timedelta(hours=8)
+        assignEndBefore = edit_plan.assign_endtime + datetime.timedelta(hours=8)
+        assignStartBefore = assignStartBefore.strftime('%Y-%m-%d %H:%M')
+        assignEndBefore = assignEndBefore.strftime('%Y-%m-%d %H:%M')
     assign_IDBefore = edit_plan.assign_ID
     utc_ctime=""
     edit_plan.project = request.POST['projectEdit']

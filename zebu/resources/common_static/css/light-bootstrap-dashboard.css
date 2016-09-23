@@ -3999,7 +3999,8 @@ legend {
   margin: 10px 10px;
   color: #FFFFFF;
   line-height: 20px;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  /*font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;*/
+  font-family:Segoe UI, "Microsoft YaHei" ,"微软雅黑","微软雅黑";
 }
 .sidebar .logo .logo-text,
 .bootstrap-navbar .logo .logo-text {
