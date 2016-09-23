@@ -3706,7 +3706,7 @@ button.close {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   /*font-family: "Roboto","Helvetica Neue",Arial,sans-serif;*/
-  font-family:Segoe UI, "Microsoft YaHei" ,"微软雅黑","微软雅黑";
+  font-family:Segoe UI, "Microsoft YaHei" ,"微软雅黑","微软雅黑"!important;
   font-weight: 400;
 }
 
