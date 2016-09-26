@@ -6,34 +6,7 @@
     <link href="/static/css/bootstrap-datetimepicker.css" type="text/css" rel="stylesheet"/>
     <link href="/static/css/filter.css" type="text/css" rel="stylesheet" />
     <link href="/static/css/chosen.css" type="text/css" rel="stylesheet" />
-    <style>
-	a.pagination {
-		margin: 8px;
-		padding: 8px;
-		border: solid 2px rgba(193, 216, 230, .2);
-		text-decoration: none;
-		text-align: center;
-		color: #428bca;
-		background-color: rgba(255, 255, 255, .2);
-		transition: all .1s;
-		}
-
-	a.pagination:hover {
-  		background-color: #ebf6ff;
-		  }
-	a.pagination-current{
-		margin: 8px;
-		padding: 8px;
-		text-decoration: 500;
-		text-align: center;
-		color: black;
-		transition: all .1s;
-	}
-	.error {
-		border: 1px solid red;
-		}
-
-    </style>
+    <link href="/static/css/jquery.dataTables.css" type="text/css" rel="stylesheet"/>
 {% endblock %}
 {% block content %}
         <!--弹出模态框（Modal） -->
@@ -300,7 +273,7 @@
             </div>
             <div class="row">                   
             <div class="col-md-12">
-				<div class="card">
+				<div class="card dataTables_wrapper">
                 <div class="header" data-toggle="modal" data-target="#NewModal" style="cursor:pointer;margin-bottom: 10px">
                 {% if perms.request.add_requesttable %}
                 <tr class="title">
@@ -730,45 +703,73 @@
                     {% endfor %}      <!-- show request tab finish -->
                 </table>
             </div>
-        </div>
-		</div>
-		</div>
-		</div>
-		</div>
-        <div class="pagination">
+            <div class="dataTables_info">
+			    Showing {{request_tab.start_index}} to {{request_tab.end_index}} of {{count}} entries
+			</div>
+				<div class="dataTables_paginate paging_simple_numbers" style="margin-bottom: 10px">
 						<span class="step-links">
-						{% if request_tab.has_previous %} 
-							<a class="pagination" href="?page=1{{ otherpara }}"> << </a>							
+						{% if request_tab.has_previous %}
+							<a class="paginate_button " href="?page={{ request_tab.number|add:-1 }}{{ otherpara }}"> Previous </a>
+						{% else %}
+							<a class="paginate_button disabled"> Previous </a>
 						{% endif %}
 
-						{% ifequal over_range_left "true" %}
-						. . .
-						{% endifequal %}
-						
-						{% ifnotequal range_left "norange" %}
-							{% for i in range_left %}
-							<a class="pagination" href="?page={{ i }}{{ otherpara }}">{{ i }}</a>
+						{% ifequal page_status "" %}
+							{% for i in page_range %}
+								{% ifequal i|add:1 request_tab.number %}
+								<a class="paginate_button current" href="?page={{ i|add:1 }}{{ otherpara }}">{{ i|add:1 }}</a>
+								{% else %}
+								<a class="paginate_button " href="?page={{ i|add:1 }}{{ otherpara }}">{{ i|add:1 }}</a>
+								{% endifequal %}								
 							{% endfor %}
-						{% endifnotequal %}
-						
-							<a class="pagination-current">{{request_tab.number}}</a>
+						{% else %}
+							{% ifequal page_status "Left" %}
+								{% for i in page_show_range %}
+									{% ifequal i|add:1 request_tab.number %}
+									<a class="paginate_button current" href="?page={{ i|add:1 }}{{ otherpara }}">{{ i|add:1 }}</a>
+									{% else %}
+									<a class="paginate_button " href="?page={{ i|add:1 }}{{ otherpara }}">{{ i|add:1 }}</a>
+									{% endifequal %}
+								{% endfor %}
+								...
+								<a class="paginate_button " href="?page={{ page_count }}{{ otherpara }}">{{ page_count }}</a>
+							{% endifequal %}
 
-						{% ifnotequal range_right "norange" %}
-							{% for i in range_right %}
-							<a class="pagination" href="?page={{ i }}{{ otherpara }}">{{ i }}</a>
-							{% endfor %}											
-						{% endifnotequal %}
+							{% ifequal page_status "Right" %}
+								<a class="paginate_button " href="?page=1{{ otherpara }}">1</a>
+								...
+								{% for i in page_right_range %}
+									{% ifequal i request_tab.number %}
+									<a class="paginate_button current" href="?page={{ i }}{{ otherpara }}">{{ i }}</a>
+									{% else %}
+									<a class="paginate_button" href="?page={{ i }}{{ otherpara }}">{{ i }}</a>
+									{% endifequal %}
+								{% endfor %}						
+							{% endifequal %}
 
-						{% ifequal over_range_right "true" %}
-						. . .
+							{% ifequal page_status "Mid" %}
+								<a class="paginate_button " href="?page=1{{ otherpara }}">1</a>
+								...
+								<a class="paginate_button " href="?page={{ request_tab.number|add:-1 }}{{ otherpara }}">{{ request_tab.number|add:-1 }}</a>
+								<a class="paginate_button current" href="?page={{ request_tab.number }}{{ otherpara }}">{{ request_tab.number }}</a>
+								<a class="paginate_button " href="?page={{ request_tab.number|add:1 }}{{ otherpara }}">{{ request_tab.number|add:1 }}</a>
+								...
+								<a class="paginate_button" href="?page={{ page_count }}{{ otherpara }}">{{ page_count }}</a>
+							{% endifequal %}
 						{% endifequal %}
 
 						{% if request_tab.has_next %}
-							<a class="pagination" href="?page={{ request_tab.paginator.num_pages }}{{ otherpara }}"> >> </a>
+							<a class="paginate_button " href="?page={{ request_tab.number|add:1 }}{{ otherpara }}"> Next </a>
+						{% else %}
+							<a class="paginate_button disabled"> Next </a>
 						{% endif %}
 						</span>
+					</div>
         </div>
-    </div>
+		</div>
+		</div>
+		</div>
+		</div>
 {% endblock %}
 {% block scripts %}
     <script src="/static/js/filter.js"></script>
