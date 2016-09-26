@@ -1,6 +1,195 @@
-{% extends "reportbase.html" %}
- {% block content %}
- <!-- 中间模板 -->
+{% extends "base.html"%}
+{% block csslink%}
+<link href="/static/report/css/report.css" type="text/css" rel="stylesheet"/>
+<link href="/static/css/application.css" type="text/css" rel="stylesheet"/>
+<link href="/static/report/font-awesome/css/font-awesome.css" type="text/css" rel="stylesheet"/>
+{% endblock %}
+{% block content %}
+ <div class="content">
+	 <div class="container-fluid">
+		 <div class="row">
+			 <div class="col-md-12">
+				 {% if perms.report.add_reporttable %}
+				 <div data-toggle="modal" data-target="#NewModal"  style="cursor:pointer;margin-bottom: 15px"><img src="/static/images/tianjia.png" />
+					 <span Style="color:#6bd5f8">Add New Product</span>
+				 </div>
+				 {% endif %}
+				 <!--弹出模态框（Modal） -->
+				 <div class="modal fade" id="NewModal" tabindex="-1" role="dialog" aria-labelledby="NewModalLabel" aria-hidden="true">
+					 <div class="modal-dialog" style = "width:800px">
+						 <div class="modal-content">
+							 <div class="modal-header">
+								 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+								 <h4 class="modal-title" id="NewModalLabel">Daily Report</h4>
+							 </div>
+							 <div class="modal-body">
+								 <form class = "modalForm" method="POST" enctype="multipart/form-data">
+									 {% csrf_token %}
+									 <div class="modalFormContent">
+										 <ul>
+											 <li class="new_rqleft">Product:</li>
+											 <li>
+												 <span>
+													 <select class="borderWidth" id="productInfo" name="productInfo">
+														 {%for i in productlist%}
+														 <option>{{i}}</option>
+														 {%endfor%}
+													 </select>
+												 </span>
+											 </li>
+										 </ul>
+										 <ul>
+											 <li class="new_rqleft">SPM:</li>
+											 <li>
+												 <input type="text" id="spmInfo" name="spmInfo" style="width:350px;height:24px"/>
+											 </li>
+										 </ul>
+										 <ul>
+											 <li class="new_rqleft" >Daily Reporter:</li>
+											 <li>
+												 <input type="text" id="reporterInfo" name="reporterInfo" style="width:350px;height:24px"/>
+											 </li>
+										 </ul>
+										 <ul>
+											 <li class="new_rqleft">Attachment:</li>
+											 <li>
+												 <input type="file" name="file" id="file" />
+											 </li>
+										 </ul>
+									 </div>
+									 <div align="center" style="margin-bottom: 100px; ">
+										 <button class= "requestBtn" type="text" name="cancle" style="background-color: #FB8C8C" data-dismiss="modal">cancel</button>
+										 <button class= "requestBtn" name="ok" type="submit" style="background-color:#67D00B ">confirm</button>
+									 </div>
+								 </form>
+							 </div>
+						 </div>
+					 </div>
+				 </div>
+				 <!-- 添加模态框（Modal）结束 -->
+				 {% for tab in daily_report_tab %}
+				 <div class="card" >
+					 <table  class="table" id="Box"  >
+						 <tbody style="background-color: #f0f0f0">
+						 <tr>
+							 <td width="250px" align="center" ><b>Product: </b>
+								 <input type="text"  readonly id="product" class="miniForm1" value="{{tab.product}}"/></td>
+							 <td width="250px" align="center"><b>SPM: </b>
+								 <input type="text" readonly id="spm" class="miniForm1" value="{{tab.spm}}"/></td>
+							 <td width="300px" align="center"><b>Daily Reporter: </b>
+								 <input type="text" readonly id="zebu" class="miniForm1" value="{{tab.daily_reporter}}"/></td>
+							 {% if perms.report.add_reporttable %}
+							 <td width="50px"><a data-toggle="modal" data-target="#myModal18{{tab.id}}"  style="cursor:pointer" ><img style="right:16px" src="/static/images/bianji.png"></a></td>
+							 <td width="100px"><a data-toggle="modal" data-target="#delPlanModal{{tab.id}}"  style="cursor:pointer"><img src="/static/images/shanchu.png"></a></td>
+							 {% endif %}
+						 </tr>
+						 </tbody>
+					 </table>
+					 <table class="table">
+						 <tbody>
+						 <tr>
+							 <td ><a href="downloadfile/{{tab.file_link}}">{{tab.file_link}}</a></td>
+						 </tr>
+						 </tbody>
+					 </table>
+					 <!-- 弹出模态框（Modal） -->
+					 <div class="modal fade" id="myModal18{{tab.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+						 <div class="modal-dialog" style = "width:800px">
+							 <div class="modal-content">
+								 <div class="modal-header">
+									 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+									 <h4 class="modal-title" id="myModalLabel">Daily Report Details</h4>
+								 </div>
+								 <div class="modal-body">
+									 <form  class = "modalForm" method="POST" enctype="multipart/form-data">
+										 {% csrf_token %}
+										 <div class="modalFormContent" id="readRpTab{{tab.id}}">
+											 <input type="text" id="idEdit" name="idEdit" value = {{tab.id}} hidden/>
+											 <ul>
+												 <li class="rqleft">Product:</li>
+												 <li>
+													 <span>
+														 <select class="borderWidth" id="productEdit" name="productEdit">
+															 <option selected="selected">{{tab.product}}</option>
+															 {%for i in productlist%}
+															 <option>{{i}}</option>
+															 {%endfor%}
+														 </select>
+													 </span>
+												 </li>
+											 </ul>
+											 <ul>
+												 <li class="rqleft">SPM:</li>
+												 <li>
+													 <input type="text" id="spmEdit" name="spmEdit" style="width:350px;height:24px" value = "{{tab.spm}}"/>
+												 </li>
+											 </ul>
+											 <ul>
+												 <li class="rqleft">Daily Reporter:</li>
+												 <li>
+													 <input type="text" id="reporterEdit" name="reporterEdit" style="width:350px;height:24px" value = "{{tab.daily_reporter}}"/>
+												 </li>
+											 </ul>
+											 <ul>
+												 <li class="rqleft" >Attachment:</li>
+												 <li>
+													 <input type="file" id="file_linkEdit" name="file_linkEdit" value = {{tab.file_link}} />
+												 </li>
+											 </ul>
+											 <ul>
+												 {% if  tab.file_link%}
+												 <li style="width: 260px"></li>
+												 <li style="max-width:350px " id="showfile{{tab.id}}">{{tab.file_link}}</li>
+												 <li><img id="deleteicon{{tab.id}}" src="/static/images/shanchu.png" onclick="delattachment({{tab.id}})"></li>
+												 {% endif%}
+											 </ul>
+											 <ul>
+												 <li>
+													 <input type="text" id="deletefile{{tab.id}}" name="deletefile"  hidden/>
+												 </li>
+											 </ul>
+										 </div>
+										 <div align="center" style="margin-bottom: 100px; vertical-align:middle;">
+											 <button class= "requestBtn" type="text" id="cancleEditBtn18" style="background-color: #FB8C8C" data-dismiss="modal" onclick="canceldeit({{tab.id}},'{{tab.file_link}}')">cancel</button>
+											 <button class= "requestBtn" type="submit" id="saveRqEdit18"  style="background-color:#67D00B ">confirm</button>
+										 </div>
+									 </form>
+								 </div>
+							 </div>
+						 </div>
+					 </div>
+					 <!-- 添加模态框（Modal）结束 -->
+
+					 <!-- 模态框（Modal） -->
+					 <div class="modal fade" id="delPlanModal{{tab.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style='margin: -150px 0 0 -100px'>
+						 <div class="modal-dialog planDelForm">
+							 <div class="modal-content">
+								 <div class="modal-header">
+									 <!-- <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> -->
+									 <h4 class="modal-title" id="myModalLabel">Delete the Report item ?</h4>
+								 </div>
+								 <div class="modal-body">
+									 <form class="delForm" method="POST">
+										 {% csrf_token %}
+										 <input type="text" name = "delReportId" value = {{tab.id}} hidden />
+										 <div align="center" style="margin-bottom: 50px;">
+											 <button class="requestBtn" type="text" id="cancleDelBtn" name="cancle" style="background-color: #FB8C8C" data-dismiss="modal">Cancel</button>
+											 <button class="requestBtn" name="ok" type="submit" style="background-color: #67D00B">confirm</button>
+										 </div>
+									 </form>
+								 </div>
+							 </div>
+						 </div>
+					 </div>
+					 <!-- delete plan table modal finish-->
+				 </div>
+				 {% endfor %}
+			 </div>
+		 </div>
+	 </div>
+ </div>
+{% endblock %}
+{% block scripts %}
 <script>
 	function delattachment(tab_id)
 	{
@@ -13,202 +202,8 @@
 		if (tab_file_link !== "")
 		{
 			document.getElementById("showfile"+tab_id).style.display ='inline';
-		    document.getElementById("deleteicon"+tab_id).style.display ='inline';
+			document.getElementById("deleteicon"+tab_id).style.display ='inline';
 		}
 	}
 </script>
-		<div class="divcenter">
-			<div class="reportForm">
-			<div>
-			{% if perms.report.add_reporttable %}
-			   <div data-toggle="modal" data-target="#NewModal"  style="cursor:pointer;"><img src="/static/images/tianjia.png" />
-				   <span Style="color:#6bd5f8">Add New Product</span>
-			   </div>
-			</div>
-				<!--弹出模态框（Modal） -->
-						<div class="modal fade" id="NewModal" tabindex="-1" role="dialog" aria-labelledby="NewModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" style = "width:800px">
-                      <div class="modal-content">
-                        <div class="modal-header">
-                           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                           <h4 class="modal-title" id="NewModalLabel">Daily Report</h4>
-                        </div>
-                        <div class="modal-body">
-                        <form class = "modalForm" method="POST" enctype="multipart/form-data">
-                        {% csrf_token %}
-                          <div class="modalFormContent">
-                          	<ul>
-								<li class="new_rqleft">Product:</li>
-								<li>
-									<span>
-                                  <select class="borderWidth" id="productInfo" name="productInfo">
-									  {%for i in productlist%}
-                                      <option>{{i}}</option>
-									  {%endfor%}
-                                  </select>
-                                  </span>
-								</li>
-							</ul>
-							<ul>
-								<li class="new_rqleft">SPM:</li>
-								<li>
-									<input type="text" id="spmInfo" name="spmInfo" style="width:350px;height:24px"/>
-								</li>
-							</ul>
-							<ul>
-								<li class="new_rqleft" >Daily Reporter:</li>
-								<li>
-									<input type="text" id="reporterInfo" name="reporterInfo" style="width:350px;height:24px"/>
-								</li>
-							</ul>
-						    <ul>
-								<li class="new_rqleft">Attachment:</li>
-								<li>
-									<input type="file" name="file" id="file" />
-								</li>
-							</ul>
-						  </div>
-							<div align="center" style="margin-bottom: 100px; ">
-                            <button class= "requestBtn" type="text" name="cancle" style="background-color: #FB8C8C" data-dismiss="modal">cancel</button>
-                            <button class= "requestBtn" name="ok" type="submit" style="background-color:#67D00B ">confirm</button>
-                          	</div>
-						</form>
-						</div>
-                      </div>
-                   </div>
-                 		</div>
-					  <!-- 添加模态框（Modal）结束 -->
-					  {% endif %}
-			   
-				<div id="requestTable" class="reportTableDiv">
-					{% for tab in daily_report_tab %}
-					<div class="scheduleForm">
-					<table  class="reportTable" id="Box"  >
-						<!--<tr>
-							<th scope="col" width="84px"><span>Product</span></th>
-							<th scope="col" width="84px"><span>SPM</span></th>
-							<th scope="col" width="222px"><span>Daily Reporter</span></th>
-						</tr>-->
-						<tr>
-					  <td width="16px"></td>
-					 <td width="70px" ><b>Product: </b></td>
-					<td width="120px"><input type="text"  readonly id="product" class="miniForm1" value="{{tab.product}}"/></td>
-				  	 <td width="60px" align="center"><b>SPM: </b></td>
-					<td width="120px"><input type="text" readonly id="spm" class="miniForm1" value="{{tab.spm}}"/></td>
-				  	 <td width="110px" align="center"><b>Daily Reporter: </b></td>
-					  <td width="150px"><input type="text" readonly id="zebu" class="miniForm1" value="{{tab.daily_reporter}}"/></td>
-					{% if perms.report.add_reporttable %}
-					  <td width="50px"><a data-toggle="modal" data-target="#myModal18{{tab.id}}"  style="cursor:pointer" ><img style="right:16px" src="/static/images/bianji.png"></a></td>
-					  <td><a data-toggle="modal" data-target="#delPlanModal{{tab.id}}"  style="cursor:pointer"><img src="/static/images/shanchu.png"></a></td>
-					{% endif %}
-						</tr>
-						</table>
-					<table height="48px">
-				  <tr>
-				  <td width="16px"></td>
-				  <td ><a href="downloadfile/{{tab.file_link}}">{{tab.file_link}}</a></td>
-				  </tr>
-					</table>
-					  <!-- 弹出模态框（Modal） -->
-						<div class="modal fade" id="myModal18{{tab.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" style = "width:800px">
-                      <div class="modal-content">
-                        <div class="modal-header">
-                           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                           <h4 class="modal-title" id="myModalLabel">Daily Report Details</h4>
-                        </div>
-						  <div class="modal-body">
-							<form  class = "modalForm" method="POST" enctype="multipart/form-data">
-								{% csrf_token %}
-                              <div class="modalFormContent" id="readRpTab{{tab.id}}">
-								  <input type="text" id="idEdit" name="idEdit" value = {{tab.id}} hidden/>
-                              	<ul>
-									<li class="rqleft">Product:</li>
-									<li>
-										<span>
-                                  <select class="borderWidth" id="productEdit" name="productEdit">
-                                      <option selected="selected">{{tab.product}}</option>
-									 {%for i in productlist%}
-                                      <option>{{i}}</option>
-									  {%endfor%}
-                                  </select>
-                                  </span>
-                                	</li>
-								</ul>
-                              	<ul>
-									<li class="rqleft">SPM:</li>
-									<li>
-										<input type="text" id="spmEdit" name="spmEdit" style="width:350px;height:24px" value = "{{tab.spm}}"/>
-									</li>
-								</ul>
-								<ul>
-									<li class="rqleft">Daily Reporter:</li>
-									<li>
-										<input type="text" id="reporterEdit" name="reporterEdit" style="width:350px;height:24px" value = "{{tab.daily_reporter}}"/>
-                                	</li>
-							  	</ul>
-								<ul>
-									<li class="rqleft" >Attachment:</li>
-									<li>
-										<input type="file" id="file_linkEdit" name="file_linkEdit" value = {{tab.file_link}} />
-                                	</li>
-							  	</ul>
-								  <ul>
-									  {% if  tab.file_link%}
-									  <li style="width: 260px"></li>
-									  <li style="max-width:350px " id="showfile{{tab.id}}">{{tab.file_link}}</li>
-									  <li><img id="deleteicon{{tab.id}}" src="/static/images/shanchu.png" onclick="delattachment({{tab.id}})"></li>
-									  {% endif%}
-								  </ul>
-								  <ul>
-									  <li>
-								  <input type="text" id="deletefile{{tab.id}}" name="deletefile"  hidden/>
-									  </li>
-								  </ul>
-							  </div>
-								<div align="center" style="margin-bottom: 100px; vertical-align:middle;">
-                                  <button class= "requestBtn" type="text" id="cancleEditBtn18" style="background-color: #FB8C8C" data-dismiss="modal" onclick="canceldeit({{tab.id}},'{{tab.file_link}}')">cancel</button>
-                                  <button class= "requestBtn" type="submit" id="saveRqEdit18"  style="background-color:#67D00B ">confirm</button>
-                              	</div>
-                            </form>
-							  </div>
-					  </div>
-					</div>
-					  </div>
-
-					  <!-- 添加模态框（Modal）结束 -->
-					  
-					  <!-- 模态框（Modal） -->
-								<div class="modal fade" id="delPlanModal{{tab.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-									aria-hidden="true" style='margin: -150px 0 0 -100px'>
-									<div class="modal-dialog planDelForm">
-										<div class="modal-content">
-											<div class="modal-header">
-												<!-- <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> -->
-												<h4 class="modal-title" id="myModalLabel">Delete the Report item ?</h4>
-											</div>
-											<div class="modal-body">
-												<form class="delForm" method="POST">
-                                                {% csrf_token %}
-                                                 <input type="text" name = "delReportId" value = {{tab.id}} hidden />
-													<div align="center" style="margin-bottom: 50px;">
-														<button class="requestBtn" type="text"
-															id="cancleDelBtn" name="cancle"
-															style="background-color: #FB8C8C"
-															data-dismiss="modal">Cancel</button>
-														<button class="requestBtn" name="ok" type="submit"
-															style="background-color: #67D00B">confirm</button>
-													</div>
-												</form>
-											</div> 
-										</div>
-									</div>
-								</div>
-								<!-- delete plan table modal finish-->
-						</div>
-						{% endfor %}
-
-				</div>
-			 </div>
-			</div>
- {% endblock %}
+{% endblock %}
