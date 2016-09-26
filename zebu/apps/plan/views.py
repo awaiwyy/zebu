@@ -328,6 +328,7 @@ def planPage(request, **kwargs):
                     order = "-status"
             otherpara += "&sorder=" + request.GET.get("sorder")
         plan_tab = RequestTable.objects.filter(is_plan="true", project__in=prodtlist, status__in=statlist).order_by(order)
+        count=plan_tab.count()
 
     # Pagination -CC
     perpage = 15  # show how many items per page
@@ -360,9 +361,9 @@ def planPage(request, **kwargs):
 
         else:
             page_status = "Right"
-    print "page_status %s" % page_status
+    # print "page_status %s" % page_status
 
-    print "page_count %d" % page_count
+    # print "page_count %d" % page_count
     return render(request, 'plan/plan.html', {
             "request_tab": request_tab,
             "plan_tab": projects,
@@ -377,6 +378,7 @@ def planPage(request, **kwargs):
             "page_range": range(page_count),
             "page_status": page_status,
             "page_right_range": range(page_count-page_show, page_count+1),
+            "count":count,
             "filter": filter,
             "order":order,
             "otherpara": otherpara,

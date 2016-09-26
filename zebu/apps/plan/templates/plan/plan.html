@@ -879,10 +879,13 @@
 						{% endfor %}
 					</table>
 				</div>
+				<div class="dataTables_info">
+					Showing {{plan_tab.start_index}} to {{plan_tab.end_index}} of {{count}} entries
+				</div>
 				<div class="dataTables_paginate paging_simple_numbers" style="margin-bottom: 10px">
 						<span class="step-links">
 						{% if plan_tab.has_previous %}
-							<a class="paginate_button " href="?page=1{{ otherpara }}"> Previous </a>
+							<a class="paginate_button " href="?page={{ plan_tab.number|add:-1 }}{{ otherpara }}"> Previous </a>
 						{% else %}
 							<a class="paginate_button disabled"> Previous </a>
 						{% endif %}
@@ -932,7 +935,7 @@
 						{% endifequal %}
 
 						{% if plan_tab.has_next %}
-							<a class="paginate_button " href="?page={{ plan_tab.paginator.num_pages }}{{ otherpara }}"> Next </a>
+							<a class="paginate_button " href="?page={{ plan_tab.number|add:1 }}{{ otherpara }}"> Next </a>
 						{% else %}
 							<a class="paginate_button disabled"> Next </a>
 						{% endif %}
