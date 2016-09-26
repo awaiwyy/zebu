@@ -11,7 +11,7 @@
 			 <div class="col-md-12">
 				 {% if perms.report.add_reporttable %}
 				 <div data-toggle="modal" data-target="#NewModal"  style="cursor:pointer;margin-bottom: 15px"><img src="/static/images/tianjia.png" />
-					 <span Style="color:#6bd5f8">Add New Product</span>
+					 <span Style="color:#6bd5f8;font-size: 16px">Add New Product</span>
 				 </div>
 				 {% endif %}
 				 <!--弹出模态框（Modal） -->
@@ -72,11 +72,11 @@
 					 <table  class="table" id="Box"  >
 						 <tbody style="background-color: #f0f0f0">
 						 <tr>
-							 <td width="250px" align="center" ><b>Product: </b>
+							 <td width="250px" ><b>Product: </b>
 								 <input type="text"  readonly id="product" class="miniForm1" value="{{tab.product}}"/></td>
-							 <td width="250px" align="center"><b>SPM: </b>
+							 <td width="250px"><b>SPM: </b>
 								 <input type="text" readonly id="spm" class="miniForm1" value="{{tab.spm}}"/></td>
-							 <td width="300px" align="center"><b>Daily Reporter: </b>
+							 <td width="300px"><b>Daily Reporter: </b>
 								 <input type="text" readonly id="zebu" class="miniForm1" value="{{tab.daily_reporter}}"/></td>
 							 {% if perms.report.add_reporttable %}
 							 <td width="50px"><a data-toggle="modal" data-target="#myModal18{{tab.id}}"  style="cursor:pointer" ><img style="right:16px" src="/static/images/bianji.png"></a></td>

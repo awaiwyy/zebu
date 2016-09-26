@@ -1,140 +1,141 @@
-{% extends "reportbase.html" %} {% block content %}
-<!-- 中间模板 -->
-<div class="divcenter">
-	<div class="reportForm">
-	{% if perms.report.add_maintfstatustable %}
-		<div data-toggle="modal" data-target="#NewModal"  style="cursor:pointer;"><img src="/static/images/tianjia.png" />
-				   <span Style="color:#6bd5f8">Add New Product</span>
-
-			   </div>
-	{% endif %}
-		<!--弹出模态框（Modal） -->
-		<div class="modal fade" id="NewModal" tabindex="-1" role="dialog" aria-labelledby="NewModalLabel" aria-hidden="true">
-			<div class="modal-dialog" style="width:800px">
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-						<h4 class="modal-title" id="NewModalLabel">Schedule of projects on Zebu</h4>
-					</div>
-					<div class="modal-body">
-						<form class="modalForm" method="POST">
-							{% csrf_token %}
-							<div class="modalFormContent">
-								<ul>
-									<li class="new_rqleft">Product:</li>
-									<li>
-										<span>
-                                  <select class="borderWidth" id="productInfo"  name="productInfo">
-                                      {%for i in productlist%}
-                                      <option>{{i}}</option>
-									  {%endfor%}
-                                  </select>
-                                  </span>
-									</li>
-								</ul>
-								<ul>
-									<li class="new_rqleft">SPM:</li>
-									<li>
-										<input type="text" id="spmInfo" name="spmInfo" style="width:350px;height:24px"/>
-									</li>
-								</ul>
-								<ul>
-									<li class="new_rqleft">Daily Reporter:</li>
-									<li>
-										<input type="text" id="reporterInfo" name="reporterInfo" style="width:350px;height:24px"/>
-									</li>
-								</ul>
-							</div>
-							<div align="center" style="margin-bottom: 100px; ">
-								<button class="requestBtn" type="text" name="cancle" style="background-color: #FB8C8C" data-dismiss="modal">cancel</button>
-								<button class="requestBtn" name="ok" type="submit" style="background-color:#67D00B ">confirm</button>
-							</div>
-						</form>
-					</div>
-				</div>
-			</div>
-		</div>
-		<!-- 添加模态框（Modal）结束 -->
-		{%for tab in maintf_tab%}
-		<div class="scheduleForm">
-		<div id="requestTable" class="maintfTableDiv">
-			<table class="reportTable" id="Box">
-				<tr>
-					  <td width="16px"></td>
-					 <td width="70px" ><b>Product: </b></td>
-					<td width="120px"><input type="text" readonly id="product" class="miniForm1" value="{{tab.product}}"/></td>
-				  	 <td width="60px" align="center"><b>SPM: </b></td>
-					<td width="120px"><input type="text" readonly id="spm" class="miniForm1" value="{{tab.spm}}"/></td>
-				  	 <td width="110px" align="center"><b>Daily Reporter: </b></td>
-					  <td width="150px"><input type="text" readonly id="zebu" class="miniForm1" value="{{tab.daily_reporter}}"/></td>
-					{% if perms.report.add_maintfstatustable %}
-					  <td width="50px"><a data-toggle="modal" data-target="#myModal18{{tab.id}}"  style="cursor:pointer" ><img style="right:16px" src="/static/images/bianji.png"></a></td>
-					  <td><a data-toggle="modal" data-target="#delPlanModalt{{tab.id}}"  style="cursor:pointer"><img src="/static/images/shanchu.png"></a></td>
-					{% endif %}
-						</tr>
-			</table>
-			<div>
-				<br>
-				<font size=3><b style="padding-left:16px">Highlight:</b></font>
-			{% if perms.report.add_maintfstatustable %}
-				<div data-toggle="modal" data-target="#NewHighModal{{tab.id}}" style="float:right">
-					<a style="cursor:pointer"><img src="/static/images/tianjia.png"></a>
-				</div>
-			{% endif %}
-				<br>
-
-				<table class="reportTable" id="Box">
-					<tr>
-						<th scope="col" width="84px"><span>Module</span></th>
-						<th scope="col" width="193px"><span>Action
-									Description</span></th>
-						<th scope="col" width="80px"><span>Owner</span></th>
-						<th scope="col" width="120px"><span>Status</span></th>
-						<th scope="col" width="88px"><span>Start Time</span></th>
-						<th scope="col" width="80px"><span>Next Target</span></th>
-						<th scope="col" width="74px"><span>Detail</span></th>
-					</tr>
-					{% for tabs in is_high_tab %}
-					{% ifequal tabs.project tab.product %}
-					<tr>
-						<td  style="text-align: center;">{{tabs.module}}</td>
-						<td style="text-align: center;">{{tabs.action_discription|safe}}</td>
-						<td style="text-align: center;">{{tabs.owner}}</td>
-						<td style="text-align: center;">{{tabs.status}}</td>
-						<td style="text-align: center;">{{tabs.start_time | date:"Y-m-d H:i:s"}}</td>
-						<td style="text-align: center;">{{tabs.next_target}}</td>
-
-						<td style="text-align: center;"><a data-toggle="modal"
-								data-target="#planModal{{tabs.id}}" style="cursor: pointer"><img
-									style="vertical-align: middle" src="/static/images/down.png" /></a></td>
-
-					</tr>
-					{%endifequal%}
-
-					<!--弹出detail模态框（Modal） -->
-						<div class="modal fade" id="planModal{{tabs.id}}" tabindex="-1"
-							role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-							<div class="modal-dialog" style="width: 800px">
-								<div class="modal-content">
-									<div class="modal-header">
-										<button type="button" class="close" data-dismiss="modal"
-											aria-hidden="true">&times;</button>
-										<h4 class="modal-title" id="planModalLabel">Application
-											List</h4>
-									</div>
-									<div class="modal-body">
-										<div class="modalForm">
-											<div class="modalFormContent" id="readPlanDiv{{tab.id}}">
-												<!--  <div class="new_request_title">Application List</div> -->
-												<ul>
-													<li class="rqleft">ID:</li>
-													<li class="borderBottom">{{tabs.id}}</li>
-												</ul>
-												<ul>
-													<li class="rqleft">Product:</li>
-													<li class="borderBottom">{{tabs.project}}</li>
-												</ul>
-												<ul>
+{% extends "base.html"%}
+{% block csslink%}
+<link href="/static/report/css/report.css" type="text/css" rel="stylesheet"/>
+<link href="/static/css/application.css" type="text/css" rel="stylesheet"/>
+<link href="/static/report/font-awesome/css/font-awesome.css" type="text/css" rel="stylesheet"/>
+{% endblock %}
+{% block content %}
+<div class="content">
+	 <div class="container-fluid">
+		 <div class="row">
+			 <div class="col-md-12">
+				 {% if perms.report.add_maintfstatustable %}
+				 <div data-toggle="modal" data-target="#NewModal"  style="cursor:pointer;margin-bottom: 16px"><img src="/static/images/tianjia.png" />
+					 <span Style="color:#6bd5f8;font-size: 16px">Add New Product</span>
+				 </div>
+				 {% endif %}
+				 <!--弹出模态框（Modal） -->
+				 <div class="modal fade" id="NewModal" tabindex="-1" role="dialog" aria-labelledby="NewModalLabel" aria-hidden="true">
+					 <div class="modal-dialog" style="width:800px">
+						 <div class="modal-content">
+							 <div class="modal-header">
+								 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+								 <h4 class="modal-title" id="NewModalLabel">Schedule of projects on Zebu</h4>
+							 </div>
+							 <div class="modal-body">
+								 <form class="modalForm" method="POST">
+									 {% csrf_token %}
+									 <div class="modalFormContent">
+										 <ul>
+											 <li class="new_rqleft">Product:</li>
+											 <li>
+												 <span>
+													 <select class="borderWidth" id="productInfo"  name="productInfo">
+														 {%for i in productlist%}
+														 <option>{{i}}</option>
+														 {%endfor%}
+													 </select>
+												 </span>
+											 </li>
+										 </ul>
+										 <ul>
+											 <li class="new_rqleft">SPM:</li>
+											 <li>
+												 <input type="text" id="spmInfo" name="spmInfo" style="width:350px;height:24px"/>
+											 </li>
+										 </ul>
+										 <ul>
+											 <li class="new_rqleft">Daily Reporter:</li>
+											 <li>
+												 <input type="text" id="reporterInfo" name="reporterInfo" style="width:350px;height:24px"/>
+											 </li>
+										 </ul>
+									 </div>
+									 <div align="center" style="margin-bottom: 100px; ">
+										 <button class="requestBtn" type="text" name="cancle" style="background-color: #FB8C8C" data-dismiss="modal">cancel</button>
+										 <button class="requestBtn" name="ok" type="submit" style="background-color:#67D00B ">confirm</button>
+									 </div>
+								 </form>
+							 </div>
+						 </div>
+					 </div>
+				 </div>
+				 <!-- 添加模态框（Modal）结束 -->
+				 {%for tab in maintf_tab%}
+				 <div class="card" >
+					 <table class="table" id="Box">
+						 <tbody style="background-color:#f0f0f0">
+						 <tr>
+							 <td width="250px"><b>Product: </b>
+								 <input type="text" readonly id="product" class="miniForm1" value="{{tab.product}}"/></td>
+							 <td width="250px"><b>SPM: </b>
+								 <input type="text" readonly id="spm" class="miniForm1" value="{{tab.spm}}"/></td>
+							 <td width="300px"><b>Daily Reporter: </b>
+								 <input type="text" readonly id="zebu" class="miniForm1" value="{{tab.daily_reporter}}"/></td>
+							 {% if perms.report.add_maintfstatustable %}
+							 <td width="50px"><a data-toggle="modal" data-target="#myModal18{{tab.id}}"  style="cursor:pointer" ><img style="right:16px" src="/static/images/bianji.png"></a></td>
+							 <td width="100px"><a data-toggle="modal" data-target="#delPlanModalt{{tab.id}}"  style="cursor:pointer"><img src="/static/images/shanchu.png"></a></td>
+							 {% endif %}
+						 </tr>
+						 </tbody>
+					 </table>
+					 <div>
+						 <br>
+						 <b style="padding-left:16px;font-size: 16px">Highlight:</b>
+						 {% if perms.report.add_maintfstatustable %}
+						 <div data-toggle="modal" data-target="#NewHighModal{{tab.id}}" style="float:right">
+							 <a style="cursor:pointer"><img src="/static/images/tianjia.png"></a>
+						 </div>
+						 {% endif %}
+						 <br>
+						 <table class="table" id="Box" style="text-align: center;">
+							 <tbody>
+							 <tr style="background-color: #f6f6f6">
+								 <td scope="col"><span>Module</span></td>
+								 <td scope="col"><span>ActionDescription</span></td>
+								 <td scope="col"><span>Owner</span></td>
+								 <td scope="col"><span>Status</span></td>
+								 <td scope="col"><span>Start Time</span></td>
+								 <td scope="col"><span>Next Target</span></td>
+								 <td scope="col"><span>Detail</span></td>
+							 </tr>
+							 {% for tabs in is_high_tab %}
+							 {% ifequal tabs.project tab.product %}
+							 <tr>
+								 <td>{{tabs.module}}</td>
+								 <td>{{tabs.action_discription|safe}}</td>
+								 <td>{{tabs.owner}}</td>
+								 <td>{{tabs.status}}</td>
+								 <td>{{tabs.start_time | date:"Y-m-d H:i:s"}}</td>
+								 <td>{{tabs.next_target}}</td>
+								 <td><a data-toggle="modal" data-target="#planModal{{tabs.id}}" style="cursor: pointer"><img style="vertical-align: middle" src="/static/images/down.png" /></a></td>
+							 </tr>
+							 {%endifequal%}
+							 {% endfor%}
+							 </tbody>
+						 </table>
+						 {% for tabs in is_high_tab %}
+						 <!--弹出detail模态框（Modal） -->
+						 <div class="modal fade" id="planModal{{tabs.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+							 <div class="modal-dialog" style="width: 800px">
+								 <div class="modal-content">
+									 <div class="modal-header">
+										 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+										 <h4 class="modal-title" id="planModalLabel">Application List</h4>
+									 </div>
+									 <div class="modal-body">
+										 <div class="modalForm">
+											 <div class="modalFormContent" id="readPlanDiv{{tab.id}}">
+												 <!--  <div class="new_request_title">Application List</div> -->
+												 <ul>
+													 <li class="rqleft">ID:</li>
+													 <li class="borderBottom">{{tabs.id}}</li>
+												 </ul>
+												 <ul>
+													 <li class="rqleft">Product:</li>
+													 <li class="borderBottom">{{tabs.project}}</li>
+												 </ul>
+												 <ul>
 													<li class="rqleft">Classification:</li>
 													<li id="readClassification" class="borderBottom">{{tabs.classification}}</li>
 												</ul>
@@ -142,360 +143,406 @@
 													<li class="rqleft">Module:</li>
 													<li class="borderBottom">{{tabs.module}}</li>
 												</ul>
-												<ul>
-													<li class="rqleft">TF Case:</li>
-													<li class="borderBottom">{{tabs.tf_case}}</li>
-												</ul>
-												<ul>
-													<li class="rqleft">Action Description:</li>
-													<li class="borderBottom">{{tabs.action_discription|safe}}</li>
-												</ul>
-												<ul>
-													<li class="rqleft">Environment:</li>
-													<li class="borderBottom">{{tabs.environment}}</li>
-												</ul>
-												<ul>
-													<li class="rqleft">Owner:</li>
-													<li class="borderBottom">{{tabs.owner}}</li>
-												</ul>
-												<ul>
-													<li class="rqleft">Priority:</li>
+												 <ul>
+													 <li class="rqleft">TF Case:</li>
+													 <li class="borderBottom">{{tabs.tf_case}}</li>
+												 </ul>
+												 <ul>
+													 <li class="rqleft">Action Description:</li>
+													 <li class="borderBottom">{{tabs.action_discription|safe}}</li>
+												 </ul>
+												 <ul>
+													 <li class="rqleft">Environment:</li>
+													 <li class="borderBottom">{{tabs.environment}}</li>
+												 </ul>
+												 <ul>
+													 <li class="rqleft">Owner:</li>
+													 <li class="borderBottom">{{tabs.owner}}</li>
+												 </ul>
+												 <ul>
+													 <li class="rqleft">Priority:</li>
 													<li class="borderBottom">{{tabs.priority}}</li>
-												</ul>
-												<ul id="viewStatus{tab.id}">
-													<li class="rqleft">Status:</li>
-													<li class="borderBottom">{{tabs.status}}</li>
-												</ul>
-												<ul id="viewProgress{{tab.id}}">
-													<li class="rqleft">Progress:</li>
-													<li class="borderBottom">{{tabs.progress |safe}}</li>
-												</ul>
-												<ul id="viewStime{{tab.id}}">
-													<li class="rqleft">Start Time:</li>
-													<li class="borderBottom">{{tabs.start_time | date:"Y-m-d H:i:s"}}</li>
-												</ul>
-												<ul>
-													<li class="rqleft">Request Duration:</li>
-													<li class="borderBottom">{{tabs.request_duration}}</li>
-												</ul>
-												<ul>
-													<li class="rqleft">Daily Duration:</li>
-													<li class="borderBottom">{{tabs.daily_duration}}</li>
-												</ul>
-												<ul>
-													<li class="rqleft">Total Duration:</li>
-													<li class="borderBottom">{{tabs.duration}}Hour</li>
-												</ul>
-												<ul id="viewCtime{{tab.id}}">
-													<li class="rqleft">Close Time:</li>
-													<li class="borderBottom">{{tabs.close_time | date:"Y-m-d H:i:s"}}</li>
-												</ul>
-												<ul >
-													<li class="rqleft">Next Target:</li>
-													<li class="borderBottom">{{tabs.next_target}}</li>
-												</ul>
-											</div>
-												{% if perms.request.change_requesttable%}
-											<div align="center" style="margin-bottom: 100px;">
-											<button class="requestBtn" id="delhighplanBtn{{tabs.id}}" type="submit" name="delete"
-								data-toggle="modal" data-target="#delPlanModal{{tabs.id}}" style="background-color: #67D00B;cursor:pointer">Delete</button>
-					<!-- delete plan table模态框（Modal） -->
-					<div class="modal fade" id="delPlanModal{{tabs.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-						<div class="modal-dialog planDelForm">
-							<div class="modal-content">
-								<div class="modal-header">
-									<!-- <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> -->
-									<h4 class="modal-title" id="myModalLabel">Delete the plan item ?</h4>
-								</div>
-								<div class="modal-body">
-									<form class="delForm" method="POST">
-										{% csrf_token %} <input type="text" name="delPlanId" value={{tabs.id}} hidden />
-										<div align="center" style="margin-bottom: 50px;">
-											<button class="requestBtn" type="text" id="cancleDelBtn{{tabs.id}}" name="cancle" style="background-color: #FB8C8C" data-dismiss="modal">Cancel</button>
-											<button class="requestBtn" name="ok" type="submit" style="background-color: #67D00B">confirm</button>
-										</div>
-									</form>
-								</div>
-							</div>
-						</div>
-					</div>
-					<!-- delete plan table modal finish-->
-												{% endif %}
-											</div>
-											</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					<!-- 添加detail模态框（Modal）结束 -->
-					{%endfor%}
-
-				</table>
-				<br>
-				<font size=3><b style="padding-left:16px">Lowlight:</b></font>
-			{% if perms.report.add_maintfstatustable %}
-				<div  data-toggle="modal" data-target="#NewLowModal{{tab.id}}" style="float:right">
-					<a style="cursor:pointer"><img src="/static/images/tianjia.png"></a>
-				</div>
-			{% endif %}
-				<br>
-				<table class="reportTable" id="Box">
-					<tr>
-						<th scope="col" width="84px"><span>Module</span></th>
-						<th scope="col" width="193px"><span>Action
-									Description</span></th>
-						<th scope="col" width="80px"><span>Owner</span></th>
-						<th scope="col" width="120px"><span>Status</span></th>
-						<th scope="col" width="88px"><span>Start Time</span></th>
-						<th scope="col" width="80px"><span>Next Target</span></th>
-						<th scope="col" width="74px"><span>Detail</span></th>
-					</tr>
-					{% for tabs in is_low_tab %}
-					{% ifequal tabs.project tab.product %}
-					<tr>
-						<td style="text-align: center;">{{tabs.module}}</td>
-						<td style="text-align: center;">{{tabs.action_discription|safe}}</td>
-						<td style="text-align: center;">{{tabs.owner}}</td>
-						<td style="text-align: center;">{{tabs.status}}</td>
-						<td style="text-align: center;">{{tabs.start_time | date:"Y-m-d H:i:s"}}</td>
-						<td style="text-align: center;">{{tabs.next_target}}</td>
-						<td style="text-align: center;"><a data-toggle="modal"
-								data-target="#planlowModal{{tabs.id}}" style="cursor: pointer"><img
-									style="vertical-align: middle" src="/static/images/down.png" /></a></td>
-					</tr>
-					{%endifequal%}
-
-					<!--弹出detail模态框（Modal） -->
-						<div class="modal fade" id="planlowModal{{tabs.id}}" tabindex="-1"
-							role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-							<div class="modal-dialog" style="width: 800px">
-								<div class="modal-content">
-									<div class="modal-header">
-										<button type="button" class="close" data-dismiss="modal"
-											aria-hidden="true">&times;</button>
-										<h4 class="modal-title" id="planModalLabel">Application
-											List</h4>
-									</div>
-									<div class="modal-body">
-										<div class="modalForm">
-											<div class="modalFormContent" id="readPlanDiv{{tab.id}}">
-												<!--  <div class="new_request_title">Application List</div> -->
-												<ul>
-													<li class="rqleft">ID:</li>
-													<li class="borderBottom">{{tabs.id}}</li>
-												</ul>
-												<ul>
+												 </ul>
+												 <ul id="viewStatus{tab.id}">
+													 <li class="rqleft">Status:</li>
+													 <li class="borderBottom">{{tabs.status}}</li>
+												 </ul>
+												 <ul id="viewProgress{{tab.id}}">
+													 <li class="rqleft">Progress:</li>
+													 <li class="borderBottom">{{tabs.progress |safe}}</li>
+												 </ul>
+												 <ul id="viewStime{{tab.id}}">
+													 <li class="rqleft">Start Time:</li>
+													 <li class="borderBottom">{{tabs.start_time | date:"Y-m-d H:i:s"}}</li>
+												 </ul>
+												 <ul>
+													 <li class="rqleft">Request Duration:</li>
+													 <li class="borderBottom">{{tabs.request_duration}}</li>
+												 </ul>
+												 <ul>
+													 <li class="rqleft">Daily Duration:</li>
+													 <li class="borderBottom">{{tabs.daily_duration}}</li>
+												 </ul>
+												 <ul>
+													 <li class="rqleft">Total Duration:</li>
+													 <li class="borderBottom">{{tabs.duration}}Hour</li>
+												 </ul>
+												 <ul id="viewCtime{{tab.id}}">
+													 <li class="rqleft">Close Time:</li>
+													 <li class="borderBottom">{{tabs.close_time | date:"Y-m-d H:i:s"}}</li>
+												 </ul>
+												 <ul >
+													 <li class="rqleft">Next Target:</li>
+													 <li class="borderBottom">{{tabs.next_target}}</li>
+												 </ul>
+											 </div>
+											 {% if perms.request.change_requesttable%}
+											 <div align="center" style="margin-bottom: 100px;">
+												 <button class="requestBtn" id="delhighplanBtn{{tabs.id}}" type="submit" name="delete" data-toggle="modal" data-target="#delPlanModal{{tabs.id}}" style="background-color: #67D00B;cursor:pointer">Delete</button>
+												 <!-- delete plan table模态框（Modal） -->
+												 <div class="modal fade" id="delPlanModal{{tabs.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+													 <div class="modal-dialog planDelForm">
+														 <div class="modal-content">
+															 <div class="modal-header">
+																 <!-- <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> -->
+																 <h4 class="modal-title" id="myModalLabel">Delete the plan item ?</h4>
+															 </div>
+															 <div class="modal-body">
+																 <form class="delForm" method="POST">
+																	 {% csrf_token %} <input type="text" name="delPlanId" value={{tabs.id}} hidden />
+																	 <div align="center" style="margin-bottom: 50px;">
+																		 <button class="requestBtn" type="text" id="cancleDelBtn{{tabs.id}}" name="cancle" style="background-color: #FB8C8C" data-dismiss="modal">Cancel</button>
+																		 <button class="requestBtn" name="ok" type="submit" style="background-color: #67D00B">confirm</button>
+																	 </div>
+																 </form>
+															 </div>
+														 </div>
+													 </div>
+												 </div>
+											 </div>
+											 <!-- delete plan table modal finish-->
+											 {% endif %}
+										 </div>
+									 </div>
+								 </div>
+							 </div>
+						 </div>
+						 <!-- 添加detail模态框（Modal）结束 -->
+						 {%endfor%}
+						 <br>
+						 <b style="padding-left:16px;font-size: 16px">Lowlight:</b>
+						 {% if perms.report.add_maintfstatustable %}
+						 <div  data-toggle="modal" data-target="#NewLowModal{{tab.id}}" style="float:right">
+							 <a style="cursor:pointer"><img src="/static/images/tianjia.png"></a>
+						 </div>
+						 {% endif %}
+						 <br>
+						 <table class="table" id="Box" style="text-align: center;">
+							 <tbody>
+							 <tr style="background-color: #f6f6f6">
+								 <td scope="col"><span>Module</span></td>
+								 <td scope="col"><span>Action Description</span></td>
+								 <td scope="col"><span>Owner</span></td>
+								 <td scope="col"><span>Status</span></td>
+								 <td scope="col"><span>Start Time</span></td>
+								 <td scope="col"><span>Next Target</span></td>
+								 <td scope="col"><span>Detail</span></td>
+							 </tr>
+							 {% for tabs in is_low_tab %}
+							 {% ifequal tabs.project tab.product %}
+							 <tr>
+								 <td>{{tabs.module}}</td>
+								 <td>{{tabs.action_discription|safe}}</td>
+								 <td>{{tabs.owner}}</td>
+								 <td>{{tabs.status}}</td>
+								 <td>{{tabs.start_time | date:"Y-m-d H:i:s"}}</td>
+								 <td>{{tabs.next_target}}</td>
+								 <td><a data-toggle="modal" data-target="#planlowModal{{tabs.id}}" style="cursor: pointer"><img style="vertical-align: middle" src="/static/images/down.png" /></a></td>
+							 </tr>
+							 {%endifequal%}
+							 {% endfor%}
+							 </tbody>
+						 </table>
+						 {% for tabs in is_low_tab %}
+						 <!--弹出detail模态框（Modal） -->
+						 <div class="modal fade" id="planlowModal{{tabs.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+							 <div class="modal-dialog" style="width: 800px">
+								 <div class="modal-content">
+									 <div class="modal-header">
+										 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+										 <h4 class="modal-title" id="planModalLabel">Application List</h4>
+									 </div>
+									 <div class="modal-body">
+										 <div class="modalForm">
+											 <div class="modalFormContent" id="readPlanDiv{{tab.id}}">
+												 <!--  <div class="new_request_title">Application List</div> -->
+												 <ul>
+													 <li class="rqleft">ID:</li>
+													 <li class="borderBottom">{{tabs.id}}</li>
+												 </ul>
+												 <ul>
 													<li class="rqleft">Project:</li>
 													<li class="borderBottom">{{tabs.project}}</li>
 												</ul>
-												<ul>
-													<li class="rqleft">Classification:</li>
-													<li id="readClassification" class="borderBottom">{{tabs.classification}}</li>
-												</ul>
-												<ul>
-													<li class="rqleft">Module:</li>
-													<li class="borderBottom">{{tabs.module}}</li>
-												</ul>
-												<ul>
-													<li class="rqleft">TF Case:</li>
-													<li class="borderBottom">{{tabs.tf_case}}</li>
-												</ul>
-												<ul>
-													<li class="rqleft">Action Description:</li>
-													<li class="borderBottom">{{tabs.action_discription|safe}}</li>
-												</ul>
-												<ul>
-													<li class="rqleft">Environment:</li>
-													<li class="borderBottom">{{tabs.environment}}</li>
-												</ul>
-												<ul>
-													<li class="rqleft">Owner:</li>
-													<li class="borderBottom">{{tabs.owner}}</li>
-												</ul>
-												<ul>
-													<li class="rqleft">Priority:</li>
-													<li class="borderBottom">{{tabs.priority}}</li>
-												</ul>
-												<ul id="viewStatus{tab.id}">
-													<li class="rqleft">Status:</li>
-													<li class="borderBottom">{{tabs.status}}</li>
-												</ul>
-												<ul id="viewProgress{{tab.id}}">
-													<li class="rqleft">Progress:</li>
-													<li class="borderBottom">{{tabs.progress |safe}}</li>
-												</ul>
-												<ul id="viewStime{{tab.id}}">
-													<li class="rqleft">Start Time:</li>
-													<li class="borderBottom">{{tabs.start_time | date:"Y-m-d H:i:s"}}</li>
-												</ul>
-												<ul>
-													<li class="rqleft">Request Duration:</li>
-													<li class="borderBottom">{{tabs.request_duration}}</li>
-												</ul>
-												<ul>
-													<li class="rqleft">Daily Duration:</li>
-													<li class="borderBottom">{{tabs.daily_duration}}</li>
-												</ul>
-												<ul>
-													<li class="rqleft">Total Duration:</li>
-													<li class="borderBottom">{{tabs.duration}}Hour</li>
-												</ul>
-												<ul id="viewCtime{{tab.id}}">
-													<li class="rqleft">Close Time:</li>
-													<li class="borderBottom">{{tabs.close_time | date:"Y-m-d H:i:s"}}</li>
-												</ul>
-												<ul >
-													<li class="rqleft">Next Target:</li>
-													<li class="borderBottom">{{tabs.next_target}}</li>
-												</ul>
-											</div>
-												{% if perms.request.change_requesttable%}
-											<div align="center" style="margin-bottom: 100px;">
-											<button class="requestBtn" id="dellowplanBtn{{tabs.id}}" type="submit" name="delete"
-								data-toggle="modal" data-target="#delPlanModal{{tabs.id}}" style="background-color: #67D00B;cursor:pointer">Delete</button>
-					<!-- delete plan table模态框（Modal） -->
-					<div class="modal fade" id="delPlanModal{{tabs.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-						<div class="modal-dialog planDelForm">
-							<div class="modal-content">
-								<div class="modal-header">
-									<!-- <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> -->
-									<h4 class="modal-title" id="myModalLabel">Delete the plan item ?</h4>
-								</div>
-								<div class="modal-body">
-									<form class="delForm" method="POST">
-										{% csrf_token %} <input type="text" name="delPlanId" value={{tabs.id}} hidden />
-										<div align="center" style="margin-bottom: 50px;">
-											<button class="requestBtn" type="text" id="cancleDelBtn{{tabs.id}}" name="cancle" style="background-color: #FB8C8C" data-dismiss="modal">Cancel</button>
-											<button class="requestBtn" name="ok" type="submit" style="background-color: #67D00B">confirm</button>
-										</div>
-									</form>
-								</div>
-							</div>
-						</div>
-					</div>
-					<!-- delete plan table modal finish-->
-												{% endif %}
-											</div>
-											</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					<!-- 添加detail模态框（Modal）结束 -->
+												 <ul>
+													 <li class="rqleft">Classification:</li>
+													 <li id="readClassification" class="borderBottom">{{tabs.classification}}</li>
+												 </ul>
+												 <ul>
+													 <li class="rqleft">Module:</li>
+													 <li class="borderBottom">{{tabs.module}}</li>
+												 </ul>
+												 <ul>
+													 <li class="rqleft">TF Case:</li>
+													 <li class="borderBottom">{{tabs.tf_case}}</li>
+												 </ul>
+												 <ul>
+													 <li class="rqleft">Action Description:</li>
+													 <li class="borderBottom">{{tabs.action_discription|safe}}</li>
+												 </ul>
+												 <ul>
+													 <li class="rqleft">Environment:</li>
+													 <li class="borderBottom">{{tabs.environment}}</li>
+												 </ul>
+												 <ul>
+													 <li class="rqleft">Owner:</li>
+													 <li class="borderBottom">{{tabs.owner}}</li>
+												 </ul>
+												 <ul>
+													 <li class="rqleft">Priority:</li>
+													 <li class="borderBottom">{{tabs.priority}}</li>
+												 </ul>
+												 <ul id="viewStatus{tab.id}">
+													 <li class="rqleft">Status:</li>
+													 <li class="borderBottom">{{tabs.status}}</li>
+												 </ul>
+												 <ul id="viewProgress{{tab.id}}">
+													 <li class="rqleft">Progress:</li>
+													 <li class="borderBottom">{{tabs.progress |safe}}</li>
+												 </ul>
+												 <ul id="viewStime{{tab.id}}">
+													 <li class="rqleft">Start Time:</li>
+													 <li class="borderBottom">{{tabs.start_time | date:"Y-m-d H:i:s"}}</li>
+												 </ul>
+												 <ul>
+													 <li class="rqleft">Request Duration:</li>
+													 <li class="borderBottom">{{tabs.request_duration}}</li>
+												 </ul>
+												 <ul>
+													 <li class="rqleft">Daily Duration:</li>
+													 <li class="borderBottom">{{tabs.daily_duration}}</li>
+												 </ul>
+												 <ul>
+													 <li class="rqleft">Total Duration:</li>
+													 <li class="borderBottom">{{tabs.duration}}Hour</li>
+												 </ul>
+												 <ul id="viewCtime{{tab.id}}">
+													 <li class="rqleft">Close Time:</li>
+													 <li class="borderBottom">{{tabs.close_time | date:"Y-m-d H:i:s"}}</li>
+												 </ul>
+												 <ul >
+													 <li class="rqleft">Next Target:</li>
+													 <li class="borderBottom">{{tabs.next_target}}</li>
+												 </ul>
+											 </div>
+											 {% if perms.request.change_requesttable%}
+											 <div align="center" style="margin-bottom: 100px;">
+												 <button class="requestBtn" id="dellowplanBtn{{tabs.id}}" type="submit" name="delete" data-toggle="modal" data-target="#delPlanModal{{tabs.id}}" style="background-color: #67D00B;cursor:pointer">Delete</button>
+												 <!-- delete plan table模态框（Modal） -->
+												 <div class="modal fade" id="delPlanModal{{tabs.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+													 <div class="modal-dialog planDelForm">
+														 <div class="modal-content">
+															 <div class="modal-header">
+																 <!-- <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> -->
+																 <h4 class="modal-title" id="myModalLabel">Delete the plan item ?</h4>
+															 </div>
+															 <div class="modal-body">
+																 <form class="delForm" method="POST">
+																	 {% csrf_token %} <input type="text" name="delPlanId" value={{tabs.id}} hidden />
+																	 <div align="center" style="margin-bottom: 50px;">
+																		 <button class="requestBtn" type="text" id="cancleDelBtn{{tabs.id}}" name="cancle" style="background-color: #FB8C8C" data-dismiss="modal">Cancel</button>
+																		 <button class="requestBtn" name="ok" type="submit" style="background-color: #67D00B">confirm</button>
+																	 </div>
+																 </form>
+															 </div>
+														 </div>
+													 </div>
+												 </div>
+											 </div>
+											 <!-- delete plan table modal finish-->
+											 {% endif %}
+										 </div>
+									 </div>
+								 </div>
+							 </div>
+						 </div>
+						 <!-- 添加detail模态框（Modal）结束 -->
+						 {% endfor %}
+					 </div>
+				 </div>
+				 <!--弹出编辑模态框（Modal） -->
+				 <div class="modal fade" id="myModal18{{tab.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+					 <div class="modal-dialog" style="width:800px">
+						 <div class="modal-content">
+							 <div class="modal-header">
+								 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+								 <h4 class="modal-title" id="myModalLabel">Schedule Details</h4>
+							 </div>
+							 <div class="modal-body">
+								 <form class="modalForm" method="POST">
+									 {% csrf_token %}
+									 <div class="modalFormContent" id="readRpTab{{tab.id}}">
+										 <input type="text" id="idEdit" name="idEdit" value={{tab.id}} hidden/>
+										 <ul>
+											 <li class="new_rqleft">Product:</li>
+											 <li>
+												 <span>
+													 <select class="borderWidth" id="productEdit" name="productEdit">
+														 <option selected="selected">{{tab.product}}</option>
+														 {%for i in productlist%}
+														 <option>{{i}}</option>
+														 {%endfor%}
+													 </select>
+												 </span>
+											 </li>
+										 </ul>
+										 <ul>
+											 <li class="rqleft">SPM:</li>
+											 <li>
+												 <input type="text" id="spmEdit" name="spmEdit" style="width:350px;height:24px" value="{{tab.spm}}" />
+											 </li>
+										 </ul>
+										 <ul>
+											 <li class="rqleft">Daily Reporter:</li>
+											 <li>
+												 <input type="text" id="reporterEdit" name="reporterEdit" style="width:350px;height:24px" value="{{tab.daily_reporter}}" />
+											 </li>
+										 </ul>
+									 </div>
+									 <div align="center" style="margin-bottom: 100px; vertical-align:middle;">
+										 <button class="requestBtn" type="text" id="cancleEditBtn18" style="background-color: #FB8C8C" data-dismiss="modal">cancel</button>
+										 <button class="requestBtn" type="submit" id="saveRqEdit18" style="background-color:#67D00B ">confirm</button>
+									 </div>
+								 </form>
+							 </div>
+						 </div>
+					 </div>
+				 </div>
+				 <!-- 添加编辑模态框（Modal）结束 -->
+				 <!-- 弹出删除模态框（Modal） -->
+				 <div class="modal fade" id="delPlanModalt{{tab.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style='margin: -150px 0 0 -100px'>
+					 <div class="modal-dialog planDelForm">
+						 <div class="modal-content">
+							 <div class="modal-header">
+								 <!-- <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> -->
+								 <h4 class="modal-title" id="myModalLabel">Delete The Product ?</h4>
+							 </div>
+							 <div class="modal-body">
+								 <form class="delForm" method="POST">
+									 {% csrf_token %}
+									 <input type="text" name="delReportId" value={{tab.id}} hidden />
+									 <div align="center" style="margin-bottom: 50px;">
+										 <button class="requestBtn" type="text" id="cancleDelBtn" name="cancle" style="background-color: #FB8C8C" data-dismiss="modal">Cancel</button>
+										 <button class="requestBtn" name="ok" type="submit" style="background-color: #67D00B">confirm</button>
+									 </div>
+								 </form>
+							 </div>
+						 </div>
+					 </div>
+				 </div>
+				 <!-- 删除模态框（Modal）结束-->
 
-					{%endfor%}
-				</table>
+				 <!--弹出high模态框（Modal） -->
+				 <div class="modal fade" id="NewHighModal{{tab.id}}" tabindex="-1" role="dialog" aria-labelledby="NewHighModalLabel" aria-hidden="true">
+					 <div class="modal-dialog" style="width: 800px">
+						 <div class="modal-content">
+							 <div class="modal-header">
+								 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+								 <h4 class="modal-title" id="NewHighModalLabel">New Plan</h4>
+							 </div>
+							 <div class="modal-body">
+								 <form class="newPlanForm" method="POST">
+									 {% csrf_token %}
+									 <input type="hidden" name="newHighId">
+									 <table class="newPlanTable">
+										 <tr>
+											 <th scope="col" width="84px"><span>&nbsp;&nbsp;</span></th>
+											 <th scope="col" width="84px"><span>ID</span></th>
+											 <th scope="col" width="120px"><span>Product</span></th>
+											 <th scope="col" width="120px"><span>TF case</span></th>
+											 <th scope="col" width="360px"><span>Action Description</span></th>
+										 </tr>
+										 {% for tab2 in plan_tab %}
+										 {% ifequal tab2.project tab.product %}
+										 <tr>
+											 <td><input class="newPlanBox" type="checkbox" id="newPlan{{tab2.id}}" name="newPlan{{tab2.id}}" value='N'></td>
+											 <td>{{tab2.id}}</td>
+											 <td>{{tab2.project}}</td>
+											 <td>{{tab2.tf_case}}</td>
+											 <td>{{tab2.action_discription|safe}}</td>
+										 </tr>
+										 <script type="text/javascript">
+											 $(function() {
+												 $("#newPlan{{tab2.id}}").prop("checked", false);
+												 $("#newPlan{{tab2.id}}").val("N");
+												 $("#newPlan{{tab2.id}}").click(
+														 function() {
+															 if ($(this).is(":checked")) {
+															$(this).val("Y");
+														} else {
+															$(this).val("N");
+															 }
+														 });
+											 });
+										 </script>
+										 {%endifequal%}
+										 {% endfor %}
+									 </table>
+									 <div class="newPlanDiv">
+										 <button class="newPlanBtn" type="text" style="background-color: #FB8C8C" data-dismiss="modal">cancel</button>
+										 <button class="newPlanBtn" type="submit" style="background-color: #67D00B">confirm</button>
+									 </div>
+								 </form>
+							 </div>
+						 </div>
+					 </div>
+				 </div>
+				 <!-- 添加模态框（Modal）结束 -->
 
-			</div>
-		</div>
-		</div>
-
-		<!--弹出编辑模态框（Modal） -->
-		<div class="modal fade" id="myModal18{{tab.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-			<div class="modal-dialog" style="width:800px">
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-						<h4 class="modal-title" id="myModalLabel">Schedule Details</h4>
-					</div>
-					<div class="modal-body">
-					<form class="modalForm" method="POST">
-						{% csrf_token %}
-						<div class="modalFormContent" id="readRpTab{{tab.id}}">
-							<input type="text" id="idEdit" name="idEdit" value={{tab.id}} hidden/>
-							<ul>
-								<li class="new_rqleft">Product:</li>
-								<li>
-									<span>
-                                  <select class="borderWidth" id="productEdit" name="productEdit">
-                                      <option selected="selected">{{tab.product}}</option>
-									 {%for i in productlist%}
-                                      <option>{{i}}</option>
-									  {%endfor%}
-                                  </select>
-                                  </span>
-								</li>
-							</ul>
-							<ul>
-								<li class="rqleft">SPM:</li>
-								<li>
-									<input type="text" id="spmEdit" name="spmEdit" style="width:350px;height:24px" value="{{tab.spm}}" />
-								</li>
-							</ul>
-							<ul>
-								<li class="rqleft">Daily Reporter:</li>
-								<li>
-									<input type="text" id="reporterEdit" name="reporterEdit" style="width:350px;height:24px" value="{{tab.daily_reporter}}" />
-								</li>
-							</ul>
-						</div>
-						<div align="center" style="margin-bottom: 100px; vertical-align:middle;">
-							<button class="requestBtn" type="text" id="cancleEditBtn18" style="background-color: #FB8C8C" data-dismiss="modal">cancel</button>
-							<button class="requestBtn" type="submit" id="saveRqEdit18" style="background-color:#67D00B ">confirm</button>
-						</div>
-					</form>
-						</div>
-				</div>
-			</div>
-		</div>
-		<!-- 添加编辑模态框（Modal）结束 -->
-		<!-- 弹出删除模态框（Modal） -->
-		<div class="modal fade" id="delPlanModalt{{tab.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style='margin: -150px 0 0 -100px'>
-			<div class="modal-dialog planDelForm">
-				<div class="modal-content">
-					<div class="modal-header">
-						<!-- <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> -->
-						<h4 class="modal-title" id="myModalLabel">Delete The Product ?</h4>
-					</div>
-					<div class="modal-body">
-						<form class="delForm" method="POST">
-							{% csrf_token %}
-							<input type="text" name="delReportId" value={{tab.id}} hidden />
-							<div align="center" style="margin-bottom: 50px;">
-								<button class="requestBtn" type="text" id="cancleDelBtn" name="cancle" style="background-color: #FB8C8C" data-dismiss="modal">Cancel</button>
-								<button class="requestBtn" name="ok" type="submit" style="background-color: #67D00B">confirm</button>
-							</div>
-						</form>
-					</div>
-				</div>
-			</div>
-		</div>
-		<!-- 删除模态框（Modal）结束-->
-
-		<!--弹出high模态框（Modal） -->
-		<div class="modal fade" id="NewHighModal{{tab.id}}" tabindex="-1" role="dialog" aria-labelledby="NewHighModalLabel" aria-hidden="true">
-			<div class="modal-dialog" style="width: 800px">
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-						<h4 class="modal-title" id="NewHighModalLabel">New Plan</h4>
-					</div>
-					<div class="modal-body">
-						<form class="newPlanForm" method="POST">
-							{% csrf_token %} <input type="hidden" name="newHighId">
-							<table class="newPlanTable">
-								<tr>
-									<th scope="col" width="84px"><span>&nbsp;&nbsp;</span></th>
-									<th scope="col" width="84px"><span>ID</span></th>
-									<th scope="col" width="120px"><span>Product</span></th>
-									<th scope="col" width="120px"><span>TF case</span></th>
-									<th scope="col" width="360px"><span>Action
-												Description</span></th>
-								</tr>
-								{% for tab2 in plan_tab %} {% ifequal tab2.project tab.product %}
-								<tr>
-									<td><input class="newPlanBox" type="checkbox" id="newPlan{{tab2.id}}" name="newPlan{{tab2.id}}" value='N'></td>
-									<td>{{tab2.id}}</td>
-									<td>{{tab2.project}}</td>
-									<td>{{tab2.tf_case}}</td>
-									<td>{{tab2.action_discription|safe}}</td>
-								</tr>
-								<script type="text/javascript">
-										$(function() {
-											$("#newPlan{{tab2.id}}").prop(
-													"checked", false);
-											$("#newPlan{{tab2.id}}").val("N");
-											$("#newPlan{{tab2.id}}").click(
+				 <!--弹出low模态框（Modal） -->
+				 <div class="modal fade" id="NewLowModal{{tab.id}}" tabindex="-1" role="dialog" aria-labelledby="NewLowModalLabel" aria-hidden="true">
+					 <div class="modal-dialog" style="width: 800px">
+						 <div class="modal-content">
+							 <div class="modal-header">
+								 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+								 <h4 class="modal-title" id="NewLowModalLabel">New Plan</h4>
+							 </div>
+							 <div class="modal-body">
+								 <form class="newPlanForm" method="POST">
+									 {% csrf_token %}
+									 <input type="hidden" name="newLowId">
+									 <table class="newPlanTable">
+										 <tr>
+											 <th scope="col" width="84px"><span>&nbsp;&nbsp;</span></th>
+											 <th scope="col" width="84px"><span>ID</span></th>
+											 <th scope="col" width="120px"><span>Project</span></th>
+											 <th scope="col" width="120px"><span>TF case</span></th>
+											 <th scope="col" width="360px"><span>Action Description</span></th>
+										 </tr>
+										 {% for tab2 in plan_tab %}
+										 {% ifequal tab2.project tab.product %}
+										 <tr>
+											 <td><input class="newPlanBox" type="checkbox" id="newPlan{{tab2.id}}" name="newPlan{{tab2.id}}" value='N'></td>
+											 <td>{{tab2.id}}</td>
+											 <td>{{tab2.project}}</td>
+											 <td>{{tab2.tf_case}}</td>
+											 <td>{{tab2.action_discription|safe}}</td>
+										 </tr>
+										 <script type="text/javascript">
+											 $(function() {
+												 $("#newPlan{{tab2.id}}").prop("checked", false);
+												 $("#newPlan{{tab2.id}}").val("N");
+												 $("#newPlan{{tab2.id}}").click(
 													function() {
 														if ($(this).is(
 																":checked")) {
@@ -504,82 +551,24 @@
 															$(this).val("N");
 														}
 													});
-										});
-									</script> {%endifequal%} {% endfor %}
-							</table>
-							<div class="newPlanDiv">
-								<button class="newPlanBtn" type="text" style="background-color: #FB8C8C" data-dismiss="modal">cancel</button>
-								<button class="newPlanBtn" type="submit" style="background-color: #67D00B">confirm</button>
-							</div>
-						</form>
-					</div>
-				</div>
-			</div>
-		</div>
-		<!-- 添加模态框（Modal）结束 -->
-
-		<!--弹出low模态框（Modal） -->
-		<div class="modal fade" id="NewLowModal{{tab.id}}" tabindex="-1" role="dialog" aria-labelledby="NewLowModalLabel" aria-hidden="true">
-			<div class="modal-dialog" style="width: 800px">
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-						<h4 class="modal-title" id="NewLowModalLabel">New Plan</h4>
-					</div>
-					<div class="modal-body">
-						<form class="newPlanForm" method="POST">
-							{% csrf_token %} <input type="hidden" name="newLowId">
-							<table class="newPlanTable">
-								<tr>
-									<th scope="col" width="84px"><span>&nbsp;&nbsp;</span></th>
-									<th scope="col" width="84px"><span>ID</span></th>
-									<th scope="col" width="120px"><span>Project</span></th>
-									<th scope="col" width="120px"><span>TF case</span></th>
-									<th scope="col" width="360px"><span>Action
-												Description</span></th>
-								</tr>
-								{% for tab2 in plan_tab %} {% ifequal tab2.project tab.product %}
-								<tr>
-									<td><input class="newPlanBox" type="checkbox" id="newPlan{{tab2.id}}" name="newPlan{{tab2.id}}" value='N'></td>
-									<td>{{tab2.id}}</td>
-									<td>{{tab2.project}}</td>
-									<td>{{tab2.tf_case}}</td>
-									<td>{{tab2.action_discription|safe}}</td>
-								</tr>
-								<script type="text/javascript">
-										$(function() {
-											$("#newPlan{{tab2.id}}").prop(
-													"checked", false);
-											$("#newPlan{{tab2.id}}").val("N");
-											$("#newPlan{{tab2.id}}").click(
-													function() {
-														if ($(this).is(
-																":checked")) {
-															$(this).val("Y");
-														} else {
-															$(this).val("N");
-														}
-													});
-										});
-									</script> {%endifequal%} {% endfor %}
-							</table>
-							<div class="newPlanDiv">
-								<button class="newPlanBtn" type="text" style="background-color: #FB8C8C" data-dismiss="modal">cancel</button>
-								<button class="newPlanBtn" type="submit" style="background-color: #67D00B">confirm</button>
-							</div>
-						</form>
-					</div>
-				</div>
-			</div>
-		</div>
-		<!-- 添加模态框（Modal）结束 -->
-
-		{%endfor%}
+											 });
+										 </script>
+										 {%endifequal%}
+										 {% endfor %}
+									 </table>
+									 <div class="newPlanDiv">
+										 <button class="newPlanBtn" type="text" style="background-color: #FB8C8C" data-dismiss="modal">cancel</button>
+										 <button class="newPlanBtn" type="submit" style="background-color: #67D00B">confirm</button>
+									 </div>
+								 </form>
+							 </div>
+						 </div>
+					 </div>
+				 </div>
+				 <!-- 添加模态框（Modal）结束 -->
+				 {%endfor%}
+			 </div>
+		 </div>
 	</div>
-
-
-
-
 </div>
-
 {% endblock %}
