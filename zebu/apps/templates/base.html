@@ -55,9 +55,9 @@
                 </div>
             </div>
                                   
-            <ul class="nav">
+            <ul class="nav" id="navlist">
         
-                <li>                   
+                <li>
                     <a href="../home">
                         <p>Home</p>
                     </a>                
@@ -75,13 +75,13 @@
                     </a>        
                 </li>
                 
-                <li>                  
-                    <a data-toggle="collapse" href="#pagesExamples">
+                <li>
+                    <a data-toggle="collapse" href="#pagesExamples" >
                         <p>Report
                            <b class="caret"></b>
                         </p>
                     </a>                
-                    <div class="collapse" id="pagesExamples">
+                    <div class="collapse" id="pagesExamples" >
                         <ul class="nav">
                             <li style="font-size: 16px"><a href="../report/resource_usage"><img src="/static/images/leftarrow.png">Resource Usage</a></li>
                             <li style="font-size: 16px"><a href="../report/schedule"><img src="/static/images/leftarrow.png">Schedule</a></li>
@@ -90,7 +90,7 @@
                         </ul>
                     </div>
                 </li>
-            </ul>  
+            </ul>
     	</div>
     </div>
     
@@ -101,12 +101,36 @@
                     <p class="navbar-brand" id="pagetitle" href="#"></p>
                     <script>
                         var urlpath = location.pathname;
-                        //var urlpath = "/report/resource_usage"
-                        //var urlpath = "/home/"
-                        //console.log(urlpath);
                         var strlist=urlpath.substr(1).split("/");
-                        console.log(strlist);
-                        $("#pagetitle").text(strlist[0].replace(/^\S/,strlist[0][0].toUpperCase()));
+                        //console.log(strlist);
+                        if (strlist[0]!= "report")
+                        {
+                            $("#navlist a").each(function () {
+                                //console.log("the href is:   " +$(this).attr('href'));
+                                //console.log("strlist[0] is: " + strlist[0]);
+                                if (($(this).attr('href')).indexOf(strlist[0]) > -1&&$(this).attr('href')!='')
+                                {
+                                    //console.log("the id is:   "+ $(this).parent().attr('id'));
+                                    $(this).parent().addClass('active');
+                                }
+                            });
+                            $("#pagetitle").text(strlist[0].replace(/^\S/,strlist[0][0].toUpperCase()));
+                         }
+                         else
+                         {
+                            $("#pagesExamples").addClass("in")
+                            $("#pagesExamples a").each(function () {
+                                //console.log("the href is:   " +$(this).attr('href'));
+                                //console.log("strlist[1] is: " + strlist[1]);
+                                if (($(this).attr('href')).indexOf(strlist[1]) > -1&&$(this).attr('href')!='')
+                                {
+                                    //console.log("the id is:   "+ $(this).parent().attr('id'));
+                                    $(this).parent().addClass('active');
+                                    $("#pagetitle").text("Report - " + $(this).text());
+                                }
+                            });
+
+                         }
                     </script>
                 </div>
                 <div class="collapse navbar-collapse">
