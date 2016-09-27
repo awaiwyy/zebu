@@ -17,13 +17,12 @@
         </div>
         {% endif %}
         <!--弹出模态框（Modal） -->
-        <div class="modal fade" id="NewModal" tabindex="-1" role="dialog" aria-labelledby="NewModalLabel"
-             aria-hidden="true">
+        <div class="modal fade" id="NewModal" tabindex="-1" role="dialog" aria-labelledby="NewModalLabel" aria-hidden="true">
             <div class="modal-dialog" style="width:800px">
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title" id="NewModalLabel">Daily Report</h4>
+                        <h4 class="modal-title" id="NewModalLabel">Add New Product</h4>
                     </div>
                     <div class="modal-body">
                         <form class="modalForm" method="POST" enctype="multipart/form-data">
@@ -86,11 +85,14 @@
 
 
             <!-- 弹出模态框（Modal） -->
-            <div class="modal fade" id="TitleModal{{tab.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-                 aria-hidden="true">
+            <div class="modal fade" id="TitleModal{{tab.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                 <div class="modal-dialog" style="width:800px">
                     <div class="modal-content">
-
+                        <div class="modal-header">
+                           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                           <h4 class="modal-title" id="myModalLabel">Edit Total And Usage</h4>
+                        </div>
+                        <div class="modal-body">
                         <form class="modalForm" method="POST">
                             {% csrf_token %}
                             <div class="modalFormContent" id="titleedit">
@@ -129,16 +131,17 @@
                                 </button>
                             </div>
                         </form>
+                        </div>
                     </div>
                 </div>
             </div>
             {% empty %}
             <table>
                 <tr>
-                    <td><b>Total(Piece)：0 H(10×24)</b></td>
+                    <td><b>Total：0 H</b></td>
                 </tr>
                 <tr>
-                    <td><b>Usage(Piece)：0 H</b></td>
+                    <td><b>Usage：0 H</b></td>
                     {% if perms.report.add_resourceusagetitletable %}
                     <td><a data-toggle="modal" data-target="#TitleModal0" style="cursor:pointer">
                         <img src="/static/images/bianji.png"></a></td>
@@ -149,7 +152,11 @@
                  aria-hidden="true">
                 <div class="modal-dialog" style="width:800px">
                     <div class="modal-content">
-
+                        <div class="modal-header">
+                           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                           <h4 class="modal-title" id="myModalLabel">Edit Total And Usage</h4>
+                        </div>
+                        <div class="modal-body">
                         <form class="modalForm" method="POST" enctype="multipart/form-data">
                             {% csrf_token %}
                             <div class="modalFormContent" id="titleedit0">
@@ -187,6 +194,7 @@
                                 </button>
                             </div>
                         </form>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -224,7 +232,7 @@
                     <table class="table">
                         <tbody style="background-color: #f0f0f0">
                         <tr>
-                            <td width="250px"><b>Product: </b>
+                            <td width="250px" style="text-align: "><b>Product: </b>
                             <input type="text" readonly id="product{{tab.id}}" class="miniForm1" value="{{tab.product}}"/></td>
                             <td width="250px"><b>SPM: </b>
                             <input type="text" readonly id="spm{{tab.id}}" class="miniForm1" value="{{tab.spm}}"/></td>
@@ -269,7 +277,7 @@
                                 <div class="modal-header">
                                     <button type="button" class="close" data-dismiss="modal"
                                             aria-hidden="true">&times;</button>
-                                    <h4 class="modal-title" id="myModalLabel">Edit Usage</h4>
+                                    <h4 class="modal-title" id="myModalLabel">Edit Resource Usage</h4>
                                 </div>
                                 <div class="modal-body">
                                     <form class="modalForm" method="POST" onsubmit="return checkFunc({{tab.id}})">

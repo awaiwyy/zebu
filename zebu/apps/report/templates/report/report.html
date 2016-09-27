@@ -20,7 +20,7 @@
 						 <div class="modal-content">
 							 <div class="modal-header">
 								 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-								 <h4 class="modal-title" id="NewModalLabel">Daily Report</h4>
+								 <h4 class="modal-title" id="NewModalLabel">Add New Product</h4>
 							 </div>
 							 <div class="modal-body">
 								 <form class = "modalForm" method="POST" enctype="multipart/form-data">
@@ -73,9 +73,9 @@
 						 <tbody style="background-color: #f0f0f0">
 						 <tr>
 							 <td width="250px" ><b>Product: </b>
-								 <input type="text"  readonly id="product" class="miniForm1" value="{{tab.product}}"/></td>
+								 <input type="text"  readonly id="product" class="miniForm1" value=" {{tab.product}}"/></td>
 							 <td width="250px"><b>SPM: </b>
-								 <input type="text" readonly id="spm" class="miniForm1" value="{{tab.spm}}"/></td>
+								 <input type="text" readonly id="spm" class="miniForm1" value=" {{tab.spm}}"/></td>
 							 <td width="300px"><b>Daily Reporter: </b>
 								 <input type="text" readonly id="zebu" class="miniForm1" value="{{tab.daily_reporter}}"/></td>
 							 {% if perms.report.add_reporttable %}
@@ -98,7 +98,7 @@
 							 <div class="modal-content">
 								 <div class="modal-header">
 									 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-									 <h4 class="modal-title" id="myModalLabel">Daily Report Details</h4>
+									 <h4 class="modal-title" id="myModalLabel">Edit Daily Report</h4>
 								 </div>
 								 <div class="modal-body">
 									 <form  class = "modalForm" method="POST" enctype="multipart/form-data">
@@ -166,7 +166,7 @@
 							 <div class="modal-content">
 								 <div class="modal-header">
 									 <!-- <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> -->
-									 <h4 class="modal-title" id="myModalLabel">Delete the Report item ?</h4>
+									 <h4 class="modal-title" id="myModalLabel">Delete The Product ?</h4>
 								 </div>
 								 <div class="modal-body">
 									 <form class="delForm" method="POST">
