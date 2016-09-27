@@ -136,16 +136,15 @@
             <div class="row">                   
             <div class="col-md-12">
 				<div class="card dataTables_wrapper">
-				<div class="header" data-toggle="modal" data-target="#NewPlanModal"  style="cursor:pointer;margin-bottom: 10px">
 				{% if perms.request.change_requesttable %}
+				<div class="header" data-toggle="modal" data-target="#NewPlanModal"  style="cursor:pointer;margin-bottom: 10px">
 				<tr class="title">
 					<td><img src="/static/images/tianjia.png" /></td>
 					<span Style="color:#6bd5f8;font-size: 16px">Add New TF case</span>
 				</tr>
-				{% endif %}
 				</div>
-			
-				<div id="planTable" class="content table-responsive table-full-width">
+				{% endif %}
+				<div class="content table-responsive table-full-width">
 					<table class="table table-hover table-striped" id="Box">
 						<thead>
 						<tr>
