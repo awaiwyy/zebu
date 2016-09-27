@@ -3962,7 +3962,7 @@ legend {
   background: rgba(255, 255, 255, 0.23);
 }
 .sidebar .nav [data-toggle="collapse"] ~ div > ul > li > a {
-  padding-left: 60px;
+  padding-left: 15px;
 }
 .sidebar .nav p {
   margin: 0;
@@ -6800,7 +6800,7 @@ star {
   border-radius: 4px;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), 0 0 0 1px rgba(63, 63, 68, 0.1);
   background-color: #FFFFFF;
-  margin-bottom: 30px;
+  margin-bottom: 15px;
   /*
       background-image: url('https://images.unsplash.com/photo-1438978280647-f359d95ebda4?q=80&fm=jpg&s=73cb1239b517411534379c92660b2660');
       background-size: cover;

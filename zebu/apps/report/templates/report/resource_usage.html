@@ -71,7 +71,7 @@
         <!-- 添加模态框（Modal）结束 -->
         <div class="" style="padding-top:16px">
             {% for tab in title_tab %}
-            <table class="" id="Box1">
+            <table>
                 <tr>
                     <td><b>Total：{{tab.total}} H</b></td>
                 </tr>
@@ -133,7 +133,7 @@
                 </div>
             </div>
             {% empty %}
-            <table class="" id="Box1">
+            <table>
                 <tr>
                     <td><b>Total(Piece)：0 H(10×24)</b></td>
                 </tr>
@@ -224,15 +224,15 @@
                     <table class="table">
                         <tbody style="background-color: #f0f0f0">
                         <tr>
-                            <td width="250px" align="center"><b>Product: </b>
+                            <td width="250px"><b>Product: </b>
                             <input type="text" readonly id="product{{tab.id}}" class="miniForm1" value="{{tab.product}}"/></td>
-                            <td width="250px" align="center"><b>SPM: </b>
+                            <td width="250px"><b>SPM: </b>
                             <input type="text" readonly id="spm{{tab.id}}" class="miniForm1" value="{{tab.spm}}"/></td>
-                            <td width="300px" align="center"><b>Daily Reporter: </b>
+                            <td width="300px"><b>Daily Reporter: </b>
                             <input type="text" readonly id="daily_reporter{{tab.id}}" class="miniForm1" value="{{tab.daily_reporter}}"/></td>
                             {% if perms.report.add_resourceusagetable %}
-                            <td  ><a data-toggle="modal" data-target="#editModal18{{tab.id}}" style="cursor:pointer"><img style="right:16px" src="/static/images/bianji.png"></a>
-                            <a data-toggle="modal" data-target="#delresourceModal{{tab.id}}" style="cursor:pointer"><img src="/static/images/shanchu.png"></a></td>
+                            <td width="50px"><a data-toggle="modal" data-target="#editModal18{{tab.id}}" style="cursor:pointer"><img style="right:16px" src="/static/images/bianji.png"></a></td>
+                            <td width="100px"><a data-toggle="modal" data-target="#delresourceModal{{tab.id}}" style="cursor:pointer"><img src="/static/images/shanchu.png"></a></td>
                             {% endif %}
                         </tr>
                         </tbody>
