@@ -209,8 +209,7 @@
                     <div class="col-md-12">
                         {% for tab in resource_usage_tab%}
                         <div class="card" >
-                    <div class="header" >
-                        <div class="input-group date col-xs-3 pull-right" name="showcalendar" style="margin-bottom: 10px">
+                            <div class="input-group date col-xs-3 pull-right" name="showcalendar" style="margin: 10px 0 10px 0">
                             {% ifnotequal product_changed "notcheck" %}
                             {% ifequal tab.id product_changed %}
                             <span class="input-group-addon"><i class="fa fa-calendar"></i></span><input
@@ -226,8 +225,7 @@
                                 id=choosedate{{tab.id}} name="datepicker" type="text" value="{{fedit|date:'Y-m-d'}}"
                                 class="form-control">
                             {% endifnotequal %}
-                        </div>
-                    </div>
+                            </div>
                     <div class="content table-responsive table-full-width">
                     <table class="table">
                         <tbody style="background-color: #f0f0f0">
