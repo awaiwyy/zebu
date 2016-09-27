@@ -6895,6 +6895,7 @@ star {
   color: #333333;
   font-weight: 300;
   font-size: 22px;
+  width:200px;
 }
 .card .category,
 .card .form-group label {
