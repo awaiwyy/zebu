@@ -312,7 +312,7 @@ def planPage(request, **kwargs):
                 for item in filter_status:
                     statlist.append(statuslist[int(item)-1])
                     filter += "s" + item + ","
-            otherpara += "&a=" + request.GET.get("s")
+            otherpara += "&s=" + request.GET.get("s")
         if "order" in request.GET.keys():
             if request.GET.get("order") != "":
                 if request.GET.get("order") == "up":
