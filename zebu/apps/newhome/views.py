@@ -274,7 +274,7 @@ def newHomePage(request, **kwargs):
                 else:
                     print"send fail"
 
-        return HttpResponseRedirect('/newhome/', {'valid_duration': valid_duration, "city_list": city_list,"environment_list":environment_list,"productlist":productlist,"resourceid_list":resourceid_list,"resource_list":resource_list})
+        return HttpResponseRedirect('/home/', {'valid_duration': valid_duration, "city_list": city_list,"environment_list":environment_list,"productlist":productlist,"resourceid_list":resourceid_list,"resource_list":resource_list})
     else:
         filter = ""
         citylist = city_list
