@@ -231,7 +231,7 @@
 				<div>
 					<table id="resourcetable" class="display" cellspacing="0" width="100%" >
 						<thead >
-						<tr>
+						<tr class="tabletitle" >
 							<th width="80px">Num</th>
 							<th width="180px">Resource</th>
 							<th width="150px">Status</th>
@@ -320,6 +320,7 @@
 	$(".chosen-select").chosen();
 	$(document).ready(function(){
 		$('#resourcetable').dataTable({
+			searching:false,
 			bLengthChange: false,
 			pageLength: 15
 		});

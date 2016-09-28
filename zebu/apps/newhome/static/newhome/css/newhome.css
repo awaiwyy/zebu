@@ -75,3 +75,11 @@
 	color: #4AADCE;
 	margin-top: 24px;
 }
+
+.tabletitle{
+	font-size: 12px;
+	text-transform: uppercase;
+	color: #9A9A9A;
+	font-weight: 400;
+	text-align: left;
+}
