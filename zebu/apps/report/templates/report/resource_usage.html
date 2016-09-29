@@ -582,7 +582,7 @@
 
                         dataType: "json",
                         success: function () {
-                            console.log("success");
+                            //console.log("success");
                             //update table view
                             var total=parseInt($("#totalEdit" + product_id).val())*24;
                             var power_management=parseInt($("#managementhourEdit" + product_id).val());
@@ -606,7 +606,7 @@
 
                             //update highchart
                             if (total != 0) {
-                                $('#container' + product_id).show()
+                                $('#container' + product_id).show();
                                 var color = ['#cc9999', '#ffff99', '#666699', '#0099cc', '#cc3999'];
                                 var free = total - power_management - performance - functionhour - zebu_platform;
                                 $('#container' + product_id).highcharts({
@@ -655,8 +655,8 @@
                             else {
                                 $('#container' + product_id).hide();
                             }
-                        },
-                    })
+                        }
+                    });
                 }
 
 				function checkFunc(id){
