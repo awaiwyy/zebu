@@ -477,6 +477,9 @@
                         </script>
 {%endfor%}
 <script>
+    $.ajaxSetup({
+		data: {csrfmiddlewaretoken: '{{ csrf_token }}' },
+	});
                 function submitModal(id) {
                     var date = $("#showchoosedate" + id).val();
                     postData(id, date);
