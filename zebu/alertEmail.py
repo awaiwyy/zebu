@@ -38,7 +38,7 @@ def main():
             end1=assignedtable[0].assign_endtime
             owner1 = assignedtable[0].owner
             if start1>current_time and ((start1-current_time).seconds)<=300:
-                content = "Dear"+ owner1 +":<br><br>你申请的zebu资源即将可以开始使用<br>开始使用时间："+str(start1+datetime.timedelta(hours=8))
+                content = "Dear "+ owner1 +":<br><br>你申请的zebu资源即将可以开始使用<br>开始使用时间："+str(start1+datetime.timedelta(hours=8))
                 subject = resource+'资源即将可以使用'
                 # use sendEmailTest.send_mail() at Nanjing thundersoft site, use sendEmail.send_mail() at spreadtrum site
                 if "@spreadst.com" in owner1:
@@ -55,7 +55,7 @@ def main():
                 else:
                     print"send fail"
             elif start1<current_time and ((end1-current_time).seconds)<=300:
-                content = "Dear" + owner1 + ":<br><br>你申请的zebu资源即将被释放<br>释放时间："+str(end1+datetime.timedelta(hours=8))
+                content = "Dear " + owner1 + ":<br><br>你申请的zebu资源即将被释放<br>释放时间："+str(end1+datetime.timedelta(hours=8))
                 subject = resource+'资源即将被释放'
                 # use sendEmailTest.send_mail() at Nanjing thundersoft site, use sendEmail.send_mail() at spreadtrum site
                 if "@spreadst.com" in owner1:
@@ -75,7 +75,7 @@ def main():
                     start2 = assignedtable[1].assign_starttime
                     owner2 = assignedtable[1].owner
                     if ((start2-current_time).seconds)<=300:
-                        content = "Dear" + owner2 + "::<br><br>你申请的zebu资源即将可以开始使用<br>开始使用时间："+str(start2+datetime.timedelta(hours=8))
+                        content = "Dear " + owner2 + ":<br><br>你申请的zebu资源即将可以开始使用<br>开始使用时间："+str(start2+datetime.timedelta(hours=8))
                         subject = resource+'资源即将开始使用'
                         # use sendEmailTest.send_mail() at Nanjing thundersoft site, use sendEmail.send_mail() at spreadtrum site
                         if "@spreadst.com" in owner2:
