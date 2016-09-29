@@ -120,6 +120,11 @@
                          else
                          {
                             $("#pagesExamples").addClass("in")
+                            //set default
+                            if (strlist[1] == "")
+                            {
+                                strlist[1] = "resource_usage"
+                            }
                             $("#pagesExamples a").each(function () {
                                 //console.log("the href is:   " +$(this).attr('href'));
                                 //console.log("strlist[1] is: " + strlist[1]);
