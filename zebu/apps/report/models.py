@@ -5,16 +5,16 @@ from django.db import models
 # Create your models here.
 class ReportTable(models.Model):
     product = models.CharField(max_length=50)
-    spm = models.CharField(max_length=50)
-    daily_reporter = models.CharField(max_length=50)
+    spm = models.CharField(max_length=200)
+    daily_reporter = models.CharField(max_length=200)
     file_link = models.TextField()
     is_daily_report = models.CharField(max_length= 20, default="true")
 
 #Table for resource usage page: statistical data of daily duration from request_requesttable classified by tf_case based on product name
 class ResourceUsageTable(models.Model):
     product = models.CharField(max_length=50)
-    spm = models.CharField(max_length=50)
-    daily_reporter = models.CharField(max_length=50)
+    spm = models.CharField(max_length=200)
+    daily_reporter = models.CharField(max_length=200)
     total = models.IntegerField(null = True)
     power_management = models.IntegerField(null = True)
     performance = models.IntegerField(null = True)
@@ -31,14 +31,14 @@ class ResourceUsageTitleTable(models.Model):
 
 class MaintfstatusTable(models.Model):
     product = models.CharField(max_length=50)
-    spm = models.CharField(max_length=50)
-    daily_reporter = models.CharField(max_length=50)
+    spm = models.CharField(max_length=200)
+    daily_reporter = models.CharField(max_length=200)
     is_maintf = models.CharField(max_length= 20, default="true")
 
 class ScheduleTable(models.Model):
     product = models.CharField(max_length=50)
-    spm = models.CharField(max_length=50)
-    daily_reporter = models.CharField(max_length=50)
+    spm = models.CharField(max_length=200)
+    daily_reporter = models.CharField(max_length=200)
     file_link = models.TextField(null=True)
     is_schedule = models.CharField(max_length=20, default="true")
     is_picture = models.CharField(max_length=20, default="false")
