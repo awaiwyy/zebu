@@ -530,10 +530,13 @@ def ajaxpost(request):
                     newaddidlist.append([id,str(additime),'00Hour' + request_piece])
                 daily_hour = edit_plan.daily_duration.split('H')[0]
                 daily_piece = edit_plan.daily_duration.split('r')[1]
+                daily_p = int(daily_piece.split('P')[0])
                 TotalTable.objects.create(change_date=cur_time,
                                           daily_duration=daily_hour + "Hour" + daily_piece,
                                           status=edit_plan.status,
                                           request_id=edit_plan.id)
+                if edit_plan.status == "ongoing":
+                    total=int(daily_hour)*int(daily_p)
                 if edit_ctime != '-- ::':
                     Closedate1 = (cyear + "-" + cmonth + "-" + cday).encode("utf-8")
                     Closedate = datetime.datetime.strptime(Closedate1, '%Y-%m-%d').date()
