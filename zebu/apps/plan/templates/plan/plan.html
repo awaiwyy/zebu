@@ -308,9 +308,9 @@
 															<li><span> <select class="borderWidth"
 																	name="projectEdit" id="projectEdit{{tab.id}}">
 																		<option selected>{{tab.project}}</option>
-																		<option>iwhale2</option>
-																		<option>isharkl2</option>
-																		<option>Other</option>
+																		{%for i in productlist%}
+                                      										<option>{{i}}</option>
+									 					 				{%endfor%}
 																</select>
 															</span></li>
 														</ul>
