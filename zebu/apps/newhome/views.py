@@ -1,44 +1,17 @@
 #coding:utf-8
 from __future__ import division
-from django.contrib.auth.models import User,Group, Permission
-from django.contrib import auth
 from django.shortcuts import render
 from django.http import HttpResponseRedirect,StreamingHttpResponse
-from django.http import HttpResponse
 from common import com_def
-import time, datetime
+import datetime
 from dateutil.tz import *
-from datetime import timedelta,tzinfo
+
 from ..request.models import RequestTable
 from models import ResourceTable
 from common import sendEmail
 from common import sendEmailTest
-import requests
-from urlparse import urljoin
-from email.mime.text import MIMEText
-from email.header import Header
-# Create your views here.
-bzurl = "http://bugzilla.spreadtrum.com/bugzilla/rest/"
 
-def configure( bzurl, username, password):
-    bzurl = bzurl
-    if not bzurl.endswith("/"):
-        bzurl += "/"
-    username = username
-    password = password
-def request(method, path, username, password):
-    url = urljoin(bzurl, path)
-    if method in ("GET", "HEAD"):
-        params = {"Bugzilla_login": username,"Bugzilla_password": password,}
-    headers = { "Accept": "application/json","Content-Type": "application/json",}
-    try:
-        r = requests.request(method, url, params=params,headers=headers)
-        r.raise_for_status()
-    except requests.RequestException as e:
-        print(e)
-    return r.status_code
-def loginBugzilla(username, password):
-    return request("GET","login",username, password)
+# Create your views here.
 
 def getHomeData(resourcetable): 
     resource_list = []
@@ -150,19 +123,6 @@ def getHomeData(resourcetable):
         resource_list.append(resource_row)
     return resource_list
 
-
-def userIntoZebuDB(zebuUser):
-    email = zebuUser + "@spreadtrum.com"
-    # 将表单写入数据库
-    user = User()
-    user.username = zebuUser
-    user.set_password(zebuUser)  # 更改密码，并自动处理hash值
-    user.email = email
-    user.save()
-
-    com_group = Group.objects.get(name="com user")
-    user.groups = [com_group]
-
 def newHomePage(request, **kwargs):
     resource_tab = ResourceTable.objects.all().order_by("id")
     resourceid_list = []
@@ -194,36 +154,6 @@ def newHomePage(request, **kwargs):
     productlist = com_def.productlist[:]
     city_list = com_def.city_list[:]
     environment_list = com_def.environment_list[:]
-    if request.method == 'POST' and 'userName' in request.POST.keys():
-        # print "into home post"
-        # if 'userName' in request.POST.keys():
-        # login to home
-        # print "login to home"
-        bugzilla_username = request.POST['userName']
-        bugzilla_password = request.POST['password']
-        zebuUser = ""
-        try:
-            user = User.objects.get(username=bugzilla_username)
-            zebuUser = user.username
-        except:
-            print "该用户不存在zebu数据库"
-        configure(bzurl, bugzilla_username, bugzilla_password)
-        result = loginBugzilla(bugzilla_username, bugzilla_password)
-        if result == 200:
-            print "验证通过"
-            if zebuUser == "":
-                zebuUser = bugzilla_username.lower()
-                userIntoZebuDB(zebuUser)
-                print zebuUser
-            # 用户登录zebu数据库，以使用用户权限管理系统
-            zebuUser = zebuUser.lower()
-            user = auth.authenticate(username=zebuUser, password=zebuUser)
-            auth.login(request, user)
-            return HttpResponseRedirect('/home/', {'valid_duration': valid_duration, "city_list": city_list,"environment_list":environment_list,"productlist":productlist,"resourceid_list":resourceid_list,"resource_list":resource_list} )
-        else:
-            print "验证未通过,请修改用户名或密码"
-            return HttpResponse('Failed: username or password is error!')
-            # 判断数据库中是否有相应用户，并判断是否是管理员账户
     if request.method == 'POST':
         if 'projectInfo' in request.POST.keys():
             print "into new request from home"

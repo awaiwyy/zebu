@@ -19,5 +19,6 @@ import views
 
 urlpatterns = [
     url(r'^$', views.main, name='default'),
-    url(r'^login', views.login, name='login'),
+    url(r'^login/$', views.login, name='login'),
+    url(r'^login/ajaxpost$', views.ajaxpost, name='ajaxpost$')
 ]

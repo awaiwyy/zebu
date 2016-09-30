@@ -6,12 +6,13 @@
 <head>
 <title>Zebu Login</title>
 <link rel="stylesheet" href="/static/login/css/managerLogin.css" type="text/css">
+<script src="/static/js/jquery-1.11.1.min.js" type="text/javascript"></script>
 </head>
 <body>
 	<div align="center">
 		<div align="left"
 			style="width: 1024px; height: 662px; background-image: url(/static/login/images/ZebuHome.png);">
-			<form action ="/home/" method="POST">
+			<form method="POST">
 			   {% csrf_token %}
 				<div style=" position: relative; left: 650px; top: 505px; color:#505050">
 					<strong>Username：</strong>
@@ -21,13 +22,46 @@
 					<strong>Password：</strong>
 					<input type="password" name="password" id="password" placeholder="password" required style="width:150px;margin-left:3px">
 				</div>
+				<div style=" position: relative; left: 650px; top: 520px;color:#505050 ">
+					<p id="errmsg" style="text-align:left;color:red;display:none">username or password is error!</p>
+				</div>
 				<div  style=" position: relative; left: 788px; top: 535px; ">
-					<input type="submit"  id="login"
-					style="background-image: url(/static/login/images/ZebuLogin.png); width: 70px; height: 27px; background-color: transparent; border: 0;cursor: pointer;"
-						value="Login"> 
+					<button id="login" type="button" onclick="verifyUser()"
+                                                    style="background-image: url(/static/login/images/ZebuLogin.png); width: 70px; height: 27px; background-color: transparent; border: 0;cursor: pointer;">
+                                           Login </button>
 				</div>
 			</form>
 		</div>
 	</div>
+	<script>
+		$.ajaxSetup({
+			data: {csrfmiddlewaretoken: '{{ csrf_token }}' },
+		});
+
+		function verifyUser() {
+			 $.ajax({
+						type: "POST",
+						url: "/login/ajaxpost",
+						data: {
+							'userName':$('#userName').val(),
+							'password':$('#password').val()
+						},
+						dataType: "json",
+						success: function (ret) {
+							//console.log("#########" + ret.result);
+							if(ret.result ==1 )
+							{
+								location.href ="../home/";
+							}
+							else
+							{
+								document.getElementById("errmsg").style.display="block"
+							}
+
+						},
+					});
+		}
+			</script>
+	</script>
 </body>
 </html>
